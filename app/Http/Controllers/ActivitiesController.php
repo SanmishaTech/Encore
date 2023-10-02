@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Activity;
+
+use App\Http\Requests\StoreActivityRequest;
+use App\Http\Requests\UpdateActivityRequest;
+
+class ActivitiesController extends Controller
+{
+    public function index()
+    {
+        $activities = Activity::all();
+        return view('activities.index', ['activities' => $activities]);
+    }
+
+    public function create()
+    {
+        return view('activities.create');
+    }
+
+    public function store(Activity $activity, StoreActivityRequest $request) 
+    {
+        $input = $request->all();      
+        $activity = Activity::create($input); 
+        $request->session()->flash('success', 'Activity saved successfully!');
+        return redirect()->route('activities.index'); 
+    }
+  
+    public function show(Activity $activity)
+    {
+        //
+    }
+
+    public function edit(Activity $activity)
+    {
+        return view('activities.edit', ['activity' => $activity]);
+    }
+
+    public function update(Activity $activity, UpdateActivityRequest $request) 
+    {
+        $activity->update($request->all());
+        $request->session()->flash('success', 'Activity updated successfully!');
+        return redirect()->route('activities.index');
+    }
+  
+    public function destroy(Request $request, Activity $activity)
+    {
+        $activity->delete();
+        $request->session()->flash('success', 'Activity deleted successfully!');
+        return redirect()->route('activities.index');
+    }
+}
