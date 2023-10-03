@@ -56,6 +56,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('qualifications', QualificationsController::class);
         Route::resource('categories', CategoriesController::class);
         Route::resource('activities', ActivitiesController::class);
+        Route::resource('employees', EmployeesController::class);
     });
 });
 

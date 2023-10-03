@@ -30,6 +30,7 @@ class UpdateActivityRequest extends FormRequest
     {
         return [
             'name.required' => 'Activity name is required',
+            'name.unique' => 'Activity already exist',
         ];
     }
 }

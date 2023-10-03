@@ -81,6 +81,7 @@
                         <li><a href="/qualifications">Qualifications</a></li>
                         <li><a href="/categories">Categories</a></li>
                         <li><a href="/activities">Activities</a></li>
+                        <li><a href="/employees">Employees</a></li>
                     </ul>
                 </li>
                 <li class="menu nav-item">
