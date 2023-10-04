@@ -30,6 +30,7 @@ class UpdateTerritoryRequest extends FormRequest
     {
         return [
             'name.required' => 'Territory name is required',
+            'name.unique' => 'Territory name is already exist ',
         ];
     }
 }

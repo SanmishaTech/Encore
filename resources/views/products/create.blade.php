@@ -18,12 +18,12 @@
                 <div class="grid grid-cols-3 gap-4 mb-4">      
                     <div>
                         <label>Product Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="name"/>                       
+                        <x-text-input class="form-input" name="name" value="{{ old('name') }}"/>                       
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />                       
                     </div>
                     <div>
                         <label>NRV (INR):<span style="color: red">*</span></label>
-                        <x-amount-input class="form-input" type="text" name="nrv"/>
+                        <x-amount-input class="form-input" type="text" name="nrv" value="{{ old('nrv') }}"/>
                         <x-input-error :messages="$errors->get('nrv')" class="mt-2" />
                     </div> 
                 </div>

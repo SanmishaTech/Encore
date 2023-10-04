@@ -18,8 +18,8 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">               
                     <div>
-                        <label>Country Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="name" value="{{ $territory->name }}" />                       
+                        <label>Territory Name:<span style="color: red">*</span></label>
+                        <x-text-input class="form-input"  name="name" value="{{old('name', $territory->name)}}" />                       
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />        
                     </div>
                 </div>

@@ -28,14 +28,14 @@
                     <div>
                         <label>Employee Name:<span style="color: red">*</span></label>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'name','value' => ''.e($employee->name).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'name','value' => ''.e(old('name', $employee->name)).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'form-input','name' => 'name','value' => ''.e($employee->name).'']); ?>
+<?php $component->withAttributes(['class' => 'form-input','name' => 'name','value' => ''.e(old('name', $employee->name)).'']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -61,14 +61,14 @@
                     <div>
                         <label>Email:<span style="color: red">*</span></label>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.email-input','data' => ['class' => 'form-input','name' => 'email','value' => ''.e($employee->email).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.email-input','data' => ['class' => 'form-input','name' => 'email','value' => ''.e(old('email', $employee->email)).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('email-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'form-input','name' => 'email','value' => ''.e($employee->email).'']); ?>
+<?php $component->withAttributes(['class' => 'form-input','name' => 'email','value' => ''.e(old('email', $employee->email)).'']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -94,14 +94,14 @@
                     <div>                     
                         <label>Contact No 1:<span style="color: red">*</span></label>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'contact_no_1','value' => ''.e($employee->contact_no_1).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'contact_no_1','value' => ''.e(old('contact_no_1', $employee->contact_no_1)).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'form-input','name' => 'contact_no_1','value' => ''.e($employee->contact_no_1).'']); ?>
+<?php $component->withAttributes(['class' => 'form-input','name' => 'contact_no_1','value' => ''.e(old('contact_no_1', $employee->contact_no_1)).'']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -127,14 +127,14 @@
                     <div >
                         <label>Contact No 2:<span style="color: red">*</span></label>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'contact_no_2','value' => ''.e($employee->contact_no_2).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'contact_no_2','value' => ''.e(old('contact_no_2', $employee->contact_no_2)).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'form-input','name' => 'contact_no_2','value' => ''.e($employee->contact_no_2).'']); ?>
+<?php $component->withAttributes(['class' => 'form-input','name' => 'contact_no_2','value' => ''.e(old('contact_no_2', $employee->contact_no_2)).'']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -162,14 +162,14 @@
                     <div>
                         <label>Address:<span style="color: red">*</span></label>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'address','value' => ''.e($employee->address).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'form-input','name' => 'address','value' => ''.e(old('address', $employee->address)).'']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'form-input','name' => 'address','value' => ''.e($employee->address).'']); ?>
+<?php $component->withAttributes(['class' => 'form-input','name' => 'address','value' => ''.e(old('address', $employee->address)).'']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -389,11 +389,13 @@
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div>
                         <label>Reporting Office 1 :</label>
-                        <select class="form-input" name="reporting_office_1">
-                            <option>Select Office-1</option>
-                            <?php if($employee->designation == 'RBM/ZBM'): ?>
-                                <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
-                            <?php endif; ?>
+                        <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
+                            <option>Select Office-1</option>                            
+                            <?php $__currentLoopData = $employee_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($list->designation == 'RBM/ZBM'): ?>
+                                    <option value="<?php echo e($list->id); ?>" <?php echo e($list->id ? ($list->id == $employee->reporting_office_1 ? 'Selected' : '') : ''); ?>><?php echo e($list->name); ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_1'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -413,11 +415,16 @@
                     </div>
                     <div>
                         <label>Reporting Office 2 :</label>
-                        <select class="form-input" name="reporting_office_2">
+                        <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select Office-2</option>
-                            <?php if($employee->designation == "ABM"): ?>
-                            <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
-                            <?php endif; ?>
+                            <template x-for="list in abm" :key="list.id">
+                                <option :value="list.id" x-text="list.name"></option>
+                            </template>
+                            <!-- <?php $__currentLoopData = $employee_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($list->designation == "ABM"): ?>
+                                <option value="<?php echo e($list->id); ?>" <?php echo e($list->id ? ($list->id == $employee->reporting_office_2 ? 'Selected' : '') : ''); ?>><?php echo e($list->name); ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_2'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -439,9 +446,14 @@
                         <label>Reporting Office 3 :</label>
                         <select class="form-input" name="reporting_office_3">
                             <option>Select Office-3</option>
-                            <?php if($employee->designation == "MEHQ"): ?>
-                            <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
-                            <?php endif; ?>
+                            <template x-for="me in mehq" :key="me.id">
+                                <option :value="me.id" x-text="me.name"></option>
+                            </template>
+                            <!-- <?php $__currentLoopData = $employee_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($list->designation == "MEHQ"): ?>
+                                <option value="<?php echo e($list->id); ?>" <?php echo e($list->id ? ($list->id == $employee->reporting_office_3 ? 'Selected' : '') : ''); ?>><?php echo e($list->name); ?></option>
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?> -->
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_3'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -508,7 +520,32 @@ document.addEventListener("alpine:init", () => {
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
             });
-        }
+        },
+        
+        rbm: '',
+        abm: '',
+        async reportOffice() {               
+            this.abm = await (await fetch('/employees/'+ this.rbm, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.abm); 
+        },      
+         
+
+        mehq: '',
+        abml:'',
+        async reportOfficeME() {
+            this.mehq = await (await fetch('/employees/getReportingOfficer3/'+ this.abml, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.mehq);
+        },
     }));
 });   
 </script>

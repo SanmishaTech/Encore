@@ -86,7 +86,7 @@
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div>
                         <label>Reporting Office 1 :</label>
-                        <select class="form-input" name="reporting_office_1">
+                        <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
                             <option>Select Office-1</option>
                             @foreach ($employees as $employee)
                                 @if($employee->designation == 'RBM/ZBM')
@@ -98,13 +98,16 @@
                     </div>
                     <div>
                         <label>Reporting Office 2 :</label>
-                        <select class="form-input" name="reporting_office_2">
+                        <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select Office-2</option>
-                            @foreach ($employees as $employee)
+                            <template x-for="list in abm" :key="list.id">
+                                <option :value="list.id" x-text="list.name"></option>
+                            </template>
+                            <!-- @foreach ($employees as $employee)
                                 @if($employee->designation == "ABM")
                                 <option value="{{$employee->id}}">{{$employee->name}}</option>
                                 @endif
-                            @endforeach
+                            @endforeach -->
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  
@@ -112,11 +115,9 @@
                         <label>Reporting Office 3 :</label>
                         <select class="form-input" name="reporting_office_3">
                             <option>Select Office-3</option>
-                            @foreach ($employees as $employee)
-                                @if($employee->designation == "MEHQ")
-                                <option value="{{$employee->id}}">{{$employee->name}}</option>
-                                @endif
-                            @endforeach
+                            <template x-for="me in mehq" :key="me.id">
+                                <option :value="me.id" x-text="me.name"></option>
+                            </template>
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_3')" class="mt-2" />
                     </div>
@@ -141,7 +142,31 @@ document.addEventListener("alpine:init", () => {
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
             });
-        }
+        },
+
+        rbm: '',
+        abm: '',
+        async reportOffice() {               
+            this.abm = await (await fetch('/employees/'+ this.rbm, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.abm); 
+        },      
+         
+        mehq: '',
+        abml:'',
+        async reportOfficeME() {
+            this.mehq = await (await fetch('/employees/getReportingOfficer3/'+ this.abml, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.mehq);
+        },
     }));
 });
 </script>

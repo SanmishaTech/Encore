@@ -30,7 +30,7 @@
                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>                    
                     <td><?php echo e($product->name); ?></td>
-                    <td>&#8377; <?php echo e($product->nrv); ?></td>
+                    <td style="text-align:right;">&#8377; <?php echo e($product->nrv); ?></td>
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <li style="display: inline-block;vertical-align:top;">
@@ -84,7 +84,7 @@
                         data: {
                             headings: [
                                 "Product Name",
-                                "NRV",
+                                "<th style='text-align:right'>NRV</th>",
                                 "Action",
                             ],
                         },
@@ -92,8 +92,8 @@
                         perPage: 30,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columnDefs: [{
-                            targets: [1], 
-                            className: 'dt-right'
+                            targets: 1, 
+                            className: 'float-right'
                         }],
                         columns: [{
                             select: 0,

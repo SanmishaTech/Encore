@@ -30,6 +30,7 @@ class UpdateQualificationRequest extends FormRequest
     {
         return [
             'name.required' => 'Qualification name is required',
+            'name.unique' => 'Qualification is already exist',
         ];
     }
 }

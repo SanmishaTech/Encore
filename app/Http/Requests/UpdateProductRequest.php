@@ -32,6 +32,7 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name.required' => 'Product name is required',
+            'name.unique' => 'Product is already exist',
             'nrv.required' => 'NRV is required',
         ];
     }

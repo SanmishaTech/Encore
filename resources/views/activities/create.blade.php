@@ -18,7 +18,7 @@
                 <div class="grid grid-cols-3 gap-4 mb-4">      
                     <div>
                         <label>Activity Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="name"/>                       
+                        <x-text-input class="form-input" name="name" value="{{ old('name') }}"/>                       
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />                       
                     </div>
                 </div>

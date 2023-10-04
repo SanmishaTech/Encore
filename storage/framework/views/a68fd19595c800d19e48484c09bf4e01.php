@@ -1,8 +1,3 @@
-<style>
-    .text-right {
-    text-align: right;
-}
-</style>
 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout.default','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('layout.default'); ?>
@@ -94,13 +89,9 @@
                         searchable: true,
                         perPage: 30,
                         perPageSelect: [10, 20, 30, 50, 100],
-                        // columnDefs: [{
-                        //     targets: 1,   // target column
-                        //     className: "text-right",
-                        // }],
                         columns: [{
                             select: 0,
-                            order:[['0', "desc"]], 
+                            order:[['0', "asc"]], 
                         }, ],
                         firstLast: true,
                         firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
