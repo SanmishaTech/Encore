@@ -57,8 +57,8 @@ class Employee extends Model
         if (! $last_id) {
             $employee_code = 'I00001';
         }
-        $number = preg_replace("/[^0-9\.]/", '', $last_id -> id);
-        $employee_code = 'I'.sprintf('%00002d', $number + 1);
+        $code = preg_replace("/[^0-9\.]/", '', $last_id -> id);
+        $employee_code = 'I'.sprintf('%00002d', $code + 1);
         return $employee_code;
     }
 

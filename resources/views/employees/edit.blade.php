@@ -48,7 +48,7 @@
                 <div class="grid grid-cols-4 gap-4 mb-4"> 
                     <div>
                         <label>Designation :<span style="color: red">*</span></label>
-                        <select class="form-input" name="designation">
+                        <select class="form-input" name="designation" @change="open = ! open">
                             <option>Select Designation</option>
                             <option value="RBM/ZBM" @if ($employee->designation == "RBM/ZBM") {{ 'Selected' }} @endif>RBM / ZBM</option>
                             <option value="ABM" @if ($employee->designation == "ABM") {{ 'Selected' }} @endif>ABM</option>                        
@@ -85,7 +85,7 @@
                     </div>  
                 </div>   
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <div>
+                    <div x-show="open">
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
                             <option>Select Office-1</option>                            
@@ -97,33 +97,23 @@
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_1')" class="mt-2" /> 
                     </div>
-                    <div>
+                    <div x-show="open">
                         <label>Reporting Office 2 :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select Office-2</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
                             </template>
-                            <!-- @foreach ($employee_list as $list)
-                                @if($list->designation == "ABM")
-                                <option value="{{$list->id}}" {{ $list->id ? ($list->id == $employee->reporting_office_2 ? 'Selected' : '') : '' }}>{{$list->name}}</option>
-                                @endif
-                            @endforeach -->
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  
-                    <div>
+                    <div x-show="open">
                         <label>Reporting Office 3 :</label>
                         <select class="form-input" name="reporting_office_3">
                             <option>Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>
-                            <!-- @foreach ($employee_list as $list)
-                                @if($list->designation == "MEHQ")
-                                <option value="{{$list->id}}" {{ $list->id ? ($list->id == $employee->reporting_office_3 ? 'Selected' : '') : '' }}>{{$list->name}}</option>
-                                @endif
-                            @endforeach -->
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_3')" class="mt-2" />
                     </div>
@@ -145,9 +135,13 @@
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({
         init() {
+            this.open = true;
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
             });
+            @if($employee->designation == "RBM/ZBM")
+            console.log('hiii');
+            @endif
         },
         
         rbm: '',
@@ -161,7 +155,6 @@ document.addEventListener("alpine:init", () => {
             })).json();
             console.log(this.abm); 
         },      
-         
 
         mehq: '',
         abml:'',

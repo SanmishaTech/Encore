@@ -60,6 +60,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('activities', ActivitiesController::class);
         Route::resource('employees', EmployeesController::class);
         Route::get('/employees/getReportingOfficer3/{employee}', 'EmployeesController@getReportingOfficer3')->name('employees.getReportingOfficer3');
+        Route::resource('doctors', DoctorsController::class);
     });
 });
 
