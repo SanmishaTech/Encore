@@ -19,10 +19,7 @@
                     @method('PUT')  
                     <div class="grid grid-cols-2 gap-4">                  
                         <div>
-                            <label for="actionName">Name:<span style="color: red">*</span></label>
-                            <x-text-input id="name" class="form-input" name="name" value="{{ $role->name }}"/>                       
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                            
+                            <x-text-input name="name" value="{{ old('name', $role->name) }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>     
                         </div>                   
                         <div>
                             <label for="actionGuardName">Guard Name:<span style="color: red">*</span></label>                       

@@ -17,9 +17,7 @@
                 </div>               
                 <div class="grid grid-cols-3 gap-4 mb-4">      
                     <div>
-                        <label>Product Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input" name="name" value="{{ old('name') }}"/>                       
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />                       
+                        <x-text-input name="name" value="{{ old('name') }}" :label="__('Product Name')" :require="true" :messages="$errors->get('name')"/>                       
                     </div>
                     <div>
                         <label>NRV (INR):<span style="color: red">*</span></label>

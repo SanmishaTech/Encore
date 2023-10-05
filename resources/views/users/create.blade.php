@@ -17,23 +17,17 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4">               
                     <div>
-                        <label for="fullname">Full Name :<span style="color: red">*</span></label>
-                        <x-text-input id="country" class="form-input" name="name" />                       
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />                        
+                        <x-text-input name="name" value="{{ old('name') }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>                             
                     </div>
                     <div>
-                        <label for="email">Email :<span style="color: red">*</span></label>
-                        <x-email-input class="form-input" id="email" name="email"/> 
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" /> 
+                        <x-text-input name="email" value="{{ old('email') }}" :require="true" :label="__('Email')" :messages="$errors->get('email')"/>
                     </div>
                     <div>
-                        <label for="password">Password :<span style="color: red">*</span></label>
-                        <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"/>
-                        <x-input-error :messages="$errors->get('password')" class="mt-2"/>                       
-                    </div>      
+                        <x-text-input name="password" value="{{ old('password') }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>
+                    </div>    
                     <div>
                         <label>Role:</label>
-                        <select class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-50" name="role">
+                        <select class="form-input" name="role">
                             <option selected disabled>Select Role</option>
                             @foreach ($roles as $role)
                                 <option value="{{$role->id}}" 
@@ -45,7 +39,7 @@
                     </div>               
                     <div>
                         <label>Active:</label>
-                        <select class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-50" name="active">
+                        <select class="form-input" name="active">
                             <option selected disabled>Select Status</option>
                             <option value='true'>Active</option>
                             <option value='false'>Deactive</option>                           

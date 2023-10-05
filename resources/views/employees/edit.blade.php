@@ -18,37 +18,27 @@
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">               
                     <div>
-                        <label>Employee Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="name" value="{{ old('name', $employee->name) }}"/>                       
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />   
+                        <x-text-input name="name" value="{{ old('name', $employee->name) }}" :label="__('Employee Name')" :require="true" :messages="$errors->get('name')"/>    
                     </div>
                     <div>
-                        <label>Email:<span style="color: red">*</span></label>
-                        <x-email-input  class="form-input" name="email" value="{{ old('email', $employee->email) }}"/>                       
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" /> 
+                        <x-text-input name="email" value="{{ old('email', $employee->email) }}" :label="__('Email')" :messages="$errors->get('email')"/>  
                     </div>
                     <div>                     
-                        <label>Contact No 1:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="contact_no_1" value="{{ old('contact_no_1', $employee->contact_no_1) }}"/>  
-                        <x-input-error :messages="$errors->get('contact_no_1')" class="mt-2" />    
+                        <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $employee->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')"/>   
                     </div>      
-                    <div >
-                        <label>Contact No 2:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="contact_no_2" value="{{ old('contact_no_2', $employee->contact_no_2) }}"/>                       
-                        <x-input-error :messages="$errors->get('contact_no_2')" class="mt-2" />                       
+                    <div>
+                        <x-text-input name="contact_no_2" value="{{ old('contact_no_2', $employee->contact_no_2) }}" :label="__('Contact No 2')" :messages="$errors->get('contact_no_2')"/>                      
                     </div>          
                 </div>     
                 <div class="grid grid-cols-1 gap-4 mb-4"> 
                     <div>
-                        <label>Address:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input" name="address" value="{{ old('address', $employee->address) }}"/>    
-                        <x-input-error :messages="$errors->get('address')" class="mt-2" />  
+                        <x-text-input name="address" value="{{ old('address', $employee->address) }}" :label="__('Address')" :messages="$errors->get('address')"/>           
                     </div> 
                 </div> 
                 <div class="grid grid-cols-4 gap-4 mb-4"> 
                     <div>
                         <label>Designation :<span style="color: red">*</span></label>
-                        <select class="form-input" name="designation" @change="open = ! open">
+                        <select class="form-input" name="designation" x-model="designation" @change="designationChange()">
                             <option>Select Designation</option>
                             <option value="RBM/ZBM" @if ($employee->designation == "RBM/ZBM") {{ 'Selected' }} @endif>RBM / ZBM</option>
                             <option value="ABM" @if ($employee->designation == "ABM") {{ 'Selected' }} @endif>ABM</option>                        
@@ -57,35 +47,25 @@
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
                     </div>
                     <div>
-                        <label>Birthdate:<span style="color: red">*</span></label>
-                        <x-text-input id="dob" class="form-input" name="dob" value="{{ $employee->dob }}"/>              
-                        <x-input-error :messages="$errors->get('dob')" class="mt-2" /> 
+                        <x-text-input name="dob" value="{{ old('dob', $employee->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')"/>
                     </div>
-                    <div>                     
-                        <label>State:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="state_name" value="{{ $employee->state_name }}"/>  
-                        <x-input-error :messages="$errors->get('state_name')" class="mt-2" />    
+                    <div> 
+                        <x-text-input name="state_name" value="{{ old('state_name', $employee->state_name) }}" :label="__('State name')" :messages="$errors->get('state_name')"/>        
                     </div>      
-                    <div >
-                        <label>City:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input" name="city" value="{{ $employee->city }}"/>                       
-                        <x-input-error :messages="$errors->get('city')" class="mt-2" />                       
+                    <div>        
+                        <x-text-input name="city" value="{{ old('city', $employee->city) }}" :label="__('City')" :messages="$errors->get('city')"/>             
                     </div>                              
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
-                        <label>Fieldforce Name :<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="fieldforce_name" value="{{ $employee->fieldforce_name }}"/> 
-                        <x-input-error :messages="$errors->get('fieldforce_name')" class="mt-2" /> 
+                        <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name', $employee->fieldforce_name) }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')"/>
                     </div>
                     <div>
-                        <label>Employee Code:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input disabled:bg-[#eee] cursor-not-allowed"  name="employee_code" value="{{ $employee->employee_code }}" disabled/> 
-                        <x-input-error :messages="$errors->get('employee_code')" class="mt-2" />
+                        <x-text-input name="employee_code" value="{{ old('employee_code', $employee->employee_code) }}" :label="__('Employee Code')" :messages="$errors->get('employee_code')"/> 
                     </div>  
                 </div>   
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <div x-show="open">
+                    <div x-show="rbmopen">
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
                             <option>Select Office-1</option>                            
@@ -97,7 +77,7 @@
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_1')" class="mt-2" /> 
                     </div>
-                    <div x-show="open">
+                    <div x-show="abmopen">
                         <label>Reporting Office 2 :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select Office-2</option>
@@ -107,7 +87,7 @@
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  
-                    <div x-show="open">
+                    <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
                         <select class="form-input" name="reporting_office_3">
                             <option>Select Office-3</option>
@@ -135,13 +115,12 @@
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({
         init() {
-            this.open = true;
+            this.rbmopen = true;
+            this.abmopen = true;
+            this.meopen = true;
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
-            });
-            @if($employee->designation == "RBM/ZBM")
-            console.log('hiii');
-            @endif
+            });           
         },
         
         rbm: '',
@@ -167,6 +146,25 @@ document.addEventListener("alpine:init", () => {
             })).json();
             console.log(this.mehq);
         },
+
+        designation: '',
+        designationChange(){
+            console.log(this.designation);
+            
+            if (this.designation == 'RBM/ZBM') {
+                this.rbmopen = false;
+                this.abmopen = false;
+                this.meopen = false;
+            } else if (this.designation == 'ABM') {
+                this.rbmopen = true;
+                this.abmopen = false;
+                this.meopen = false;
+            } else {
+                this.rbmopen = true;
+                this.abmopen = true;
+                this.meopen = false;
+            }
+        }
     }));
 });   
 </script>

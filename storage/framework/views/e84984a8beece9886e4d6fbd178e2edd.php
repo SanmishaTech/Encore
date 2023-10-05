@@ -13,33 +13,34 @@
             <a href="<?php echo e(route('stockists.index')); ?>" class="text-primary hover:underline">Stockists</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-            <span>Add</span>
+            <span>Edit</span>
         </li>
     </ul>
     <div class="pt-5" x-data="data">        
-        <form class="space-y-5" action="<?php echo e(route('stockists.store')); ?>" method="POST">
+        <form class="space-y-5" action="<?php echo e(route('stockists.update', ['stockist' => $stockist->id])); ?>" method="POST">
             <?php echo csrf_field(); ?>
+            <?php echo method_field('PUT'); ?>
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
-                    <h5 class="font-semibold text-lg dark:text-white-light">Add Stockist</h5>
-                </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">                          
+                    <h5 class="font-semibold text-lg dark:text-white-light">Edit Stockist</h5>
+                </div>
+                <div class="grid grid-cols-4 gap-4 mb-4">      
                     <div>
-                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'stockist','value' => ''.e(old('stockist')).'','label' => __('Stockist Name'),'require' => true,'messages' => $errors->get('stockist')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'stockist','value' => ''.e(old('stockist', $stockist->stockist)).'','label' => __('Stockist Name'),'require' => true,'messages' => $errors->get('stockist')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'stockist','value' => ''.e(old('stockist')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Stockist Name')),'require' => true,'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('stockist'))]); ?>
+<?php $component->withAttributes(['name' => 'stockist','value' => ''.e(old('stockist', $stockist->stockist)).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Stockist Name')),'require' => true,'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('stockist'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>                       
+<?php endif; ?>                    
                     </div>
                     <div>
                         <label>RBM/ZBM :</label>
@@ -47,7 +48,7 @@
                             <option>Select RBM/ZBM</option>
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if($employee->designation == 'RBM/ZBM'): ?>
-                                <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
+                                <option value="<?php echo e($employee->id); ?>" <?php echo e($employee->id == $stockist->employee_id_1 ? 'Selected' : ''); ?>><?php echo e($employee->name); ?></option>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select> 
@@ -122,6 +123,7 @@
                     </div>
                   
                 </div>
+               
                 <div class="flex justify-end mt-4">
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.success-button','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -139,7 +141,7 @@
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>                    
+<?php endif; ?>
                     &nbsp;&nbsp;
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.cancel-button','data' => ['link' => route('stockists.index')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -159,14 +161,15 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                 </div>
-            </div>            
-        </form>         
+            </div>
+        </form> 
     </div>
-</div> 
+</div>
+
 <script>
 document.addEventListener("alpine:init", () => {
-    Alpine.data('data', () => ({      
-       
+    Alpine.data('data', () => ({    
+           
 
         rbm: '',
         abm: '',
@@ -200,4 +203,4 @@ document.addEventListener("alpine:init", () => {
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-<?php /**PATH C:\Users\HP\Project\encore\resources\views/stockists/create.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\HP\Project\encore\resources\views/stockists/edit.blade.php ENDPATH**/ ?>

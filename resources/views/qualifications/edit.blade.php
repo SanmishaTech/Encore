@@ -17,10 +17,8 @@
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Qualification</h5>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">               
-                    <div>
-                        <label>Qualification Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="name" value="{{old('name', $qualification->name)}}" />                       
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />        
+                    <div>                      
+                        <x-text-input name="name" value="{{old('name', $qualification->name)}}" :label="__('Qualification Name')" :require="true" :messages="$errors->get('name')"/>       
                     </div>
                 </div>
                 <div class="flex justify-end mt-4">

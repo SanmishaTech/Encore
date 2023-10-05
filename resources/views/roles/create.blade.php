@@ -18,9 +18,7 @@
                     @csrf
                     <div class="grid grid-cols-2 gap-4">     
                         <div>
-                            <label for="name">Name :<span style="color: red">*</span></label>
-                            <x-text-input id="name" class="form-input" name="name"/>                       
-                            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                        <x-text-input name="name" value="{{ old('name') }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/> 
                         </div>
                         <div>
                             <label for="actionGuardName">Guard Name:<span style="color: red">*</span></label>                        

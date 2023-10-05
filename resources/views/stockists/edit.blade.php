@@ -18,9 +18,7 @@
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">      
                     <div>
-                        <label>Stockist Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input" name="stockist" value="{{ old('stockist') ? old('stockist') : $stockist->stockist }}"/>                       
-                        <x-input-error :messages="$errors->get('stockist')" class="mt-2" />                       
+                    <x-text-input name="stockist" value="{{ old('stockist', $stockist->stockist) }}" :label="__('Stockist Name')" :require="true" :messages="$errors->get('stockist')"/>                    
                     </div>
                     <div>
                         <label>RBM/ZBM :</label>
