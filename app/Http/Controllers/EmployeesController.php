@@ -5,10 +5,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\User;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
-use Spatie\Permission\Models\Role;
-use App\Models\Employee\EmployeeCode;
+use App\Http\Requests\EmployeeRequest;
 
 class EmployeesController extends Controller
 {
@@ -24,13 +21,10 @@ class EmployeesController extends Controller
         return view('employees.create', ['employees' => $employees]);
     }
 
-    public function store(Employee $employee, StoreEmployeeRequest $request) 
-    {       
-        $input = $request->all();          
-        if(empty($input['employee_code'])){
-            $employeeCode = new Employee();  
-            $input['employee_code'] = $employeeCode->EmployeeCode();
-        }
+    public function store(Employee $employee, EmployeeRequest $request) 
+    {
+        $input = $request->all();    
+
         $input['name'] = $request->name;
         $input['password'] = 'abcd123';
         $input['active'] = true;        
@@ -64,14 +58,10 @@ class EmployeesController extends Controller
         return view('employees.edit', ['employee' => $employee, 'employee_list' => $employee_list]);
     }
 
-    public function update(Employee $employee, UpdateEmployeeRequest $request) 
-    {        
-        $user = User::find($employee->id);     
-        // $user->syncRoles($request->designation);
-        if(empty($employee->employee_code)){
-            $employeeCode = new Employee();  
-            $employee->employee_code = $employeeCode->EmployeeCode();
-        }
+    public function update(Employee $employee, EmployeeRequest $request) 
+    {
+        $input = $request->all();
+        $user = User::find($employee->id);
         $employee->update($request->all());
         if ($user === null)
         {

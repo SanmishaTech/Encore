@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Requests\CategoryRequest;
 
 class CategoriesController extends Controller
 {
@@ -21,7 +20,7 @@ class CategoriesController extends Controller
         return view('categories.create');
     }
 
-    public function store(Category $category, StoreCategoryRequest $request) 
+    public function store(Category $category, CategoryRequest $request) 
     {
         $input = $request->all();      
         $category = Category::create($input); 
@@ -39,7 +38,7 @@ class CategoriesController extends Controller
         return view('categories.edit', ['category' => $category]);
     }
 
-    public function update(Category $category, UpdateCategoryRequest $request) 
+    public function update(Category $category, CategoryRequest $request) 
     {
         $category->update($request->all());
         $request->session()->flash('success', 'Category updated successfully!');

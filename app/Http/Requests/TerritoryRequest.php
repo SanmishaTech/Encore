@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateActivityRequest extends FormRequest
+class TerritoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,15 @@ class UpdateActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:activities,name',
+            'name' => 'required|unique:territories,name',
         ];
     }
     
     public function messages(): array
     {
         return [
-            'name.required' => 'Activity name is required',
-            'name.unique' => 'Activity already exist',
+            'name.required' => 'Territory name is required',
+            'name.unique' => 'Territory name is already exist ',
         ];
     }
 }

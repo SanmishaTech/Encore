@@ -84,6 +84,7 @@
                         <li><a href="/employees">Employees</a></li>
                         <li><a href="/stockists">Stockists</a></li>
                         <li><a href="/doctors">Doctors</a></li>
+                        <li><a href="/chemists">Chemists</a></li>
                     </ul>
                 </li>
                 <li class="menu nav-item">

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProductRequest extends FormRequest
+class QualificationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,18 +22,15 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:products,name',
-            'nrv' => 'required|numeric',
+            'name' => 'required|unique:qualifications,name',
         ];
-        
     }
-
+    
     public function messages(): array
     {
         return [
-            'name.required' => 'Product name is required',
-            'name.unique' => 'Product is already exist',
-            'nrv.required' => 'NRV is required',
+            'name.required' => 'Qualification name is required',
+            'name.unique' => 'Qualification is already exist',
         ];
     }
 }

@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Territory;
   
-use App\Http\Requests\StoreTerritoryRequest;
-use App\Http\Requests\UpdateTerritoryRequest;    
+use App\Http\Requests\TerritoryRequest;    
 
 class TerritoriesController extends Controller
 {
@@ -21,7 +20,7 @@ class TerritoriesController extends Controller
         return view('territories.create');
     }
 
-    public function store(Territory $territory, StoreTerritoryRequest $request) 
+    public function store(Territory $territory, TerritoryRequest $request) 
     {
         $input = $request->all();      
         $territory = Territory::create($input); 
@@ -39,7 +38,7 @@ class TerritoriesController extends Controller
         return view('territories.edit', ['territory' => $territory]);
     }
 
-    public function update(Territory $territory, UpdateTerritoryRequest $request) 
+    public function update(Territory $territory, TerritoryRequest $request) 
     {
         $territory->update($request->all());
         $request->session()->flash('success', 'Territory updated successfully!');

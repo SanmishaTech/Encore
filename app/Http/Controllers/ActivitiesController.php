@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Activity;
 
-use App\Http\Requests\StoreActivityRequest;
-use App\Http\Requests\UpdateActivityRequest;
+use App\Http\Requests\ActivityRequest;
 
 class ActivitiesController extends Controller
 {
@@ -21,7 +20,7 @@ class ActivitiesController extends Controller
         return view('activities.create');
     }
 
-    public function store(Activity $activity, StoreActivityRequest $request) 
+    public function store(Activity $activity, ActivityRequest $request) 
     {
         $input = $request->all();      
         $activity = Activity::create($input); 
@@ -39,7 +38,7 @@ class ActivitiesController extends Controller
         return view('activities.edit', ['activity' => $activity]);
     }
 
-    public function update(Activity $activity, UpdateActivityRequest $request) 
+    public function update(Activity $activity, ActivityRequest $request) 
     {
         $activity->update($request->all());
         $request->session()->flash('success', 'Activity updated successfully!');
