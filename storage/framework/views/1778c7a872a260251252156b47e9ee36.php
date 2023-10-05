@@ -145,3 +145,4 @@
         }));
     });
 </script>
+<?php /**PATH /home/sanmisha/@Projects/Encore/resources/views/components/common/sidebar.blade.php ENDPATH**/ ?>
