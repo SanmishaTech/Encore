@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Http\RedirectResponse; 
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\User;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use Spatie\Permission\Models\Role;
+use App\Models\Employee\EmployeeCode;
 
 class EmployeesController extends Controller
 {
@@ -23,16 +25,17 @@ class EmployeesController extends Controller
     }
 
     public function store(Employee $employee, StoreEmployeeRequest $request) 
-    {
-        $input = $request->all();    
-
+    {       
+        $input = $request->all();          
+        if(empty($input['employee_code'])){
+            $employeeCode = new Employee();  
+            $input['employee_code'] = $employeeCode->EmployeeCode();
+        }
         $input['name'] = $request->name;
         $input['password'] = 'abcd123';
-        $input['active'] = true;
-        
-        $user = User::create($input);
+        $input['active'] = true;        
+        $user = User::create($input);        
         $employee = $user->Employee()->create($input);
-        // $employee = Employee::create($input); 
         $request->session()->flash('success', 'Employee saved successfully!');
         return redirect()->route('employees.index'); 
     }
@@ -62,30 +65,32 @@ class EmployeesController extends Controller
     }
 
     public function update(Employee $employee, UpdateEmployeeRequest $request) 
-    {
-        $input = $request->all();
-        $user = User::find($employee->id);
+    {        
+        $user = User::find($employee->id);     
+        // $user->syncRoles($request->designation);
+        if(empty($employee->employee_code)){
+            $employeeCode = new Employee();  
+            $employee->employee_code = $employeeCode->EmployeeCode();
+        }
         $employee->update($request->all());
-
-        // if ($user === null)
-        // {
-        //     $user = new User;
-        //     $user->name = $request->name;
-        //     $user->email = $request->email;
-        //     $user->password = 'abcd123';
-        //     $user->active = true;
-        //     $employee->User()->save($user);
-        // }
-        // else
-        // {
-        //     $user->update([
-        //         'name' => $request->name,
-        //         'email' => $request->email,
-        //         'password' => 'abcd123',
-        //         'active' => true,
-        //     ]);            
-        // }
-
+        if ($user === null)
+        {
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = 'abcd123';
+            $user->active = true;
+            $employee->User()->save($user);
+        }
+        else
+        {
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => 'abcd123',
+                'active' => true,
+            ]);
+        }
         $request->session()->flash('success', 'Employee updated successfully!');
         return redirect()->route('employees.index');
     }

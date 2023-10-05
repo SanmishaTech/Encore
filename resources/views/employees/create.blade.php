@@ -79,7 +79,7 @@
                     </div>
                     <div>
                         <label>Employee Code:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input"  name="employee_code" value="{{ old('employee_code') }}"/> 
+                        <x-text-input class="form-input disabled:bg-[#eee] cursor-not-allowed"  name="employee_code" value="{{ old('employee_code') }}" disabled/> 
                         <x-input-error :messages="$errors->get('employee_code')" class="mt-2" />
                     </div>  
                 </div>   

@@ -31,7 +31,6 @@ class StoreEmployeeRequest extends FormRequest
             'state_name' => 'required',
             'city' => 'required',
             'fieldforce_name' => 'required',
-            'employee_code' => 'required',
             'dob' => 'required',
             // 'reporting_office_1' => 'required',
             // 'reporting_office_2' => 'required',

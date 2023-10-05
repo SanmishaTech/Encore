@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class Employee extends Model
 {
@@ -42,4 +43,33 @@ class Employee extends Model
     {
         return $this->hasOne(User::class, 'id');
     }
+    
+    // public function EmployeeCode()
+    // {
+    //     $employees = Employee::orderBy('created_at','DESC')->first();
+    //     $max = $employees ? Str::substr($employees->employee_code, -1) : 0;
+    //     return 'I'.str_pad($max + 1, 5, "0", STR_PAD_LEFT);
+    // }
+
+    public function EmployeeCode()
+    {
+        $last_id = Employee::latest()->first();
+        if (! $last_id) {
+            $employee_code = 'I00001';
+        }
+        $number = preg_replace("/[^0-9\.]/", '', $last_id -> id);
+        $employee_code = 'I'.sprintf('%00002d', $number + 1);
+        return $employee_code;
+    }
+
+    // public static function booted()
+    // {
+    //     static::creating(function(Employee $employee){
+    //         $employees = Employee::orderBy('created_at','DESC')->first();
+    //         // dd($employees);
+    //         $max = $employees ? Str::substr($employees->employee_code, -1) : 0;
+    //         return 'I'.str_pad($max + 1, 5, "0", STR_PAD_LEFT);
+    //     });
+    // }
+
 }
