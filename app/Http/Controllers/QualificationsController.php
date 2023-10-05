@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Qualification;
 
-use App\Http\Requests\StoreQualificationRequest;
-use App\Http\Requests\UpdateQualificationRequest; 
+use App\Http\Requests\QualificationRequest; 
 
 class QualificationsController extends Controller
 {
@@ -21,7 +20,7 @@ class QualificationsController extends Controller
         return view('qualifications.create');
     }
 
-    public function store(Qualification $qualification, StoreQualificationRequest $request) 
+    public function store(Qualification $qualification, QualificationRequest $request) 
     {
         $input = $request->all();      
         $qualification = Qualification::create($input); 
@@ -39,7 +38,7 @@ class QualificationsController extends Controller
         return view('qualifications.edit', ['qualification' => $qualification]);
     }
 
-    public function update(Qualification $qualification, UpdateQualificationRequest $request) 
+    public function update(Qualification $qualification, QualificationRequest $request) 
     {
         $qualification->update($request->all());
         $request->session()->flash('success', 'Qualification updated successfully!');

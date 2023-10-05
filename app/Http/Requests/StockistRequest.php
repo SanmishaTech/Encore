@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-
+use App\Models\Stockist;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class StockistRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,21 +17,19 @@ class StoreProductRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:products,name',
-            'nrv' => 'required|numeric',
+            'stockist' => 'required|unique:stockists,stockist',
         ];
     }
     
     public function messages(): array
     {
         return [
-            'name.required' => 'Product name is required',
-            'nrv.required' => 'NRV is required',
+            'stockist.required' => 'Stockist name is required',
         ];
     }
 }

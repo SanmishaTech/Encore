@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\User;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Requests\EmployeeRequest;
 
 class EmployeesController extends Controller
 {
@@ -22,7 +21,7 @@ class EmployeesController extends Controller
         return view('employees.create', ['employees' => $employees]);
     }
 
-    public function store(Employee $employee, StoreEmployeeRequest $request) 
+    public function store(Employee $employee, EmployeeRequest $request) 
     {
         $input = $request->all();    
 
@@ -32,7 +31,6 @@ class EmployeesController extends Controller
         
         $user = User::create($input);
         $employee = $user->Employee()->create($input);
-        // $employee = Employee::create($input); 
         $request->session()->flash('success', 'Employee saved successfully!');
         return redirect()->route('employees.index'); 
     }
@@ -61,31 +59,13 @@ class EmployeesController extends Controller
         return view('employees.edit', ['employee' => $employee, 'employee_list' => $employee_list]);
     }
 
-    public function update(Employee $employee, UpdateEmployeeRequest $request) 
+    public function update(Employee $employee, EmployeeRequest $request) 
     {
         $input = $request->all();
         $user = User::find($employee->id);
         $employee->update($request->all());
 
-        // if ($user === null)
-        // {
-        //     $user = new User;
-        //     $user->name = $request->name;
-        //     $user->email = $request->email;
-        //     $user->password = 'abcd123';
-        //     $user->active = true;
-        //     $employee->User()->save($user);
-        // }
-        // else
-        // {
-        //     $user->update([
-        //         'name' => $request->name,
-        //         'email' => $request->email,
-        //         'password' => 'abcd123',
-        //         'active' => true,
-        //     ]);            
-        // }
-
+      
         $request->session()->flash('success', 'Employee updated successfully!');
         return redirect()->route('employees.index');
     }

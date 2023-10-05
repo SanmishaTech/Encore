@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreStockistRequest;
-use App\Http\Requests\UpdateStockistRequest;
+use App\Http\Requests\StockistRequest;
 use App\Models\Stockist;
 use App\Models\Employee;
 
@@ -23,7 +22,7 @@ class StockistsController extends Controller
         return view('stockists.create')->with(['employees'=>$employees]);
     }
 
-    public function store(Stockist $stockist, StoreStockistRequest $request) 
+    public function store(Stockist $stockist, StockistRequest $request) 
     {
         $input = $request->all();      
         $stockist = Stockist::create($input); 
@@ -42,7 +41,7 @@ class StockistsController extends Controller
         return view('stockists.edit', ['stockist' => $stockist, 'employees'=>$employees]);
     }
 
-    public function update(Stockist $stockist, UpdateStockistRequest $request) 
+    public function update(Stockist $stockist, StockistRequest $request) 
     {
         $stockist->update($request->all());
         $request->session()->flash('success', 'Stockist updated successfully!');

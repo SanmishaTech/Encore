@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,13 @@ class StoreUserRequest extends FormRequest
      */
     public function rules()
     {
+        // Let's get the route param by name to get the User object value
+        $user = request()->route('user');
+
         return [
             'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'username' => 'required|unique:users,username',
+            'email' => 'required|unique:users,email,'.($this->user ? $this->user->id : ''),
+            'password' => 'required',
         ];
     }
 }

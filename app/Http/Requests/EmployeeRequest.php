@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEmployeeRequest extends FormRequest
+class EmployeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class StoreEmployeeRequest extends FormRequest
     {
         return [
             'name' => 'required',  
-            'email' => 'required|unique:employees,email',
+            'email' => 'required|unique:employees,email,'.($this->employee ? $this->employee->id : ''),
             'contact_no_1' => 'required|numeric|min:10',
             'contact_no_2' => 'required|numeric|min:10',
             'address' => 'required',
@@ -41,7 +41,8 @@ class StoreEmployeeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Activity is required',
+            'name.required' => 'Employee name is required',
+            'email.required' => 'Employee email is required',
             'email.unique' => 'Already exist email',
             'contact_no_1.required' => 'Contact no is required',
             'contact_no_2.required' => 'Contact no is required',

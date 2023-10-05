@@ -23,7 +23,7 @@
                     </div>
                     <div>
                         <label>NRV (INR):<span style="color: red">*</span></label>
-                        <x-amount-input class="form-input" type="text" name="nrv" value="{{ old('nrv') }}"/>
+                        <x-combo-input class="form-input" type="text" name="nrv" value="{{ old('nrv') }}"/>
                         <x-input-error :messages="$errors->get('nrv')" class="mt-2" />
                     </div> 
                 </div>

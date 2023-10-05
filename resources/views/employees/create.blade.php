@@ -23,7 +23,7 @@
                     </div>
                     <div>
                         <label>Email:<span style="color: red">*</span></label>
-                        <x-email-input  class="form-input" name="email" value="{{ old('email') }}"/>                       
+                        <x-combo-input  class="form-input" name="email" value="{{ old('email') }}" :email=true/>                       
                         <x-input-error :messages="$errors->get('email')" class="mt-2" /> 
                     </div>
                     <div>                     

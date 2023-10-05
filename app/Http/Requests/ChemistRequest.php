@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateQualificationRequest extends FormRequest
+class ChemistRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -17,20 +17,21 @@ class UpdateQualificationRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:qualifications,name',
+            'chemist' => 'required|unique:chemists,chemist', ($this->chemist ? $this->chemist : ''),
+           
         ];
     }
     
     public function messages(): array
     {
         return [
-            'name.required' => 'Qualification name is required',
-            'name.unique' => 'Qualification is already exist',
+            'chemist.required' => 'Chemist name is required',
+            'chemist.unique' => 'The Chemist name has already been taken.',
         ];
     }
 }

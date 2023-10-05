@@ -5,8 +5,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserRequest;
 use App\Http\Controllers\DB;
 
 class UsersController extends Controller
@@ -54,7 +53,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update(User $user, UpdateUserRequest $request) 
+    public function update(User $user, UserRequest $request) 
     {
         $user->update($request->all());
         $user->syncRoles($request->get('role'));

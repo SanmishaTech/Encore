@@ -2,7 +2,6 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\StockistsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,12 +52,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
        
        
         Route::resource('products', ProductsController::class);
-        Route::resource('stockists', StockistsController::class);
         Route::resource('territories', TerritoriesController::class);
         Route::resource('qualifications', QualificationsController::class);
         Route::resource('categories', CategoriesController::class);
         Route::resource('activities', ActivitiesController::class);
         Route::resource('employees', EmployeesController::class);
+        Route::resource('stockists', StockistsController::class);
+        Route::resource('chemists', ChemistsController::class);
         Route::get('/employees/getReportingOfficer3/{employee}', 'EmployeesController@getReportingOfficer3')->name('employees.getReportingOfficer3');
     });
 });

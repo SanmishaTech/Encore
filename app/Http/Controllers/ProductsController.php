@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
-use App\Http\Requests\StoreProductRequest;
-use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\ProductRequest;
 
 class ProductsController extends Controller
 {
@@ -20,7 +19,7 @@ class ProductsController extends Controller
         return view('products.create');
     }
 
-    public function store(StoreProductRequest $request) 
+    public function store(ProductRequest $request) 
     {
         $input = $request->all();      
         $product = Product::create($input); 
@@ -38,7 +37,7 @@ class ProductsController extends Controller
         return view('products.edit', ['product' => $product]);
     }
 
-    public function update(Product $product, UpdateProductRequest $request) 
+    public function update(Product $product, ProductRequest $request) 
     {
         $product->update($request->all());
         $request->session()->flash('success', 'Product updated successfully!');
