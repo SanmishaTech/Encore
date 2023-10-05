@@ -40,7 +40,8 @@ class UpdateEmployeeRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Activity is required',
+            'name.required' => 'Employee name is required',
+            'email.required' => 'Employee email is required',
             'email.unique' => 'Already exist email',
             'contact_no_1.required' => 'Contact no is required',
             'contact_no_2.required' => 'Contact no is required',

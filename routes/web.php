@@ -2,6 +2,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\StockistsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +53,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
        
        
         Route::resource('products', ProductsController::class);
+        Route::resource('stockists', StockistsController::class);
         Route::resource('territories', TerritoriesController::class);
         Route::resource('qualifications', QualificationsController::class);
         Route::resource('categories', CategoriesController::class);
