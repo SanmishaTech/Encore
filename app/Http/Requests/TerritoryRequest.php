@@ -22,7 +22,7 @@ class TerritoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:territories,name',
+            'name' => 'required|unique:territories,name,'. ($this->territory ? $this->territory->id : ''),
         ];
     }
     

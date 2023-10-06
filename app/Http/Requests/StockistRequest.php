@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 use App\Models\Stockist;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StockistRequest extends FormRequest
 {
@@ -22,7 +23,8 @@ class StockistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'stockist' => 'required|unique:stockists,stockist',
+            // 'stockist' => 'required|unique:stockists,stockist'. ($this->stockist ? $this->stockist->id : ''),
+            'stockist' => ['required', Rule::unique('stockists')->ignore($this->stockist)],
         ];
     }
     

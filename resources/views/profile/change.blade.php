@@ -15,7 +15,7 @@
             </div>
             <div class="panel">
                
-                <form method="POST" action="{{ route('profiles.change') }}">
+                <form method="POST" action="{{ route('profile.change') }}">
                  @csrf
                    
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">

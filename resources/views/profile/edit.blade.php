@@ -17,24 +17,22 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Recent Orders</h5>
                 </div>
-                <form class="space-y-5">
-                    <div>
-                        <label for="actionName">Full Name:</label>
-                        <input id="actionName" type="text" placeholder="Enter Full Name" class="form-input" name="name" value="{{ $user->name }}"/>
+                <form class="space-y-5" action="{{ route('profile.update', ['user' => $user->id]) }}" method="POST">
+                    @csrf
+                    <div class="grid grid-cols-2 gap-4">
+                        <x-text-input name="name" value="{{ old('name', $user->name) }}" placeholder="Enter Full Name" :label="__('User Name')" :require="true" :messages="$errors->get('name')"/>                     
+                        <x-combo-input name="email" type="email" :email=true value="{{ old('email', $user->email) }}" :label="__('Email')" :messages="$errors->get('email')"/>  
                     </div>
-                    <div>
-                        <label for="actionEmail">Email:</label>
-                        <div class="flex flex-1">
-                            <div
-                                class="bg-[#eee] flex justify-center items-center ltr:rounded-l-md rtl:rounded-r-md px-3 font-semibold border ltr:border-r-0 rtl:border-l-0 border-[#e0e6ed] dark:border-[#17263c] dark:bg-[#1b2e4b]">
-                                @</div>
-                            <input id="actionEmail" type="email" placeholder=""  name="email" value="{{ $user->email }}"
-                                class="form-input ltr:rounded-l-none rtl:rounded-r-none" />
-                        </div>
-                    </div>
+                    <div class="flex justify-end mt-4">
+                    <x-success-button>
+                        {{ __('Submit') }}
+                    </x-success-button>                    
+                    &nbsp;&nbsp;
+                    <x-cancel-button :link="route('dashboard')">
+                        {{ __('Cancel') }}
+                    </x-cancel-button>
+                </div>
                     
-                    
-                    <button type="submit" class="btn btn-primary !mt-6">Submit</button>
                 </form>
             </div>
         </div>

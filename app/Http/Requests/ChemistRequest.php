@@ -22,7 +22,7 @@ class ChemistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'chemist' => 'required|unique:chemists,chemist', ($this->chemist ? $this->chemist : ''),
+            'chemist' => 'required|unique:chemists,chemist,'. ($this->chemist ? $this->chemist->id : ''),
            
         ];
     }

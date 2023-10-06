@@ -22,7 +22,7 @@ class QualificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:qualifications,name',
+            'name' => 'required|unique:qualifications,name,'. ($this->qualification ? $this->qualification->id : ''),
         ];
     }
     

@@ -53,12 +53,12 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">      
                     <div>
                         <label>Contact No 1:</label>
-                        <x-text-input class="form-input" name="contact_no_1" value="{{ old('contact_no_1') ? old('contact_no_1') : $chemist->contact_no_1 }}"/>                       
+                        <x-text-input class="form-input" name="contact_no_1" value="{{ old('contact_no_1') ? old('contact_no_1') : $chemist->contact_no_1 }}" :messages="$errors->get('contact_no_1')"/>                       
                         <x-input-error :messages="$errors->get('contact_no_1')" class="mt-2" />                       
                     </div>
                     <div>
                         <label>Contact No 2:</label>
-                        <x-text-input class="form-input" name="contact_no_2"  value="{{ old('contact_no_2') ? old('contact_no_2') : $chemist->contact_no_2 }}"/>                       
+                        <x-text-input class="form-input" name="contact_no_2"  value="{{ old('contact_no_2') ? old('contact_no_2') : $chemist->contact_no_2 }}" :messages="$errors->get('contact_no_2')"/>                       
                         <x-input-error :messages="$errors->get('contact_no_2')" class="mt-2" />                       
                     </div>
                     <div>

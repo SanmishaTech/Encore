@@ -24,10 +24,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
-
-    Route::get('/dashboard2', function () {
-        return view('dashboard2');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+  
 
     Route::group(['middleware' => ['guest']], function() {
         Route::get('/', [AuthenticatedSessionController::class, 'create'])
@@ -49,6 +46,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::patch('/{user}/update', 'UsersController@update')->name('users.update');
             Route::delete('/{user}/destroy', 'UsersController@destroy')->name('users.destroy');
         });
+
+        Route::get('profile', 'ProfileController@index')->name('profile.change');
        
        
         Route::resource('products', ProductsController::class);
@@ -61,6 +60,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('chemists', ChemistsController::class);
         Route::get('/employees/getReportingOfficer3/{employee}', 'EmployeesController@getReportingOfficer3')->name('employees.getReportingOfficer3');
         Route::resource('doctors', DoctorsController::class);
+    });
+
+    Route::group(['middleware' => ['auth']], function() {  
+
+        Route::get('profile', 'ProfileController@index')->name('profile.change');       
+        Route::post('profile', 'ProfileController@changePassword')->name('profile.change');       
+        Route::get('profile/edit/{user}', 'ProfileController@edit')->name('profile.edit');       
+        Route::post('profile/{user}/update', 'ProfileController@update')->name('profile.update');       
+      
     });
 });
 

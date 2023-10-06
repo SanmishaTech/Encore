@@ -19,18 +19,9 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        return view('user.index', ['users' => $users]);
+        return view('profile.change');
     }
 
-    public function create()
-    {
-        $students = Student::all();
-        return view('user.add', ['students' => $students]);
-    }
-    /**
-     * Display the user's profile form.
-     */
     public function edit(User $user)
     {
         return view('profile.edit')->with([
@@ -38,11 +29,6 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function change()
-    {
-        dd("hi");
-        return view('profile.change');
-    }
 
     public function changePassword(Request $request)
     {
@@ -74,7 +60,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request, User $user): RedirectResponse
     {
         $request->user()->fill($request->validated());
 
@@ -84,7 +70,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('dashboard')->with('status', 'profile-updated');
     }
 
     /**
