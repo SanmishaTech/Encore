@@ -17,14 +17,8 @@
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Product</h5>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">               
-                    <div>
                     <x-text-input name="name" value="{{ old('name', $product->name) }}" :label="__('Product Name')" :require="true" :messages="$errors->get('name')"/>              
-                    </div>
-                    <div>
-                        <label>NRV (INR):<span style="color: red">*</span></label>
-                        <x-combo-input class="form-input" type="text" name="nrv" value="{{ old('nrv', $product->nrv) }}"/>
-                        <x-input-error :messages="$errors->get('nrv')" class="mt-2" />
-                    </div>
+                    <x-combo-input class="form-input" type="text" name="nrv" value="{{ old('nrv', $product->nrv) }}" :label="__('NRV (INR)')" :require="true" :messages="$errors->get('nrv')"/>
                 </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>

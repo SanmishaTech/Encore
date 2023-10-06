@@ -20,10 +20,10 @@
                         <x-text-input name="name" value="{{ old('name') }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>                             
                     </div>
                     <div>
-                        <x-text-input name="email" value="{{ old('email') }}" :require="true" :label="__('Email')" :messages="$errors->get('email')"/>
+                        <x-combo-input name="email" type="email" value="{{ old('email') }}" :require="true" :label="__('Email')" :email=true :messages="$errors->get('email')"/>
                     </div>
                     <div>
-                        <x-text-input name="password" value="{{ old('password') }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>
+                        <x-text-input name="password" type="password" value="{{ old('password') }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>
                     </div>    
                     <div>
                         <label>Role:</label>
