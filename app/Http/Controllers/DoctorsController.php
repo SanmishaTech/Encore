@@ -38,7 +38,10 @@ class DoctorsController extends Controller
   
     public function show(Doctor $doctor)
     {
-        //
+        $doctorData = Doctor::select('mpl_no', 'type', 'speciality')
+                        ->where('id', $doctor->id)
+                        ->get();
+        return $doctorData;  
     }
 
     public function edit(Doctor $doctor)

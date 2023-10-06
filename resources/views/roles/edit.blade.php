@@ -17,13 +17,11 @@
                 <form class="space-y-5" action="{{ route('roles.update',$role->id) }}" method="POST">
                     @csrf
                     @method('PUT')  
-                    <div class="grid grid-cols-2 gap-4">                  
-                        <div>
-                            <x-text-input name="name" value="{{ old('name', $role->name) }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>     
-                        </div>                   
+                    <div class="grid grid-cols-2 gap-4">    
+                        <x-text-input name="name" value="{{ old('name', $role->name) }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>    
                         <div>
                             <label for="actionGuardName">Guard Name:<span style="color: red">*</span></label>                       
-                            <select name="guard_name" id="actionGuardName" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select name="guard_name" id="actionGuardName" class="form-input">
                             <option value="">Select</option>
                                 <option value="web" @if ($role->guard_name == "web") {{ 'selected' }} @endif>Web</option>
                                 <option value="api" @if ($role->guard_name == "api") {{ 'selected' }} @endif>API</option>

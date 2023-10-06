@@ -12,13 +12,13 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <div>
-    <label <?php echo e($attributes->merge(['class' => 'text-gray-900'])); ?>>
+    <label>
         <?php echo e($label ?? $slot); ?>: 
         <?php if($require): ?>
         <span style="color: red">*</span>
         <?php endif; ?>
     </label>
-    <input <?php echo e($disabled ? 'disabled' : ''); ?> <?php echo $attributes->merge(['class' => 'form-input border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']); ?>>
+    <input <?php echo e($disabled ? 'disabled' : ''); ?> <?php echo $attributes->merge(['class' => 'form-input']); ?>>
 
     <?php if($messages): ?>
         <ul <?php echo e($attributes->merge(['class' => 'text-sm text-red-600 space-y-1 mt-2'])); ?>>

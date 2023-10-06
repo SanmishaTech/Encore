@@ -17,18 +17,12 @@
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit User</h5>
                 </div>   
                 <div class="grid grid-cols-3 gap-4">
-                <div>
-                        <x-text-input name="name" value="{{ old('name', $user->name) }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>                             
-                    </div>
-                    <div>
+                        <x-text-input name="name" value="{{ old('name', $user->name) }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>  
                         <x-text-input name="email" value="{{ old('email', $user->email) }}" :require="true" :label="__('Email')" :messages="$errors->get('email')"/>
-                    </div>
-                    <div>
-                        <x-text-input name="password" value="{{ old('password', $user->password) }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>                          
-                    </div>
+                        <x-text-input name="password" type="password" value="{{ old('password', $user->password) }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>   
                     <div>
                         <label for="actionRole">Role:</label>
-                        <select class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="role">
+                        <select class="form-input" name="role">
                             <option selected disabled>Select Role</option>                           
                                 @foreach($roles as $role)
                                     <option value="{{ $role->id }}" {{ in_array($role->name, $userRole) ? 'selected' : '' }}>{{ $role->name }}</option>
@@ -37,7 +31,7 @@
                     </div>   
                     <div>
                         <label for="actionRole">Active:</label>
-                        <select class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="active">
+                        <select class="form-input" name="active">
                             <option selected disabled>Select Status</option>
                             <option value="1" @if ($user->active == 1) {{ 'Selected' }} @endif>Active</option>
                             <option value="0" @if ($user->active == 0) {{ 'Selected' }} @endif>Inactive</option>      

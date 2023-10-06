@@ -5,7 +5,7 @@
             <a href="{{ route('chemists.index') }}" class="text-primary hover:underline">Chemists</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
-            <span>Add</span>
+            <span>Edit</span>
         </li>
     </ul>
     <div class="pt-5">        
@@ -14,19 +14,11 @@
             @method('PUT')
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
-                    <h5 class="font-semibold text-lg dark:text-white-light">Add Chemist</h5>
+                    <h5 class="font-semibold text-lg dark:text-white-light">Edit Chemist</h5>
                 </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">      
-                    <div>
-                        <label>Chemist Name:<span style="color: red">*</span></label>
-                        <x-text-input class="form-input" name="chemist" value="{{ old('chemist') ? old('chemist') : $chemist->chemist }}"/>                       
-                        <x-input-error :messages="$errors->get('chemist')" class="mt-2" />                       
-                    </div>
-                    <div>
-                        <label>Class:</label>
-                        <x-text-input class="form-input" name="class" value="{{ old('class') ? old('class') : $chemist->class }}"/>                       
-                        <x-input-error :messages="$errors->get('class')" class="mt-2" />                       
-                    </div>
+                <div class="grid grid-cols-4 gap-4 mb-4">   
+                    <x-text-input name="chemist" value="{{ old('chemist', $chemist->chemist) }}" :label="__('Chemist Name')" :require="true" :messages="$errors->get('chemist')"/>                       
+                    <x-text-input  name="class" value="{{ old('class', $chemist->class) }}" :label="__('Class')" :messages="$errors->get('class')"/> 
                     <div>
                         <label>Employee :</label>
                         <select class="form-input" name="employee_id">
@@ -47,40 +39,15 @@
                         </select> 
                         <x-input-error :messages="$errors->get('territory_id')" class="mt-2" /> 
                     </div>
-
                 </div>
-               
                 <div class="grid grid-cols-4 gap-4 mb-4">      
-                    <div>
-                        <label>Contact No 1:</label>
-                        <x-text-input class="form-input" name="contact_no_1" value="{{ old('contact_no_1') ? old('contact_no_1') : $chemist->contact_no_1 }}"/>                       
-                        <x-input-error :messages="$errors->get('contact_no_1')" class="mt-2" />                       
-                    </div>
-                    <div>
-                        <label>Contact No 2:</label>
-                        <x-text-input class="form-input" name="contact_no_2"  value="{{ old('contact_no_2') ? old('contact_no_2') : $chemist->contact_no_2 }}"/>                       
-                        <x-input-error :messages="$errors->get('contact_no_2')" class="mt-2" />                       
-                    </div>
-                    <div>
-                        <label>Email:</label>
-                        <x-text-input class="form-input" name="email" value="{{ old('email') ? old('email') : $chemist->email }}"/>                       
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />                       
-                    </div>
-                    <div>
-                        <label>Contact Person:</label>
-                        <x-text-input class="form-input" name="contact_person" value="{{ old('contact_person') ? old('contact_person') : $chemist->contact_person }}"/>                       
-                        <x-input-error :messages="$errors->get('contact_person')" class="mt-2" />                       
-                    </div>
-
-
+                    <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $chemist->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')"/>  
+                    <x-text-input name="contact_no_2" value="{{ old('contact_no_2', $chemist->contact_no_2) }}" :label="__('Contact No 2')" :messages="$errors->get('contact_no_2')"/>  
+                    <x-combo-input name="email" type="email" :email="true" value="{{ old('email', $chemist->email) }}" :label="__('Email')" :messages="$errors->get('email')"/>  
+                    <x-text-input name="contact_person" value="{{ old('contact_person', $chemist->contact_person) }}" :label="__('Contact Person')" :messages="$errors->get('contact_person')"/> 
                 </div>
-                <div class="grid grid-cols-1 gap-4 mb-4">     
-                  
-                  <div>
-                      <label>Address:</label>
-                      <x-text-input class="form-input" name="address" value="{{ old('address') ? old('address') : $chemist->address }}"/>                       
-                      <x-input-error :messages="$errors->get('address')" class="mt-2" />                       
-                  </div>
+                <div class="grid grid-cols-1 gap-4 mb-4">  
+                    <x-text-input name="address" value="{{ old('address', $chemist->address) }}"  :label="__('Address')" :messages="$errors->get('address')"/>  
                 </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>

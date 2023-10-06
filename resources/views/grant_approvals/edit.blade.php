@@ -2,29 +2,28 @@
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
-            <a href="{{ route('stockists.index') }}" class="text-primary hover:underline">Stockists</a>
+            <a href="{{ route('grant_approvals.index') }}" class="text-primary hover:underline">Grant Approval</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
             <span>Edit</span>
         </li>
     </ul>
     <div class="pt-5" x-data="data">        
-        <form class="space-y-5" action="{{ route('stockists.update', ['stockist' => $stockist->id]) }}" method="POST">
+        <form class="space-y-5" action="{{ route('grant_approvals.update', ['grant_approval' => $grant_approval->id]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
-                    <h5 class="font-semibold text-lg dark:text-white-light">Edit Stockist</h5>
+                    <h5 class="font-semibold text-lg dark:text-white-light">Edit Grant Approval</h5>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">     
-                    <x-text-input name="stockist" value="{{ old('stockist', $stockist->stockist) }}" :label="__('Stockist Name')" :require="true" :messages="$errors->get('stockist')"/>               
+                <div class="grid grid-cols-4 gap-4 mb-4">  
                     <div>
                         <label>RBM/ZBM :</label>
                         <select class="form-input" name="employee_id_1" x-model="rbm" @change="reportOffice()">
                             <option>Select RBM/ZBM</option>
                             @foreach ($employees as $employee)
                                 @if($employee->designation == 'RBM/ZBM')
-                                <option value="{{$employee->id}}" {{  $employee->id == $stockist->employee_id_1 ? 'Selected' : '' }}>{{$employee->name}}</option>
+                                <option value="{{$employee->id}}">{{$employee->name}}</option>
                                 @endif
                             @endforeach
                         </select> 
@@ -49,8 +48,42 @@
                             </template>
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" />
-                    </div>                  
+                    </div>
                 </div>
+                <div class="grid grid-cols-4 gap-4 mb-4">
+                    <div>
+                        <label>Doctor :</label>
+                        <select class="form-input" name="doctor_id">
+                            <option>Select Doctor</option>
+                            @foreach ($doctors as $id => $doctor)
+                                <option value="{{$id}}" {{ $grant_approval->doctor_id ? ($grant_approval->doctor_id == $id ? 'Selected' : '' ) : ''}}>{{$doctor}}</option>
+                            @endforeach
+                        </select> 
+                        <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
+                    </div>
+                    <x-text-input name="mpl_no" value="{{ old('mpl_no', $grant_approval->mpl_no) }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')"/>
+                    <x-text-input name="speciality" value="{{ old('speciality', $grant_approval->speciality) }}" :label="__('Speciality')"  :messages="$errors->get('speciality')"/>
+                    <x-text-input name="location" value="{{ old('location', $grant_approval->location) }}" :label="__('Location')"  :messages="$errors->get('location')"/>
+                </div>
+                <div class="grid grid-cols-4 gap-4 mb-4">
+                    <div>
+                        <label>Activity :</label>
+                        <select class="form-input" name="activity_id">
+                            <option>Select Activity</option>
+                            @foreach ($activities as $id => $activity)
+                                <option value="{{$id}}" {{ $grant_approval->activity_id ? ($grant_approval->activity_id == $id ? 'Selected' : '' ) : ''}}>{{$activity}}</option>
+                            @endforeach
+                        </select> 
+                        <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
+                    </div>
+                    <x-text-input name="date" value="{{ old('date', $grant_approval->date) }}" :label="__('Date')"  :messages="$errors->get('date')" type="date"/>
+                    <x-text-input name="proposal_date" value="{{ old('proposal_date', $grant_approval->proposal_date) }}" type="date" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>                    
+                </div>       
+                <div class="grid grid-cols-4 gap-4 mb-4">
+                    <x-text-input name="code" value="{{ old('code', $grant_approval->code) }}" :label="__('Code')"  :messages="$errors->get('code')"/>
+                    <x-combo-input name="amount" value="{{ old('amount', $grant_approval->amount) }}" :label="__('Amount')"  :messages="$errors->get('amount')"/>
+                    <x-combo-input name="email" value="{{ old('email', $grant_approval->email) }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
+                </div> 
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}
