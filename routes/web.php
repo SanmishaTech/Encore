@@ -59,6 +59,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('stockists', StockistsController::class);
         Route::resource('chemists', ChemistsController::class);
         Route::get('/employees/getReportingOfficer3/{employee}', 'EmployeesController@getReportingOfficer3')->name('employees.getReportingOfficer3');
+        Route::get('/employees/getEmployees/{employee}', 'EmployeesController@getEmployees')->name('employees.getEmployees');
         Route::resource('doctors', DoctorsController::class);
         Route::resource('grant_approvals', GrantApprovalsController::class);
     });

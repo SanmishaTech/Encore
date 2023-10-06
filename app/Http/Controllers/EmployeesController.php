@@ -53,6 +53,12 @@ class EmployeesController extends Controller
         return $mehq;
     }
 
+    public function getEmployees(Employee $employee)
+    {
+        $employee->load(['ZonalManager', 'AreaManager']);
+        return $employee;
+    }
+
     public function edit(Employee $employee)
     {
         $employee_list = Employee::select('id','name','designation')->get();

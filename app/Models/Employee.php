@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Employee;
 use Illuminate\Support\Str;
 
 class Employee extends Model
@@ -60,6 +61,21 @@ class Employee extends Model
         $code = preg_replace("/[^0-9\.]/", '', $last_id -> id);
         $employee_code = 'I'.sprintf('%00002d', $code + 1);
         return $employee_code;
+    }
+
+    public function ZonalManager() 
+    {
+        return $this->belongsTo(Employee::class, 'reporting_office_1');
+    }
+
+    public function AreaManager() 
+    {
+        return $this->belongsTo(Employee::class, 'reporting_office_2');
+    }
+
+    public function Manager() 
+    {
+        return $this->belongsTo(Employee::class, 'reporting_office_3');
     }
 
     // public static function booted()

@@ -17,32 +17,33 @@
                 </div>               
                 <div class="grid grid-cols-4 gap-4 mb-4">  
                     <div>
-                        <label>RBM/ZBM :</label>
-                        <select class="form-input" name="employee_id_1">
-                            <option>Select RBM/ZBM</option>
-                            @foreach ($employees as $employee)
-                                @if($employee->designation == 'RBM/ZBM')
-                                <option value="{{$employee->id}}">{{$employee->name}}</option>
-                                @endif
+                        <label>ME HQ :</label>
+                        <select class="form-input" name="employee_id_1" x-model="employee_id_1" @change="mehqChange()">
+                            <option>Select ME HQ</option>
+                            @foreach ($employees as $id=>$employee)                                
+                                <option value="{{$id}}">{{$employee}}</option>                                
                             @endforeach
+                            
                         </select> 
-                        <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" /> 
+                        <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" />
                     </div>
+                    
                     <div>
                         <label>ABM :</label>
-                        <select class="form-input" name="employee_id_2">
+                        <select class="form-input" name="employee_id_2" disabled="true"  x-model="employee_id_2">
                             <option>Select ABM</option>
                             
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
                     </div>  
+                   
                     <div>
-                        <label>ME HQ :</label>
-                        <select class="form-input" name="employee_id_3">
-                            <option>Select ME HQ</option>
-                            
+                        <label>RBM/ZBM :</label>
+                        <select class="form-input" name="employee_id_3" disabled="true"  x-model="employee_id_3">
+                            <option>Select RBM/ZBM</option>
+                           
                         </select> 
-                        <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" /> 
                     </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
@@ -97,6 +98,9 @@ document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
 
         doctor_id: '',
+        employee_id_1: '',
+        employee_id_2: '',
+        employee_id_3: '',
         doctorDate: '',
         location: '',
         speciality: '',
@@ -109,7 +113,21 @@ document.addEventListener("alpine:init", () => {
                 'Content-type': 'application/json;',
             },
             })).json();
-            console.log(this.doctorData);
+            this.mpl_no = this.doctorData.mpl_no;
+            this.location = this.doctorData.type;
+            this.speciality = this.doctorData.speciality;
+            console.log(this.doctorData.type);
+        },
+
+        async mehqChange() {
+            this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id_1, {
+                
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json;',
+            },
+            })).json();
+            console.log(this.data);
         }
     }));
 });

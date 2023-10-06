@@ -20,7 +20,7 @@ class GrantApprovalsController extends Controller
     {
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
-        $employees = Employee::select('id','name','designation')->get();
+        $employees = Employee::where('designation', 'MEHQ')->pluck('name', 'id');
         return view('grant_approvals.create')->with(['employees'=>$employees, 'activities'=>$activities, 'doctors'=>$doctors]);
     }
 
