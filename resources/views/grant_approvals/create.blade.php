@@ -32,6 +32,8 @@
                         <label>ABM :</label>
                         <select class="form-input" name="employee_id_2" disabled="true"  x-model="employee_id_2">
                             <option>Select ABM</option>
+                            <option key="area.id" :value="area.id" x-text="area.name" ></option>
+                            
                             
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
@@ -41,6 +43,7 @@
                         <label>RBM/ZBM :</label>
                         <select class="form-input" name="employee_id_3" disabled="true"  x-model="employee_id_3">
                             <option>Select RBM/ZBM</option>
+                            <option key="zone.id" :value="zone.id" x-text="zone.name" ></option>
                            
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" /> 
@@ -57,9 +60,9 @@
                         </select> 
                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="mpl_no" x-model="mpl_no" value="{{ old('mpl_no') }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')"/>
-                    <x-text-input name="speciality" x-model="speciality"  value="{{ old('speciality') }}" :label="__('Speciality')"  :messages="$errors->get('speciality')"/>
-                    <x-text-input name="location" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')"/>
+                    <x-text-input class="disable" name="mpl_no" x-model="mpl_no" value="{{ old('mpl_no') }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')" disabled="true"/>
+                    <x-text-input name="speciality" x-model="speciality"  value="{{ old('speciality') }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" disabled="true"/>
+                    <x-text-input name="location" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')" disabled="true"/>
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
@@ -98,6 +101,8 @@ document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
 
         doctor_id: '',
+        zone: '',
+        area: '',
         employee_id_1: '',
         employee_id_2: '',
         employee_id_3: '',
@@ -116,7 +121,6 @@ document.addEventListener("alpine:init", () => {
             this.mpl_no = this.doctorData.mpl_no;
             this.location = this.doctorData.type;
             this.speciality = this.doctorData.speciality;
-            console.log(this.doctorData.type);
         },
 
         async mehqChange() {
@@ -127,7 +131,9 @@ document.addEventListener("alpine:init", () => {
                 'Content-type': 'application/json;',
             },
             })).json();
-            console.log(this.data);
+            this.area = this.data.area_manager;
+            this.zone = this.data.zonal_manager;
+            console.log(this.data.area_manager.name);
         }
     }));
 });

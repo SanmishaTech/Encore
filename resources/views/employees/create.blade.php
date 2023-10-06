@@ -42,7 +42,7 @@
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name') }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')"/>   
-                    <x-text-input name="employee_code" value="{{ old('employee_code') }}" :label="__('Employee Code')" :messages="$errors->get('employee_code')"/>  
+                    <x-text-input name="employee_code" value="{{ old('employee_code') }}" :label="__('Employee Code')" :messages="$errors->get('employee_code')" />  
                 </div>   
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div x-show="rbmopen">

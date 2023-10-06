@@ -192,14 +192,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => __('Employee Code'),'messages' => $errors->get('employee_code')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => __('Employee Code'),'messages' => $errors->get('employee_code'),'disabled' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Employee Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_code'))]); ?>
+<?php $component->withAttributes(['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Employee Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_code')),'disabled' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
