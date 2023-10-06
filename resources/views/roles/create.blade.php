@@ -16,13 +16,11 @@
                 </div>
                 <form class="space-y-5" action="{{ route('roles.store') }}" method="POST">
                     @csrf
-                    <div class="grid grid-cols-2 gap-4">     
-                        <div>
+                    <div class="grid grid-cols-2 gap-4"> 
                         <x-text-input name="name" value="{{ old('name') }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/> 
-                        </div>
                         <div>
                             <label for="actionGuardName">Guard Name:<span style="color: red">*</span></label>                        
-                            <select name="guard_name" id="actionGuardName" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select name="guard_name" id="actionGuardName" class="form-input">
                                 <option selected disabled>Select Guard name</option>                            
                                 <option value="web">Web</option>
                                 <option value="api">API</option>

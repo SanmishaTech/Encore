@@ -24,8 +24,7 @@
                 </div>
                 <form class="space-y-5" action="<?php echo e(route('roles.store')); ?>" method="POST">
                     <?php echo csrf_field(); ?>
-                    <div class="grid grid-cols-2 gap-4">     
-                        <div>
+                    <div class="grid grid-cols-2 gap-4"> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'name','value' => ''.e(old('name')).'','label' => __('Name'),'require' => true,'messages' => $errors->get('name')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -41,10 +40,9 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
-                        </div>
                         <div>
                             <label for="actionGuardName">Guard Name:<span style="color: red">*</span></label>                        
-                            <select name="guard_name" id="actionGuardName" class="text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select name="guard_name" id="actionGuardName" class="form-input">
                                 <option selected disabled>Select Guard name</option>                            
                                 <option value="web">Web</option>
                                 <option value="api">API</option>

@@ -15,10 +15,8 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Stockist</h5>
                 </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">                          
-                    <div>
-                        <x-text-input name="stockist" value="{{ old('stockist') }}" :label="__('Stockist Name')" :require="true" :messages="$errors->get('stockist')"/>                       
-                    </div>
+                <div class="grid grid-cols-4 gap-4 mb-4">  
+                    <x-text-input name="stockist" value="{{ old('stockist') }}" :label="__('Stockist Name')" :require="true" :messages="$errors->get('stockist')"/>        
                     <div>
                         <label>RBM/ZBM :</label>
                         <select class="form-input" name="employee_id_1" x-model="rbm" @change="reportOffice()">
@@ -38,11 +36,6 @@
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
                             </template>
-                            <!-- @foreach ($employees as $employee)
-                                @if($employee->designation == "ABM")
-                                <option value="{{$employee->id}}">{{$employee->name}}</option>
-                                @endif
-                            @endforeach -->
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
                     </div>  
