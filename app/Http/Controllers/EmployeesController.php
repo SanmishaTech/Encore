@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\User;
 use App\Http\Requests\EmployeeRequest;
+use App\Models\Employee\EmployeeCode;
 
 class EmployeesController extends Controller
 {
@@ -30,6 +31,10 @@ class EmployeesController extends Controller
         $input['active'] = true;        
         $user = User::create($input);     
         $user->syncRoles($input['designation']);   
+        if(empty($employee->employee_code)){
+            $employeeCode = new Employee();  
+            $employee->employee_code = $employeeCode->EmployeeCode();
+        }
         $employee = $user->Employee()->create($input);
         $request->session()->flash('success', 'Employee saved successfully!');
         return redirect()->route('employees.index'); 
@@ -63,6 +68,10 @@ class EmployeesController extends Controller
     {
         $input = $request->all();
         $user = User::find($employee->id);
+        if(empty($employee->employee_code)){
+            $employeeCode = new Employee();  
+            $employee->employee_code = $employeeCode->EmployeeCode();
+        }
         $employee->update($request->all());        
         $user->syncRoles($input['designation']);
         if ($user === null)

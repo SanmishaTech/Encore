@@ -56,9 +56,12 @@
                         </select> 
                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="mpl_no" x-model="mpl_no" value="{{ old('mpl_no') }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')"/>
-                    <x-text-input name="speciality" x-model="speciality"  value="{{ old('speciality') }}" :label="__('Speciality')"  :messages="$errors->get('speciality')"/>
-                    <x-text-input name="location" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')"/>
+                    <template x-for="(op, i) in doctorData">
+                        <x-text-input name="speciality" x-model="op.speciality"  value="{{ old('speciality') }}" :label="__('Speciality')"  :messages="$errors->get('speciality')"/>
+                        <x-text-input name="mpl_no" x-model="op.mpl_no" value="{{ old('mpl_no') }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')"/>
+                    </template>                    
+                   
+                    <x-text-input name="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')"/>
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
@@ -71,8 +74,8 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date" value="{{ old('date') }}" :label="__('Date')"  :messages="$errors->get('date')"/>
-                    <x-text-input name="proposal_date" value="{{ old('proposal_date') }}" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>                    
+                    <x-text-input name="date" value="{{ old('date') }}" type="date" id="date" :label="__('Date')"  :messages="$errors->get('date')"/>
+                    <x-text-input name="proposal_date" value="{{ old('proposal_date') }}" id="proposal_date" type="date" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>                    
                 </div>       
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <x-text-input name="code" value="{{ old('code') }}" :label="__('Code')"  :messages="$errors->get('code')"/>
@@ -97,18 +100,19 @@ document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
 
         doctor_id: '',
-        doctorDate: '',
-        location: '',
-        speciality: '',
-        mpl_no: '',
+        doctorData: '',
+        // mpl_no: '',
+        // speciality: '',
         async doctorChange() {
             this.doctorData = await (await fetch('/doctors/'+ this.doctor_id, {
-                
+                // mpl_no: this.doctorData.mpl_no,
+                // speciality: this.doctorData.speciality,
             method: 'GET',
             headers: {
                 'Content-type': 'application/json;',
             },
             })).json();
+            // console.log(speciality);
             console.log(this.doctorData);
         }
     }));
