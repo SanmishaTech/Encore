@@ -24,15 +24,15 @@ class GrantApprovalsController extends Controller
         return view('grant_approvals.create')->with(['employees'=>$employees, 'activities'=>$activities, 'doctors'=>$doctors]);
     }
 
-    public function store(GrantApproval $grantapproval, GrantApprovalRequest $request) 
+    public function store(GrantApproval $grant_approval, GrantApprovalRequest $request) 
     {
         $input = $request->all();      
-        $grantapproval = GrantApproval::create($input); 
+        $grant_approval = GrantApproval::create($input); 
         $request->session()->flash('success', 'Grant Approval saved successfully!');
         return redirect()->route('grant_approvals.index'); 
     }
   
-    public function show(GrantApproval $grantapproval)
+    public function show(GrantApproval $grant_approval)
     {
         //
     }
@@ -41,13 +41,13 @@ class GrantApprovalsController extends Controller
     {
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
-        $employees = Employee::select('id','name','designation')->get();
+        $employees = Employee::where('designation', 'MEHQ')->pluck('name', 'id');
         return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
     }
 
-    public function update(GrantApproval $grantapproval, GrantApprovalRequest $request) 
+    public function update(GrantApproval $grant_approval, GrantApprovalRequest $request) 
     {
-        $grantapproval->update($request->all());
+        $grant_approval->update($request->all());
         $request->session()->flash('success', 'Grant Approval updated successfully!');
         return redirect()->route('grant_approvals.index');
     }
