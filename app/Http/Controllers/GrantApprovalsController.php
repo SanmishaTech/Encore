@@ -37,24 +37,24 @@ class GrantApprovalsController extends Controller
         //
     }
 
-    public function edit(GrantApproval $grantapproval)
+    public function edit(GrantApproval $grant_approval)
     {
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
         $employees = Employee::select('id','name','designation')->get();
-        return view('grant_approvals.edit', ['grantapproval' => $grantapproval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
+        return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
     }
 
     public function update(GrantApproval $grantapproval, GrantApprovalRequest $request) 
     {
-        $GrantApproval->update($request->all());
+        $grantapproval->update($request->all());
         $request->session()->flash('success', 'Grant Approval updated successfully!');
         return redirect()->route('grant_approvals.index');
     }
   
-    public function destroy(Request $request, GrantApproval $grantapproval)
+    public function destroy(Request $request, GrantApproval $grant_approval)
     {
-        $grantapproval->delete();
+        $grant_approval->delete();
         $request->session()->flash('success', 'Grant Approval deleted successfully!');
         return redirect()->route('grant_approvals.index');
     }

@@ -17,7 +17,7 @@ class GrantApproval extends Model
         'employee_id_1',
         'employee_id_2',
         'employee_id_3',
-        'dortor_id',
+        'doctor_id',
         'mpl_no',
         'speciality',
         'location',

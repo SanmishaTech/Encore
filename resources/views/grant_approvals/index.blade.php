@@ -7,19 +7,19 @@
             </h5>
             <table id="myTable" class="whitespace-nowrap table-hover">
                 @foreach ($grant_approvals as $grant_approval)
-                <tr>
-                    <td>{{ $grant_approval->Doctor->name }}</td>
-                    <td>{{ $grant_approval->Activity->name }}</td>
-                    <td>{{ $grant_approval->ZonalManager->name }}</td>
-                    <td>{{ $grant_approval->AreaManager->name }}</td>
-                    <td>{{ $grant_approval->Manager->name }}</td>           
+                <tr> 
+                    <td>{{ @$grant_approval->Doctor->doctor_name }}</td>
+                    <td>{{ @$grant_approval->Activity->name }}</td>
+                    <td>{{ @$grant_approval->ZonalManager->name }}</td>
+                    <td>{{ @$grant_approval->AreaManager->name }}</td>
+                    <td>{{ @$grant_approval->Manager->name }}</td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <li style="display: inline-block;vertical-align:top;">
-                                <x-edit-button :link=" route('grant_approvals.edit', $grant_approval->id)" />                               
+                                <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
                             </li>
                             <li style="display: inline-block;vertical-align:top;">
-                                <x-delete-button :link=" route('grant_approvals.destroy', $grant_approval->id)" />  
+                                <x-delete-button :link=" route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )" />  
                             </li>   
                         </ul>
                     </td>
