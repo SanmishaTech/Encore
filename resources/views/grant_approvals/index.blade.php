@@ -8,13 +8,25 @@
             <table id="myTable" class="whitespace-nowrap table-hover">
                 @foreach ($grant_approvals as $grant_approval)
                 <tr> 
+                    <td>{{ @$grant_approval->Manager->name }}</td>           
+                    <td>{{ @$grant_approval->AreaManager->name }}</td>
+                    <td>{{ @$grant_approval->ZonalManager->name }}</td>
                     <td>{{ @$grant_approval->Doctor->doctor_name }}</td>
                     <td>{{ @$grant_approval->Activity->name }}</td>
-                    <td>{{ @$grant_approval->ZonalManager->name }}</td>
-                    <td>{{ @$grant_approval->AreaManager->name }}</td>
-                    <td>{{ @$grant_approval->Manager->name }}</td>           
+                    <td>{{ @$grant_approval->status }}</td>           
+                    <td> &#8377;  {{ @$grant_approval->amount }}</td>           
+                    <td> &#8377;  {{ @$grant_approval->approval_amount }}</td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="/grant_approvals/approval/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
+                            </li>
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                            </li>
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="/grant_approvals/cancel/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Cancel</a>
+                            </li>
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
                             </li>
@@ -35,7 +47,7 @@
                 init() {
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Doctor", "Activity", "RBM/ZBM", "ABM", "ME HQ", "Action"],
+                            headings: ["ME HQ", "ABM", "RBM/ZBM", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
                         },
                         searchable: true,
                         perPage: 30,

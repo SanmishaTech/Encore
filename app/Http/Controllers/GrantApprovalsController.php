@@ -27,6 +27,7 @@ class GrantApprovalsController extends Controller
     public function store(GrantApproval $grantapproval, GrantApprovalRequest $request) 
     {
         $input = $request->all();      
+        $input['status'] == 'Cancel';
         $grantapproval = GrantApproval::create($input); 
         $request->session()->flash('success', 'Grant Approval saved successfully!');
         return redirect()->route('grant_approvals.index'); 
@@ -49,6 +50,27 @@ class GrantApprovalsController extends Controller
     {
         $grantapproval->update($request->all());
         $request->session()->flash('success', 'Grant Approval updated successfully!');
+        return redirect()->route('grant_approvals.index');
+    }
+
+    public function approval(GrantApproval $grant_approval) 
+    {
+        $grant_approval->status = 'Approved';
+        $grant_approval->update();
+        return redirect()->route('grant_approvals.index');
+    }
+
+    public function rejected(GrantApproval $grant_approval) 
+    {
+        $grant_approval->status = 'Rejected';
+        $grant_approval->update();
+        return redirect()->route('grant_approvals.index');
+    }
+
+    public function cancel(GrantApproval $grant_approval) 
+    {
+        $grant_approval->status = 'Cancel';
+        $grant_approval->update();
         return redirect()->route('grant_approvals.index');
     }
   
