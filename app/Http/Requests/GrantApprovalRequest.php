@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 use App\Models\GrantApproval;
+use App\Models\Employee;
+use App\Models\Activity;
+use App\Models\Doctor;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GrantApprovalRequest extends FormRequest
@@ -22,7 +25,8 @@ class GrantApprovalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|unique:grant_approvals,email,'.($this->employee ? $this->employee->id : ''),
+            'email' => 'required|unique:grant_approvals,email,'.($this->grant_approvals ? $this->grant_approvals->id : ''),
+
         ];
     }
     public function messages(): array
