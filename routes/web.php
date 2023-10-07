@@ -65,6 +65,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/employees/getEmployees/{employee}', 'EmployeesController@getEmployees')->name('employees.getEmployees');
         Route::resource('doctors', DoctorsController::class);
         Route::resource('grant_approvals', GrantApprovalsController::class);
+        Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);
     });
 
     Route::group(['middleware' => ['auth']], function() {  
