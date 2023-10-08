@@ -30,13 +30,25 @@
             <table id="myTable" class="whitespace-nowrap table-hover">
                 <?php $__currentLoopData = $grant_approvals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grant_approval): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr> 
+                    <td><?php echo e(@$grant_approval->Manager->name); ?></td>           
+                    <td><?php echo e(@$grant_approval->AreaManager->name); ?></td>
+                    <td><?php echo e(@$grant_approval->ZonalManager->name); ?></td>
                     <td><?php echo e(@$grant_approval->Doctor->doctor_name); ?></td>
                     <td><?php echo e(@$grant_approval->Activity->name); ?></td>
-                    <td><?php echo e(@$grant_approval->ZonalManager->name); ?></td>
-                    <td><?php echo e(@$grant_approval->AreaManager->name); ?></td>
-                    <td><?php echo e(@$grant_approval->Manager->name); ?></td>           
+                    <td><?php echo e(@$grant_approval->status); ?></td>           
+                    <td> &#8377;  <?php echo e(@$grant_approval->amount); ?></td>           
+                    <td> &#8377;  <?php echo e(@$grant_approval->approval_amount); ?></td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="/grant_approvals/approval/<?php echo e($grant_approval->id); ?>" class="btn btn-success btn-sm">Approval</a>
+                            </li>
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
+                            </li>
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="/grant_approvals/cancel/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Cancel</a>
+                            </li>
                             <li style="display: inline-block;vertical-align:top;">
                                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.edit-button','data' => ['link' =>  route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -85,7 +97,7 @@
                 init() {
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Doctor", "Activity", "RBM/ZBM", "ABM", "ME HQ", "Action"],
+                            headings: ["ME HQ", "ABM", "RBM/ZBM", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
                         },
                         searchable: true,
                         perPage: 30,

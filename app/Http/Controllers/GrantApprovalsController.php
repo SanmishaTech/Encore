@@ -36,7 +36,8 @@ class GrantApprovalsController extends Controller
   
     public function show(GrantApproval $grant_approval)
     {
-        //
+        $grant_approval->load(['ZonalManager', 'AreaManager', 'Manager', 'Doctor']);
+        return $grant_approval;
     }
 
     public function edit(GrantApproval $grant_approval)
