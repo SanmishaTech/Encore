@@ -117,7 +117,6 @@
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'transaction'" x-collapse class="sub-menu text-gray-500">
                         <li><a href="/grant_approvals">Grant Approvals</a></li>
-                        <li><a href="/doctor_business_monitorings">Doctor Business Monitorings</a></li>
                     </ul>
                 </li> 
                 <li class="menu nav-item">

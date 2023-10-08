@@ -12,12 +12,14 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <div>
-    <label>
-        <?php echo e($label ?? $slot); ?>: 
-        <?php if($require): ?>
-        <span style="color: red">*</span>
-        <?php endif; ?>
-    </label>
+    <?php if(isset($label)): ?>
+        <label>
+            <?php echo e($label ?? $slot); ?>: 
+            <?php if($require): ?>
+            <span style="color: red">*</span>
+            <?php endif; ?>
+        </label>
+    <?php endif; ?>
     <input <?php echo e($disabled ? 'disabled' : ''); ?> <?php echo $attributes->merge(['class' => 'form-input']); ?>>
 
     <?php if($messages): ?>

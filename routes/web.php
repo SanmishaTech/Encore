@@ -48,7 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         });
 
         Route::get('profile', 'ProfileController@index')->name('profile.change');
-        Route::get('grant_approvals/approval/{grant_approval}', 'GrantApprovalsController@approval')->name('grant_approvals.approval');
+        Route::post('grant_approvals/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval');
         Route::get('grant_approvals/rejected/{grant_approval}', 'GrantApprovalsController@rejected')->name('grant_approvals.rejected');
         Route::get('grant_approvals/cancel/{grant_approval}', 'GrantApprovalsController@cancel')->name('grant_approvals.cancel');
        

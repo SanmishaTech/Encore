@@ -1,11 +1,13 @@
 @props(['disabled' => false, 'label', 'require' => false, 'messages'])
 <div>
-    <label>
-        {{ $label ?? $slot }}: 
-        @if($require)
-        <span style="color: red">*</span>
-        @endif
-    </label>
+    @if(isset($label))
+        <label>
+            {{ $label ?? $slot }}: 
+            @if($require)
+            <span style="color: red">*</span>
+            @endif
+        </label>
+    @endif
     <input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'form-input']) !!}>
 
     @if ($messages)

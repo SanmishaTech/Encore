@@ -20,9 +20,9 @@
                         <ul class="flex items-center gap-2" >
                             @role(['Admin','ABM'])
                             @if($grant_approval->status == "Open")
-                                <li style="display: inline-block;vertical-align:top;">
-                                    <a href="/grant_approvals/approval/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
-                                </li>
+                            <li style="display: inline-block;vertical-align:top;">
+                                <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
+                            </li>
                             @endif
                             @endrole
                             @role(['Admin','ABM'])
@@ -35,21 +35,23 @@
                             @role(['Admin','RBM/ZBM'])
                             @if($grant_approval->status == "ABM Approved")
                             <li style="display: inline-block;vertical-align:top;">
-                                <a href="/grant_approvals/approvalSecond/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
+                                <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
                             </li>
                             @endif
                             @endrole
                             @role(['Admin','RBM/ZBM'])
-                            @if($grant_approval->status == "Open" && $grant_approval->status == "ABM Approved")
+                            @if($grant_approval->status == "Open" || $grant_approval->status == "ABM Approved")
                                 <li style="display: inline-block;vertical-align:top;">
-                                    <a href="/grant_approvals/rejectedSecond/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                    <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                 </li>
                             @endif
                             @endrole
+                            @role(['Admin','MEHQ'])
                             @if($grant_approval->status != "Cancel")
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="/grant_approvals/cancel/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Cancel</a>
                             </li>
+                            @endrole
                             @endif
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
@@ -63,12 +65,73 @@
                 @endforeach
             </table>
         </div>
+
+       
+        <div class="fixed inset-0 bg-[black]/60 z-[999] hidden overflow-y-auto"
+            :class="open && '!block'">
+            <div class="flex items-start justify-center min-h-screen px-4"
+                @click.self="open = false">
+                <div x-show="open" x-transition x-transition.duration.300
+                    class="panel border-0 py-1 px-4 rounded-lg overflow-hidden w-full max-w-sm my-8">
+                    <div
+                        class="flex items-center justify-between p-5 font-semibold text-lg dark:text-white">
+                        Approval
+                        <button type="button" @click="toggle"
+                            class="text-white-dark hover:text-dark">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24px"
+                                height="24px" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"
+                                class="w-6 h-6">
+                                <line x1="18" y1="6" x2="6"
+                                    y2="18"></line>
+                                <line x1="6" y1="6" x2="18"
+                                    y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="p-5">
+                        <form class="space-y-5" action="{{ route('grant_approvals.approval') }}" method="POST">
+                        @csrf
+                           
+                            <div class="relative mb-4">
+                            <x-text-input name="id" x-model="id"  :messages="$errors->get('code')" hidden/>
+                                <x-combo-input name="amount"  :label="__('Approval Amount')"  :messages="$errors->get('amount')"/>
+                            </div>
+                            <x-success-button>
+                                {{ __('Submit') }}
+                            </x-success-button>
+                        </form>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
     </div>
+ 
+
+   
+
+   
+
+    
+
+
+    
+    
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("multicolumn", () => ({
+                id: null,
                 datatable: null,
+                open: false,
+
                 init() {
+                    this.open= false;
+
+                    
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
                             headings: ["ME HQ", "ABM", "RBM/ZBM", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
@@ -92,7 +155,13 @@
                             bottom: "{info}{select}{pager}",
                         },
                     })
-                }
+                },          
+               
+                toggle(x) {
+                    console.log(x);
+                    this.id = x;
+                    this.open = !this.open;
+                },
             }));
         });
     </script>

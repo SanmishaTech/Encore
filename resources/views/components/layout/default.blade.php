@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="{{ Vite::asset('resources/css/highlight.min.css') }}">
     <link rel='stylesheet' type='text/css' href="{{ Vite::asset('resources/css/nice-select2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ Vite::asset('resources/css/quill.snow.css') }}" />
+    <link rel="stylesheet" href="{{ Vite::asset('resources/css/swiper-bundle.min.css') }}">
+
 
     <script src="/assets/js/perfect-scrollbar.min.js"></script>
     <script defer src="/assets/js/popper.min.js"></script>
@@ -130,6 +132,8 @@
     <script src="/assets/js/flatpickr.js"></script>
     <script src="/assets/js/nice-select2.js"></script>
     <script src="/assets/js/highlight.min.js"></script>
+    <script src="/assets/js/swiper-bundle.min.js"></script>
+
 </body>
 
 </html>

@@ -71,7 +71,7 @@ class EmployeesController extends Controller
         $input = $request->all();
         $user = User::find($employee->id);
         $employee->update($request->all());        
-        $user->syncRoles($input['designation']);
+       
         if ($user === null)
         {
             $user = new User;
@@ -90,6 +90,7 @@ class EmployeesController extends Controller
                 'active' => true,
             ]);
         }
+        $user->syncRoles($input['designation']);
         $request->session()->flash('success', 'Employee updated successfully!');
         return redirect()->route('employees.index');
     }

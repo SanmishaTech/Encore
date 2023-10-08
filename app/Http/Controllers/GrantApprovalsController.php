@@ -7,6 +7,7 @@ use App\Models\Activity;
 use App\Models\GrantApproval;
 use App\Models\GrantApprovalDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\GrantApprovalRequest;
 
 class GrantApprovalsController extends Controller
@@ -56,14 +57,26 @@ class GrantApprovalsController extends Controller
         return redirect()->route('grant_approvals.index');
     }
 
-    public function approval(GrantApproval $grant_approval) 
+    public function approval(Request $request) 
     {
-        $grant_approval->status = 'ABM Approved';
+       
+        $grant_approval = GrantApproval::find($request->id);
+        $input = [];
+        if(auth()->user()->roles->pluck('name')->first() == 'RBM/ZBM'){
+            $grant_approval->status = 'RBM/ZBM Approved';
+        } else {
+            $grant_approval->status = 'ABM Approved';
+        }
+       
+
+        $grant_approval->approval_amount = $request->amount;    
+
+       
         $grant_approval->update();
         $input = [];
 
-        $input['status'] = 'Approved';
-        $input['amount'] = $grant_approval->amount;
+        $input['status'] =  $grant_approval->status;
+        $input['amount'] = $grant_approval->approval_amount;
         $input['grant_approval_id'] = $grant_approval->id;
         GrantApprovalDetail::create($input);
         return redirect()->route('grant_approvals.index');
@@ -71,11 +84,16 @@ class GrantApprovalsController extends Controller
 
     public function rejected(GrantApproval $grant_approval) 
     {
-        $grant_approval->status = 'ABM Rejected';
+        if(auth()->user()->roles->pluck('name')->first() == 'RBM/ZBM'){
+            $grant_approval->status = 'RBM/ZBM Rejected';
+        } else {
+            $grant_approval->status = 'ABM Rejected';
+        }
+   
         $grant_approval->update();
         $input = [];
 
-        $input['status'] = 'Rejected';
+        $input['status'] =  $grant_approval->status;
         $input['amount'] = $grant_approval->amount;
         $input['grant_approval_id'] = $grant_approval->id;
         GrantApprovalDetail::create($input);
