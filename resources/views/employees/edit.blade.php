@@ -63,17 +63,17 @@
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select Office-2</option>
                             <template x-for="list in abm" :key="list.id">
-                                <option :value="list.id" x-text="list.name"></option>
+                                <option :value="list.id" :selected='list.id == abml' x-text="list.name"></option>
                             </template>
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  
                     <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
-                        <select class="form-input" name="reporting_office_3">
+                        <select class="form-input" name="reporting_office_3"  x-model="manager">
                             <option>Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">
-                                <option :value="me.id" x-text="me.name"></option>
+                                <option :value="me.id" x-text="me.name" :selected='me.id == manager'></option>
                             </template>
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_3')" class="mt-2" />
@@ -99,6 +99,14 @@ document.addEventListener("alpine:init", () => {
             this.rbmopen = true;
             this.abmopen = true;
             this.meopen = true;
+            this.abm = '';
+            this.mehq = '';
+            this.manager = '';
+            @if($employee->designation)
+                this.designation = '{{  $employee->designation }}';
+                this.designationChange();
+            @endif
+          
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
             });           
@@ -113,7 +121,10 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
-            console.log(this.abm); 
+
+            @if($employee->reporting_office_2)
+                this.abml = {{  $employee->reporting_office_2 }};
+            @endif
         },      
 
         mehq: '',
@@ -125,11 +136,11 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
-            console.log(this.mehq);
         },
 
         designation: '',
         designationChange(){
+            console.log("ko")
             if (this.designation == 'RBM/ZBM') {
                 this.rbmopen = false;
                 this.abmopen = false;
@@ -138,14 +149,32 @@ document.addEventListener("alpine:init", () => {
                 this.rbmopen = true;
                 this.abmopen = false;
                 this.meopen = false;
+                @if($employee->reporting_office_1)
+                    this.rbm ={{  $employee->reporting_office_1 }};
+                @endif
             } else if (this.designation == 'MEHQ') {
                 this.rbmopen = true;
-                this.abmopen = true;
                 this.meopen = false;
-            } else {
+                @if($employee->reporting_office_1)
+                    this.rbm ={{  $employee->reporting_office_1 }};
+                @endif
+                this.reportOffice();
+
+               
+                this.abmopen = true;
+
+            } else {                
                 this.rbmopen = true;
                 this.abmopen = true;
                 this.meopen = true;
+
+                @if($employee->reporting_office_1)
+                    this.rbm ={{  $employee->reporting_office_1 }};
+                @endif
+
+                @if($employee->reporting_office_3)
+                    this.mehq ={{  $employee->reporting_office_3 }};
+                @endif
             }
         }
     }));

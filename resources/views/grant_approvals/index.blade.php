@@ -18,15 +18,39 @@
                     <td> &#8377;  {{ @$grant_approval->approval_amount }}</td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
+                            @role(['Admin','ABM'])
+                            @if($grant_approval->status == "Open")
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="/grant_approvals/approval/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
+                                </li>
+                            @endif
+                            @endrole
+                            @role(['Admin','ABM'])
+                            @if($grant_approval->status == "Open" || $grant_approval->status == "ABM Approved")
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                </li>
+                            @endif
+                            @endrole
+                            @role(['Admin','RBM/ZBM'])
+                            @if($grant_approval->status == "ABM Approved")
                             <li style="display: inline-block;vertical-align:top;">
-                                <a href="/grant_approvals/approval/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
+                                <a href="/grant_approvals/approvalSecond/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
                             </li>
-                            <li style="display: inline-block;vertical-align:top;">
-                                <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
-                            </li>
+                            @endif
+                            @endrole
+                            @role(['Admin','RBM/ZBM'])
+                            @if($grant_approval->status == "Open" && $grant_approval->status == "ABM Approved")
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="/grant_approvals/rejectedSecond/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                </li>
+                            @endif
+                            @endrole
+                            @if($grant_approval->status != "Cancel")
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="/grant_approvals/cancel/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Cancel</a>
                             </li>
+                            @endif
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
                             </li>

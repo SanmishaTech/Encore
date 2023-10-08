@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Traits\CreatedUpdatedBy;
 use Carbon\Carbon;
 use App\Models\Employee;
+use App\Models\GrantApprovalDetail;
 use App\Models\Doctor;
 use App\Models\Activity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Str;
 class GrantApproval extends Model
 {
     use HasFactory, CreatedUpdatedBy;
@@ -55,6 +56,11 @@ class GrantApproval extends Model
         return $this->belongsTo(Activity::class);
     }
 
+    public function GrantApprovalDetail() 
+    {
+        return $this->hasMany(GrantApprovalDetail::class, 'grant_approval_id');
+    }
+
     public function Doctor() 
     {
         return $this->belongsTo(Doctor::class);
@@ -75,12 +81,12 @@ class GrantApproval extends Model
         return $this->belongsTo(Employee::class, 'employee_id_3');
     }
 
-    public static function booted()
+    public static function codeGenerate(): void
     {
-        static::creating(function(GrantApproval $grantApproval){
+        static::creating(function(GrantApproval $grant_approval){
             $grantApproval = GrantApproval::whereNotNull('code')->orderBy('created_at','DESC')->first();
             $max = $grantApproval ? Str::substr($grantApproval->code, -1) : 0;
-            return 'G'.str_pad($max + 1, 5, "0", STR_PAD_LEFT);
+            $grant_approval->code = 'G'.str_pad($max + 1, 5, "0", STR_PAD_LEFT);
         });
     }
 }

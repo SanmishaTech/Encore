@@ -71,7 +71,7 @@
                         <select class="form-input" name="activity_id">
                             <option>Select Activity</option>
                             @foreach ($activities as $id => $activity)
-                                <option value="{{$id}}">{{$activity}}</option>
+                                <option value="{{$id}}" {{ $grant_approval->activity_id ? ($grant_approval->activity_id == $id ? 'Selected' : '') : '' }}>{{$activity}}</option>
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
@@ -80,7 +80,7 @@
                     <x-text-input name="proposal_date" id="proposal_date" value="{{ old('proposal_date',$grant_approval->proposal_date) }}" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>                    
                 </div>       
                 <div class="grid grid-cols-4 gap-4 mb-4">
-                    <x-text-input name="code" value="{{ old('code') }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
+                    <x-text-input name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
                     <x-combo-input name="amount" value="{{ old('amount',$grant_approval->amount) }}" :label="__('Amount')"  :messages="$errors->get('amount')"/>
                     <x-combo-input name="email" value="{{ old('email',$grant_approval->email) }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
                 </div> 
@@ -93,14 +93,53 @@
                         {{ __('Cancel') }}
                     </x-cancel-button>
                 </div>
+                @if($grant_approval['GrantApprovalDetail'])
+                    <br><br>
+                    <h5 class="md:absolute  md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Grant Approval Deatils
+                    </h5> <br> <br>
+
+                    <table class="whitespace-nowrap table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Employee</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        @foreach ($grant_approval['GrantApprovalDetail'] as $id=>$detail)
+                                <tr> 
+                                    <td>{{ @$id+1 }}</td>           
+                                    <td> &#8377; {{ @$detail->amount }}</td>
+                                    <td>{{ @$detail->status }}</td>
+                                    <td>   {{ @$detail->Employee->designation }} -  {{ @$detail->Employee->name }}</td>
+                                    <td>{{ @$detail->created_at->format('d/m/Y h:m a') }}</td>  
+                                </tr>
+                            @endforeach
+                    </tbody>
+                    </table>
+                @endif
             </div>
         </form> 
+
+      
     </div>
 </div>
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
         init() {
+            @if($grant_approval->doctor_id)
+                this.doctor_id = {{ $grant_approval->doctor_id }};
+                this.doctorChange();
+            @endif
+
+            @if($grant_approval->employee_id_1)
+                this.employee_id_1 ={{  $grant_approval->employee_id_1 }};
+                this.mehqChange();
+            @endif
             flatpickr(document.getElementById('date'), {
                 dateFormat: 'd/m/Y',
             });

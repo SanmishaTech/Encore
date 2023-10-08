@@ -5,6 +5,7 @@ use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Activity;
 use App\Models\GrantApproval;
+use App\Models\GrantApprovalDetail;
 use Illuminate\Http\Request;
 use App\Http\Requests\GrantApprovalRequest;
 
@@ -43,6 +44,7 @@ class GrantApprovalsController extends Controller
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
         $employees = Employee::where('designation', 'MEHQ')->pluck('name', 'id');
+        $grant_approval->load(['GrantApprovalDetail'=>['Employee']]);
         return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
     }
 
@@ -55,15 +57,55 @@ class GrantApprovalsController extends Controller
 
     public function approval(GrantApproval $grant_approval) 
     {
-        $grant_approval->status = 'Approved';
+        $grant_approval->status = 'ABM Approved';
         $grant_approval->update();
+        $input = [];
+
+        $input['status'] = 'Approved';
+        $input['amount'] = $grant_approval->amount;
+        $input['grant_approval_id'] = $grant_approval->id;
+        GrantApprovalDetail::create($input);
         return redirect()->route('grant_approvals.index');
     }
 
     public function rejected(GrantApproval $grant_approval) 
     {
-        $grant_approval->status = 'Rejected';
+        $grant_approval->status = 'ABM Rejected';
         $grant_approval->update();
+        $input = [];
+
+        $input['status'] = 'Rejected';
+        $input['amount'] = $grant_approval->amount;
+        $input['grant_approval_id'] = $grant_approval->id;
+        GrantApprovalDetail::create($input);
+
+        return redirect()->route('grant_approvals.index');
+    }
+
+    public function approvalSecond(GrantApproval $grant_approval) 
+    {
+        $grant_approval->status = 'Approved';
+        $grant_approval->update();
+        $input = [];
+
+        $input['status'] = 'RBM/ZBM Approved';
+        $input['amount'] = $grant_approval->amount;
+        $input['grant_approval_id'] = $grant_approval->id;
+        GrantApprovalDetail::create($input);
+        return redirect()->route('grant_approvals.index');
+    }
+
+    public function rejectedSecond(GrantApproval $grant_approval) 
+    {
+        $grant_approval->status = 'RBM/ZBM Rejected';
+        $grant_approval->update();
+        $input = [];
+
+        $input['status'] = 'Rejected';
+        $input['amount'] = $grant_approval->amount;
+        $input['grant_approval_id'] = $grant_approval->id;
+        GrantApprovalDetail::create($input);
+
         return redirect()->route('grant_approvals.index');
     }
 
@@ -71,6 +113,12 @@ class GrantApprovalsController extends Controller
     {
         $grant_approval->status = 'Cancel';
         $grant_approval->update();
+        $input = [];
+
+        $input['status'] = 'Cancel';
+        $input['amount'] = $grant_approval->amount;
+        $input['grant_approval_id'] = $grant_approval->id;
+        GrantApprovalDetail::create($input);
         return redirect()->route('grant_approvals.index');
     }
   

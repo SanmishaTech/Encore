@@ -35,17 +35,17 @@
                         <select class="form-input" name="employee_id_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select ABM</option>
                             <template x-for="list in abm" :key="list.id">
-                                <option :value="list.id" x-text="list.name"></option>
+                                <option :value="list.id"  :selected='list.id == abml' x-text="list.name"></option>
                             </template>
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
                     </div>  
                     <div>
                         <label>ME HQ :</label>
-                        <select class="form-input" name="employee_id_3">
+                        <select class="form-input" name="employee_id_3"  x-model="manager">
                             <option>Select ME HQ</option>
                             <template x-for="me in mehq" :key="me.id">
-                                <option :value="me.id" x-text="me.name"></option>
+                                <option :value="me.id"  :selected='me.id == manager' x-text="me.name"></option>
                             </template>
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" />
@@ -69,6 +69,27 @@ document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({  
         rbm: '',
         abm: '',
+
+        init() {          
+            this.abm = '';
+            this.rbm = '';
+            this.mehq = '';
+            @if($stockist->employee_id_1)
+                this.rbm = '{{  $stockist->employee_id_1 }}';
+                this.reportOffice();
+            @endif
+
+            @if($stockist->employee_id_2)
+                this.abml = '{{  $stockist->employee_id_2 }}';
+                this.reportOfficeME();
+            @endif
+
+            @if($stockist->employee_id_3)
+                this.manager = '{{  $stockist->employee_id_3 }}';
+            @endif
+                 
+        },
+
         async reportOffice() {               
             this.abm = await (await fetch('/employees/'+ this.rbm, {
                 method: 'GET',
