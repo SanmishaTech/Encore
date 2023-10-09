@@ -34,34 +34,34 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
                         <label>Employee:</label>
-                        <select class="form-input" name="employee">
-                            <option>Select employee</option>                            
+                        <select class="form-input" name="employee_id">
+                            <option value="">Select employee</option>                            
                             @foreach ($employees as $id => $employee)
-                                    <option value="{{$id}}" {{ $doctor->employee ? ($doctor->employee == $id ? 'Selected' : '' ) : ''}}>{{$employee}}</option>
+                                    <option value="{{$id}}" {{ $doctor->employee_id ? ($doctor->employee_id == $id ? 'Selected' : '' ) : ''}}>{{$employee}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('employee')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
 
                     </div>
                     <div>
                         <label>Territory:</label>
-                        <select class="form-input" name="territory">
-                            <option>Select Territory</option>                            
+                        <select class="form-input" name="territory_id">
+                            <option value="">Select Territory</option>                            
                             @foreach ($territories as $id => $territory)
-                                    <option value="{{$id}}" {{ $doctor->territory ? ($doctor->territory == $id ? 'Selected' : '' ) : ''}}>{{$territory}}</option>
+                                    <option value="{{$id}}" {{ $doctor->territory_id ? ($doctor->territory_id == $id ? 'Selected' : '' ) : ''}}>{{$territory}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('territory')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('territory_id')" class="mt-2" />
                     </div>
                     <div>
                         <label>Category:</label>
-                        <select class="form-input" name="category">
-                            <option>Select Category</option>                            
+                        <select class="form-input" name="category_id">
+                            <option value="">Select Category</option>                            
                             @foreach ($categories as $id => $category)
-                                    <option value="{{$id}}" {{ $doctor->category ? ($doctor->category == $id ? 'Selected' : '' ) : ''}}>{{$category}}</option>
+                                    <option value="{{$id}}" {{ $doctor->category_id ? ($doctor->category_id == $id ? 'Selected' : '' ) : ''}}>{{$category}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
                     <div>
                         <label>Type:</label>
@@ -76,13 +76,13 @@
                 <div class="grid grid-cols-4 gap-4 mb-4"> 
                     <div>
                         <label>Qualification:</label>
-                        <select class="form-input" name="qualification">
-                            <option>Select Qualification</option>                            
+                        <select class="form-input" name="qualification_id">
+                            <option value="">Select Qualification</option>                            
                             @foreach ($qualifications as $id => $qualification)
-                                    <option value="{{$id}}" {{ $doctor->qualification ? ($doctor->qualification == $id ? 'Selected' : '' ) : ''}}>{{$qualification}}</option>
+                                    <option value="{{$id}}" {{ $doctor->qualification_id ? ($doctor->qualification_id == $id ? 'Selected' : '' ) : ''}}>{{$qualification}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('qualification')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('qualification_id')" class="mt-2" />
                     </div>
                     <x-text-input name="speciality" value="{{ old('speciality', $doctor->speciality) }}" :label="__('Speciality')" :messages="$errors->get('speciality')"/> 
                     <x-text-input name="class" value="{{ old('class', $doctor->class) }}" :label="__(' Class')" :messages="$errors->get('class')"/>           

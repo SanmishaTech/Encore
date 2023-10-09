@@ -13,14 +13,13 @@ class EmployeesController extends Controller
 {
     public function index()
     {
-        $employees = Employee::all();
+        $employees = Employee::with(['users'])->get();  
         return view('employees.index', ['employees' => $employees]);
     }
 
     public function create()
     {
-        $employees = Employee::Where('designation', 'Zonal Manager')
-                                ->pluck('name', 'id','designation');
+        $employees = Employee::select('id','name','designation')->get();
         return view('employees.create', ['employees' => $employees]);
     }
 
@@ -40,17 +39,19 @@ class EmployeesController extends Controller
   
     public function show(Employee $employee)
     {        
-        $abm = Employee::where('reporting_office_1',$employee->id)
+        $abm = Employee::select('id','name')
+                        ->where('reporting_office_1',$employee->id)
                         ->where('designation','Area Manager')
-                        ->pluck('name','id');
+                        ->get();
         return $abm;
     }
     
     public function getReportingOfficer3(Employee $employee)
     {
-        $mehq = Employee::where('reporting_office_2',$employee->id)
+        $mehq = Employee::select('id','name')
+                        ->where('reporting_office_2',$employee->id)
                         ->where('designation','Managing Executive')
-                        ->pluck('name','id');
+                        ->get();
         return $mehq;
     }
 
@@ -62,8 +63,7 @@ class EmployeesController extends Controller
 
     public function edit(Employee $employee)
     {
-        $employee_list = Employee::where('designation', 'Zonal Manager')
-                                ->pluck('name', 'id');
+        $employee_list = Employee::select('id','name','designation')->get();
         return view('employees.edit', ['employee' => $employee, 'employee_list' => $employee_list]);
     }
 

@@ -18,32 +18,27 @@
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">  
                     <div>
-                        <label>ME HQ :</label>
+                        <label>Managing Executive :</label>
                         <select class="form-input" name="employee_id_1" x-model="employee_id_1" @change="mehqChange()">
-                            <option>Select ME HQ</option>
+                            <option>Select Managing Executive</option>
                             @foreach ($employees as $id=>$employee)                                
                                 <option value="{{$id}}">{{$employee}}</option>                                
                             @endforeach
-                            
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" />
                     </div>
-                    
                     <div>
-                        <label>ABM :</label>
+                        <label>Area Manager :</label>
                         <select class="form-input" name="employee_id_2" readonly="true"  x-model="employee_id_2">
-                            <option>Select ABM</option>
+                            <option>Select Area Manager</option>
                             <option key="area.id" :value="area.id" x-text="area.name" ></option>
-                            
-                            
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
-                    </div>  
-                   
+                    </div> 
                     <div>
-                        <label>RBM/ZBM :</label>
+                        <label>Zonal Manager :</label>
                         <select class="form-input" name="employee_id_3" readonly="true"  x-model="employee_id_3">
-                            <option>Select RBM/ZBM</option>
+                            <option>Select Zonal Manager</option>
                             <option key="zone.id" :value="zone.id" x-text="zone.name" ></option>
                            
                         </select> 
@@ -77,7 +72,26 @@
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
                     <x-text-input name="date" id="date" value="{{ old('date', $grant_approval->date) }}" :label="__('Date')"  :messages="$errors->get('date')"/>
-                    <x-text-input name="proposal_date" id="proposal_date" value="{{ old('proposal_date',$grant_approval->proposal_date) }}" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>                    
+                    <!-- <x-text-input name="proposal_month" value="{{ old('proposal_month',$grant_approval->proposal_month) }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_date')"/>                     -->
+                    <div>
+                        <label>Proposal Month :<span style="color: red">*</span></label>
+                        <select class="form-input" name="proposal_month">
+                            <option>Select Proposal Month</option>
+                            <option value="Jan /2023" @if ($grant_approval->proposal_month == "Jan /2023") {{ 'Selected' }} @endif>Jan /2023</option>
+                            <option value="Feb /2023" @if ($grant_approval->proposal_month == "Feb /2023") {{ 'Selected' }} @endif>Feb /2023</option>
+                            <option value="Mar /2023" @if ($grant_approval->proposal_month == "Mar /2023") {{ 'Selected' }} @endif>Mar /2023</option>
+                            <option value="Apr /2023" @if ($grant_approval->proposal_month == "Apr /2023") {{ 'Selected' }} @endif>Apr /2023</option>
+                            <option value="May /2023" @if ($grant_approval->proposal_month == "May /2023") {{ 'Selected' }} @endif>May /2023</option>
+                            <option value="Jun /2023" @if ($grant_approval->proposal_month == "Jun /2023") {{ 'Selected' }} @endif>Jun /2023</option>
+                            <option value="Jul /2023" @if ($grant_approval->proposal_month == "Jul /2023") {{ 'Selected' }} @endif>Jul /2023</option>
+                            <option value="Aug /2023" @if ($grant_approval->proposal_month == "Aug /2023") {{ 'Selected' }} @endif>Aug /2023</option>
+                            <option value="Sep /2023" @if ($grant_approval->proposal_month == "Sep /2023") {{ 'Selected' }} @endif>Sep /2023</option>
+                            <option value="Oct /2023" @if ($grant_approval->proposal_month == "Oct /2023") {{ 'Selected' }} @endif>Oct /2023</option>
+                            <option value="Nov /2023" @if ($grant_approval->proposal_month == "Nov /2023") {{ 'Selected' }} @endif>Nov /2023</option>
+                            <option value="Dec /2023" @if ($grant_approval->proposal_month == "Dec /2023") {{ 'Selected' }} @endif>Dec /2023</option>
+                        </select> 
+                        <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
+                    </div>
                 </div>       
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <x-text-input name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
@@ -142,11 +156,7 @@ document.addEventListener("alpine:init", () => {
             @endif
             flatpickr(document.getElementById('date'), {
                 dateFormat: 'd/m/Y',
-            });
-
-            flatpickr(document.getElementById('proposal_date'), {
-                dateFormat: 'd/m/Y',
-            });
+            });            
         },
 
         doctor_id: '',

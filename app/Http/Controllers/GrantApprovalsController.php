@@ -9,6 +9,7 @@ use App\Models\GrantApprovalDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\GrantApprovalRequest;
+use App\Models\GrantApproval\codeGenerate;
 
 class GrantApprovalsController extends Controller
 {
@@ -30,6 +31,10 @@ class GrantApprovalsController extends Controller
     {
         $input = $request->all();      
         $input['status'] = 'Open';
+        if(empty($grant_approval->code)){
+            $code = new GrantApproval();  
+            $grant_approval->code = $code->codeGenerate();
+        }
         $grant_approval = GrantApproval::create($input); 
         $request->session()->flash('success', 'Grant Approval saved successfully!');
         return redirect()->route('grant_approvals.index'); 
@@ -52,6 +57,11 @@ class GrantApprovalsController extends Controller
 
     public function update(GrantApproval $grant_approval, GrantApprovalRequest $request) 
     {
+        if($request->code == null){
+            $codeGrantApproval = new GrantApproval();  
+            $request->code = $codeGrantApproval->codeGenerate();
+            // dd('hi');
+        }
         $grant_approval->update($request->all());
         $request->session()->flash('success', 'Grant Approval updated successfully!');
         return redirect()->route('grant_approvals.index');
@@ -59,22 +69,16 @@ class GrantApprovalsController extends Controller
 
     public function approval(Request $request) 
     {
-       
         $grant_approval = GrantApproval::find($request->id);
         $input = [];
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $grant_approval->status = 'Zonal Manager Approved';
         } else {
             $grant_approval->status = 'Area Manager Approved';
-        }
-       
-
+        }       
         $grant_approval->approval_amount = $request->amount;    
-
-       
         $grant_approval->update();
         $input = [];
-
         $input['status'] =  $grant_approval->status;
         $input['amount'] = $grant_approval->approval_amount;
         $input['grant_approval_id'] = $grant_approval->id;
@@ -88,16 +92,13 @@ class GrantApprovalsController extends Controller
             $grant_approval->status = 'Zonal Manager Rejected';
         } else {
             $grant_approval->status = 'Area Manager Rejected';
-        }
-   
+        }   
         $grant_approval->update();
         $input = [];
-
         $input['status'] =  $grant_approval->status;
         $input['amount'] = $grant_approval->amount;
         $input['grant_approval_id'] = $grant_approval->id;
         GrantApprovalDetail::create($input);
-
         return redirect()->route('grant_approvals.index');
     }
 
@@ -106,7 +107,6 @@ class GrantApprovalsController extends Controller
         $grant_approval->status = 'Approved';
         $grant_approval->update();
         $input = [];
-
         $input['status'] = 'Zonal Manager Approved';
         $input['amount'] = $grant_approval->amount;
         $input['grant_approval_id'] = $grant_approval->id;

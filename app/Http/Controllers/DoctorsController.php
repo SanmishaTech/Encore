@@ -58,6 +58,7 @@ class DoctorsController extends Controller
 
     public function update(Doctor $doctor, DoctorRequest $request) 
     {
+        // dd($request);
         $doctor->update($request->all());
         $request->session()->flash('success', 'Doctor updated successfully!');
         return redirect()->route('doctors.index');

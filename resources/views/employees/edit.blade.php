@@ -44,15 +44,17 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name', $employee->fieldforce_name) }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')"/>
                     <x-text-input name="employee_code" value="{{ old('employee_code', $employee->employee_code) }}" :label="__('Employee Code')" :messages="$errors->get('employee_code')" /> 
-                    <x-text-input name="password" type="password" value="{{ old('password') }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>
+                    <x-text-input name="password" type="password" value="{{ old('password', $employee->users->password ) }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>
                 </div>   
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div x-show="rbmopen">
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
                             <option value="">Select Office-1</option>                            
-                            @foreach ($employee_list as $id => $list)
-                                <option value="{{$id}}" {{ $id ? ($id == $employee->reporting_office_1 ? 'Selected' : '') : '' }}>{{$list}}</option>
+                            @foreach ($employee_list as $list)
+                                @if($list->designation == 'Zonal Manager')
+                                    <option value="{{$list->id}}" {{ $list->id ? ($list->id == $employee->reporting_office_1 ? 'Selected' : '') : '' }}>{{$list->name}}</option>
+                                @endif
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_1')" class="mt-2" /> 
@@ -135,11 +137,11 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
+            console.log(this.mehq);
         },
 
         designation: '',
         designationChange(){
-            console.log("ko")
             if (this.designation == 'Zonal Manager') {
                 this.rbmopen = false;
                 this.abmopen = false;
@@ -158,8 +160,6 @@ document.addEventListener("alpine:init", () => {
                     this.rbm ={{  $employee->reporting_office_1 }};
                 @endif
                 this.reportOffice();
-
-               
                 this.abmopen = true;
 
             } else {                
@@ -171,9 +171,16 @@ document.addEventListener("alpine:init", () => {
                     this.rbm ={{  $employee->reporting_office_1 }};
                 @endif
 
-                @if($employee->reporting_office_3)
-                    this.mehq ={{  $employee->reporting_office_3 }};
+                this.reportOffice();
+                @if($employee->reporting_office_2)
+                    this.abml = {{  $employee->reporting_office_2 }};
                 @endif
+                this.reportOfficeME();
+
+                @if($employee->reporting_office_3)
+                    this.manager ={{  $employee->reporting_office_3 }};
+                @endif
+               
             }
         }
     }));

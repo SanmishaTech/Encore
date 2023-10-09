@@ -33,33 +33,33 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
                         <label>Employee:</label>
-                        <select class="form-input" name="employee">
+                        <select class="form-input" name="employee_id">
                             <option>Select employee</option>                            
                             @foreach ($employees as $id => $employee)
                                     <option value="{{$id}}">{{$employee}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('employee')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
                     </div>
                     <div>
                         <label>Territory:</label>
-                        <select class="form-input" name="territory">
+                        <select class="form-input" name="territory_id">
                             <option>Select Territory</option>                            
                             @foreach ($territories as $id => $territory)
                                     <option value="{{$id}}">{{$territory}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('territory')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('territory_id')" class="mt-2" />
                     </div>
                     <div>
                         <label>Category:</label>
-                        <select class="form-input" name="category">
+                        <select class="form-input" name="category_id">
                             <option>Select Category</option>                            
                             @foreach ($categories as $id => $category)
                                     <option value="{{$id}}">{{$category}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
                     <div>
                         <label>Type:</label>
@@ -74,13 +74,13 @@
                 <div class="grid grid-cols-4 gap-4 mb-4"> 
                     <div>
                         <label>Qualification:</label>
-                        <select class="form-input" name="qualification">
+                        <select class="form-input" name="qualification_id">
                             <option>Select Qualification</option>                            
                             @foreach ($qualifications as $id => $qualification)
                                     <option value="{{$id}}">{{$qualification}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('qualification')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('qualification_id')" class="mt-2" />
                     </div>
                     <x-text-input name="speciality" value="{{ old('speciality') }}" :label="__('Speciality')" :messages="$errors->get('speciality')"/>       
                     <x-text-input name="class" value="{{ old('class') }}" :label="__(' Class')" :messages="$errors->get('class')"/>  

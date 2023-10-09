@@ -226,8 +226,10 @@
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
                             <option value="">Select Office-1</option>
-                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>
+                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($employee->designation == 'Zonal Manager'): ?>
+                                <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
+                                <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -250,10 +252,9 @@
                         <label>Reporting Office 2 :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option value="">Select Office-2</option>
-                            <template x-for="[id, name] in abm" :key="abm.id">
-                                <option :value="abm.id" x-text="abm.name"></option>
-                            </template>
-                        
+                            <template x-for="list in abm" :key="list.id">
+                                <option :value="list.id" x-text="list.name"></option>
+                            </template>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_2'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>

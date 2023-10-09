@@ -50,8 +50,10 @@
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
                             <option value="">Select Office-1</option>
-                            @foreach ($employees as $id => $employee)
-                                <option value="{{$id}}">{{$employee}}</option>
+                            @foreach ($employees as $employee)
+                                @if($employee->designation == 'Zonal Manager')
+                                <option value="{{$employee->id}}">{{$employee->name}}</option>
+                                @endif
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_1')" class="mt-2" /> 
@@ -60,10 +62,9 @@
                         <label>Reporting Office 2 :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option value="">Select Office-2</option>
-                            <template x-for="[id, name] in abm" :key="abm.id">
-                                <option :value="abm.id" x-text="abm.name"></option>
-                            </template>
-                        
+                            <template x-for="list in abm" :key="list.id">
+                                <option :value="list.id" x-text="list.name"></option>
+                            </template>
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  

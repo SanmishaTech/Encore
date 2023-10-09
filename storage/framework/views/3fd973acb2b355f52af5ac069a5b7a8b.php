@@ -207,14 +207,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'password','type' => 'password','value' => ''.e(old('password')).'','require' => true,'label' => __('Password'),'messages' => $errors->get('password')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'password','type' => 'password','value' => ''.e(old('password', $employee->users->password )).'','require' => true,'label' => __('Password'),'messages' => $errors->get('password')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'password','type' => 'password','value' => ''.e(old('password')).'','require' => true,'label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Password')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('password'))]); ?>
+<?php $component->withAttributes(['name' => 'password','type' => 'password','value' => ''.e(old('password', $employee->users->password )).'','require' => true,'label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Password')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('password'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -227,8 +227,10 @@
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
                             <option value="">Select Office-1</option>                            
-                            <?php $__currentLoopData = $employee_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($id); ?>" <?php echo e($id ? ($id == $employee->reporting_office_1 ? 'Selected' : '') : ''); ?>><?php echo e($list); ?></option>
+                            <?php $__currentLoopData = $employee_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($list->designation == 'Zonal Manager'): ?>
+                                    <option value="<?php echo e($list->id); ?>" <?php echo e($list->id ? ($list->id == $employee->reporting_office_1 ? 'Selected' : '') : ''); ?>><?php echo e($list->name); ?></option>
+                                <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -381,11 +383,11 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
+            console.log(this.mehq);
         },
 
         designation: '',
         designationChange(){
-            console.log("ko")
             if (this.designation == 'Zonal Manager') {
                 this.rbmopen = false;
                 this.abmopen = false;
@@ -404,8 +406,6 @@ document.addEventListener("alpine:init", () => {
                     this.rbm =<?php echo e($employee->reporting_office_1); ?>;
                 <?php endif; ?>
                 this.reportOffice();
-
-               
                 this.abmopen = true;
 
             } else {                
@@ -417,9 +417,16 @@ document.addEventListener("alpine:init", () => {
                     this.rbm =<?php echo e($employee->reporting_office_1); ?>;
                 <?php endif; ?>
 
-                <?php if($employee->reporting_office_3): ?>
-                    this.mehq =<?php echo e($employee->reporting_office_3); ?>;
+                this.reportOffice();
+                <?php if($employee->reporting_office_2): ?>
+                    this.abml = <?php echo e($employee->reporting_office_2); ?>;
                 <?php endif; ?>
+                this.reportOfficeME();
+
+                <?php if($employee->reporting_office_3): ?>
+                    this.manager =<?php echo e($employee->reporting_office_3); ?>;
+                <?php endif; ?>
+               
             }
         }
     }));

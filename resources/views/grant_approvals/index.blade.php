@@ -18,35 +18,35 @@
                     <td> &#8377;  {{ @$grant_approval->approval_amount }}</td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
-                            @role(['Admin','ABM'])
+                            @role(['Admin','Area Manager'])
                             @if($grant_approval->status == "Open")
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
                             </li>
                             @endif
                             @endrole
-                            @role(['Admin','ABM'])
-                            @if($grant_approval->status == "Open" || $grant_approval->status == "ABM Approved")
+                            @role(['Admin','Area Manager'])
+                            @if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved")
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                 </li>
                             @endif
                             @endrole
-                            @role(['Admin','RBM/ZBM'])
-                            @if($grant_approval->status == "ABM Approved")
+                            @role(['Admin','Zonal Manager'])
+                            @if($grant_approval->status == "Area Manager Approved")
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
                             </li>
                             @endif
                             @endrole
-                            @role(['Admin','RBM/ZBM'])
-                            @if($grant_approval->status == "Open" || $grant_approval->status == "ABM Approved")
+                            @role(['Admin','Zonal Manager'])
+                            @if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved")
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                 </li>
                             @endif
                             @endrole
-                            @role(['Admin','MEHQ'])
+                            @role(['Admin','Managing Executive'])
                             @if($grant_approval->status != "Cancel")
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="/grant_approvals/cancel/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Cancel</a>
@@ -65,8 +65,6 @@
                 @endforeach
             </table>
         </div>
-
-       
         <div class="fixed inset-0 bg-[black]/60 z-[999] hidden overflow-y-auto"
             :class="open && '!block'">
             <div class="flex items-start justify-center min-h-screen px-4"
@@ -78,7 +76,6 @@
                         Approval
                         <button type="button" @click="toggle"
                             class="text-white-dark hover:text-dark">
-
                             <svg xmlns="http://www.w3.org/2000/svg" width="24px"
                                 height="24px" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="1.5"
@@ -94,7 +91,6 @@
                     <div class="p-5">
                         <form class="space-y-5" action="{{ route('grant_approvals.approval') }}" method="POST">
                         @csrf
-                           
                             <div class="relative mb-4">
                             <x-text-input name="id" x-model="id"  :messages="$errors->get('code')" hidden/>
                                 <x-combo-input name="amount"  :label="__('Approval Amount')"  :messages="$errors->get('amount')"/>
@@ -104,23 +100,10 @@
                             </x-success-button>
                         </form>
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>
     </div>
- 
-
-   
-
-   
-
-    
-
-
-    
-    
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("multicolumn", () => ({
@@ -130,11 +113,9 @@
 
                 init() {
                     this.open= false;
-
-                    
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["ME HQ", "ABM", "RBM/ZBM", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
+                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
                         },
                         searchable: true,
                         perPage: 30,
@@ -165,6 +146,4 @@
             }));
         });
     </script>
-
-
 </x-layout.default>

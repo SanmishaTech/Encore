@@ -40,35 +40,35 @@
                     <td> &#8377;  <?php echo e(@$grant_approval->approval_amount); ?></td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','ABM'])): ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Area Manager'])): ?>
                             <?php if($grant_approval->status == "Open"): ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
                             </li>
                             <?php endif; ?>
                             <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','ABM'])): ?>
-                            <?php if($grant_approval->status == "Open" || $grant_approval->status == "ABM Approved"): ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Area Manager'])): ?>
+                            <?php if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved"): ?>
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
                                 </li>
                             <?php endif; ?>
                             <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','RBM/ZBM'])): ?>
-                            <?php if($grant_approval->status == "ABM Approved"): ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager'])): ?>
+                            <?php if($grant_approval->status == "Area Manager Approved"): ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
                             </li>
                             <?php endif; ?>
                             <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','RBM/ZBM'])): ?>
-                            <?php if($grant_approval->status == "Open" || $grant_approval->status == "ABM Approved"): ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager'])): ?>
+                            <?php if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved"): ?>
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
                                 </li>
                             <?php endif; ?>
                             <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','MEHQ'])): ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
                             <?php if($grant_approval->status != "Cancel"): ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="/grant_approvals/cancel/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Cancel</a>
@@ -115,8 +115,6 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </table>
         </div>
-
-       
         <div class="fixed inset-0 bg-[black]/60 z-[999] hidden overflow-y-auto"
             :class="open && '!block'">
             <div class="flex items-start justify-center min-h-screen px-4"
@@ -128,7 +126,6 @@
                         Approval
                         <button type="button" @click="toggle"
                             class="text-white-dark hover:text-dark">
-
                             <svg xmlns="http://www.w3.org/2000/svg" width="24px"
                                 height="24px" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="1.5"
@@ -144,7 +141,6 @@
                     <div class="p-5">
                         <form class="space-y-5" action="<?php echo e(route('grant_approvals.approval')); ?>" method="POST">
                         <?php echo csrf_field(); ?>
-                           
                             <div class="relative mb-4">
                             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'id','xModel' => 'id','messages' => $errors->get('code'),'hidden' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -196,23 +192,10 @@
 <?php endif; ?>
                         </form>
                     </div>
-                    
-                    
                 </div>
             </div>
         </div>
     </div>
- 
-
-   
-
-   
-
-    
-
-
-    
-    
     <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("multicolumn", () => ({
@@ -222,11 +205,9 @@
 
                 init() {
                     this.open= false;
-
-                    
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["ME HQ", "ABM", "RBM/ZBM", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
+                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
                         },
                         searchable: true,
                         perPage: 30,
@@ -257,8 +238,6 @@
             }));
         });
     </script>
-
-
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

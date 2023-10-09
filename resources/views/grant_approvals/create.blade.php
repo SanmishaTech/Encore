@@ -17,32 +17,29 @@
                 </div>               
                 <div class="grid grid-cols-4 gap-4 mb-4">  
                     <div>
-                        <label>ME HQ :</label>
+                        <label>Managing Executive :</label>
                         <select class="form-input" name="employee_id_1" x-model="employee_id_1" @change="mehqChange()">
-                            <option>Select ME HQ</option>
+                            <option>Select Managing Executive</option>
                             @foreach ($employees as $id=>$employee)                                
                                 <option value="{{$id}}">{{$employee}}</option>                                
-                            @endforeach
-                            
+                            @endforeach                            
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" />
                     </div>
                     
                     <div>
-                        <label>ABM :</label>
+                        <label>Area Manager :</label>
                         <select class="form-input" name="employee_id_2" readonly="true"  x-model="employee_id_2">
-                            <option>Select ABM</option>
+                            <option>Select Area Manager</option>
                             <option key="area.id" :value="area.id" x-text="area.name" ></option>
-                            
-                            
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
                     </div>  
                    
                     <div>
-                        <label>RBM/ZBM :</label>
+                        <label>Zonal Manager :</label>
                         <select class="form-input" name="employee_id_3" readonly="true"  x-model="employee_id_3">
-                            <option>Select RBM/ZBM</option>
+                            <option>Select Zonal Manager</option>
                             <option key="zone.id" :value="zone.id" x-text="zone.name" ></option>
                            
                         </select> 
@@ -61,7 +58,7 @@
                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
                     </div>
                     <x-text-input class="disable" name="mpl_no" x-model="mpl_no" value="{{ old('mpl_no') }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
-                    <x-text-input name="speciality" x-model="speciality"  value="{{ old('speciality') }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
+                    <x-text-input name="speciality" x-model="speciality"  value="{{ old('speciality') }}" :label="__('Speciality')" :messages="$errors->get('speciality')" readonly="true"/>
                     <x-text-input name="location" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
@@ -75,8 +72,27 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date" value="{{ old('date') }}" :label="__('Date')"  :messages="$errors->get('date')"/>
-                    <x-text-input name="proposal_date" value="{{ old('proposal_date') }}" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>                    
+                    <x-text-input name="date" type="date" id="date" value="{{ old('date') }}" :label="__('Date')"  :messages="$errors->get('date')"/>
+                    <!-- <x-text-input name="proposal_month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_month')"/>  -->
+                    <div>
+                        <label>Proposal Month :</label>
+                        <select class="form-input" name="proposal_month">
+                            <option>Select Month</option>
+                            <option value="Jan /2023">Jan /2023</option>
+                            <option value="Feb /2023">Feb /2023</option>
+                            <option value="Mar /2023">Mar /2023</option>
+                            <option value="Apr /2023">Apr /2023</option>
+                            <option value="May /2023">May /2023</option>
+                            <option value="Jun /2023">Jun /2023</option>
+                            <option value="Jul /2023">Jul /2023</option>
+                            <option value="Aug /2023">Aug /2023</option>
+                            <option value="Sep /2023">Sep /2023</option>
+                            <option value="Oct /2023">Oct /2023</option>
+                            <option value="Nov /2023">Nov /2023</option>
+                            <option value="Dec /2023">Dec /2023</option>
+                        </select> 
+                        <x-input-error :messages="$errors->get('proposal_month')" class="mt-2" /> 
+                    </div>
                 </div>       
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <x-text-input name="code" value="{{ old('code') }}" :label="__('Code')"  :messages="$errors->get('code')"/>
@@ -98,7 +114,12 @@
 </div> 
 <script>
 document.addEventListener("alpine:init", () => {
-    Alpine.data('data', () => ({      
+    Alpine.data('data', () => ({   
+        init() {
+            flatpickr(document.getElementById('date'), {
+                dateFormat: 'd/m/Y',
+            });
+        },   
 
         doctor_id: '',
         zone: '',
