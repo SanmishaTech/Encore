@@ -30,9 +30,9 @@
                         <label>Designation :<span style="color: red">*</span></label>
                         <select class="form-input" name="designation" x-model="designation" @change="designationChange()">
                             <option>Select Designation</option>
-                            <option value="RBM/ZBM" @if ($employee->designation == "RBM/ZBM") {{ 'Selected' }} @endif>RBM / ZBM</option>
-                            <option value="ABM" @if ($employee->designation == "ABM") {{ 'Selected' }} @endif>ABM</option>                        
-                            <option value="MEHQ" @if ($employee->designation == "MEHQ") {{ 'Selected' }} @endif>ME HQ</option> 
+                            <option value="Zonal Manager" @if ($employee->designation == "Zonal Manager") {{ 'Selected' }} @endif>Zonal Manager</option>
+                            <option value="Area Manager" @if ($employee->designation == "Area Manager") {{ 'Selected' }} @endif>Area Manager</option>                        
+                            <option value="Managing Executive" @if ($employee->designation == "Managing Executive") {{ 'Selected' }} @endif>Managing Executive</option> 
                             <option value="Operator" @if ($employee->designation == "Operator") {{ 'Selected' }} @endif>Operator</option>
                         </select> 
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
@@ -44,16 +44,15 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name', $employee->fieldforce_name) }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')"/>
                     <x-text-input name="employee_code" value="{{ old('employee_code', $employee->employee_code) }}" :label="__('Employee Code')" :messages="$errors->get('employee_code')" /> 
+                    <x-text-input name="password" type="password" value="{{ old('password') }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>
                 </div>   
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div x-show="rbmopen">
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
-                            <option>Select Office-1</option>                            
-                            @foreach ($employee_list as $list)
-                                @if($list->designation == 'RBM/ZBM')
-                                    <option value="{{$list->id}}" {{ $list->id ? ($list->id == $employee->reporting_office_1 ? 'Selected' : '') : '' }}>{{$list->name}}</option>
-                                @endif
+                            <option value="">Select Office-1</option>                            
+                            @foreach ($employee_list as $id => $list)
+                                <option value="{{$id}}" {{ $id ? ($id == $employee->reporting_office_1 ? 'Selected' : '') : '' }}>{{$list}}</option>
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('reporting_office_1')" class="mt-2" /> 
@@ -61,7 +60,7 @@
                     <div x-show="abmopen">
                         <label>Reporting Office 2 :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
-                            <option>Select Office-2</option>
+                            <option value="">Select Office-2</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" :selected='list.id == abml' x-text="list.name"></option>
                             </template>
@@ -71,7 +70,7 @@
                     <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
                         <select class="form-input" name="reporting_office_3"  x-model="manager">
-                            <option>Select Office-3</option>
+                            <option value="">Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name" :selected='me.id == manager'></option>
                             </template>
@@ -141,18 +140,18 @@ document.addEventListener("alpine:init", () => {
         designation: '',
         designationChange(){
             console.log("ko")
-            if (this.designation == 'RBM/ZBM') {
+            if (this.designation == 'Zonal Manager') {
                 this.rbmopen = false;
                 this.abmopen = false;
                 this.meopen = false;
-            } else if (this.designation == 'ABM') {
+            } else if (this.designation == 'Area Manager') {
                 this.rbmopen = true;
                 this.abmopen = false;
                 this.meopen = false;
                 @if($employee->reporting_office_1)
                     this.rbm ={{  $employee->reporting_office_1 }};
                 @endif
-            } else if (this.designation == 'MEHQ') {
+            } else if (this.designation == 'Managing Executive') {
                 this.rbmopen = true;
                 this.meopen = false;
                 @if($employee->reporting_office_1)

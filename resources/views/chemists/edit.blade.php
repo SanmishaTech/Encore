@@ -22,7 +22,7 @@
                     <div>
                         <label>Employee :</label>
                         <select class="form-input" name="employee_id">
-                            <option>Select Employee Code</option>
+                            <option>Select Employee</option>
                             @foreach ($employees as $id=>$employee)                                
                                 <option value="{{$id}}" {{ $chemist->employee_id ? ($chemist->employee_id == $id ? 'Selected' : '' ) : ''}}>{{$employee}}</option>
                             @endforeach

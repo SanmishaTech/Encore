@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->string('reporting_office_2',255)->nullable();
+            $table->integer('reporting_office_2',11)->unsigned()->nullable();
         });
     }
 

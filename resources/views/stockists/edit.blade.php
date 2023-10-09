@@ -19,11 +19,11 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">     
                     <x-text-input name="stockist" value="{{ old('stockist', $stockist->stockist) }}" :label="__('Stockist Name')" :require="true" :messages="$errors->get('stockist')"/>               
                     <div>
-                        <label>RBM/ZBM :</label>
+                        <label>Zonal Manager :</label>
                         <select class="form-input" name="employee_id_1" x-model="rbm" @change="reportOffice()">
-                            <option>Select RBM/ZBM</option>
+                            <option>Select Zonal Manager</option>
                             @foreach ($employees as $employee)
-                                @if($employee->designation == 'RBM/ZBM')
+                                @if($employee->designation == 'Zonal Manager')
                                 <option value="{{$employee->id}}" {{  $employee->id == $stockist->employee_id_1 ? 'Selected' : '' }}>{{$employee->name}}</option>
                                 @endif
                             @endforeach
@@ -31,9 +31,9 @@
                         <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" /> 
                     </div>
                     <div>
-                        <label>ABM :</label>
+                        <label>Area Manager :</label>
                         <select class="form-input" name="employee_id_2" @change="reportOfficeME()" x-model="abml">
-                            <option>Select ABM</option>
+                            <option>Select Area Manager</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id"  :selected='list.id == abml' x-text="list.name"></option>
                             </template>
@@ -41,9 +41,9 @@
                         <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
                     </div>  
                     <div>
-                        <label>ME HQ :</label>
+                        <label>Managing Executive:</label>
                         <select class="form-input" name="employee_id_3"  x-model="manager">
-                            <option>Select ME HQ</option>
+                            <option>Select Managing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id"  :selected='me.id == manager' x-text="me.name"></option>
                             </template>

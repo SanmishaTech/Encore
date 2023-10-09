@@ -107,9 +107,9 @@
                         <label>Designation :<span style="color: red">*</span></label>
                         <select class="form-input" name="designation" x-model="designation" @change="designationChange()">
                             <option>Select Designation</option>
-                            <option value="RBM/ZBM">RBM / ZBM</option>
-                            <option value="ABM">ABM</option>
-                            <option value="MEHQ">ME HQ</option>
+                            <option value="Zonal Manager">Zonal Manager</option>
+                            <option value="Area Manager">Area Manager</option>
+                            <option value="Managing Executive">Managing Executive</option>
                             <option value="Operator">Operator</option>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -205,16 +205,29 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'password','type' => 'password','value' => ''.e(old('password')).'','require' => true,'label' => __('Password'),'messages' => $errors->get('password')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'password','type' => 'password','value' => ''.e(old('password')).'','require' => true,'label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Password')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('password'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
                 </div>   
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div x-show="rbmopen">
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
-                            <option>Select Office-1</option>
-                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($employee->designation == 'RBM/ZBM'): ?>
-                                <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
-                                <?php endif; ?>
+                            <option value="">Select Office-1</option>
+                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -236,10 +249,11 @@
                     <div x-show="abmopen">
                         <label>Reporting Office 2 :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
-                            <option>Select Office-2</option>
-                            <template x-for="list in abm" :key="list.id">
-                                <option :value="list.id" x-text="list.name"></option>
-                            </template>
+                            <option value="">Select Office-2</option>
+                            <template x-for="[id, name] in abm" :key="abm.id">
+                                <option :value="abm.id" x-text="abm.name"></option>
+                            </template>
+                        
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_2'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -260,7 +274,7 @@
                     <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
                         <select class="form-input" name="reporting_office_3">
-                            <option>Select Office-3</option>
+                            <option value="">Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>
@@ -361,15 +375,15 @@ document.addEventListener("alpine:init", () => {
 
         designation: '',
         designationChange(){
-            if (this.designation == 'RBM/ZBM') {
+            if (this.designation == 'Zonal Manager') {
                 this.rbmopen = false;
                 this.abmopen = false;
                 this.meopen = false;
-            } else if (this.designation == 'ABM') {
+            } else if (this.designation == 'Area Manager') {
                 this.rbmopen = true;
                 this.abmopen = false;
                 this.meopen = false;
-            } else if (this.designation == 'MEHQ') {
+            } else if (this.designation == 'Managing Executive') {
                 this.rbmopen = true;
                 this.abmopen = true;
                 this.meopen = false;

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
-
+use App\Models\Chemist;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChemistRequest extends FormRequest
@@ -22,7 +22,7 @@ class ChemistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'chemist' => 'required|unique:chemists,chemist,'. ($this->chemist ? $this->chemist->id : ''),
+            'chemist' => 'required|unique:chemists,chemist,'. ($this->chemist ? $this->chemist : ''),
            
         ];
     }

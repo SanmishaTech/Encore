@@ -8,9 +8,9 @@
                 @foreach ($stockists as $stockist)
                 <tr>                    
                     <td > {{ $stockist->stockist }}</td>
-                    <td>{{ $stockist->ZonalManager->name }}</td>
-                    <td>{{ $stockist->AreaManager->name }}</td>
-                    <td>{{ $stockist->Manager->name }}</td>
+                    <td>{{ @$stockist->ZonalManager->name }}</td>
+                    <td>{{ @$stockist->AreaManager->name }}</td>
+                    <td>{{ @$stockist->Manager->name }}</td>
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <li style="display: inline-block;vertical-align:top;">
@@ -36,9 +36,9 @@
                         data: {
                             headings: [
                                 "Stockist Name",
-                                "RBM/ZBM",
-                                "ABM",
-                                "ME HQ",
+                                "Zonal Manager",
+                                "Area Manager",
+                                "Managing Executive",
                                 "Action",
                             ],
                         },

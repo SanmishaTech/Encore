@@ -40,11 +40,11 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>        
                     <div>
-                        <label>RBM/ZBM :</label>
+                        <label>Zonal Manager :</label>
                         <select class="form-input" name="employee_id_1" x-model="rbm" @change="reportOffice()">
-                            <option>Select RBM/ZBM</option>
+                            <option>Select Zonal Manager</option>
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($employee->designation == 'RBM/ZBM'): ?>
+                                <?php if($employee->designation == 'Zonal Manager'): ?>
                                 <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -66,9 +66,9 @@
 <?php endif; ?> 
                     </div>
                     <div>
-                        <label>ABM :</label>
+                        <label>Area Manager:</label>
                         <select class="form-input" name="employee_id_2" @change="reportOfficeME()" x-model="abml">
-                            <option>Select ABM</option>
+                            <option>Select Area Manager</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
                             </template>
@@ -90,9 +90,9 @@
 <?php endif; ?>
                     </div>  
                     <div>
-                        <label>ME HQ :</label>
+                        <label>Managing Executive :</label>
                         <select class="form-input" name="employee_id_3">
-                            <option>Select ME HQ</option>
+                            <option>Select Managing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>

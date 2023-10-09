@@ -20,14 +20,10 @@ return new class extends Migration
             $table->string('contact_no_1',20)->nullable();
             $table->string('contact_no_2',20)->nullable();
             $table->string('email',255)->nullable();
-            $table->unsignedBigInteger('employee')->nullable();
-            $table->foreign('employee')->references('id')->on('employees');
-            $table->unsignedBigInteger('qualification')->nullable();
-            $table->foreign('qualification')->references('id')->on('qualifications');
-            $table->unsignedBigInteger('category')->nullable();
-            $table->foreign('category')->references('id')->on('categories');
-            $table->unsignedBigInteger('territory')->nullable();
-            $table->foreign('territory')->references('id')->on('territories');
+            $table->foreignId('employee_id', 11)->nullable();
+            $table->foreignId('qualification_id', 11)->nullable();
+            $table->foreignId('category_id', 11)->nullable(); 
+            $table->foreignId('territory_id', 11)->nullable(); 
             $table->string('state',20)->nullable();
             $table->string('city',20)->nullable();
             $table->string('speciality',20)->nullable();

@@ -25,11 +25,11 @@ class Chemist extends Model
 
     public function Employee() 
     {
-        return $this->belongsTo(Employee::class, 'id');
+        return $this->belongsTo(Employee::class);
     }
 
     public function Territory() 
     {
-        return $this->belongsTo(Territory::class, 'id');
+        return $this->belongsTo(Territory::class);
     }
 }

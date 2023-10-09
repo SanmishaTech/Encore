@@ -16,6 +16,7 @@ class ChemistsController extends Controller
     public function index()
     {
         $chemists = Chemist::with(['Employee', 'Territory'])->get();
+        // dd($chemists);
         return view('chemists.index', compact('chemists'));
     }
 
@@ -24,7 +25,8 @@ class ChemistsController extends Controller
      */
     public function create()
     {
-        $employees = Employee::pluck('employee_code', 'id');
+        // $employees = Employee::pluck('employee_code', 'id');
+        $employees = Employee::pluck('name', 'id');
         $territories = Territory::pluck('name', 'id');
         return view('chemists.create', compact('employees', 'territories'));
     }

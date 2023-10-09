@@ -104,14 +104,14 @@
                 </div>  
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'dob','type' => 'date','value' => ''.e(old('dob')).'','id' => 'dob','label' => __('DOB'),'messages' => $errors->get('dob')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'dob','value' => ''.e(old('dob')).'','id' => 'dob','label' => __('DOB'),'messages' => $errors->get('dob')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'dob','type' => 'date','value' => ''.e(old('dob')).'','id' => 'dob','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DOB')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('dob'))]); ?>
+<?php $component->withAttributes(['name' => 'dob','value' => ''.e(old('dob')).'','id' => 'dob','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DOB')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('dob'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -119,14 +119,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'dow','type' => 'date','value' => ''.e(old('dow')).'','id' => 'dow','label' => __('DOW'),'messages' => $errors->get('dow')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'dow','value' => ''.e(old('dow')).'','id' => 'dow','label' => __('DOW'),'messages' => $errors->get('dow')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'dow','type' => 'date','value' => ''.e(old('dow')).'','id' => 'dow','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DOW')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('dow'))]); ?>
+<?php $component->withAttributes(['name' => 'dow','value' => ''.e(old('dow')).'','id' => 'dow','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DOW')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('dow'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

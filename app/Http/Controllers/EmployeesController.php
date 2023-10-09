@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\User;
 use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee\EmployeeCode;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeesController extends Controller
 {
@@ -18,7 +19,8 @@ class EmployeesController extends Controller
 
     public function create()
     {
-        $employees = Employee::select('id','name','designation')->get();
+        $employees = Employee::Where('designation', 'Zonal Manager')
+                                ->pluck('name', 'id','designation');
         return view('employees.create', ['employees' => $employees]);
     }
 
@@ -27,7 +29,7 @@ class EmployeesController extends Controller
         $input = $request->all();    
 
         $input['name'] = $request->name;
-        $input['password'] = 'abcd123';
+        $input['password'] = Hash::make($request->password);
         $input['active'] = true;        
         $user = User::create($input);     
         $user->syncRoles($input['designation']); 
@@ -38,19 +40,17 @@ class EmployeesController extends Controller
   
     public function show(Employee $employee)
     {        
-        $abm = Employee::select('id','name')
-                        ->where('reporting_office_1',$employee->id)
-                        ->where('designation','ABM')
-                        ->get();
+        $abm = Employee::where('reporting_office_1',$employee->id)
+                        ->where('designation','Area Manager')
+                        ->pluck('name','id');
         return $abm;
     }
     
     public function getReportingOfficer3(Employee $employee)
     {
-        $mehq = Employee::select('id','name')
-                        ->where('reporting_office_2',$employee->id)
-                        ->where('designation','MEHQ')
-                        ->get();
+        $mehq = Employee::where('reporting_office_2',$employee->id)
+                        ->where('designation','Managing Executive')
+                        ->pluck('name','id');
         return $mehq;
     }
 
@@ -62,7 +62,8 @@ class EmployeesController extends Controller
 
     public function edit(Employee $employee)
     {
-        $employee_list = Employee::select('id','name','designation')->get();
+        $employee_list = Employee::where('designation', 'Zonal Manager')
+                                ->pluck('name', 'id');
         return view('employees.edit', ['employee' => $employee, 'employee_list' => $employee_list]);
     }
 
@@ -77,7 +78,7 @@ class EmployeesController extends Controller
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->password = 'abcd123';
+            $user->password = Hash::make($request->password);
             $user->active = true;
             $employee->User()->save($user);
         }
@@ -86,7 +87,7 @@ class EmployeesController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => 'abcd123',
+                'password' => Hash::make($request->password),
                 'active' => true,
             ]);
         }

@@ -58,7 +58,7 @@
                     <div>
                         <label>Employee :</label>
                         <select class="form-input" name="employee_id">
-                            <option>Select Employee Code</option>
+                            <option>Select Employee</option>
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
                                 <option value="<?php echo e($id); ?>" <?php echo e($chemist->employee_id ? ($chemist->employee_id == $id ? 'Selected' : '' ) : ''); ?>><?php echo e($employee); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

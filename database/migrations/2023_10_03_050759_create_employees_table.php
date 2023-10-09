@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('city',20)->nullable();
             $table->string('fieldforce_name',20)->nullable();
             $table->string('employee_code')->nullable();
+            $table->string('password');
             $table->date('dob');
             $table->integer('created_by')->unsigned();
             $table->integer('updated_by')->unsigned();

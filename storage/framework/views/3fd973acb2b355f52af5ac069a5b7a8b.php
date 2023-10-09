@@ -108,9 +108,9 @@
                         <label>Designation :<span style="color: red">*</span></label>
                         <select class="form-input" name="designation" x-model="designation" @change="designationChange()">
                             <option>Select Designation</option>
-                            <option value="RBM/ZBM" <?php if($employee->designation == "RBM/ZBM"): ?> <?php echo e('Selected'); ?> <?php endif; ?>>RBM / ZBM</option>
-                            <option value="ABM" <?php if($employee->designation == "ABM"): ?> <?php echo e('Selected'); ?> <?php endif; ?>>ABM</option>                        
-                            <option value="MEHQ" <?php if($employee->designation == "MEHQ"): ?> <?php echo e('Selected'); ?> <?php endif; ?>>ME HQ</option> 
+                            <option value="Zonal Manager" <?php if($employee->designation == "Zonal Manager"): ?> <?php echo e('Selected'); ?> <?php endif; ?>>Zonal Manager</option>
+                            <option value="Area Manager" <?php if($employee->designation == "Area Manager"): ?> <?php echo e('Selected'); ?> <?php endif; ?>>Area Manager</option>                        
+                            <option value="Managing Executive" <?php if($employee->designation == "Managing Executive"): ?> <?php echo e('Selected'); ?> <?php endif; ?>>Managing Executive</option> 
                             <option value="Operator" <?php if($employee->designation == "Operator"): ?> <?php echo e('Selected'); ?> <?php endif; ?>>Operator</option>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -192,30 +192,43 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => __('Employee Code'),'messages' => $errors->get('employee_code'),'disabled' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => __('Employee Code'),'messages' => $errors->get('employee_code')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Employee Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_code')),'disabled' => true]); ?>
+<?php $component->withAttributes(['name' => 'employee_code','value' => ''.e(old('employee_code', $employee->employee_code)).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Employee Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_code'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'password','type' => 'password','value' => ''.e(old('password')).'','require' => true,'label' => __('Password'),'messages' => $errors->get('password')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'password','type' => 'password','value' => ''.e(old('password')).'','require' => true,'label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Password')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('password'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
                 </div>   
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div x-show="rbmopen">
                         <label>Reporting Office 1 :</label>
                         <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
-                            <option>Select Office-1</option>                            
-                            <?php $__currentLoopData = $employee_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <?php if($list->designation == 'RBM/ZBM'): ?>
-                                    <option value="<?php echo e($list->id); ?>" <?php echo e($list->id ? ($list->id == $employee->reporting_office_1 ? 'Selected' : '') : ''); ?>><?php echo e($list->name); ?></option>
-                                <?php endif; ?>
+                            <option value="">Select Office-1</option>                            
+                            <?php $__currentLoopData = $employee_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $list): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($id); ?>" <?php echo e($id ? ($id == $employee->reporting_office_1 ? 'Selected' : '') : ''); ?>><?php echo e($list); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -237,9 +250,9 @@
                     <div x-show="abmopen">
                         <label>Reporting Office 2 :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
-                            <option>Select Office-2</option>
+                            <option value="">Select Office-2</option>
                             <template x-for="list in abm" :key="list.id">
-                                <option :value="list.id" x-text="list.name"></option>
+                                <option :value="list.id" :selected='list.id == abml' x-text="list.name"></option>
                             </template>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -260,10 +273,10 @@
                     </div>  
                     <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
-                        <select class="form-input" name="reporting_office_3">
-                            <option>Select Office-3</option>
+                        <select class="form-input" name="reporting_office_3"  x-model="manager">
+                            <option value="">Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">
-                                <option :value="me.id" x-text="me.name"></option>
+                                <option :value="me.id" x-text="me.name" :selected='me.id == manager'></option>
                             </template>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -331,6 +344,14 @@ document.addEventListener("alpine:init", () => {
             this.rbmopen = true;
             this.abmopen = true;
             this.meopen = true;
+            this.abm = '';
+            this.mehq = '';
+            this.manager = '';
+            <?php if($employee->designation): ?>
+                this.designation = '<?php echo e($employee->designation); ?>';
+                this.designationChange();
+            <?php endif; ?>
+          
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
             });           
@@ -345,7 +366,10 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
-            console.log(this.abm); 
+
+            <?php if($employee->reporting_office_2): ?>
+                this.abml = <?php echo e($employee->reporting_office_2); ?>;
+            <?php endif; ?>
         },      
 
         mehq: '',
@@ -357,27 +381,45 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
-            console.log(this.mehq);
         },
 
         designation: '',
         designationChange(){
-            if (this.designation == 'RBM/ZBM') {
+            console.log("ko")
+            if (this.designation == 'Zonal Manager') {
                 this.rbmopen = false;
                 this.abmopen = false;
                 this.meopen = false;
-            } else if (this.designation == 'ABM') {
+            } else if (this.designation == 'Area Manager') {
                 this.rbmopen = true;
                 this.abmopen = false;
                 this.meopen = false;
-            } else if (this.designation == 'MEHQ') {
+                <?php if($employee->reporting_office_1): ?>
+                    this.rbm =<?php echo e($employee->reporting_office_1); ?>;
+                <?php endif; ?>
+            } else if (this.designation == 'Managing Executive') {
                 this.rbmopen = true;
-                this.abmopen = true;
                 this.meopen = false;
-            } else {
+                <?php if($employee->reporting_office_1): ?>
+                    this.rbm =<?php echo e($employee->reporting_office_1); ?>;
+                <?php endif; ?>
+                this.reportOffice();
+
+               
+                this.abmopen = true;
+
+            } else {                
                 this.rbmopen = true;
                 this.abmopen = true;
                 this.meopen = true;
+
+                <?php if($employee->reporting_office_1): ?>
+                    this.rbm =<?php echo e($employee->reporting_office_1); ?>;
+                <?php endif; ?>
+
+                <?php if($employee->reporting_office_3): ?>
+                    this.mehq =<?php echo e($employee->reporting_office_3); ?>;
+                <?php endif; ?>
             }
         }
     }));

@@ -8,8 +8,8 @@
                 @foreach ($chemists as $chemist)
                 <tr>                    
                     <td>{{ $chemist->chemist }}</td>
-                    <td>{{ $chemist->employee->name }}</td>
-                    <td>{{ $chemist->territory->name }}</td>
+                    <td>{{ @$chemist->employee->name }}</td>
+                    <td>{{ @$chemist->territory->name }}</td>
                     <td>{{ $chemist->class }}</td>
                     <td>{{ $chemist->email }}</td>
                     <td>{{ $chemist->contact_no_1 }}</td>

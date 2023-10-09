@@ -22,7 +22,7 @@ class GrantApprovalsController extends Controller
     {
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
-        $employees = Employee::where('designation', 'MEHQ')->pluck('name', 'id');
+        $employees = Employee::where('designation', 'Managing Executive')->pluck('name', 'id');
         return view('grant_approvals.create')->with(['employees'=>$employees, 'activities'=>$activities, 'doctors'=>$doctors]);
     }
 
@@ -45,7 +45,7 @@ class GrantApprovalsController extends Controller
     {
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
-        $employees = Employee::where('designation', 'MEHQ')->pluck('name', 'id');
+        $employees = Employee::where('designation', 'Managing Executive')->pluck('name', 'id');
         $grant_approval->load(['GrantApprovalDetail'=>['Employee']]);
         return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
     }
@@ -62,10 +62,10 @@ class GrantApprovalsController extends Controller
        
         $grant_approval = GrantApproval::find($request->id);
         $input = [];
-        if(auth()->user()->roles->pluck('name')->first() == 'RBM/ZBM'){
-            $grant_approval->status = 'RBM/ZBM Approved';
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $grant_approval->status = 'Zonal Manager Approved';
         } else {
-            $grant_approval->status = 'ABM Approved';
+            $grant_approval->status = 'Area Manager Approved';
         }
        
 
@@ -84,10 +84,10 @@ class GrantApprovalsController extends Controller
 
     public function rejected(GrantApproval $grant_approval) 
     {
-        if(auth()->user()->roles->pluck('name')->first() == 'RBM/ZBM'){
-            $grant_approval->status = 'RBM/ZBM Rejected';
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $grant_approval->status = 'Zonal Manager Rejected';
         } else {
-            $grant_approval->status = 'ABM Rejected';
+            $grant_approval->status = 'Area Manager Rejected';
         }
    
         $grant_approval->update();
@@ -107,7 +107,7 @@ class GrantApprovalsController extends Controller
         $grant_approval->update();
         $input = [];
 
-        $input['status'] = 'RBM/ZBM Approved';
+        $input['status'] = 'Zonal Manager Approved';
         $input['amount'] = $grant_approval->amount;
         $input['grant_approval_id'] = $grant_approval->id;
         GrantApprovalDetail::create($input);
@@ -116,7 +116,7 @@ class GrantApprovalsController extends Controller
 
     public function rejectedSecond(GrantApproval $grant_approval) 
     {
-        $grant_approval->status = 'RBM/ZBM Rejected';
+        $grant_approval->status = 'Zonal Manager Rejected';
         $grant_approval->update();
         $input = [];
 
