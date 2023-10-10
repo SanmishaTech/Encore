@@ -4,10 +4,10 @@
         <div class="bg-white dark:bg-[#0e1726] h-full">
             <div class="flex justify-between items-center px-4 py-3">
                 <a href="/" class="main-logo flex items-center shrink-0">
-                    <img class="w-8 ml-[5px] flex-none" src="/assets/images/logo.svg"
+                    <img class="w-8 ml-[5px] flex-none" src="/assets/images/encore-logo-icon.png"
                         alt="image" />
                     <span
-                        class="text-2xl ltr:ml-1.5 rtl:mr-1.5  font-semibold  align-middle lg:inline dark:text-white-light">VRISTO</span>
+                        class="text-2xl ltr:ml-1.5 rtl:mr-1.5  font-semibold  align-middle lg:inline dark:text-white-light">{{ config('app.name', 'Encore') }}</span>
                 </a>
                 <a href="javascript:;"
                     class="collapse-icon w-8 h-8 rounded-full flex items-center hover:bg-gray-500/10 dark:hover:bg-dark-light/10 dark:text-white-light transition duration-300 rtl:rotate-180"
@@ -117,7 +117,7 @@
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'transaction'" x-collapse class="sub-menu text-gray-500">
                         <li><a href="/grant_approvals">Grant Approvals</a></li>
-                        <li><a href="/doctor_business_monitorings">Doctor Business Monitoring</a></li>
+                        <li><a href="/doctor_business_monitorings">Core Doctor Business Monitorings</a></li>
                     </ul>
                 </li> 
                 <li class="menu nav-item">

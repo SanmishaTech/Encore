@@ -29,7 +29,7 @@
                     </div>
                     <div>
                         <label>Area Manager :</label>
-                        <select class="form-input" name="employee_id_2" readonly="true"  x-model="employee_id_2">
+                        <select class="form-input bg-gray-100 dark:bg-gray-700" name="employee_id_2" readonly="true"  x-model="employee_id_2">
                             <option>Select Area Manager</option>
                             <option key="area.id" :value="area.id" x-text="area.name" ></option>
                         </select> 
@@ -37,7 +37,7 @@
                     </div> 
                     <div>
                         <label>Zonal Manager :</label>
-                        <select class="form-input" name="employee_id_3" readonly="true"  x-model="employee_id_3">
+                        <select class="form-input bg-gray-100 dark:bg-gray-700" name="employee_id_3" readonly="true"  x-model="employee_id_3">
                             <option>Select Zonal Manager</option>
                             <option key="zone.id" :value="zone.id" x-text="zone.name" ></option>
                            
@@ -56,9 +56,9 @@
                         </select> 
                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="mpl_no" x-model="mpl_no" value="{{ old('mpl_no', $grant_approval->mpl_no) }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')" />
-                    <x-text-input name="speciality" x-model="speciality"  value="{{ old('speciality', $grant_approval->speciality) }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" />
-                    <x-text-input name="location" x-model="location" value="{{ old('location', $grant_approval->location) }}" :label="__('Location')"  :messages="$errors->get('location')" />
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="mpl_no" x-model="mpl_no" value="{{ old('mpl_no', $grant_approval->mpl_no) }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="speciality" x-model="speciality"  value="{{ old('speciality', $grant_approval->speciality) }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="location" x-model="location" value="{{ old('location', $grant_approval->location) }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
@@ -94,7 +94,7 @@
                     </div>
                 </div>       
                 <div class="grid grid-cols-4 gap-4 mb-4">
-                    <x-text-input name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
                     <x-combo-input name="amount" value="{{ old('amount',$grant_approval->amount) }}" :label="__('Amount')"  :messages="$errors->get('amount')"/>
                     <x-combo-input name="email" value="{{ old('email',$grant_approval->email) }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
                 </div> 

@@ -29,7 +29,7 @@ class ProductsController extends Controller
   
     public function show(Product $product)
     {
-        //
+        return $product->nrv;
     }
 
     public function edit(Product $product)

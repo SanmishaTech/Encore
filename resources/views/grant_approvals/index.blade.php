@@ -1,7 +1,9 @@
 <x-layout.default>
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
-        <x-add-button :link="route('grant_approvals.create')" />
+        @role(['Admin','Zonal Manager','Managing Executive'])
+            <x-add-button :link="route('grant_approvals.create')" />
+        @endrole
         <div class="panel mt-6 table-responsive">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Grant Approvals
             </h5>
@@ -13,46 +15,52 @@
                     <td>{{ @$grant_approval->ZonalManager->name }}</td>
                     <td>{{ @$grant_approval->Doctor->doctor_name }}</td>
                     <td>{{ @$grant_approval->Activity->name }}</td>
+                    <td>{{ @$grant_approval->code }}</td> 
                     <td>{{ @$grant_approval->status }}</td>           
                     <td> &#8377;  {{ @$grant_approval->amount }}</td>           
                     <td> &#8377;  {{ @$grant_approval->approval_amount }}</td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
-                            @role(['Admin','Area Manager'])
+                            @role(['Area Manager'])
                             @if($grant_approval->status == "Open")
-                            <li style="display: inline-block;vertical-align:top;">
-                                <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
-                            </li>
-                            @endif
-                            @endrole
-                            @role(['Admin','Area Manager'])
-                            @if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved")
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
+                                </li>
+                            
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                 </li>
                             @endif
                             @endrole
-                            @role(['Admin','Zonal Manager'])
-                            @if($grant_approval->status == "Area Manager Approved")
-                            <li style="display: inline-block;vertical-align:top;">
-                                <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
-                            </li>
-                            @endif
-                            @endrole
-                            @role(['Admin','Zonal Manager'])
-                            @if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved")
+
+                            @role(['Zonal Manager'])
+                                @if($grant_approval->status == "Area Manager Approved")
                                 <li style="display: inline-block;vertical-align:top;">
-                                    <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
                                 </li>
-                            @endif
+                                @endif
+                          
+                                @if($grant_approval->status == "Area Manager Approved")
+                                    <li style="display: inline-block;vertical-align:top;">
+                                        <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                    </li>
+                                @endif
+                            @endrole
+                            @role(['Admin'])
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
+                                </li>
+                                    <li style="display: inline-block;vertical-align:top;">
+                                        <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                    </li>
                             @endrole
                             @role(['Admin','Managing Executive'])
                             @if($grant_approval->status != "Cancel")
                             <li style="display: inline-block;vertical-align:top;">
                                 <a href="/grant_approvals/cancel/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Cancel</a>
                             </li>
-                            @endrole
                             @endif
+                            @endrole
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
                             </li>
@@ -115,7 +123,7 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
+                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity", "Code", "Status", "Amount", "Approved Amount", "Action"],
                         },
                         searchable: true,
                         perPage: 30,

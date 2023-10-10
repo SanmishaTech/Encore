@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +26,7 @@ class DoctorBusinessMonitoring extends Model
         'mpl_no',
         'speciality',
         'location',
-        'proposal_month',
+        'month',
         'amount',
         'code',
     ];
@@ -38,11 +39,6 @@ class DoctorBusinessMonitoring extends Model
     public function getDateAttribute($value)
     {
         return Carbon::parse($value)->format('d/m/Y');
-    }
-
-    public function Products() 
-    {
-        return $this->hasMany(Product::class);
     }
 
     public function Doctor() 
@@ -63,5 +59,10 @@ class DoctorBusinessMonitoring extends Model
     public function Manager() 
     {
         return $this->belongsTo(Employee::class, 'employee_id_3');
+    }
+
+    public function ProductDetails()
+    {
+        return $this->hasMany(ProductDetail::class);
     }
 }

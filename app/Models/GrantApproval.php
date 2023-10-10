@@ -30,6 +30,7 @@ class GrantApproval extends Model
         'code',
         'contact_no',
         'email',
+        'status',
     ];
     
     public function setDateAttribute($value)

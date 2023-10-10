@@ -9,7 +9,8 @@
 <?php $component->withAttributes([]); ?>
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
-        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager','Managing Executive'])): ?>
+            <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.add-button','data' => ['link' => route('grant_approvals.create')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('add-button'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -24,6 +25,7 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
+        <?php endif; ?>
         <div class="panel mt-6 table-responsive">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Grant Approvals
             </h5>
@@ -35,38 +37,44 @@
                     <td><?php echo e(@$grant_approval->ZonalManager->name); ?></td>
                     <td><?php echo e(@$grant_approval->Doctor->doctor_name); ?></td>
                     <td><?php echo e(@$grant_approval->Activity->name); ?></td>
+                    <td><?php echo e(@$grant_approval->code); ?></td> 
                     <td><?php echo e(@$grant_approval->status); ?></td>           
                     <td> &#8377;  <?php echo e(@$grant_approval->amount); ?></td>           
                     <td> &#8377;  <?php echo e(@$grant_approval->approval_amount); ?></td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Area Manager'])): ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Area Manager'])): ?>
                             <?php if($grant_approval->status == "Open"): ?>
-                            <li style="display: inline-block;vertical-align:top;">
-                                <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
-                            </li>
-                            <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Area Manager'])): ?>
-                            <?php if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved"): ?>
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
+                                </li>
+                            
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
                                 </li>
                             <?php endif; ?>
                             <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager'])): ?>
-                            <?php if($grant_approval->status == "Area Manager Approved"): ?>
-                            <li style="display: inline-block;vertical-align:top;">
-                                <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
-                            </li>
-                            <?php endif; ?>
-                            <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager'])): ?>
-                            <?php if($grant_approval->status == "Open" || $grant_approval->status == "Area Manager Approved"): ?>
+
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Zonal Manager'])): ?>
+                                <?php if($grant_approval->status == "Area Manager Approved"): ?>
                                 <li style="display: inline-block;vertical-align:top;">
-                                    <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
+                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
                                 </li>
+                                <?php endif; ?>
+                          
+                                <?php if($grant_approval->status == "Area Manager Approved"): ?>
+                                    <li style="display: inline-block;vertical-align:top;">
+                                        <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
+                                    </li>
+                                <?php endif; ?>
                             <?php endif; ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
+                                </li>
+                                    <li style="display: inline-block;vertical-align:top;">
+                                        <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
+                                    </li>
                             <?php endif; ?>
                             <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
                             <?php if($grant_approval->status != "Cancel"): ?>
@@ -207,7 +215,7 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity",  'Status', 'Amount', 'Approved Amount', "Action"],
+                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity", "Code", "Status", "Amount", "Approved Amount", "Action"],
                         },
                         searchable: true,
                         perPage: 30,

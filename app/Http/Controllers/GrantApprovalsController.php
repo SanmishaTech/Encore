@@ -15,12 +15,44 @@ class GrantApprovalsController extends Controller
 {
     public function index()
     {
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        if($authUser == 'Managing Executive'){
+            $manager = auth()->user()->id;
+            $grant_approvals = GrantApproval::with(['ZonalManager', 'AreaManager', 'Manager', 'Doctor', 'Activity'])
+            ->where('employee_id_1', $manager)
+            ->get();
+            return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
+        } elseif($authUser == 'Area Manager'){
+            $abm = auth()->user()->id;
+            $grant_approvals = GrantApproval::with(['ZonalManager', 'AreaManager', 'Manager', 'Doctor', 'Activity'])
+            ->where('employee_id_2', $abm)
+            ->get();
+            return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
+        } elseif($authUser == 'Zonal Manager'){
+            $rbm = auth()->user()->id;
+            $grant_approvals = GrantApproval::with(['ZonalManager', 'AreaManager', 'Manager', 'Doctor', 'Activity'])
+            ->where('employee_id_3', $rbm)
+            ->where('status', "Area Manager Approved")
+            ->where('approved_by_area', true)
+            ->get();
+            return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
+        }
         $grant_approvals = GrantApproval::with(['ZonalManager', 'AreaManager', 'Manager', 'Doctor', 'Activity'])->get();
         return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
     }
 
     public function create()
     {
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        if($authUser == 'Managing Executive'){
+            $manager = auth()->user()->id;
+            $doctors = Doctor::pluck('doctor_name', 'id');
+            $activities = Activity::pluck('name', 'id');
+            $employees = Employee::where('designation', 'Managing Executive')
+                                    ->where('id', $manager)
+                                    ->pluck('name', 'id');
+            return view('grant_approvals.create')->with(['employees'=>$employees, 'activities'=>$activities, 'doctors'=>$doctors]);
+        }
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
         $employees = Employee::where('designation', 'Managing Executive')->pluck('name', 'id');
@@ -57,10 +89,9 @@ class GrantApprovalsController extends Controller
 
     public function update(GrantApproval $grant_approval, GrantApprovalRequest $request) 
     {
-        if($request->code == null){
-            $codeGrantApproval = new GrantApproval();  
-            $request->code = $codeGrantApproval->codeGenerate();
-            // dd('hi');
+        if(empty($grant_approval->code)){
+            $code = new GrantApproval();  
+            $grant_approval->code = $code->codeGenerate();
         }
         $grant_approval->update($request->all());
         $request->session()->flash('success', 'Grant Approval updated successfully!');
@@ -73,9 +104,15 @@ class GrantApprovalsController extends Controller
         $input = [];
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $grant_approval->status = 'Zonal Manager Approved';
-        } else {
+            $grant_approval->approved_by_zonal = true;
+        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
             $grant_approval->status = 'Area Manager Approved';
-        }       
+            $grant_approval->approved_by_area = true;
+        } else{
+            if($grant_approval->approved_by_area = true){
+                $grant_approval->status = 'Zonal Manager Approved';
+            }
+        }     
         $grant_approval->approval_amount = $request->amount;    
         $grant_approval->update();
         $input = [];
@@ -89,9 +126,11 @@ class GrantApprovalsController extends Controller
     public function rejected(GrantApproval $grant_approval) 
     {
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
-            $grant_approval->status = 'Zonal Manager Rejected';
+            $grant_approval->status = 'Zonal Manager Rejected';            
+            $grant_approval->approved_by_zonal = false;
         } else {
-            $grant_approval->status = 'Area Manager Rejected';
+            $grant_approval->status = 'Area Manager Rejected';            
+            $grant_approval->approved_by_area = false;
         }   
         $grant_approval->update();
         $input = [];
