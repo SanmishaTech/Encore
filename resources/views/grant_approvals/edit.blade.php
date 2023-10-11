@@ -19,31 +19,16 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">  
                     <div>
                         <label>Managing Executive :</label>
-                        <select class="form-input" name="employee_id_1" x-model="employee_id_1" @change="mehqChange()">
+                        <select class="form-input" name="employee_id" x-model="employee_id" @change="mehqChange()">
                             <option>Select Managing Executive</option>
                             @foreach ($employees as $id=>$employee)                                
-                                <option value="{{$id}}">{{$employee}}</option>                                
+                                <option value="{{$id}}" {{ $id ? ($id == $grant_approval->employee_id ? 'Selected' : '') : '' }}>{{$employee}}</option>                                
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" />
                     </div>
-                    <div>
-                        <label>Area Manager :</label>
-                        <select class="form-input bg-gray-100 dark:bg-gray-700" name="employee_id_2" readonly="true"  x-model="employee_id_2">
-                            <option>Select Area Manager</option>
-                            <option key="area.id" :value="area.id" x-text="area.name" ></option>
-                        </select> 
-                        <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
-                    </div> 
-                    <div>
-                        <label>Zonal Manager :</label>
-                        <select class="form-input bg-gray-100 dark:bg-gray-700" name="employee_id_3" readonly="true"  x-model="employee_id_3">
-                            <option>Select Zonal Manager</option>
-                            <option key="zone.id" :value="zone.id" x-text="zone.name" ></option>
-                           
-                        </select> 
-                        <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" /> 
-                    </div>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Zonal Manager')"  :messages="$errors->get('employee_id_2')" x-model="zone" readonly="true"/>                      
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
@@ -56,9 +41,9 @@
                         </select> 
                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="mpl_no" x-model="mpl_no" value="{{ old('mpl_no', $grant_approval->mpl_no) }}" :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="speciality" x-model="speciality"  value="{{ old('speciality', $grant_approval->speciality) }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="location" x-model="location" value="{{ old('location', $grant_approval->location) }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" x-model="mpl_no" :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="speciality"   :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" x-model="location" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
@@ -71,7 +56,7 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date" id="date" value="{{ old('date', $grant_approval->date) }}" :label="__('Date')"  :messages="$errors->get('date')"/>
+                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue', $grant_approval->date_of_issue) }}" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
                     <!-- <x-text-input name="proposal_month" value="{{ old('proposal_month',$grant_approval->proposal_month) }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_date')"/>                     -->
                     <div>
                         <label>Proposal Month :<span style="color: red">*</span></label>
@@ -95,7 +80,7 @@
                 </div>       
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
-                    <x-combo-input name="amount" value="{{ old('amount',$grant_approval->amount) }}" :label="__('Amount')"  :messages="$errors->get('amount')"/>
+                    <x-combo-input name="proposal_amount" value="{{ old('proposal_amount',$grant_approval->proposal_amount) }}" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
                     <x-combo-input name="email" value="{{ old('email',$grant_approval->email) }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
                 </div> 
                 <div class="flex justify-end mt-4">
@@ -150,8 +135,8 @@ document.addEventListener("alpine:init", () => {
                 this.doctorChange();
             @endif
 
-            @if($grant_approval->employee_id_1)
-                this.employee_id_1 ={{  $grant_approval->employee_id_1 }};
+            @if($grant_approval->employee_id)
+                this.employee_id ={{  $grant_approval->employee_id }};
                 this.mehqChange();
             @endif
             flatpickr(document.getElementById('date'), {
@@ -159,10 +144,11 @@ document.addEventListener("alpine:init", () => {
             });            
         },
 
+        doctor: '',
         doctor_id: '',
         zone: '',
         area: '',
-        employee_id_1: '',
+        employee_id: '',
         employee_id_2: '',
         employee_id_3: '',
         doctorDate: '',
@@ -183,15 +169,15 @@ document.addEventListener("alpine:init", () => {
         },
 
         async mehqChange() {
-            this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id_1, {
+            this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id, {
                 
             method: 'GET',
             headers: {
                 'Content-type': 'application/json;',
             },
             })).json();
-            this.area = this.data.area_manager;
-            this.zone = this.data.zonal_manager;
+            this.area = this.data.area_manager.name;
+            this.zone = this.data.zonal_manager.name;
             console.log(this.data.area_manager.name);
         }
     }));

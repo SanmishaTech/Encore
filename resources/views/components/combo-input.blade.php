@@ -2,7 +2,7 @@
 
 <div>
     <label>
-        {{ $label ?? $slot }}: 
+        {{ $label  }}: 
         @if($require)
         <span style="color: red">*</span>
         @endif

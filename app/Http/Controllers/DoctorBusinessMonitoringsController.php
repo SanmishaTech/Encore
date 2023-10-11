@@ -14,14 +14,33 @@ class DoctorBusinessMonitoringsController extends Controller
 {
     public function index()
     {
-        $doctor_business_monitorings = DoctorBusinessMonitoring::all();
+        $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])->orderBy('id', 'DESC')->get();
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        $conditions = [];
+        if($authUser == 'Managing Executive'){            
+            $conditions[] = ['employee_id', auth()->user()->id];
+          
+        } elseif($authUser == 'Area Manager'){
+           
+           
+        } elseif($authUser == 'Zonal Manager'){
+                  
+        }       
+        $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->get();
         return view('doctor_business_monitorings.index', ['doctor_business_monitorings' => $doctor_business_monitorings]);
     }
 
     public function create()
     {
         $products = Product::pluck('name', 'id');
-        $gaf_code = GrantApproval::pluck('code', 'id');
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        $conditions = [];
+        $conditions[] = ['approval_level_2', true];
+        if($authUser == 'Managing Executive'){            
+            $conditions[] = ['employee_id', auth()->user()->id];
+          
+        }   
+        $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
         return view('doctor_business_monitorings.create')->with(['gaf_code' => $gaf_code, 'products' => $products]);
     }
 
@@ -61,10 +80,18 @@ class DoctorBusinessMonitoringsController extends Controller
 
     public function edit(DoctorBusinessMonitoring $doctor_business_monitoring)
     {
-        $doctors = Doctor::pluck('doctor_name', 'id');
-        $gaf_code = GrantApproval::pluck('code', 'id');
+        $doctors = Doctor::pluck('doctor_name', 'id');       
         $employees = Employee::pluck('name', 'id');
         $products = Product::pluck('name', 'id');
+
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        $conditions = [];
+        $conditions[] = ['approval_level_2', true];
+        if($authUser == 'Managing Executive'){            
+            $conditions[] = ['employee_id', auth()->user()->id];
+          
+        }   
+        $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
         return view('doctor_business_monitorings.edit', ['doctor_business_monitoring' => $doctor_business_monitoring, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products]);        
     }
 

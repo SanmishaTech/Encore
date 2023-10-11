@@ -30,8 +30,8 @@
                 <?php $__currentLoopData = $chemists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $chemist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>                    
                     <td><?php echo e($chemist->chemist); ?></td>
-                    <td><?php echo e($chemist->employee->name); ?></td>
-                    <td><?php echo e($chemist->territory->name); ?></td>
+                    <td><?php echo e(@$chemist->employee->name); ?></td>
+                    <td><?php echo e(@$chemist->territory->name); ?></td>
                     <td><?php echo e($chemist->class); ?></td>
                     <td><?php echo e($chemist->email); ?></td>
                     <td><?php echo e($chemist->contact_no_1); ?></td>

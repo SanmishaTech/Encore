@@ -3,7 +3,7 @@
         <div class="relative bg-white flex w-full items-center px-5 py-2.5 dark:bg-[#0e1726]">
             <div class="horizontal-logo flex lg:hidden justify-between items-center ltr:mr-2 rtl:ml-2">
                 <a href="/" class="main-logo flex items-center shrink-0">
-                    <img class="w-8 ltr:-ml-1 rtl:-mr-1 inline" src="/assets/images/logo.svg"
+                    <img class="w-8 ltr:-ml-1 rtl:-mr-1 inline" src="/assets/images/encore-logo-icon.png"
                         alt="image" />
                     <span
                         class="text-2xl ltr:ml-1.5 rtl:mr-1.5  font-semibold  align-middle hidden md:inline dark:text-white-light transition-all duration-300"><?php echo e(config('app.name', 'Laravel')); ?></span>
@@ -453,6 +453,18 @@
                                     </g>
                                 </svg>
                                 Change Password</a>
+                        </li>
+                        <li>
+                            <a href="/profile/edit/<?php echo e(Auth::user()->id); ?>" class="dark:hover:text-white" @click="toggle">
+                            <svg class="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" width="18" height="18"
+                                    viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="6" r="4" stroke="currentColor"
+                                        stroke-width="1.5" />
+                                    <path opacity="0.5"
+                                        d="M20 17.5C20 19.9853 20 22 12 22C4 22 4 19.9853 4 17.5C4 15.0147 7.58172 13 12 13C16.4183 13 20 15.0147 20 17.5Z"
+                                        stroke="currentColor" stroke-width="1.5" />
+                                </svg>
+                                Profile</a>
                         </li>
                         <form id="logout-form" method="POST" action="<?php echo e(route('logout')); ?>">
                             <?php echo csrf_field(); ?>

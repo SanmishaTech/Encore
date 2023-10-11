@@ -1,6 +1,6 @@
 @props(['disabled' => false, 'label', 'require' => false, 'messages'])
 <div>
-    @if(isset($label))
+    @if(!empty($label))
         <label>
             {{ $label ?? $slot }}: 
             @if($require)

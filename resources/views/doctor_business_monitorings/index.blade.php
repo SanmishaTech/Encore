@@ -3,14 +3,15 @@
     <div x-data="multicolumn"> 
         <x-add-button :link="route('doctor_business_monitorings.create')" />
         <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Doctor Business Monitoring</h5>
+            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Core Doctor Business Monitoring</h5>
             <table id="myTable" class="whitespace-nowrap">
                 @foreach ($doctor_business_monitorings as $doctor_business_monitoring)
                 <tr>   
-                    <td>{{ @$doctor_business_monitoring->Manager->name }}</td>           
-                    <td>{{ @$doctor_business_monitoring->AreaManager->name }}</td>
-                    <td>{{ @$doctor_business_monitoring->ZonalManager->name }}</td>
-                    <td>{{ @$doctor_business_monitoring->Doctor->doctor_name }}</td>
+                    <td>{{ @$doctor_business_monitoring->GrantApproval->code }}</td>           
+                    <td>{{ @$doctor_business_monitoring->GrantApproval->Manager->name }}</td>           
+                    <td>{{ @$doctor_business_monitoring->GrantApproval->Manager->AreaManager->name }}</td>
+                    <td>{{ @$doctor_business_monitoring->GrantApproval->Manager->ZonalManager->name }}</td>
+                    <td>{{ @$doctor_business_monitoring->GrantApproval->Doctor->doctor_name }}</td>
                     <td>{{ $doctor_business_monitoring->roi }}</td>
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
@@ -36,7 +37,7 @@
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
                             headings: [
-                                "Managing Executive", "Area Manager", "Zonal Manager", "Doctor", "ROI","Action"
+                                "Code", "Managing Executive", "Area Manager", "Zonal Manager", "Doctor", "ROI","Action"
                             ],
                         },
                         searchable: true,

@@ -22,7 +22,7 @@ class DoctorBusinessMonitoringRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required', 
+            'grant_approval_id' => 'required', 
         ];
     }
 }

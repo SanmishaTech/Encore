@@ -16,17 +16,12 @@ class DoctorBusinessMonitoring extends Model
 {
     use HasFactory, CreatedUpdatedBy;
     protected $fillable = [
-        'employee_id_1',
-        'employee_id_2',
-        'employee_id_3',
+        'grant_approval_id',
         'date',
         'roi',
         'product_id',
         'nrv',
-        'doctor_id',
-        'mpl_no',
-        'speciality',
-        'location',
+        'doctor_id',     
         'month',
         'amount',
         'code',
@@ -47,20 +42,7 @@ class DoctorBusinessMonitoring extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function ZonalManager() 
-    {
-        return $this->belongsTo(Employee::class, 'employee_id_1');
-    }
-
-    public function AreaManager() 
-    {
-        return $this->belongsTo(Employee::class, 'employee_id_2');
-    }
-
-    public function Manager() 
-    {
-        return $this->belongsTo(Employee::class, 'employee_id_3');
-    }
+   
 
     public function ProductDetails()
     {

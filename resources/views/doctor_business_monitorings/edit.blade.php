@@ -2,7 +2,7 @@
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
-            <a href="{{ route('doctor_business_monitorings.index') }}" class="text-primary hover:underline">DBM</a>
+            <a href="{{ route('doctor_business_monitorings.index') }}" class="text-primary hover:underline">CDBM</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
             <span>Edit</span>
@@ -19,52 +19,28 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
                         <label>GAF Code :<span style="color: red">*</span></label>
-                        <select class="form-input" name="code" x-model="code" @change="codeChange()">
-                            <option>Select Code</option>
+                        <select class="form-input" name="code" x-model="code" id="code" @change="codeChange()">
                             @foreach ($gaf_code as $id => $code)
                                 <option value="{{$id}}" {{ $doctor_business_monitoring->code ? ($doctor_business_monitoring->code == $id ? 'Selected' : '' ) : ''}}>{{ $code }}</option>
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('code')" class="mt-2" /> 
                     </div>
-                    <div>
-                        <label>Managing Executive:</label>
-                        <select class="form-input bg-gray-100 dark:bg-gray-700" x-model="employee_id_1" name="employee_id_1" >
-                            <option>Select Managing Executive</option>
-                            <option key="manager.id" :value="manager.id" x-text="manager.name" ></option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Area Manager :</label>
-                        <select class="form-input bg-gray-100 dark:bg-gray-700" name="employee_id_2" readonly="true"  x-model="employee_id_2">
-                            <option>Select Area Manager</option>
-                            <option key="area.id" :value="area.id" x-text="area.name" ></option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Zonal Manager :</label>
-                        <select class="form-input bg-gray-100 dark:bg-gray-700" name="employee_id_3" readonly="true"  x-model="employee_id_3">
-                            <option>Select Zonal Manager</option>
-                            <option key="zone.id" :value="zone.id" x-text="zone.name" ></option>
-                        </select> 
-                    </div> 
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Managing Executive')"  :messages="$errors->get('employee_id_2')" x-model="manager" readonly="true"/>                       
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Zonal Manager')"  :messages="$errors->get('employee_id_2')" x-model="zone" readonly="true"/>   
                 </div>
                 <div class="grid grid-cols-4 gap-4 mb-4">
-                    <div>
-                        <label>Doctor:</label>
-                        <select class="form-input bg-gray-100 dark:bg-gray-700" x-model="doctor_id" name="doctor_id" readonly="true">
-                            <option>Select Doctor</option>
-                            <option key="docData.id" :value="docData.id" x-text="docData.doctor_name" ></option>
-                        </select> 
-                    </div>  
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="mpl_no" value="{{ old('mpl_no', $doctor_business_monitoring->mpl_no) }}" :label="__('MPL NO')"  :messages="$errors->get('mpl_no')" readonly="true"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="speciality" value="{{ old('speciality', $doctor_business_monitoring->speciality) }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="location" value="{{ old('location',$doctor_business_monitoring->location) }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
-                </div> 
-                <div class="grid grid-cols-4 gap-4 mb-4">
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="date" id="date" value="{{ old('date', $doctor_business_monitoring->date) }}" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="month" value="{{ old('month', $doctor_business_monitoring->month) }}" id="month" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>      
-                    <x-combo-input class="bg-gray-100 dark:bg-gray-700" name="amount" value="{{ old('amount', $doctor_business_monitoring->amount) }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
+                   
+                   <x-text-input class="bg-gray-100 dark:bg-gray-700" x-model="doctor"  :label="__('Doctor Name')"  :messages="$errors->get('doctor_id')" readonly="true"/>
+                   <x-text-input name="mpl_no" class="bg-gray-100 dark:bg-gray-700" x-model="mpl_no" value="{{ old('mpl_no') }}" :label="__('MPL NO')"  :messages="$errors->get('mpl_no')" readonly="true"/>
+                   <x-text-input name="speciality" class="bg-gray-100 dark:bg-gray-700" x-model="speciality" value="{{ old('speciality') }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
+                   <x-text-input name="location" class="bg-gray-100 dark:bg-gray-700" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
+               </div>
+               <div class="grid grid-cols-4 gap-4 mb-4">
+                   <x-text-input name="date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('date') }}" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
+                   <x-text-input name="month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
+                   <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
                     <x-text-input name="roi" value="{{ old('roi', $doctor_business_monitoring->roi) }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
                 </div>    
             </div>
@@ -216,8 +192,13 @@ document.addEventListener("alpine:init", () => {
         nrv: '',     
         productDetails: [],       
         init() {
-            @if($doctor_business_monitoring->code)
-                this.code ={{  $doctor_business_monitoring->code }};
+            var options = {
+                searchable: true
+            };
+            console.log(this.code);
+            NiceSelect.bind(document.getElementById("code"), options);
+            @if($doctor_business_monitoring->grant_approval_id)
+                this.code.val({{  $doctor_business_monitoring->grant_approval_id }});
                 this.codeChange();
             @endif
 
@@ -272,7 +253,7 @@ document.addEventListener("alpine:init", () => {
         employee_id_1: '',
         employee_id_2: '',
         employee_id_3: '',
-        doctor_id: '',
+        doctor: '',
         mpl_no: '',
         speciality: '',
         location: '',
@@ -292,16 +273,16 @@ document.addEventListener("alpine:init", () => {
                 },
             })).json();
             console.log(this.data.doctor)
-            this.manager = this.data.manager;
-            this.area = this.data.area_manager;
-            this.zone = this.data.zonal_manager;
-            this.docData = this.data.doctor;
-            this.mpl_no = this.data.mpl_no;
-            this.location = this.data.location;
-            this.speciality = this.data.speciality;
-            this.date = this.data.date;
+            this.manager = this.data.manager.name;
+            this.area = this.data.manager.area_manager.name;
+            this.zone = this.data.manager.zonal_manager.name;
+            this.doctor = this.data.doctor.doctor_name;
+            this.mpl_no = this.data.doctor.mpl_no;
+            this.location = this.data.doctor.type;
+            this.speciality = this.data.doctor.speciality;
+            this.date = this.data.date_of_issue;
             this.month = this.data.proposal_month;
-            this.amount = this.data.amount;
+            this.amount = this.data.proposal_amount;
         },
     }));
 });

@@ -15,30 +15,24 @@ class GrantApproval extends Model
 {
     use HasFactory, CreatedUpdatedBy;
     protected $fillable = [
-        'employee_id_1',
-        'employee_id_2',
-        'employee_id_3',
+        'employee_id',
         'doctor_id',
-        'mpl_no',
-        'speciality',
-        'location',
-        'date',
-        // 'proposal_date',
+        'date_of_issue',
         'proposal_month',
         'activity_id',
-        'amount',
+        'proposal_amount',
         'code',
         'contact_no',
         'email',
         'status',
     ];
     
-    public function setDateAttribute($value)
+    public function setDateOfIssueAttribute($value)
     {
-        $this->attributes['date'] = Carbon::createFromFormat('d/m/Y', $value);
+        $this->attributes['date_of_issue'] = Carbon::createFromFormat('d/m/Y', $value);
     }
 
-    public function getDateAttribute($value)
+    public function getDateOfIssueAttribute($value)
     {
         return Carbon::parse($value)->format('d/m/Y');
     }
@@ -68,19 +62,10 @@ class GrantApproval extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function ZonalManager() 
-    {
-        return $this->belongsTo(Employee::class, 'employee_id_1');
-    }
-
-    public function AreaManager() 
-    {
-        return $this->belongsTo(Employee::class, 'employee_id_2');
-    }
 
     public function Manager() 
     {
-        return $this->belongsTo(Employee::class, 'employee_id_3');
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     public static function codeGenerate(): void
