@@ -11,7 +11,7 @@ class ActivitiesController extends Controller
 {
     public function index()
     {
-        $activities = Activity::all();
+        $activities = Activity::orderBy('id', 'desc')->get();
         return view('activities.index', ['activities' => $activities]);
     }
 

@@ -15,7 +15,7 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Product</h5>
                 </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">     
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3">     
                     <x-text-input name="name" value="{{ old('name') }}" :label="__('Product Name')" :require="true" :messages="$errors->get('name')"/>                       
                     <x-combo-input name="nrv" value="{{ old('nrv') }}" :label="__('NRV (INR)')" :require="true" :messages="$errors->get('nrv')"/>
                 </div>

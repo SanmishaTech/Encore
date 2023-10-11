@@ -16,7 +16,7 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit User</h5>
                 </div>   
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3">
                         <x-text-input name="name" value="{{ old('name', $user->name) }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>  
                         <x-text-input name="email" value="{{ old('email', $user->email) }}" :require="true" :label="__('Email')" :messages="$errors->get('email')"/>
                         <x-text-input name="password" type="password" value="{{ old('password', $user->password) }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>   

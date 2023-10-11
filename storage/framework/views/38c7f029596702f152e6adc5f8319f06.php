@@ -23,7 +23,7 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Employees</h5>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">              
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">              
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'name','value' => ''.e(old('name')).'','label' => __('Employee Name'),'require' => true,'messages' => $errors->get('name')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -40,14 +40,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.combo-input','data' => ['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => __('Email'),'messages' => $errors->get('email')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.combo-input','data' => ['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => __('Email'),'messages' => $errors->get('email'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('combo-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Email')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('email'))]); ?>
+<?php $component->withAttributes(['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Email')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('email')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -55,14 +55,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => __('Contact No 1'),'messages' => $errors->get('contact_no_1')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => __('Contact No 1'),'messages' => $errors->get('contact_no_1'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Contact No 1')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('contact_no_1'))]); ?>
+<?php $component->withAttributes(['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Contact No 1')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('contact_no_1')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -85,7 +85,7 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
                 </div>     
-                <div class="grid grid-cols-1 gap-4 mb-4"> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1"> 
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'address','value' => ''.e(old('address')).'','label' => __('Address'),'messages' => $errors->get('address')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -102,11 +102,10 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
                 </div> 
-                <div class="grid grid-cols-4 gap-4 mb-4"> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
                     <div>
                         <label>Designation :<span style="color: red">*</span></label>
-                        <select class="form-input" name="designation" x-model="designation" @change="designationChange()">
-                            <option>Select Designation</option>
+                        <select class="form-input" name="designation" id="designation" x-model="designation" @change="designationChange()">
                             <option value="Zonal Manager">Zonal Manager</option>
                             <option value="Area Manager">Area Manager</option>
                             <option value="Managing Executive">Managing Executive</option>
@@ -128,14 +127,14 @@
 <?php endif; ?> 
                     </div>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'dob','type' => 'date','value' => ''.e(old('dob')).'','id' => 'dob','label' => __('DOB'),'messages' => $errors->get('dob')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'dob','type' => 'date','value' => ''.e(old('dob')).'','id' => 'dob','label' => __('DOB'),'messages' => $errors->get('dob'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'dob','type' => 'date','value' => ''.e(old('dob')).'','id' => 'dob','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DOB')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('dob'))]); ?>
+<?php $component->withAttributes(['name' => 'dob','type' => 'date','value' => ''.e(old('dob')).'','id' => 'dob','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DOB')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('dob')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -143,14 +142,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'state_name','value' => ''.e(old('state_name')).'','label' => __('State name'),'messages' => $errors->get('state_name')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'state_name','value' => ''.e(old('state_name')).'','label' => __('State name'),'messages' => $errors->get('state_name'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'state_name','value' => ''.e(old('state_name')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('State name')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('state_name'))]); ?>
+<?php $component->withAttributes(['name' => 'state_name','value' => ''.e(old('state_name')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('State name')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('state_name')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -158,14 +157,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'city','value' => ''.e(old('city')).'','label' => __('City'),'messages' => $errors->get('city')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'city','value' => ''.e(old('city')).'','label' => __('City'),'messages' => $errors->get('city'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'city','value' => ''.e(old('city')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('City')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('city'))]); ?>
+<?php $component->withAttributes(['name' => 'city','value' => ''.e(old('city')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('City')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('city')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -173,16 +172,16 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'fieldforce_name','value' => ''.e(old('fieldforce_name')).'','label' => __('Fieldforce Name'),'messages' => $errors->get('fieldforce_name')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'fieldforce_name','value' => ''.e(old('fieldforce_name')).'','label' => __('Fieldforce Name'),'messages' => $errors->get('fieldforce_name'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'fieldforce_name','value' => ''.e(old('fieldforce_name')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Fieldforce Name')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('fieldforce_name'))]); ?>
+<?php $component->withAttributes(['name' => 'fieldforce_name','value' => ''.e(old('fieldforce_name')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Fieldforce Name')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('fieldforce_name')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -190,14 +189,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>   
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'employee_code','value' => ''.e(old('employee_code')).'','label' => __('Employee Code'),'messages' => $errors->get('employee_code')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'employee_code','value' => ''.e(old('employee_code')).'','label' => __('Employee Code'),'messages' => $errors->get('employee_code'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'employee_code','value' => ''.e(old('employee_code')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Employee Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_code'))]); ?>
+<?php $component->withAttributes(['name' => 'employee_code','value' => ''.e(old('employee_code')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Employee Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_code')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -220,11 +219,11 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                 </div>   
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3">
                     <div x-show="rbmopen">
                         <label>Reporting Office 1 :</label>
-                        <select class="form-input" name="reporting_office_1" x-model="rbm" @change="reportOffice()">
-                            <option value="">Select Office-1</option>
+                        <select class="form-input" name="reporting_office_1" id="office_1" x-model="rbm" @change="reportOffice()">
+                            <!-- <option value="">Select Office-1</option> -->
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if($employee->designation == 'Zonal Manager'): ?>
                                 <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
@@ -249,8 +248,8 @@
                     </div>
                     <div x-show="abmopen">
                         <label>Reporting Office 2 :</label>
-                        <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
-                            <option value="">Select Office-2</option>
+                        <select class="form-input" name="reporting_office_2" id="office_2" @change="reportOfficeME()" x-model="abml">
+                            <!-- <option value="">Select Office-2</option> -->
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
                             </template>
@@ -273,8 +272,8 @@
                     </div>  
                     <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
-                        <select class="form-input" name="reporting_office_3">
-                            <option value="">Select Office-3</option>
+                        <select class="form-input" name="reporting_office_3" id="office_3">
+                            <!-- <option value="">Select Office-3</option> -->
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>
@@ -347,6 +346,13 @@ document.addEventListener("alpine:init", () => {
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
             });
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("designation"), options);
+            NiceSelect.bind(document.getElementById("office_1"), options);
+            NiceSelect.bind(document.getElementById("office_2"), options);
+            NiceSelect.bind(document.getElementById("office_3"), options);
         },
 
         rbm: '',

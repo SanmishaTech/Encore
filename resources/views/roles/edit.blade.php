@@ -17,7 +17,7 @@
                 <form class="space-y-5" action="{{ route('roles.update',$role->id) }}" method="POST">
                     @csrf
                     @method('PUT')  
-                    <div class="grid grid-cols-2 gap-4">    
+                    <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2">    
                         <x-text-input name="name" value="{{ old('name', $role->name) }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/>    
                         <div>
                             <label for="actionGuardName">Guard Name:<span style="color: red">*</span></label>                       

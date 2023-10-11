@@ -25,7 +25,18 @@ class DoctorRequest extends FormRequest
         return [
             'doctor_name' => 'required', 
             'hospital_name' => 'required',  
-            'email' => 'required|unique:doctors,email,'.($this->doctor ? $this->doctor->id : '')
+            'email' => 'required|unique:doctors,email,'.($this->doctor ? $this->doctor->id : ''),
+            'contact_no_1' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'employee_id' => 'required',
+            'territory_id' => 'required',
+            'category_id' => 'required',
+            'type' => 'required',
+            'qualification_id' => 'required',
+            'speciality' => 'required',
+            'mpl_no' => 'required',
+            'designation' => 'required',
         ];
     }
     public function messages(): array
@@ -34,6 +45,12 @@ class DoctorRequest extends FormRequest
             'doctor_name.required' => 'Doctor name is required',
             'hospital_name.required' => 'Hospital name is required',
             'email.unique' => 'Already exist email',
+            'employee_id.required' => 'Please Select Employee',
+            'territory_id.required' => 'Please Select Territory',
+            'category_id.required' => 'Please Select Category',
+            'type.required' =>  'Please Select type',
+            'qualification_id.required' => 'Please Select Qualification',
+            'contact_no_1' => 'Please add contact'
         ];
     }
 }

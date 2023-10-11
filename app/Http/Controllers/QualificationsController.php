@@ -11,7 +11,7 @@ class QualificationsController extends Controller
 {
     public function index()
     {
-        $qualifications = Qualification::all();
+        $qualifications = Qualification::orderBy('id', 'desc')->get();
         return view('qualifications.index', ['qualifications' => $qualifications]);
     }
 

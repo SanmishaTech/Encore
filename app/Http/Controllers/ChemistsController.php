@@ -15,7 +15,7 @@ class ChemistsController extends Controller
      */
     public function index()
     {
-        $chemists = Chemist::with(['Employee', 'Territory'])->get();
+        $chemists = Chemist::with(['Employee', 'Territory'])->orderBy('id', 'desc')->get();
         // dd($chemists);
         return view('chemists.index', compact('chemists'));
     }

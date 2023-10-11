@@ -1,5 +1,4 @@
 <x-layout.default>
-
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
@@ -16,7 +15,7 @@
                 </div>
                 <form class="space-y-5" action="{{ route('roles.store') }}" method="POST">
                     @csrf
-                    <div class="grid grid-cols-2 gap-4"> 
+                    <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2"> 
                         <x-text-input name="name" value="{{ old('name') }}" :label="__('Name')" :require="true" :messages="$errors->get('name')"/> 
                         <div>
                             <label for="actionGuardName">Guard Name:<span style="color: red">*</span></label>                        

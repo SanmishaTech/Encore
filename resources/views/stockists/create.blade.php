@@ -15,11 +15,11 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Stockist</h5>
                 </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">  
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <x-text-input name="stockist" value="{{ old('stockist') }}" :label="__('Stockist Name')" :require="true" :messages="$errors->get('stockist')"/>        
                     <div>
-                        <label>Zonal Manager :</label>
-                        <select class="form-input" name="employee_id_1" x-model="rbm" @change="reportOffice()">
+                        <label>Zonal Manager : <span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id_1" id="employee_id_1" x-model="rbm" @change="reportOffice()">
                             <option>Select Zonal Manager</option>
                             @foreach ($employees as $employee)
                                 @if($employee->designation == 'Zonal Manager')
@@ -30,24 +30,24 @@
                         <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" /> 
                     </div>
                     <div>
-                        <label>Area Manager:</label>
-                        <select class="form-input" name="employee_id_2" @change="reportOfficeME()" x-model="abml">
+                        <label>Area Manager: <span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id_2" id="employee_id_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select Area Manager</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
                             </template>
                         </select> 
-                        <x-input-error :messages="$errors->get('employee_id_2')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('employee_id_2')"/>
                     </div>  
                     <div>
-                        <label>Managing Executive :</label>
-                        <select class="form-input" name="employee_id_3">
+                        <label>Managing Executive :<span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id_3" id="employee_id_3">
                             <option>Select Managing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>
                         </select> 
-                        <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('employee_id_3')"/>
                     </div>
                   
                 </div>
@@ -67,8 +67,14 @@
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
-       
-
+        init(){
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("employee_id_1"), options);
+            NiceSelect.bind(document.getElementById("employee_id_2"), options);
+            NiceSelect.bind(document.getElementById("employee_id_3"), options);
+        },
         rbm: '',
         abm: '',
         async reportOffice() {               

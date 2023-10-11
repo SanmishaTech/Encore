@@ -15,7 +15,7 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add CDBM</h5>
                 </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>GAF Code :<span style="color: red">*</span></label>
                         <select class="form-input" name="grant_approval_id" x-model="code" id="code" @change="codeChange()">
@@ -30,15 +30,15 @@
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Zonal Manager')"  :messages="$errors->get('employee_id_2')" x-model="zone" readonly="true"/>         
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4" >
                    
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" x-model="doctor" value="{{ old('mpl_no') }}" :label="__('Doctor Name')"  :messages="$errors->get('doctor_id')" readonly="true"/>
                     <x-text-input name="mpl_no" class="bg-gray-100 dark:bg-gray-700" x-model="mpl_no" value="{{ old('mpl_no') }}" :label="__('MPL NO')"  :messages="$errors->get('mpl_no')" readonly="true"/>
                     <x-text-input name="speciality" class="bg-gray-100 dark:bg-gray-700" x-model="speciality" value="{{ old('speciality') }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
                     <x-text-input name="location" class="bg-gray-100 dark:bg-gray-700" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
-                    <x-text-input name="date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('date') }}" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <x-text-input name="date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('date') }}" type="date" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
                     <x-text-input name="month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
                     <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
                     <x-text-input name="roi" value="{{ old('roi') }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
