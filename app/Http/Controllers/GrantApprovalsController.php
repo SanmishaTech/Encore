@@ -166,19 +166,6 @@ class GrantApprovalsController extends Controller
 
         return redirect()->route('grant_approvals.index');
     }
-
-    public function cancel(GrantApproval $grant_approval) 
-    {
-        $grant_approval->status = 'Cancel';
-        $grant_approval->update();
-        $input = [];
-
-        $input['status'] = 'Cancel';
-        $input['amount'] = $grant_approval->amount;
-        $input['grant_approval_id'] = $grant_approval->id;
-        GrantApprovalDetail::create($input);
-        return redirect()->route('grant_approvals.index');
-    }
   
     public function destroy(Request $request, GrantApproval $grant_approval)
     {

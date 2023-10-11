@@ -110,7 +110,6 @@
                             <option value="Zonal Manager">Zonal Manager</option>
                             <option value="Area Manager">Area Manager</option>
                             <option value="Managing Executive">Managing Executive</option>
-                            <option value="Operator">Operator</option>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('designation'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>

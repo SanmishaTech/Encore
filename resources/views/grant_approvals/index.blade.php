@@ -17,8 +17,8 @@
                     <td>{{ @$grant_approval->Activity->name }}</td>
                     <td>{{ @$grant_approval->code }}</td> 
                     <td>{{ @$grant_approval->status }}</td>           
-                    <td> &#8377;  {{ @$grant_approval->amount }}</td>           
-                    <td> &#8377;  {{ @$grant_approval->approval_amount }}</td>           
+                    <td style="text-align:right;"> &#8377;  {{ @$grant_approval->amount }}</td>           
+                    <td style="text-align:right;"> &#8377;  {{ @$grant_approval->approval_amount }}</td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             @role(['Area Manager'])
@@ -53,13 +53,6 @@
                                     <li style="display: inline-block;vertical-align:top;">
                                         <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                     </li>
-                            @endrole
-                            @role(['Admin','Managing Executive'])
-                            @if($grant_approval->status != "Cancel")
-                            <li style="display: inline-block;vertical-align:top;">
-                                <a href="/grant_approvals/cancel/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Cancel</a>
-                            </li>
-                            @endif
                             @endrole
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
@@ -123,7 +116,7 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity", "Code", "Status", "Amount", "Approved Amount", "Action"],
+                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity", "Code", "Status", "Proposal Amount", "Approved Amount", "Action"],
                         },
                         searchable: true,
                         perPage: 30,

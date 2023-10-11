@@ -39,8 +39,8 @@
                     <td><?php echo e(@$grant_approval->Activity->name); ?></td>
                     <td><?php echo e(@$grant_approval->code); ?></td> 
                     <td><?php echo e(@$grant_approval->status); ?></td>           
-                    <td> &#8377;  <?php echo e(@$grant_approval->amount); ?></td>           
-                    <td> &#8377;  <?php echo e(@$grant_approval->approval_amount); ?></td>           
+                    <td style="text-align:right;"> &#8377;  <?php echo e(@$grant_approval->amount); ?></td>           
+                    <td style="text-align:right;"> &#8377;  <?php echo e(@$grant_approval->approval_amount); ?></td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Area Manager'])): ?>
@@ -75,13 +75,6 @@
                                     <li style="display: inline-block;vertical-align:top;">
                                         <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
                                     </li>
-                            <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
-                            <?php if($grant_approval->status != "Cancel"): ?>
-                            <li style="display: inline-block;vertical-align:top;">
-                                <a href="/grant_approvals/cancel/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Cancel</a>
-                            </li>
-                            <?php endif; ?>
                             <?php endif; ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -215,7 +208,7 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity", "Code", "Status", "Amount", "Approved Amount", "Action"],
+                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity", "Code", "Status", "Proposal Amount", "Approved Amount", "Action"],
                         },
                         searchable: true,
                         perPage: 30,

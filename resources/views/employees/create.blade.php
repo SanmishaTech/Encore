@@ -32,7 +32,6 @@
                             <option value="Zonal Manager">Zonal Manager</option>
                             <option value="Area Manager">Area Manager</option>
                             <option value="Managing Executive">Managing Executive</option>
-                            <option value="Operator">Operator</option>
                         </select> 
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
                     </div>

@@ -33,7 +33,6 @@
                             <option value="Zonal Manager" @if ($employee->designation == "Zonal Manager") {{ 'Selected' }} @endif>Zonal Manager</option>
                             <option value="Area Manager" @if ($employee->designation == "Area Manager") {{ 'Selected' }} @endif>Area Manager</option>                        
                             <option value="Managing Executive" @if ($employee->designation == "Managing Executive") {{ 'Selected' }} @endif>Managing Executive</option> 
-                            <option value="Operator" @if ($employee->designation == "Operator") {{ 'Selected' }} @endif>Operator</option>
                         </select> 
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
                     </div>
