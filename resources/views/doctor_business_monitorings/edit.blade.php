@@ -19,7 +19,7 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
                         <label>GAF Code :<span style="color: red">*</span></label>
-                        <select class="form-input" name="code">
+                        <select class="form-input" name="code" x-model="code" @change="codeChange()">
                             <option>Select Code</option>
                             @foreach ($gaf_code as $id => $code)
                                 <option value="{{$id}}" {{ $doctor_business_monitoring->code ? ($doctor_business_monitoring->code == $id ? 'Selected' : '' ) : ''}}>{{ $code }}</option>
@@ -52,7 +52,7 @@
                 <div class="grid grid-cols-4 gap-4 mb-4">
                     <div>
                         <label>Doctor:</label>
-                        <select class="form-input bg-gray-100 dark:bg-gray-700" name="doctor_id" readonly="true">
+                        <select class="form-input bg-gray-100 dark:bg-gray-700" x-model="doctor_id" name="doctor_id" readonly="true">
                             <option>Select Doctor</option>
                             <option key="docData.id" :value="docData.id" x-text="docData.doctor_name" ></option>
                         </select> 
@@ -122,8 +122,8 @@
                                                             </button>
                                                         </td>
                                                         <td>
-                                                            <input type="hidden" class="form-input min-w-[200px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.i}][id]`"/>
-                                                            <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <input type="hidden" class="form-input min-w-[200px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
+                                                            <select class="form-input" style="width:100px" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
                                                                 <option>Select Product</option>
                                                                     @foreach ($products as $id => $product)
                                                                         <option value="{{$id}}"
@@ -132,43 +132,43 @@
                                                             </select>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
+                                                            <x-text-input style="width:70px"  class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units"/>
+                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value"/>
+                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                            <x-text-input style="width:60px"  x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1"/>
+                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
+                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3"/>
+                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4"/>
+                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5"/>
+                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6"/>
+                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol"/>
+                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val"/>
+                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/>
+                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/>
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -216,6 +216,11 @@ document.addEventListener("alpine:init", () => {
         nrv: '',     
         productDetails: [],       
         init() {
+            @if($doctor_business_monitoring->code)
+                this.code ={{  $doctor_business_monitoring->code }};
+                this.codeChange();
+            @endif
+
             flatpickr(document.getElementById('date'), {
                 dateFormat: 'd/m/Y',
             });
@@ -229,6 +234,18 @@ document.addEventListener("alpine:init", () => {
                 id: '{{ $details->id }}',
                 product_id: '{{ $details->product_id }}',
                 nrv: '{{ $details->nrv }}',
+                avg_business_units: '{{ $details->avg_business_units }}',
+                avg_business_value: '{{ $details->avg_business_value }}',
+                exp_vol: '{{ $details->exp_vol }}',
+                exp_vol_1: '{{ $details->exp_vol_1 }}',
+                exp_vol_2: '{{ $details->exp_vol_2 }}',
+                exp_vol_3: '{{ $details->exp_vol_3 }}',
+                exp_vol_4: '{{ $details->exp_vol_4 }}',
+                exp_vol_5: '{{ $details->exp_vol_5 }}',
+                exp_vol_6: '{{ $details->exp_vol_6 }}',
+                total_exp_vol: '{{ $details->total_exp_vol }}',
+                total_exp_val: '{{ $details->total_exp_val }}',
+                scheme: '{{ $details->scheme }}',
             });                    
             @endforeach
             @endif               
@@ -274,7 +291,7 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
-            console.log(this.data)
+            console.log(this.data.doctor)
             this.manager = this.data.manager;
             this.area = this.data.area_manager;
             this.zone = this.data.zonal_manager;

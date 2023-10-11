@@ -6,7 +6,7 @@
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Doctor Business Monitoring</h5>
             <table id="myTable" class="whitespace-nowrap">
                 @foreach ($doctor_business_monitorings as $doctor_business_monitoring)
-                <tr>                    
+                <tr>   
                     <td>{{ @$doctor_business_monitoring->Manager->name }}</td>           
                     <td>{{ @$doctor_business_monitoring->AreaManager->name }}</td>
                     <td>{{ @$doctor_business_monitoring->ZonalManager->name }}</td>

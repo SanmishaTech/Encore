@@ -28,12 +28,14 @@ class DoctorBusinessMonitoringsController extends Controller
     public function store(DoctorBusinessMonitoring $doctor_business_monitoring, DoctorBusinessMonitoringRequest $request) 
     {
         $input = $request->all(); 
+        // dd($request);
         $doctor_business_monitoring = DoctorBusinessMonitoring::create($input); 
         $data = $request->collect('product_details');
         foreach($data as $record){
             ProductDetail::create([
                 'doctor_business_monitoring_id' => $doctor_business_monitoring->id,
                 'product_id' => $record['product_id'],
+                'nrv' => $record['nrv'],
                 'avg_business_units' => $record['avg_business_units'],
                 'avg_business_value' => $record['avg_business_value'],
                 'exp_vol' => $record['exp_vol'],
@@ -68,15 +70,28 @@ class DoctorBusinessMonitoringsController extends Controller
 
     public function update(DoctorBusinessMonitoring $doctor_business_monitoring, DoctorBusinessMonitoringRequest $request) 
     {
+        // dd($request);
         $doctor_business_monitoring->update($request->all());
         $data = $request->collect('product_details');
-        // dd($data);
+        
         foreach($data as $record){
             ProductDetail::upsert([
                 'id' => $record['id'] ?? null,
                 'doctor_business_monitoring_id' => $doctor_business_monitoring->id,
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
+                'avg_business_units' => $record['avg_business_units'],
+                'avg_business_value' => $record['avg_business_value'],
+                'exp_vol' => $record['exp_vol'],
+                'exp_vol_1' => $record['exp_vol_1'],
+                'exp_vol_2' => $record['exp_vol_2'],
+                'exp_vol_3' => $record['exp_vol_3'],
+                'exp_vol_4' => $record['exp_vol_4'],
+                'exp_vol_5' => $record['exp_vol_5'],
+                'exp_vol_6' => $record['exp_vol_6'],
+                'total_exp_vol' => $record['total_exp_vol'],
+                'total_exp_val' => $record['total_exp_val'],
+                'scheme' => $record['scheme'],
             ],[
                 'id'
             ]);

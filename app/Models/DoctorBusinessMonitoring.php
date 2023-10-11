@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
 use App\Models\ProductDetail;
+use App\Models\GrantApproval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -65,4 +66,9 @@ class DoctorBusinessMonitoring extends Model
     {
         return $this->hasMany(ProductDetail::class);
     }
+
+    public function GrantApproval() 
+    {
+        return $this->belongsTo(GrantApproval::class);
+    }   
 }

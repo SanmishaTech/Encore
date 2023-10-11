@@ -79,7 +79,7 @@
                                     <table class="table-hover">
                                         <thead>
                                             <tr>
-                                                <th width="5%">&nbsp; #</th>
+                                                <th>&nbsp; #</th>
                                                 <th>Products</th>
                                                 <th>NRV</th>
                                                 <th>Avg Business(Units)</th>
@@ -120,7 +120,7 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                        <select class="form-input" style="width:100px" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
                                                             <option>Select Product</option>
                                                                 @foreach ($products as $id => $product)
                                                                     <option value="{{$id}}"> {{$product}} </option>
@@ -129,7 +129,7 @@
                                                         <x-input-error :messages="$errors->get('product_id')" class="mt-2" /> 
                                                     </td>
                                                     <td>
-                                                        <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
+                                                        <x-text-input style="width:70px" class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
                                                     </td>                                                    
                                                     <td>
                                                         <x-text-input x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units"/>
@@ -138,7 +138,7 @@
                                                         <x-text-input  x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value"/>
                                                     </td>
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                        <x-text-input style="width:60px" x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
                                                     </td>
                                                     <td>
                                                         <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1"/>

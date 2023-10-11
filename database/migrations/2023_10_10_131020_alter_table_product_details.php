@@ -24,7 +24,8 @@ return new class extends Migration
             $table->decimal('total_exp_vol',10,2)->nullable();
             $table->decimal('total_exp_val',10,2)->nullable();
             $table->string('scheme',20)->nullable();
-
+            $table->integer('created_by')->unsigned()->nullable();
+            $table->integer('updated_by')->unsigned()->nullable();
         });
     }
 
