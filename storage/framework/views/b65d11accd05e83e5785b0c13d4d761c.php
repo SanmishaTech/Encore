@@ -23,7 +23,7 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Grant Approval</h5>
                 </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">  
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <div>
                         <label>Managing Executive :</label>
                         <select class="form-input" name="employee_id_1" x-model="employee_id_1" @change="mehqChange()">
@@ -96,7 +96,7 @@
 <?php endif; ?> 
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Doctor :</label>
                         <select class="form-input" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
@@ -167,7 +167,7 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Activity :</label>
                         <select class="form-input" name="activity_id">
@@ -256,7 +256,7 @@
 <?php endif; ?> 
                     </div>
                 </div>       
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','name' => 'code','value' => ''.e(old('code')).'','label' => __('Code'),'messages' => $errors->get('code'),'readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>

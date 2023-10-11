@@ -16,26 +16,26 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Doctors</h5>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">        
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">        
                     <x-text-input name="doctor_name" value="{{ old('doctor_name', $doctor->doctor_name) }}" :label="__('Doctor Name')" :require="true" :messages="$errors->get('doctor_name')"/>                       
                     <x-text-input name="hospital_name" value="{{ old('hospital_name', $doctor->hospital_name) }}" :label="__('Hospital Name')" :require="true" :messages="$errors->get('hospital_name')"/>  
                 </div>   
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-combo-input name="email" type="email" :email="true" value="{{ old('email', $doctor->email) }}" :require="true" :label="__('Email')" :messages="$errors->get('email')"/>                      
-                    <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $doctor->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')"/>   
+                    <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $doctor->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')" :require="true"/>   
                     <x-text-input name="contact_no_2" value="{{ old('contact_no_2', $doctor->contact_no_2) }}" :label="__('Contact No 2')" :messages="$errors->get('contact_no_2')"/>
                 </div>  
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input name="dob" value="{{ old('dob', $doctor->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')"/>
                     <x-text-input name="dow" value="{{ old('dow', $doctor->dow) }}" id="dow" :label="__('DOW')" :messages="$errors->get('dow')"/>
-                    <x-text-input name="state" value="{{ old('state', $doctor->state) }}" :label="__('State')" :messages="$errors->get('state')"/> 
-                    <x-text-input name="city" value="{{ old('city', $doctor->city) }}" :label="__('City')" :messages="$errors->get('city')"/>         
+                    <x-text-input name="state" value="{{ old('state', $doctor->state) }}" :label="__('State')" :messages="$errors->get('state')" :require="true"/> 
+                    <x-text-input name="city" value="{{ old('city', $doctor->city) }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>         
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Employee:</label>
-                        <select class="form-input" name="employee_id">
-                            <option value="">Select employee</option>                            
+                        <label>Employee:<span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id" id="employee_id">
+                            <!-- <option value="">Select employee</option>                             -->
                             @foreach ($employees as $id => $employee)
                                     <option value="{{$id}}" {{ $doctor->employee_id ? ($doctor->employee_id == $id ? 'Selected' : '' ) : ''}}>{{$employee}}</option>
                             @endforeach
@@ -44,9 +44,9 @@
 
                     </div>
                     <div>
-                        <label>Territory:</label>
-                        <select class="form-input" name="territory_id">
-                            <option value="">Select Territory</option>                            
+                        <label>Territory:<span style="color: red">*</span></label>
+                        <select class="form-input" name="territory_id" id="territory_id">
+                            <!-- <option value="">Select Territory</option>                             -->
                             @foreach ($territories as $id => $territory)
                                     <option value="{{$id}}" {{ $doctor->territory_id ? ($doctor->territory_id == $id ? 'Selected' : '' ) : ''}}>{{$territory}}</option>
                             @endforeach
@@ -54,9 +54,9 @@
                         <x-input-error :messages="$errors->get('territory_id')" class="mt-2" />
                     </div>
                     <div>
-                        <label>Category:</label>
-                        <select class="form-input" name="category_id">
-                            <option value="">Select Category</option>                            
+                        <label>Category:<span style="color: red">*</span></label>
+                        <select class="form-input" name="category_id" id="category_id">
+                            <!-- <option value="">Select Category</option>                             -->
                             @foreach ($categories as $id => $category)
                                     <option value="{{$id}}" {{ $doctor->category_id ? ($doctor->category_id == $id ? 'Selected' : '' ) : ''}}>{{$category}}</option>
                             @endforeach
@@ -64,38 +64,38 @@
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
                     <div>
-                        <label>Type:</label>
-                        <select class="form-input" name="type">
-                            <option>Select Type</option> 
+                        <label>Type:<span style="color: red">*</span></label>
+                        <select class="form-input" name="type" id="type">
+                            <!-- <option>Select Type</option>  -->
                             <option value="ex" @if ($doctor->type == 'ex') {{ 'Selected' }} @endif>EX</option>
                             <option value="hq" @if ($doctor->type == 'hq') {{ 'Selected' }} @endif>HQ</option>
                         </select> 
                         <x-input-error :messages="$errors->get('type')" class="mt-2" />
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4"> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
                     <div>
-                        <label>Qualification:</label>
-                        <select class="form-input" name="qualification_id">
-                            <option value="">Select Qualification</option>                            
+                        <label>Qualification:<span style="color: red">*</span></label>
+                        <select class="form-input" name="qualification_id" id="qualification_id">
+                            <!-- <option value="">Select Qualification</option>                             -->
                             @foreach ($qualifications as $id => $qualification)
                                     <option value="{{$id}}" {{ $doctor->qualification_id ? ($doctor->qualification_id == $id ? 'Selected' : '' ) : ''}}>{{$qualification}}</option>
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('qualification_id')" class="mt-2" />
                     </div>
-                    <x-text-input name="speciality" value="{{ old('speciality', $doctor->speciality) }}" :label="__('Speciality')" :messages="$errors->get('speciality')"/> 
+                    <x-text-input name="speciality" value="{{ old('speciality', $doctor->speciality) }}" :label="__('Speciality')" :messages="$errors->get('speciality')" :require="true"/> 
                     <x-text-input name="class" value="{{ old('class', $doctor->class) }}" :label="__(' Class')" :messages="$errors->get('class')"/>           
-                    <x-text-input name="mpl_no" value="{{ old('mpl_no', $doctor->mpl_no) }}" :label="__(' MPL No')" :messages="$errors->get('mpl_no')"/> 
+                    <x-text-input name="mpl_no" value="{{ old('mpl_no', $doctor->mpl_no) }}" :label="__(' MPL No')" :messages="$errors->get('mpl_no')" :require="true"/> 
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">   
-                    <x-text-input name="designation" value="{{ old('designation', $doctor->designation) }}" :label="__('Designation')" :messages="$errors->get('designation')"/>                        
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">   
+                    <x-text-input name="designation" value="{{ old('designation', $doctor->designation) }}" :label="__('Designation')" :messages="$errors->get('designation')" :require="true"/>                        
                     <x-text-input name="hq" value="{{ old('hq', $doctor->hq) }}" :label="__('HQ')" :messages="$errors->get('hq')"/>
                 </div> 
-                <div class="grid grid-cols-1 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1">
                     <x-text-input name="doctor_address" value="{{ old('doctor_address', $doctor->doctor_address) }}" :label="__('Doctor Address')" :messages="$errors->get('doctor_address')"/>   
                 </div> 
-                <div class="grid grid-cols-1 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1">
                     <x-text-input name="hospital_address" value="{{ old('hospital_address', $doctor->hospital_address) }}" :label="__('Hospital Address')" :messages="$errors->get('hospital_address')"/>       
                 </div> 
                 <div class="flex justify-end mt-4">
@@ -122,6 +122,15 @@ document.addEventListener("alpine:init", () => {
             flatpickr(document.getElementById('dow'), {
                 dateFormat: 'd/m/Y',
             });   
+
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("employee_id"), options);
+            NiceSelect.bind(document.getElementById("territory_id"), options);
+            NiceSelect.bind(document.getElementById("category_id"), options);
+            NiceSelect.bind(document.getElementById("qualification_id"), options);
+            NiceSelect.bind(document.getElementById("type"), options);
         },     
     }));
 });   

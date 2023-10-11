@@ -13,7 +13,7 @@ class EmployeesController extends Controller
 {
     public function index()
     {
-        $employees = Employee::with(['users'])->get();  
+        $employees = Employee::with(['users'])->orderBy('id', 'desc')->get();
         return view('employees.index', ['employees' => $employees]);
     }
 

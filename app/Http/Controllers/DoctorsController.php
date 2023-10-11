@@ -15,7 +15,7 @@ class DoctorsController extends Controller
 {
     public function index()
     {
-        $doctors = Doctor::all();
+        $doctors = Doctor::orderBy('id', 'desc')->get();
         return view('doctors.index', ['doctors' => $doctors]);
     }
 
@@ -30,6 +30,7 @@ class DoctorsController extends Controller
 
     public function store(Doctor $doctor, DoctorRequest $request) 
     {
+        // dd($request);
         $input = $request->all(); 
         $doctor = Doctor::create($input); 
         $request->session()->flash('success', 'Doctor saved successfully!');

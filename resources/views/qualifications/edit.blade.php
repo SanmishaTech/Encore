@@ -16,7 +16,7 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Qualification</h5>
                 </div>
-                <div class="grid grid-cols-3 gap-4 mb-4"> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
                     <x-text-input name="name" value="{{old('name', $qualification->name)}}" :label="__('Qualification Name')" :require="true" :messages="$errors->get('name')"/> 
                 </div>
                 <div class="flex justify-end mt-4">

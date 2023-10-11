@@ -11,7 +11,7 @@ class TerritoriesController extends Controller
 {
     public function index()
     {
-        $territories = Territory::all();
+        $territories = Territory::orderBy('id', 'desc')->get();
         return view('territories.index', ['territories' => $territories]);
     }
 

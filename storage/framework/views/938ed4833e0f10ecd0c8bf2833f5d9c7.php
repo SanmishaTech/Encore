@@ -16,14 +16,14 @@
             <span>Add</span>
         </li>
     </ul>
-    <div class="pt-5">        
+    <div class="pt-5" x-data="data">        
         <form class="space-y-5" action="<?php echo e(route('chemists.store')); ?>" method="POST">
             <?php echo csrf_field(); ?>
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Chemist</h5>
                 </div>               
-                <div class="grid grid-cols-4 gap-4 mb-4">      
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">      
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'chemist','value' => ''.e(old('chemist')).'','label' => __('Chemist Name'),'require' => true,'messages' => $errors->get('chemist')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -53,26 +53,11 @@
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>                       
-                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('class'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('input-error'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('class')),'class' => 'mt-2']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>     
+<?php endif; ?>          
                     <div>
-                        <label>Employee :</label>
-                        <select class="form-input" name="employee_id">
-                            <option>Select Employee</option>
+                        <label>Employee :<span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id" id="employee_id">
+                            <!-- <option>Select Employee</option> -->
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
                                 <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -94,9 +79,9 @@
 <?php endif; ?> 
                     </div>
                     <div>
-                        <label>Territory :</label>
-                        <select class="form-input" name="territory_id">
-                            <option>Select Territory</option>
+                        <label>Territory :<span style="color: red">*</span></label>
+                        <select class="form-input" name="territory_id" id="territory_id">
+                            <!-- <option>Select Territory</option> -->
                             <?php $__currentLoopData = $territories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$territory): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
                                 <option value="<?php echo e($id); ?>"><?php echo e($territory); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -118,16 +103,16 @@
 <?php endif; ?> 
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">  
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => __('Contact No 1'),'messages' => $errors->get('contact_no_1')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => __('Contact No 1'),'messages' => $errors->get('contact_no_1'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Contact No 1')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('contact_no_1'))]); ?>
+<?php $component->withAttributes(['name' => 'contact_no_1','value' => ''.e(old('contact_no_1')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Contact No 1')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('contact_no_1')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -150,14 +135,14 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.combo-input','data' => ['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => __('Email'),'messages' => $errors->get('email')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.combo-input','data' => ['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => __('Email'),'messages' => $errors->get('email'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('combo-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Email')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('email'))]); ?>
+<?php $component->withAttributes(['name' => 'email','type' => 'email','email' => true,'value' => ''.e(old('email')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Email')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('email')),'require' => true]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -180,7 +165,7 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
                 </div>
-                <div class="grid grid-cols-1 gap-4 mb-4">     
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1">     
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'address','value' => ''.e(old('address')).'','label' => __('Address'),'messages' => $errors->get('address')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -238,6 +223,19 @@
         </form>         
     </div>
 </div> 
+<script>
+document.addEventListener("alpine:init", () => {
+    Alpine.data('data', () => ({      
+        init() {
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("employee_id"), options);
+            NiceSelect.bind(document.getElementById("territory_id"), options);
+        },
+    }));
+});
+</script>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

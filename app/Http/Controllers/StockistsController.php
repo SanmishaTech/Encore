@@ -12,7 +12,7 @@ class StockistsController extends Controller
 {
     public function index()
     {
-        $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])->get();
+        $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])->orderBy('id', 'desc')->get();
         return view('stockists.index', ['stockists' => $stockists]);
     }
 

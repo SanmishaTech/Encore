@@ -23,7 +23,10 @@ class ChemistRequest extends FormRequest
     {
         return [
             'chemist' => 'required|unique:chemists,chemist,'. ($this->chemist ? $this->chemist : ''),
-           
+            'employee_id' => 'required',
+            'territory_id' => 'required',
+            'contact_no_1' => 'required',
+            'email' => 'required|unique:chemists,email,'. ($this->chemist ? $this->chemist : ''),
         ];
     }
     
@@ -32,6 +35,7 @@ class ChemistRequest extends FormRequest
         return [
             'chemist.required' => 'Chemist name is required',
             'chemist.unique' => 'The Chemist name has already been taken.',
+            'email.unique' => 'The email has already taken.',
         ];
     }
 }

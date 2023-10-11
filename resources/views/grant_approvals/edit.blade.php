@@ -16,7 +16,7 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Grant Approval</h5>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">  
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <div>
                         <label>Managing Executive :</label>
                         <select class="form-input" name="employee_id_1" x-model="employee_id_1" @change="mehqChange()">
@@ -45,7 +45,7 @@
                         <x-input-error :messages="$errors->get('employee_id_3')" class="mt-2" /> 
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Doctor :</label>
                         <select class="form-input" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
@@ -60,7 +60,7 @@
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" name="speciality" x-model="speciality"  value="{{ old('speciality', $grant_approval->speciality) }}" :label="__('Speciality')"  :messages="$errors->get('speciality')" readonly="true"/>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" name="location" x-model="location" value="{{ old('location', $grant_approval->location) }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Activity :</label>
                         <select class="form-input" name="activity_id">
@@ -93,7 +93,7 @@
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
                     </div>
                 </div>       
-                <div class="grid grid-cols-4 gap-4 mb-4">
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
                     <x-combo-input name="amount" value="{{ old('amount',$grant_approval->amount) }}" :label="__('Amount')"  :messages="$errors->get('amount')"/>
                     <x-combo-input name="email" value="{{ old('email',$grant_approval->email) }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
@@ -111,7 +111,7 @@
                     <br><br>
                     <h5 class="md:absolute  md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Grant Approval Deatils
                     </h5> <br> <br>
-
+<div class="table-responsive">
                     <table class="whitespace-nowrap table-hover">
                         <thead>
                             <tr>
@@ -134,6 +134,7 @@
                             @endforeach
                     </tbody>
                     </table>
+</div>
                 @endif
             </div>
         </form> 
