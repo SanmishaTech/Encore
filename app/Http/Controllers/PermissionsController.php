@@ -10,7 +10,7 @@ class PermissionsController extends Controller
 {
     public function index()
     {   
-        $permissions = Permission::all();
+        $permissions = Permission::orderBy('id', 'desc')->get();
         return view('permissions.index', [
             'permissions' => $permissions
         ]);

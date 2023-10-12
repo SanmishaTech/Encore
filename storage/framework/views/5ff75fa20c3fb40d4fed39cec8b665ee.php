@@ -133,21 +133,30 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'state','value' => ''.e(old('state')).'','label' => __('State'),'messages' => $errors->get('state'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('text-input'); ?>
+                    <div>
+                        <label>States:<span style="color: red">*</span></label>
+                        <select class="form-input" name="state">
+                            <option value="">Select states</option>
+                            <template x-for="state in states" :key="state.code">
+                                <option :value="state.name" x-text="state.name"></option>
+                            </template>
+                        </select> 
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_3'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('input-error'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'state','value' => ''.e(old('state')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('State')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('state')),'require' => true]); ?>
+<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('reporting_office_3')),'class' => 'mt-2']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>  
+<?php endif; ?>
+                    </div> 
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'city','value' => ''.e(old('city')).'','label' => __('City'),'messages' => $errors->get('city'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -165,10 +174,10 @@
 <?php endif; ?>  
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <div>
+                    <!-- <div>
                         <label>Employee:<span style="color: red">*</span></label>
                         <select class="form-input" id="employee_id" name="employee_id">
-                            <!-- <option>Select employee</option>                             -->
+                            <option>Select employee</option>                            
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -188,7 +197,7 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-                    </div>
+                    </div> -->
                     <div>
                         <label>Territory:<span style="color: red">*</span></label>
                         <select class="form-input" id="territory_id" name="territory_id">
@@ -215,8 +224,6 @@
                             <option value="hq">HQ</option>
                         </select> 
                     </div>
-                </div>
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
                     <div>
                         <label>Qualification:<span style="color: red">*</span></label>
                         <select class="form-input" id="qualification_id" name="qualification_id">
@@ -225,8 +232,9 @@
                                     <option value="<?php echo e($id); ?>"><?php echo e($qualification); ?></option>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select> 
-                        
                     </div>
+                </div>
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">                     
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'speciality','value' => ''.e(old('speciality')).'','label' => __('Speciality'),'messages' => $errors->get('speciality'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -304,6 +312,80 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  
+                </div> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <div>
+                        <label>Reporting Office 1 :</label>
+                        <select class="form-input" name="reporting_office_1" id="office_1" x-model="rbm" @change="reportOffice()">
+                            <!-- <option value="">Select Office-1</option> -->
+                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select> 
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_1'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('input-error'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('reporting_office_1')),'class' => 'mt-2']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?> 
+                    </div>
+                    <div>
+                        <label>Reporting Office 2 :</label>
+                        <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
+                            <option value="">Select Office-2</option>
+                            <template x-for="list in abm" :key="list.id">
+                                <option :value="list.id" x-text="list.name"></option>
+                            </template>
+                        </select> 
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_2'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('input-error'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('reporting_office_2')),'class' => 'mt-2']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+                    </div>  
+                    <div>
+                        <label>Reporting Office 3 :</label>
+                        <select class="form-input" name="reporting_office_3">
+                            <option value="">Select Office-3</option>
+                            <template x-for="me in mehq" :key="me.id">
+                                <option :value="me.id" x-text="me.name"></option>
+                            </template>
+                        </select> 
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_3'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('input-error'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('reporting_office_3')),'class' => 'mt-2']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+                    </div>
                 </div> 
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1"> 
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -383,6 +465,7 @@
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
+        states: '',    
         init() {
             flatpickr(document.getElementById('dob'), {
                 dateFormat: 'd/m/Y',
@@ -395,11 +478,79 @@ document.addEventListener("alpine:init", () => {
             var options = {
                 searchable: true
             };
-            NiceSelect.bind(document.getElementById("employee_id"), options);
             NiceSelect.bind(document.getElementById("territory_id"), options);
             NiceSelect.bind(document.getElementById("category_id"), options);
             NiceSelect.bind(document.getElementById("qualification_id"), options);
             NiceSelect.bind(document.getElementById("type"), options);
+            NiceSelect.bind(document.getElementById("office_1"), options);
+
+            this.states = [
+                { code: 'AN', name: 'Andaman and Nicobar Islands' },
+                { code: 'AP', name: 'Andhra Pradesh' },
+                { code: 'AR', name: 'Arunachal Pradesh' },
+                { code: 'AS', name: 'Assam' },
+                { code: 'BR', name: 'Bihar' },
+                { code: 'CG', name: 'Chandigarh' },
+                { code: 'CH', name: 'Chhattisgarh' },
+                
+                { code: 'DN', name: 'Dadra and Nagar Haveli' },
+                { code: 'DD', name: 'Daman and Diu' },
+                { code: 'DL', name: 'Delhi' },
+                { code: 'GA', name: 'Goa' },
+                { code: 'GJ', name: 'Gujarat' },
+                { code: 'HR', name: 'Haryana' },
+                { code: 'HP', name: 'Himachal Pradesh' },
+
+                { code: 'JK', name: 'Jammu and Kashmir' },
+                { code: 'JH', name: 'Jharkhand' },
+                { code: 'KA', name: 'Karnataka' },
+                { code: 'KL', name: 'Kerala' },
+                { code: 'LA', name: 'Ladakh' },
+                { code: 'LD', name: 'Lakshadweep' },
+                { code: 'MP', name: 'Madhya Pradesh' },
+                
+                { code: 'MH', name: 'Maharashtra' },
+                { code: 'MN', name: 'Manipur' },
+                { code: 'ML', name: 'Meghalaya' },
+                { code: 'MZ', name: 'Mizoram' },
+                { code: 'NL', name: 'Nagaland' },
+                { code: 'OR', name: 'Odisha' },
+                { code: 'PY', name: 'Puducherry' },
+                
+                { code: 'PB', name: 'Punjab' },
+                { code: 'RJ', name: 'Rajasthan' },
+                { code: 'SK', name: 'Sikkim' },
+                { code: 'TN', name: 'Tamil Nadu' },
+                { code: 'TS', name: 'Telangana' },
+                { code: 'TR', name: 'Tripura' },
+                { code: 'UP', name: 'Uttar Pradesh' },
+                { code: 'UK', name: 'Uttarakhand' },
+                { code: 'WB', name: 'West Bengal' },
+            ];
+        },
+
+        rbm: '',
+        abm: '',
+        async reportOffice() {               
+            this.abm = await (await fetch('/employees/'+ this.rbm, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.abm); 
+        },      
+         
+        mehq: '',
+        abml:'',
+        async reportOfficeME() {
+            this.mehq = await (await fetch('/employees/getReportingOfficer3/'+ this.abml, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.mehq);
         },
     }));
 });

@@ -52,7 +52,23 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('grant_approvals/rejected/{grant_approval}', 'GrantApprovalsController@rejected')->name('grant_approvals.rejected');
         Route::get('grant_approvals/cancel/{grant_approval}', 'GrantApprovalsController@cancel')->name('grant_approvals.cancel');
        
-        
+        /**
+         * Import Excel
+         */
+        Route::get('/import/activities/', 'ActivitiesController@import')->name('activities.import');
+        Route::post('importExcel','ActivitiesController@importExcel')->name('importExcel');
+        Route::get('/import/products/','ProductsController@import')->name('products.import');
+        Route::post('importProductExcel','ProductsController@importProductExcel')->name('importProductExcel');
+        Route::get('/import/territories/','TerritoriesController@import')->name('territories.import');
+        Route::post('importTerritoryExcel','TerritoriesController@importTerritoryExcel')->name('importTerritoryExcel');
+        Route::get('/import/qualifications/', 'QualificationsController@import')->name('qualifications.import');
+        Route::post('importQualificationExcel','QualificationsController@importQualificationExcel')->name('importQualificationExcel');
+        Route::get('/import/categories/', 'CategoriesController@import')->name('categories.import');
+        Route::post('importCategoriesExcel','CategoriesController@importCategoriesExcel')->name('importCategoriesExcel');
+
+        /**
+         * Masters Route
+         */
         Route::resource('products', ProductsController::class);
         Route::resource('territories', TerritoriesController::class);
         Route::resource('qualifications', QualificationsController::class);

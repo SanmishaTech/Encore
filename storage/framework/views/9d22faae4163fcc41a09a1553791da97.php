@@ -14,7 +14,7 @@
 
 <div>
     <label>
-        <?php echo e($label ?? $slot); ?>: 
+        <?php echo e($label); ?>: 
         <?php if($require): ?>
         <span style="color: red">*</span>
         <?php endif; ?>

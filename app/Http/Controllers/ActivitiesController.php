@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Imports\ImportActivities;
 use Illuminate\Http\Request;
 use App\Models\Activity;
-
 use App\Http\Requests\ActivityRequest;
 
 class ActivitiesController extends Controller
@@ -51,4 +51,20 @@ class ActivitiesController extends Controller
         $request->session()->flash('success', 'Activity deleted successfully!');
         return redirect()->route('activities.index');
     }
+
+    public function import()
+    {
+        return view('activities.import');
+    }
+
+    public function importExcel(Request $request)
+    {      
+        try {
+            $import = Excel::import(new ImportActivities, $request->file);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return redirect()->route('activities.index')->with('data', $failures);
+        }
+        return redirect()->route('activities.index');
+    } 
 }

@@ -19,9 +19,9 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>GAF Code :<span style="color: red">*</span></label>
-                        <select class="form-input" name="code" x-model="code" id="code" @change="codeChange()">
+                        <select class="form-input" name="grant_approval_id" x-model="code" id="code" @change="codeChange()">
                             @foreach ($gaf_code as $id => $code)
-                                <option value="{{$id}}" {{ $doctor_business_monitoring->code ? ($doctor_business_monitoring->code == $id ? 'Selected' : '' ) : ''}}>{{ $code }}</option>
+                                <option value="{{$id}}" {{ $doctor_business_monitoring->grant_approval_id ? ($doctor_business_monitoring->grant_approval_id == $id ? 'Selected' : '' ) : ''}}>{{ $code }}</option>
                             @endforeach
                         </select> 
                         <x-input-error :messages="$errors->get('code')" class="mt-2" /> 

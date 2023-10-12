@@ -2,6 +2,7 @@
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn"> 
         <x-add-button :link="route('products.create')" />
+        <x-excel-button :link="route('products.import')" />
         <div class="panel mt-6 table-responsive">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Products</h5>
             <table id="myTable" class="whitespace-nowrap">

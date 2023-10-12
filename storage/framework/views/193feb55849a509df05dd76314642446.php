@@ -9,7 +9,7 @@
 <?php $component->withAttributes([]); ?>
     <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
-        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager','Managing Executive'])): ?>
+        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.add-button','data' => ['link' => route('grant_approvals.create')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('add-button'); ?>
@@ -32,15 +32,18 @@
             <table id="myTable" class="whitespace-nowrap table-hover">
                 <?php $__currentLoopData = $grant_approvals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $grant_approval): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr> 
+                    <td><?php echo e(@$grant_approval->code); ?></td> 
                     <td><?php echo e(@$grant_approval->Manager->name); ?></td>           
-                    <td><?php echo e(@$grant_approval->AreaManager->name); ?></td>
-                    <td><?php echo e(@$grant_approval->ZonalManager->name); ?></td>
+                    <td><?php echo e(@$grant_approval->Manager->AreaManager->name); ?></td>
+                    <td><?php echo e(@$grant_approval->Manager->ZonalManager->name); ?></td>
                     <td><?php echo e(@$grant_approval->Doctor->doctor_name); ?></td>
                     <td><?php echo e(@$grant_approval->Activity->name); ?></td>
-                    <td><?php echo e(@$grant_approval->code); ?></td> 
-                    <td><?php echo e(@$grant_approval->status); ?></td>           
-                    <td style="text-align:right;"> &#8377;  <?php echo e(@$grant_approval->amount); ?></td>           
-                    <td style="text-align:right;"> &#8377;  <?php echo e(@$grant_approval->approval_amount); ?></td>           
+                    <td style="text-align:right;"> &#8377;  <?php echo e(@$grant_approval->proposal_amount); ?></td>           
+                    <td style="text-align:right;"> &#8377;  <?php echo e($grant_approval->approval_amount); ?></td>           
+                    <td>
+                        <?php echo $grant_approval->status == "Open" ? '<span class="badge bg-info"> Open </span>' : ($grant_approval->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($grant_approval->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>' :  ($grant_approval->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($grant_approval->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : '')) )); ?>
+
+                    </td>           
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Area Manager'])): ?>
@@ -56,19 +59,18 @@
                             <?php endif; ?>
 
                             <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Zonal Manager'])): ?>
-                                <?php if($grant_approval->status == "Area Manager Approved"): ?>
+                                <?php if($grant_approval->status == "Level 1 Approved"): ?>
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
                                 </li>
-                                <?php endif; ?>
-                          
-                                <?php if($grant_approval->status == "Area Manager Approved"): ?>
+                               
                                     <li style="display: inline-block;vertical-align:top;">
                                         <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
                                     </li>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
+
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
                                 </li>
@@ -76,6 +78,8 @@
                                         <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
                                     </li>
                             <?php endif; ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Area Manager', 'Managing Executive'])): ?>
+                            <?php if($grant_approval->approval_level_1 == false): ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.edit-button','data' => ['link' =>  route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -93,6 +97,30 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>                               
                             </li>
+                            <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Zonal Manager'])): ?>
+                                <?php if($grant_approval->approval_level_2 == false): ?>
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.edit-button','data' => ['link' =>  route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('edit-button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['link' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute( route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id]))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>                               
+                                </li>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
                             <li style="display: inline-block;vertical-align:top;">
                                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.delete-button','data' => ['link' =>  route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -110,6 +138,7 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  
                             </li>   
+                            
                         </ul>
                     </td>
                 </tr>
@@ -208,13 +237,13 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Zonal Manager", "Area Manager", "Managing Executive", "Doctor", "Activity", "Code", "Status", "Proposal Amount", "Approved Amount", "Action"],
+                            headings: ["Code", "Managing Executive", "Area Manager",  "Zonal Manager", "Doctor", "Activity",  "Proposal Amount", "Approved Amount", "Status", "Action"],
                         },
                         searchable: true,
                         perPage: 30,
                         perPageSelect: [10, 20, 30, 50, 100],
                         columns: [{
-                            order: [[0, 'asc']]
+                            order: [0, 'desc']
                         }, ],
                         firstLast: true,
                         firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',

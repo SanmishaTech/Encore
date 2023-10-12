@@ -12,7 +12,7 @@
 } ?>
 <?php unset($__defined_vars); ?>
 <div>
-    <?php if(isset($label)): ?>
+    <?php if(!empty($label)): ?>
         <label>
             <?php echo e($label ?? $slot); ?>: 
             <?php if($require): ?>

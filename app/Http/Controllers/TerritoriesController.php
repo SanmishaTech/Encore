@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Imports\ImportTerritories;
 use Illuminate\Http\Request;
 use App\Models\Territory;
   
@@ -51,4 +52,20 @@ class TerritoriesController extends Controller
         $request->session()->flash('success', 'Territory deleted successfully!');
         return redirect()->route('territories.index');
     }
+
+    public function import()
+    {
+        return view('territories.import');
+    }
+
+    public function importTerritoryExcel(Request $request)
+    {      
+        try {
+            $import = Excel::import(new ImportTerritories, $request->file);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return redirect()->route('territories.index')->with('data', $failures);
+        }
+        return redirect()->route('territories.index');
+    } 
 }

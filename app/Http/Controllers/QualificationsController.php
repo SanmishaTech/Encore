@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Imports\ImportQualifications;
 use Illuminate\Http\Request;
 use App\Models\Qualification;
 
@@ -51,4 +52,20 @@ class QualificationsController extends Controller
         $request->session()->flash('success', 'Qualification deleted successfully!');
         return redirect()->route('qualifications.index');
     }
+
+    public function import()
+    {
+        return view('qualifications.import');
+    }
+
+    public function importQualificationExcel(Request $request)
+    {      
+        try {
+            $import = Excel::import(new ImportQualifications, $request->file);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return redirect()->route('qualifications.index')->with('data', $failures);
+        }
+        return redirect()->route('qualifications.index');
+    } 
 }

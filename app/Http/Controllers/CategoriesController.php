@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Excel;
+use App\Imports\ImportCategories;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
@@ -51,4 +53,20 @@ class CategoriesController extends Controller
         $request->session()->flash('success', 'Category deleted successfully!');
         return redirect()->route('categories.index');
     }
+
+    public function import()
+    {
+        return view('categories.import');
+    }
+
+    public function importCategoriesExcel(Request $request)
+    {      
+        try {
+            $import = Excel::import(new ImportCategories, $request->file);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            return redirect()->route('categories.index')->with('data', $failures);
+        }
+        return redirect()->route('categories.index');
+    } 
 }

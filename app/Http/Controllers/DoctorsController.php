@@ -15,7 +15,7 @@ class DoctorsController extends Controller
 {
     public function index()
     {
-        $doctors = Doctor::orderBy('id', 'desc')->get();
+        $doctors = Doctor::orderBy('id', 'desc')->get();        
         return view('doctors.index', ['doctors' => $doctors]);
     }
 
@@ -24,7 +24,7 @@ class DoctorsController extends Controller
         $qualifications = Qualification::pluck('name', 'id');
         $categories = Category::pluck('name', 'id');
         $territories = Territory::pluck('name', 'id');
-        $employees = Employee::pluck('name', 'id');
+        $employees = Employee::where('designation', 'Zonal Manager')->pluck('name', 'id');
         return view('doctors.create',compact('qualifications','categories','territories','employees'));
     }
 
@@ -47,7 +47,7 @@ class DoctorsController extends Controller
         $qualifications = Qualification::pluck('name', 'id');
         $categories = Category::pluck('name', 'id');
         $territories = Territory::pluck('name', 'id');
-        $employees = Employee::pluck('name', 'id');
+        $employees = Employee::where('designation', 'Zonal Manager')->pluck('name', 'id');
         return view('doctors.edit', [
             'doctor' => $doctor,
             'qualifications' => $qualifications,

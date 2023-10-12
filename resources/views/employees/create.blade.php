@@ -35,7 +35,16 @@
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
                     </div>
                     <x-text-input name="dob" type="date" value="{{ old('dob') }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')" :require="true"/>
-                    <x-text-input name="state_name" value="{{ old('state_name') }}" :label="__('State name')" :messages="$errors->get('state_name')" :require="true"/> 
+                    <div>
+                        <label>States:</label>
+                        <select class="form-input" name="state_name">
+                            <option value="">Select states</option>
+                            <template x-for="state in states" :key="state.code">
+                                <option :value="state.name" x-text="state.name"></option>
+                            </template>
+                        </select> 
+                        <x-input-error :messages="$errors->get('reporting_office_3')" class="mt-2" />
+                    </div>
                     <x-text-input name="city" value="{{ old('city') }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
@@ -58,8 +67,8 @@
                     </div>
                     <div x-show="abmopen">
                         <label>Reporting Office 2 :</label>
-                        <select class="form-input" name="reporting_office_2" id="office_2" @change="reportOfficeME()" x-model="abml">
-                            <!-- <option value="">Select Office-2</option> -->
+                        <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
+                            <option value="">Select Office-2</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
                             </template>
@@ -68,8 +77,8 @@
                     </div>  
                     <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
-                        <select class="form-input" name="reporting_office_3" id="office_3">
-                            <!-- <option value="">Select Office-3</option> -->
+                        <select class="form-input" name="reporting_office_3">
+                            <option value="">Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>
@@ -92,7 +101,8 @@
 </div> 
 <script>
 document.addEventListener("alpine:init", () => {
-    Alpine.data('data', () => ({      
+    Alpine.data('data', () => ({  
+        states: '',    
         init() {
             this.rbmopen = true;
             this.abmopen = true;
@@ -105,8 +115,52 @@ document.addEventListener("alpine:init", () => {
             };
             NiceSelect.bind(document.getElementById("designation"), options);
             NiceSelect.bind(document.getElementById("office_1"), options);
-            NiceSelect.bind(document.getElementById("office_2"), options);
-            NiceSelect.bind(document.getElementById("office_3"), options);
+            // NiceSelect.bind(document.getElementById("office_2"), options);
+            // NiceSelect.bind(document.getElementById("office_3"), options);
+
+            this.states = [
+                { code: 'AN', name: 'Andaman and Nicobar Islands' },
+                { code: 'AP', name: 'Andhra Pradesh' },
+                { code: 'AR', name: 'Arunachal Pradesh' },
+                { code: 'AS', name: 'Assam' },
+                { code: 'BR', name: 'Bihar' },
+                { code: 'CG', name: 'Chandigarh' },
+                { code: 'CH', name: 'Chhattisgarh' },
+                
+                { code: 'DN', name: 'Dadra and Nagar Haveli' },
+                { code: 'DD', name: 'Daman and Diu' },
+                { code: 'DL', name: 'Delhi' },
+                { code: 'GA', name: 'Goa' },
+                { code: 'GJ', name: 'Gujarat' },
+                { code: 'HR', name: 'Haryana' },
+                { code: 'HP', name: 'Himachal Pradesh' },
+
+                { code: 'JK', name: 'Jammu and Kashmir' },
+                { code: 'JH', name: 'Jharkhand' },
+                { code: 'KA', name: 'Karnataka' },
+                { code: 'KL', name: 'Kerala' },
+                { code: 'LA', name: 'Ladakh' },
+                { code: 'LD', name: 'Lakshadweep' },
+                { code: 'MP', name: 'Madhya Pradesh' },
+                
+                { code: 'MH', name: 'Maharashtra' },
+                { code: 'MN', name: 'Manipur' },
+                { code: 'ML', name: 'Meghalaya' },
+                { code: 'MZ', name: 'Mizoram' },
+                { code: 'NL', name: 'Nagaland' },
+                { code: 'OR', name: 'Odisha' },
+                { code: 'PY', name: 'Puducherry' },
+                
+                { code: 'PB', name: 'Punjab' },
+                { code: 'RJ', name: 'Rajasthan' },
+                { code: 'SK', name: 'Sikkim' },
+                { code: 'TN', name: 'Tamil Nadu' },
+                { code: 'TS', name: 'Telangana' },
+                { code: 'TR', name: 'Tripura' },
+                { code: 'UP', name: 'Uttar Pradesh' },
+                { code: 'UK', name: 'Uttarakhand' },
+                { code: 'WB', name: 'West Bengal' },
+            ];
         },
 
         rbm: '',

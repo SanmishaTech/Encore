@@ -38,7 +38,10 @@ class Doctor extends Model
         'designation',
         'hq',
         'class',
-        'mpl_no'
+        'mpl_no',
+        'reporting_office_1',
+        'reporting_office_2',
+        'reporting_office_3',
     ];
 
     public function setDobAttribute($value)

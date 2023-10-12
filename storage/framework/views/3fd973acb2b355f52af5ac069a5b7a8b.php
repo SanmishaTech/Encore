@@ -143,21 +143,30 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'state_name','value' => ''.e(old('state_name', $employee->state_name)).'','label' => __('State name'),'messages' => $errors->get('state_name'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('text-input'); ?>
+                    <div>
+                        <label>States:</label>
+                        <select class="form-input" name="state_name">
+                            <option value="">Select states</option>
+                            <template x-for="state in states" :key="state.code">
+                                <option :value="state.name" x-text="state.name" :selected="state.name == '<?php echo e($employee->state_name); ?>'"></option>
+                            </template>
+                        </select> 
+                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('reporting_office_3'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('input-error'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'state_name','value' => ''.e(old('state_name', $employee->state_name)).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('State name')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('state_name')),'require' => true]); ?>
+<?php $component->withAttributes(['messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('reporting_office_3')),'class' => 'mt-2']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>   
+<?php endif; ?>
+                    </div>   
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'city','value' => ''.e(old('city', $employee->city)).'','label' => __('City'),'messages' => $errors->get('city'),'require' => true]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
@@ -250,8 +259,8 @@
                     </div>
                     <div x-show="abmopen">
                         <label>Reporting Office 2 :</label>
-                        <select class="form-input" name="reporting_office_2" id="office_2" @change="reportOfficeME()" x-model="abml">
-                            <!-- <option value="">Select Office-2</option> -->
+                        <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
+                            <option value="">Select Office-2</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" :selected='list.id == abml' x-text="list.name"></option>
                             </template>
@@ -274,8 +283,8 @@
                     </div>  
                     <div x-show="meopen">
                         <label>Reporting Office 3 :</label>
-                        <select class="form-input" name="reporting_office_3" id="office_3" x-model="manager">
-                            <!-- <option value="">Select Office-3</option> -->
+                        <select class="form-input" name="reporting_office_3" x-model="manager">
+                            <option value="">Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name" :selected='me.id == manager'></option>
                             </template>
@@ -341,6 +350,7 @@
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({
+        states: '',    
         init() {
             this.rbmopen = true;
             this.abmopen = true;
@@ -362,8 +372,52 @@ document.addEventListener("alpine:init", () => {
             };
             NiceSelect.bind(document.getElementById("designation"), options);
             NiceSelect.bind(document.getElementById("office_1"), options);
-            NiceSelect.bind(document.getElementById("office_2"), options);
-            NiceSelect.bind(document.getElementById("office_3"), options);
+            // NiceSelect.bind(document.getElementById("office_2"), options);
+            // NiceSelect.bind(document.getElementById("office_3"), options);
+
+            this.states = [
+                { code: 'AN', name: 'Andaman and Nicobar Islands' },
+                { code: 'AP', name: 'Andhra Pradesh' },
+                { code: 'AR', name: 'Arunachal Pradesh' },
+                { code: 'AS', name: 'Assam' },
+                { code: 'BR', name: 'Bihar' },
+                { code: 'CG', name: 'Chandigarh' },
+                { code: 'CH', name: 'Chhattisgarh' },
+                
+                { code: 'DN', name: 'Dadra and Nagar Haveli' },
+                { code: 'DD', name: 'Daman and Diu' },
+                { code: 'DL', name: 'Delhi' },
+                { code: 'GA', name: 'Goa' },
+                { code: 'GJ', name: 'Gujarat' },
+                { code: 'HR', name: 'Haryana' },
+                { code: 'HP', name: 'Himachal Pradesh' },
+
+                { code: 'JK', name: 'Jammu and Kashmir' },
+                { code: 'JH', name: 'Jharkhand' },
+                { code: 'KA', name: 'Karnataka' },
+                { code: 'KL', name: 'Kerala' },
+                { code: 'LA', name: 'Ladakh' },
+                { code: 'LD', name: 'Lakshadweep' },
+                { code: 'MP', name: 'Madhya Pradesh' },
+                
+                { code: 'MH', name: 'Maharashtra' },
+                { code: 'MN', name: 'Manipur' },
+                { code: 'ML', name: 'Meghalaya' },
+                { code: 'MZ', name: 'Mizoram' },
+                { code: 'NL', name: 'Nagaland' },
+                { code: 'OR', name: 'Odisha' },
+                { code: 'PY', name: 'Puducherry' },
+                
+                { code: 'PB', name: 'Punjab' },
+                { code: 'RJ', name: 'Rajasthan' },
+                { code: 'SK', name: 'Sikkim' },
+                { code: 'TN', name: 'Tamil Nadu' },
+                { code: 'TS', name: 'Telangana' },
+                { code: 'TR', name: 'Tripura' },
+                { code: 'UP', name: 'Uttar Pradesh' },
+                { code: 'UK', name: 'Uttarakhand' },
+                { code: 'WB', name: 'West Bengal' },
+            ];
         },
         
         rbm: '',
