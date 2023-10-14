@@ -1,6 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use PDF;
+use Excel;
+use App\Exports\CDBMExport;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
@@ -132,5 +137,37 @@ class DoctorBusinessMonitoringsController extends Controller
         $doctor_business_monitoring->delete();
         $request->session()->flash('success', 'Doctor Business Monitoring deleted successfully!');
         return redirect()->route('doctor_business_monitorings.index');
+    }
+
+    public function report()
+    {
+        return view('doctor_business_monitorings.report');
+        
+    }
+
+    public function reportCDBM(DoctorBusinessMonitoring $doctor_business_monitoring, Request $request)
+    {
+        return Excel::download(new CDBMExport, 'CDBM_report.xlsx');
+        // $condition = [];
+        // if(isset($request->from_date)){
+        //     $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
+        //     $condition[] = ['date', '>=' , $fromDate];
+        // }        
+
+        // if(isset($request->to_date)){
+        //     $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
+        //     $condition[] = ['date', '<=' , $toDate];
+        // }
+        // $doctors = Doctor::pluck('doctor_name', 'id');       
+        // $employees = Employee::pluck('name', 'id');
+        // $products = Product::pluck('name', 'id');
+        
+        // $doctor_business_monitorings = ProductDetails::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor']])->whereRelation('DoctorBusinessMonitoring', $condition)->get();
+        // // $doctor_business_monitorings->load(['ProductDetails'=>['Products']]);
+        // // dd($doctor_business_monitorings);
+        // $pdf = PDF::loadView('doctor_business_monitorings.print', compact('doctor_business_monitorings','doctors', 'employees', 'products'));        
+        // $pdf->setPaper('A4', 'landscape');
+        // $pdf->render();              
+        // return $pdf->stream("CDBM -" . date("dmY") .".pdf");         
     }
 }

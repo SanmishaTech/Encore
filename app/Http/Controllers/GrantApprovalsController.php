@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use PDF;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Activity;
@@ -190,5 +193,32 @@ class GrantApprovalsController extends Controller
         $grant_approval->delete();
         $request->session()->flash('success', 'Grant Approval deleted successfully!');
         return redirect()->route('grant_approvals.index');
+    }
+
+    public function report()
+    {
+        return view('grant_approvals.report');
+    }
+
+    public function reportPDF(GrantApproval $grant_approval, Request $request)
+    {
+        
+        $condition = [];
+        if(isset($request->from_date)){
+            $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
+            $condition[] = ['date_of_issue', '>=' , $fromDate];
+        }        
+
+        if(isset($request->to_date)){
+            $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
+            $condition[] = ['date_of_issue', '<=' , $toDate];
+        }
+        
+        $doctor = Doctor::all();
+        $grant_approval= GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get();
+        $pdf = PDF::loadView('grant_approvals.print', compact('grant_approval','doctor'));        
+        $pdf->setPaper('A4', 'landscape');
+        $pdf->render();              
+        return $pdf->stream("GAF -" . date("dmY") .".pdf");         
     }
 }

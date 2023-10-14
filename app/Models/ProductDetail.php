@@ -33,4 +33,9 @@ class ProductDetail extends Model
     {
         return $this->belongsTo(DoctorBusinessMonitoring::class);
     }
+
+    public function Product() 
+    {
+        return $this->belongsTo(Product::class);
+    }
 }
