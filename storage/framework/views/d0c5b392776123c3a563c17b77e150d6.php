@@ -76,17 +76,36 @@
                         </div>
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'master'" x-collapse class="sub-menu text-gray-500">
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
                         <li><a href="/products">Products</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/territories">Territories</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/qualifications">Qualifications</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/categories">Categories</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/activities">Activities</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/employees">Employees</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/stockists">Stockists</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
                         <li><a href="/doctors">Doctors</a></li>
+                        <?php endif; ?>
+                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/chemists">Chemists</a></li>
+                        <?php endif; ?>
                     </ul>
                 </li>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager','Area Manager','Managing Executive'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'transaction' }"
                         @click="activeDropdown === 'transaction' ? activeDropdown = null : activeDropdown = 'transaction'">
@@ -120,6 +139,8 @@
                         <li><a href="/doctor_business_monitorings">Core Doctor Business Monitorings</a></li>
                     </ul>
                 </li> 
+                <?php endif; ?>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'users' }"
                         @click="activeDropdown === 'users' ? activeDropdown = null : activeDropdown = 'users'">
@@ -147,12 +168,13 @@
                             </svg>
                         </div>
                     </button>
-                    <ul x-cloak x-show="activeDropdown === 'users'" x-collapse class="sub-menu text-gray-500">
+                    <ul x-cloak x-show="activeDropdown === 'users'" x-collapse class="sub-menu text-gray-500">                    
                         <li><a href="/permissions">Permissions</a></li>
                         <li><a href="/roles">Roles</a></li>
                         <li><a href="/users">Users</a></li>
                     </ul>
-                </li>  
+                </li> 
+                <?php endif; ?> 
             </ul>
         </div>
     </nav>

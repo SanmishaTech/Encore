@@ -1,13 +1,13 @@
 <?php
 namespace App\Imports;
-use App\Models\Category;
+use App\Models\Stockist;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Illuminate\Validation\Rule;
 
-class ImportCategories implements ToModel,WithHeadingRow,WithValidation
+class ImportStockists implements ToModel,WithHeadingRow,WithValidation
 {
     use Importable;
     /**
@@ -18,19 +18,20 @@ class ImportCategories implements ToModel,WithHeadingRow,WithValidation
     public function rules(): array
     {
         return [
-            'name' => 'unique:categories,name'
+            'stockist' => 'unique:stockists,stockist'
         ];
     }
     public function customValidationMessages()
     {
         return [
-            'name.unique' => 'Categories Already Exist',
+            'stockist.unique' => 'Stockists Already Exist',
         ];
     }
     public function model(array $row)
     {
-        return new Category([
-            'name' => $row['name'],
+        return new Stockist([
+            'stockist' => $row['stockist'],
         ]);
+
     }
 }

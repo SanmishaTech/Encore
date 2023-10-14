@@ -14,7 +14,7 @@ class DoctorBusinessMonitoringsController extends Controller
 {
     public function index()
     {
-        $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])->orderBy('id', 'DESC')->get();
+        // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])->orderBy('id', 'DESC')->get();
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
         if($authUser == 'Managing Executive'){            

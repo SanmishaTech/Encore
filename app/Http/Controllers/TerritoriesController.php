@@ -5,8 +5,8 @@ use Excel;
 use App\Imports\ImportTerritories;
 use Illuminate\Http\Request;
 use App\Models\Territory;
-  
 use App\Http\Requests\TerritoryRequest;    
+
 
 class TerritoriesController extends Controller
 {
@@ -61,11 +61,11 @@ class TerritoriesController extends Controller
     public function importTerritoryExcel(Request $request)
     {      
         try {
-            $import = Excel::import(new ImportTerritories, $request->file);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return redirect()->route('territories.index')->with('data', $failures);
+            Excel::import(new ImportTerritories, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('territories.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->route('territories.index');
     } 
 }

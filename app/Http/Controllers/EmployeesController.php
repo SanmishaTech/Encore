@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Excel;
+use App\Imports\ImportEmployees;
 use Illuminate\Http\RedirectResponse; 
 use Illuminate\Http\Request;
 use App\Models\Employee;
@@ -63,8 +65,9 @@ class EmployeesController extends Controller
 
     public function edit(Employee $employee)
     {
+        $users = User::all();
         $employee_list = Employee::select('id','name','designation')->get();
-        return view('employees.edit', ['employee' => $employee, 'employee_list' => $employee_list]);
+        return view('employees.edit', ['employee' => $employee, 'employee_list' => $employee_list, 'users' => $users]);
     }
 
     public function update(Employee $employee, EmployeeRequest $request) 
@@ -80,7 +83,7 @@ class EmployeesController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->active = true;
-            $employee->User()->save($user);
+            $employee->users()->save($user);
         }
         else
         {
@@ -101,5 +104,21 @@ class EmployeesController extends Controller
         $employee->delete();
         $request->session()->flash('success', 'Employee deleted successfully!');
         return redirect()->route('employees.index');
+    }
+
+    public function import()
+    {
+        return view('employees.import');
+    }
+
+    public function importEmployeesExcel(Request $request)
+    {      
+        try {
+            Excel::import(new ImportEmployees, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('employees.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

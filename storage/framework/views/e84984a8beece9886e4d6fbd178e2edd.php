@@ -41,8 +41,8 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>               
                     <div>
-                        <label>Zonal Manager :</label>
-                        <select class="form-input" name="employee_id_1" x-model="rbm" @change="reportOffice()">
+                        <label>Zonal Manager :<span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id_1" id="employee_id_1" x-model="rbm" @change="reportOffice()">
                             <option>Select Zonal Manager</option>
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if($employee->designation == 'Zonal Manager'): ?>
@@ -67,8 +67,8 @@
 <?php endif; ?> 
                     </div>
                     <div>
-                        <label>Area Manager :</label>
-                        <select class="form-input" name="employee_id_2" @change="reportOfficeME()" x-model="abml">
+                        <label>Area Manager :<span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id_2"  @change="reportOfficeME()" x-model="abml">
                             <option>Select Area Manager</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id"  :selected='list.id == abml' x-text="list.name"></option>
@@ -91,8 +91,8 @@
 <?php endif; ?>
                     </div>  
                     <div>
-                        <label>Managing Executive:</label>
-                        <select class="form-input" name="employee_id_3"  x-model="manager">
+                        <label>Managing Executive:<span style="color: red">*</span></label>
+                        <select class="form-input" name="employee_id_3" x-model="manager">
                             <option>Select Managing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id"  :selected='me.id == manager' x-text="me.name"></option>
@@ -166,6 +166,7 @@ document.addEventListener("alpine:init", () => {
             this.abm = '';
             this.rbm = '';
             this.mehq = '';
+            this.manager = '';
             <?php if($stockist->employee_id_1): ?>
                 this.rbm = '<?php echo e($stockist->employee_id_1); ?>';
                 this.reportOffice();
@@ -179,7 +180,14 @@ document.addEventListener("alpine:init", () => {
             <?php if($stockist->employee_id_3): ?>
                 this.manager = '<?php echo e($stockist->employee_id_3); ?>';
             <?php endif; ?>
-                 
+              
+            
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("employee_id_1"), options);
+            // NiceSelect.bind(document.getElementById("employee_id_2"), options);
+            // NiceSelect.bind(document.getElementById("employee_id_3"), options);
         },
 
         async reportOffice() {               

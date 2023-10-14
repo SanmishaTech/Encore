@@ -42,7 +42,7 @@
                     <div>
                         <label>Zonal Manager : <span style="color: red">*</span></label>
                         <select class="form-input" name="employee_id_1" id="employee_id_1" x-model="rbm" @change="reportOffice()">
-                            <option>Select Zonal Manager</option>
+                            <!-- <option>Select Zonal Manager</option> -->
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php if($employee->designation == 'Zonal Manager'): ?>
                                 <option value="<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></option>
@@ -67,7 +67,7 @@
                     </div>
                     <div>
                         <label>Area Manager: <span style="color: red">*</span></label>
-                        <select class="form-input" name="employee_id_2" id="employee_id_2" @change="reportOfficeME()" x-model="abml">
+                        <select class="form-input" name="employee_id_2" @change="reportOfficeME()" x-model="abml">
                             <option>Select Area Manager</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
@@ -91,7 +91,7 @@
                     </div>  
                     <div>
                         <label>Managing Executive :<span style="color: red">*</span></label>
-                        <select class="form-input" name="employee_id_3" id="employee_id_3">
+                        <select class="form-input" name="employee_id_3">
                             <option>Select Managing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
@@ -164,8 +164,8 @@ document.addEventListener("alpine:init", () => {
                 searchable: true
             };
             NiceSelect.bind(document.getElementById("employee_id_1"), options);
-            NiceSelect.bind(document.getElementById("employee_id_2"), options);
-            NiceSelect.bind(document.getElementById("employee_id_3"), options);
+            // NiceSelect.bind(document.getElementById("employee_id_2"), options);
+            // NiceSelect.bind(document.getElementById("employee_id_3"), options);
         },
         rbm: '',
         abm: '',

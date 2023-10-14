@@ -1,6 +1,6 @@
 <x-layout.default>        
     <div class="pt-5">
-        <form action="{{ route('importTerritoryExcel')  }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('importEmployeesExcel')  }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
@@ -9,7 +9,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <input type="file" name="file" class="form-input" >
-                        <x-input-error :messages="$errors->get('file')" class="mt-2" /> 
+                        <x-input-error :messages="$errors->get('file')" class="mt-2" />
                     </div>  
                     <div>
                         <button class="btn btn-primary m-1" >

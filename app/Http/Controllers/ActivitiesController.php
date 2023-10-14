@@ -60,11 +60,11 @@ class ActivitiesController extends Controller
     public function importExcel(Request $request)
     {      
         try {
-            $import = Excel::import(new ImportActivities, $request->file);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return redirect()->route('activities.index')->with('data', $failures);
+            Excel::import(new ImportActivities, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('activities.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->route('activities.index');
     } 
 }

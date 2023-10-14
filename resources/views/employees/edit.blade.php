@@ -52,7 +52,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name', $employee->fieldforce_name) }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')" :require="true"/>
                     <x-text-input name="employee_code" value="{{ old('employee_code', $employee->employee_code) }}" :label="__('Employee Code')" :messages="$errors->get('employee_code')" :require="true"/> 
-                    <x-text-input name="password" type="password" value="{{ old('password', $employee->users->password ) }}" :require="true" :label="__('Password')" :messages="$errors->get('password')"/>
+                    <x-text-input name="password" type="password" value="{{ $employee->users->password }}"  :label="__('Password')" :messages="$errors->get('password')"/>
                 </div>   
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-3">
                     <div x-show="rbmopen">

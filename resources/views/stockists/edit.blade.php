@@ -32,7 +32,7 @@
                     </div>
                     <div>
                         <label>Area Manager :<span style="color: red">*</span></label>
-                        <select class="form-input" name="employee_id_2" id="employee_id_2" @change="reportOfficeME()" x-model="abml">
+                        <select class="form-input" name="employee_id_2"  @change="reportOfficeME()" x-model="abml">
                             <option>Select Area Manager</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id"  :selected='list.id == abml' x-text="list.name"></option>
@@ -42,7 +42,7 @@
                     </div>  
                     <div>
                         <label>Managing Executive:<span style="color: red">*</span></label>
-                        <select class="form-input" name="employee_id_3" id="employee_id_3"  x-model="manager">
+                        <select class="form-input" name="employee_id_3" x-model="manager">
                             <option>Select Managing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id"  :selected='me.id == manager' x-text="me.name"></option>
@@ -74,6 +74,7 @@ document.addEventListener("alpine:init", () => {
             this.abm = '';
             this.rbm = '';
             this.mehq = '';
+            this.manager = '';
             @if($stockist->employee_id_1)
                 this.rbm = '{{  $stockist->employee_id_1 }}';
                 this.reportOffice();
@@ -88,14 +89,13 @@ document.addEventListener("alpine:init", () => {
                 this.manager = '{{  $stockist->employee_id_3 }}';
             @endif
               
-            init(){
+            
             var options = {
                 searchable: true
             };
             NiceSelect.bind(document.getElementById("employee_id_1"), options);
-            NiceSelect.bind(document.getElementById("employee_id_2"), options);
-            NiceSelect.bind(document.getElementById("employee_id_3"), options);
-        },
+            // NiceSelect.bind(document.getElementById("employee_id_2"), options);
+            // NiceSelect.bind(document.getElementById("employee_id_3"), options);
         },
 
         async reportOffice() {               

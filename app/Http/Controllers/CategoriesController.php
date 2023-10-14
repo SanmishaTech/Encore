@@ -6,7 +6,6 @@ use Excel;
 use App\Imports\ImportCategories;
 use Illuminate\Http\Request;
 use App\Models\Category;
-
 use App\Http\Requests\CategoryRequest;
 
 class CategoriesController extends Controller
@@ -62,11 +61,11 @@ class CategoriesController extends Controller
     public function importCategoriesExcel(Request $request)
     {      
         try {
-            $import = Excel::import(new ImportCategories, $request->file);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return redirect()->route('categories.index')->with('data', $failures);
+            Excel::import(new ImportCategories, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('categories.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->route('categories.index');
     } 
 }

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Imports\ImportChemists;
 use App\Models\Chemist;
 use App\Http\Requests\ChemistRequest;
 use App\Models\Employee;
@@ -78,5 +79,21 @@ class ChemistsController extends Controller
         $chemist->delete();
         $request->session()->flash('success', 'Chemist deleted successfully!');
         return redirect()->route('chemists.index');
+    }
+
+    public function import()
+    {
+        return view('chemists.import');
+    }
+
+    public function importChemistsExcel(Request $request)
+    {      
+        try {
+            Excel::import(new ImportChemists, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('chemists.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Imports\ImportDoctors;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\Employee;
@@ -15,7 +16,16 @@ class DoctorsController extends Controller
 {
     public function index()
     {
-        $doctors = Doctor::orderBy('id', 'desc')->get();        
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        $authUserId = auth()->user()->id;
+        if($authUser == 'Managing Executive'){  
+            $doctors = Doctor::with(['Employee'])
+                                ->where('reporting_office_3', $authUserId)
+                                ->orderBy('id', 'DESC')
+                                ->get();
+        } else{
+            $doctors = Doctor::orderBy('id', 'desc')->get();     
+        } 
         return view('doctors.index', ['doctors' => $doctors]);
     }
 
@@ -71,4 +81,20 @@ class DoctorsController extends Controller
         $request->session()->flash('success', 'Doctor deleted successfully!');
         return redirect()->route('doctors.index');
     }
+
+    public function import()
+    {
+        return view('doctors.import');
+    }
+
+    public function importDoctorsExcel(Request $request)
+    {      
+        try {
+            Excel::import(new ImportDoctors, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('doctors.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    } 
 }

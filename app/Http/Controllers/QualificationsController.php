@@ -5,7 +5,6 @@ use Excel;
 use App\Imports\ImportQualifications;
 use Illuminate\Http\Request;
 use App\Models\Qualification;
-
 use App\Http\Requests\QualificationRequest; 
 
 class QualificationsController extends Controller
@@ -61,11 +60,11 @@ class QualificationsController extends Controller
     public function importQualificationExcel(Request $request)
     {      
         try {
-            $import = Excel::import(new ImportQualifications, $request->file);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return redirect()->route('qualifications.index')->with('data', $failures);
+            Excel::import(new ImportQualifications, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('qualifications.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->route('qualifications.index');
     } 
 }

@@ -65,6 +65,14 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('importQualificationExcel','QualificationsController@importQualificationExcel')->name('importQualificationExcel');
         Route::get('/import/categories/', 'CategoriesController@import')->name('categories.import');
         Route::post('importCategoriesExcel','CategoriesController@importCategoriesExcel')->name('importCategoriesExcel');
+        Route::get('/import/doctors/', 'DoctorsController@import')->name('doctors.import');
+        Route::post('importDoctorsExcel','DoctorsController@importDoctorsExcel')->name('importDoctorsExcel');
+        Route::get('/import/chemists/', 'ChemistsController@import')->name('chemists.import');
+        Route::post('importChemistsExcel','ChemistsController@importChemistsExcel')->name('importChemistsExcel');
+        Route::get('/import/stockists/', 'StockistsController@import')->name('stockists.import');
+        Route::post('importStockistsExcel','StockistsController@importStockistsExcel')->name('importStockistsExcel');
+        Route::get('/import/employees/', 'EmployeesController@import')->name('employees.import');
+        Route::post('importEmployeesExcel','EmployeesController@importEmployeesExcel')->name('importEmployeesExcel');
 
         /**
          * Masters Route

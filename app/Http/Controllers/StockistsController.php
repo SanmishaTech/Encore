@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Imports\ImportStockists;
 use Illuminate\Http\Request;
 use App\Http\Requests\StockistRequest;
 use App\Models\Stockist;
@@ -37,12 +38,14 @@ class StockistsController extends Controller
 
     public function edit(Stockist $stockist)
     {
+        // dd($stockist);
         $employees = Employee::select('id','name','designation')->get();
         return view('stockists.edit', ['stockist' => $stockist, 'employees'=>$employees]);
     }
 
     public function update(Stockist $stockist, StockistRequest $request) 
     {
+        // dd($request);
         $stockist->update($request->all());
         $request->session()->flash('success', 'Stockist updated successfully!');
         return redirect()->route('stockists.index');
@@ -53,5 +56,21 @@ class StockistsController extends Controller
         $stockist->delete();
         $request->session()->flash('success', 'Stockist deleted successfully!');
         return redirect()->route('stockists.index');
+    }
+
+    public function import()
+    {
+        return view('stockists.import');
+    }
+
+    public function importStockistsExcel(Request $request)
+    {      
+        try {
+            Excel::import(new ImportStockists, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('stockists.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

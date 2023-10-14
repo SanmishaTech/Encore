@@ -9,6 +9,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <input type="file" name="file" class="form-input" >
+                        <x-input-error :messages="$errors->get('file')" class="mt-2" />
                     </div>  
                     <div>
                         <button class="btn btn-primary m-1" >

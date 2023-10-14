@@ -59,11 +59,11 @@ class ProductsController extends Controller
     public function importProductExcel(Request $request)
     {      
         try {
-            $import = Excel::import(new ImportProducts, $request->file);
-        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-            $failures = $e->failures();
-            return redirect()->route('products.index')->with('data', $failures);
+            Excel::import(new ImportProducts, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('products.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->route('products.index');
     } 
 }

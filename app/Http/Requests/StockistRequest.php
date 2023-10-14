@@ -23,7 +23,7 @@ class StockistRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'stockist' => 'required|unique:stockists,stockist'. ($this->stockist ? $this->stockist->id : ''),
+            'stockist' => 'required|unique:stockists,stockist,'. ($this->stockist ? $this->stockist : ''),
             // 'stockist' => ['required', Rule::unique('stockists')->ignore($this->stockist)],
             'employee_id_1' => 'required',
             'employee_id_2' => 'required',
