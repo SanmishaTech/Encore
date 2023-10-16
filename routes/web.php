@@ -99,6 +99,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('grant_approvals', GrantApprovalsController::class);
         // Route::get('/grant_approvals/report/{grant_approval}', [App\Http\Controllers\GrantApprovalsController::class, 'report'])->name('grant_approvals.report');        
         Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);
+        Route::resource('roi_accountability_reports', ROIAccountabilityReportsController::class);
     });
 
     Route::group(['middleware' => ['auth']], function() {  

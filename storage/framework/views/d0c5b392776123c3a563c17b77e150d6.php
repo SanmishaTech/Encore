@@ -127,6 +127,7 @@
                     <ul x-cloak x-show="activeDropdown === 'transaction'" x-collapse class="sub-menu text-gray-500">
                         <li><a href="/grant_approvals">Grant Approvals</a></li>
                         <li><a href="/doctor_business_monitorings">Core Doctor Business Monitorings</a></li>
+                        <li><a href="/roi_accountability_reports">ROI Accountability Reports</a></li>
                     </ul>
                 </li> 
                 <?php endif; ?>
