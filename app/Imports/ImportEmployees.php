@@ -1,6 +1,8 @@
 <?php
 namespace App\Imports;
 use App\Models\Employee;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -35,7 +37,17 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
     }
     public function model(array $row)
     {
-        return new Employee([
+        $user = new User([
+            'name' => $row['name'],
+            'password' => 'abcd123',
+            'active' => '1',
+            'email' => $row['email'],
+        ]);
+        
+        $data = DB::table('users')->where('name', $row['name'])->first();
+
+        $employee = new Employee([
+            'id' => isset($data->id) ? $data->id : NULL,
             'name' => $row['name'],
             'email' => $row['email'],
             'contact_no_1' => $row['contact_no_1'],
@@ -46,7 +58,11 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
             'city' => $row['city'],
             'fieldforce_name' => $row['fieldforce_name'],
             'employee_code' => $row['employee_code'],
+            'reporting_office_1' => $row['reporting_office_1'],
+            'reporting_office_2' => $row['reporting_office_2'],
+            'reporting_office_3' => $row['reporting_office_3'],
         ]);
 
+        return [$employee, $user, $user->syncRoles($row['designation'])];
     }
 }

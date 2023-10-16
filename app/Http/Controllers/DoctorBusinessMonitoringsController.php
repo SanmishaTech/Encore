@@ -145,7 +145,7 @@ class DoctorBusinessMonitoringsController extends Controller
         
     }
 
-    public function reportCDBM(DoctorBusinessMonitoring $doctor_business_monitoring, Request $request)
+    public function reportCDBM()
     {
         return Excel::download(new CDBMExport, 'CDBM_report.xlsx');
         // $condition = [];

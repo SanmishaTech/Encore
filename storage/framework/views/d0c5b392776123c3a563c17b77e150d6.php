@@ -80,21 +80,11 @@
                         <li><a href="/products">Products</a></li>
                         <?php endif; ?>
                         <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
-                        <li><a href="/territories">Territories</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
-                        <li><a href="/qualifications">Qualifications</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
-                        <li><a href="/categories">Categories</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
-                        <li><a href="/activities">Activities</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
-                        <li><a href="/employees">Employees</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
+                        <li><a href="/territories">Territories</a></li>                        
+                        <li><a href="/qualifications">Qualifications</a></li>                        
+                        <li><a href="/categories">Categories</a></li>                       
+                        <li><a href="/activities">Activities</a></li>                       
+                        <li><a href="/employees">Employees</a></li>                      
                         <li><a href="/stockists">Stockists</a></li>
                         <?php endif; ?>
                         <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>

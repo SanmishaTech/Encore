@@ -80,21 +80,11 @@
                         <li><a href="/products">Products</a></li>
                         @endrole
                         @role(['Admin'])
-                        <li><a href="/territories">Territories</a></li>
-                        @endrole
-                        @role(['Admin'])
-                        <li><a href="/qualifications">Qualifications</a></li>
-                        @endrole
-                        @role(['Admin'])
-                        <li><a href="/categories">Categories</a></li>
-                        @endrole
-                        @role(['Admin'])
-                        <li><a href="/activities">Activities</a></li>
-                        @endrole
-                        @role(['Admin'])
-                        <li><a href="/employees">Employees</a></li>
-                        @endrole
-                        @role(['Admin'])
+                        <li><a href="/territories">Territories</a></li>                        
+                        <li><a href="/qualifications">Qualifications</a></li>                        
+                        <li><a href="/categories">Categories</a></li>                       
+                        <li><a href="/activities">Activities</a></li>                       
+                        <li><a href="/employees">Employees</a></li>                      
                         <li><a href="/stockists">Stockists</a></li>
                         @endrole
                         @role(['Admin','Managing Executive'])

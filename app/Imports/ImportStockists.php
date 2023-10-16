@@ -31,6 +31,9 @@ class ImportStockists implements ToModel,WithHeadingRow,WithValidation
     {
         return new Stockist([
             'stockist' => $row['stockist'],
+            'employee_id_1' => $row['employee_id_1'],
+            'employee_id_2' => $row['employee_id_2'],
+            'employee_id_3' => $row['employee_id_3'],
         ]);
 
     }

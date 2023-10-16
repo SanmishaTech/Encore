@@ -198,7 +198,8 @@ document.addEventListener("alpine:init", () => {
             console.log(this.code);
             NiceSelect.bind(document.getElementById("code"), options);
             @if($doctor_business_monitoring->grant_approval_id)
-                this.code.val({{  $doctor_business_monitoring->grant_approval_id }});
+                
+                this.code = {{  $doctor_business_monitoring->grant_approval_id }};
                 this.codeChange();
             @endif
 

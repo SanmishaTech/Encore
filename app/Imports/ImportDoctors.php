@@ -51,7 +51,12 @@ class ImportDoctors implements ToModel,WithHeadingRow,WithValidation
             'hq' => $row['hq'],
             'type' => $row['type'],
             'mpl_no' => $row['mpl_no'],
-            // 'reporting_office_1' => $emp->id
+            'territory_id' => $row['territory_id'],
+            'category_id' => $row['category_id'],
+            'qualification_id' => $row['qualification_id'],
+            'reporting_office_1' => $row['reporting_office_1'],
+            'reporting_office_2' => $row['reporting_office_2'],
+            'reporting_office_3' => $row['reporting_office_3'],
         ]);
 
     }

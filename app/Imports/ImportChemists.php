@@ -1,6 +1,8 @@
 <?php
 namespace App\Imports;
 use App\Models\Chemist;
+use Illuminate\Support\Facades\DB;
+
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -35,6 +37,7 @@ class ImportChemists implements ToModel,WithHeadingRow,WithValidation
     }
     public function model(array $row)
     {
+        $employee = DB::table('employees')->where('name', $row['employee_name'])->first();
         return new Chemist([
             'chemist' => $row['chemist'],
             'address' => $row['address'],
@@ -42,6 +45,8 @@ class ImportChemists implements ToModel,WithHeadingRow,WithValidation
             'contact_no_1' => $row['contact_no_1'],
             'contact_no_2' => $row['contact_no_2'],
             'email' => $row['email'],
+            'employee_id' => isset($employee->id) ? $employee->id : NULL,
+            'territory_id' => $row['territory_id'],
         ]);
 
     }
