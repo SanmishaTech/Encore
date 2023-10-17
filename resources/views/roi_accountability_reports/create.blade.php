@@ -89,7 +89,7 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" style="width:100px" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                        <select class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
                                                             <option>Select Product</option>
                                                                 @foreach ($products as $id => $product)
                                                                     <option value="{{$id}}"> {{$product}} </option>
@@ -101,10 +101,25 @@
                                                         <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
                                                     </td>
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][month]`"  :messages="$errors->get('month')" x-model="productDetail.month"/>
+                                                        <select class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
+                                                            <option>Select Month</option>
+                                                            <option value="Jan /2023">Jan /2023</option>
+                                                            <option value="Feb /2023">Feb /2023</option>
+                                                            <option value="Mar /2023">Mar /2023</option>
+                                                            <option value="Apr /2023">Apr /2023</option>
+                                                            <option value="May /2023">May /2023</option>
+                                                            <option value="Jun /2023">Jun /2023</option>
+                                                            <option value="Jul /2023">Jul /2023</option>
+                                                            <option value="Aug /2023">Aug /2023</option>
+                                                            <option value="Sep /2023">Sep /2023</option>
+                                                            <option value="Oct /2023">Oct /2023</option>
+                                                            <option value="Nov /2023">Nov /2023</option>
+                                                            <option value="Dec /2023">Dec /2023</option>
+                                                        </select> 
+                                                        <x-input-error :messages="$errors->get('month')" class="mt-2" /> 
                                                     </td> 
                                                     <td>
-                                                        <x-text-input  x-bind:name="`prouct_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
                                                     </td>
                                                     <td>
                                                         <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_val]`"  :messages="$errors->get('exp_val')" x-model="productDetail.exp_val"/>
@@ -141,7 +156,7 @@
 </div>
 <script>
 document.addEventListener("alpine:init", () => {
-    Alpine.data('data', () => ({      
+    Alpine.data('data', () => ({     
         init() {
             var options = {
                 searchable: true

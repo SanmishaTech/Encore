@@ -81,7 +81,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('reportPDF','GrantApprovalsController@reportPDF')->name('reportPDF');
         Route::get('/doctor_business_monitorings/report/', 'DoctorBusinessMonitoringsController@report')->name('doctor_business_monitorings.report');
         Route::post('reportCDBM','DoctorBusinessMonitoringsController@reportCDBM')->name('reportCDBM');
-        
+        Route::get('/roi_accountability_reports/report/', 'RoiAccountabilityReportsController@report')->name('roi_accountability_reports.report');
+        Route::post('reportRAR','RoiAccountabilityReportsController@reportRAR')->name('reportRAR');
         /**
          * Masters Route
          */
@@ -99,7 +100,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('grant_approvals', GrantApprovalsController::class);
         // Route::get('/grant_approvals/report/{grant_approval}', [App\Http\Controllers\GrantApprovalsController::class, 'report'])->name('grant_approvals.report');        
         Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);
-        Route::resource('roi_accountability_reports', ROIAccountabilityReportsController::class);
+        Route::resource('roi_accountability_reports', RoiAccountabilityReportsController::class);
     });
 
     Route::group(['middleware' => ['auth']], function() {  

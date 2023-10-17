@@ -145,22 +145,18 @@ class DoctorBusinessMonitoringsController extends Controller
         
     }
 
-    public function reportCDBM()
+    public function reportCDBM(Request $request)
     {
-        return Excel::download(new CDBMExport, 'CDBM_report.xlsx');
-        // $condition = [];
-        // if(isset($request->from_date)){
-        //     $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
-        //     $condition[] = ['date', '>=' , $fromDate];
-        // }        
-
-        // if(isset($request->to_date)){
-        //     $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
-        //     $condition[] = ['date', '<=' , $toDate];
-        // }
-        // $doctors = Doctor::pluck('doctor_name', 'id');       
-        // $employees = Employee::pluck('name', 'id');
-        // $products = Product::pluck('name', 'id');
+        $request->validate([
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ],[
+            'from_date.required' => 'You have to choose From-Date',
+            'to_date.required' => 'You have to choose To-Date'
+        ]);
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        return Excel::download(new CDBMExport($from_date, $to_date), 'CDBM_report.xlsx');
         
         // $doctor_business_monitorings = ProductDetails::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor']])->whereRelation('DoctorBusinessMonitoring', $condition)->get();
         // // $doctor_business_monitorings->load(['ProductDetails'=>['Products']]);

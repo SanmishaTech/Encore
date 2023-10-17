@@ -201,8 +201,15 @@ class GrantApprovalsController extends Controller
     }
 
     public function reportPDF(GrantApproval $grant_approval, Request $request)
-    {
-        
+    {       
+        $request->validate([
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ],[
+            'from_date.required' => 'You have to choose From-Date',
+            'to_date.required' => 'You have to choose To-Date'
+        ]);
+         
         $condition = [];
         if(isset($request->from_date)){
             $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);

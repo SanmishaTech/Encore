@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
-use App\Models\RARDetail;
+use App\Models\RoiAccountabilityReportDetail;
 use App\Models\GrantApproval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -39,9 +39,9 @@ class RoiAccountabilityReport extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function RARDetails()
+    public function RoiAccountabilityReportDetails()
     {
-        return $this->hasMany(RARDetail::class);
+        return $this->hasMany(RoiAccountabilityReportDetail::class);
     }
 
     public function GrantApproval() 

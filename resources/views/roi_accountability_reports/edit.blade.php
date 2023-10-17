@@ -91,7 +91,7 @@
                                                         </td>
                                                         <td>
                                                             <input type="hidden" class="form-input min-w-[200px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
-                                                            <select class="form-input" style="width:100px" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
                                                                 <option>Select Product</option>
                                                                     @foreach ($products as $id => $product)
                                                                         <option value="{{$id}}"
@@ -103,7 +103,22 @@
                                                             <x-text-input style="width:70px"  class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][month]`"  :messages="$errors->get('month')" x-model="productDetail.month"/>
+                                                            <select class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
+                                                                <option>Select Month</option>
+                                                                <option value="Jan /2023">Jan /2023</option>
+                                                                <option value="Feb /2023">Feb /2023</option>
+                                                                <option value="Mar /2023">Mar /2023</option>
+                                                                <option value="Apr /2023">Apr /2023</option>
+                                                                <option value="May /2023">May /2023</option>
+                                                                <option value="Jun /2023">Jun /2023</option>
+                                                                <option value="Jul /2023">Jul /2023</option>
+                                                                <option value="Aug /2023">Aug /2023</option>
+                                                                <option value="Sep /2023">Sep /2023</option>
+                                                                <option value="Oct /2023">Oct /2023</option>
+                                                                <option value="Nov /2023">Nov /2023</option>
+                                                                <option value="Dec /2023">Dec /2023</option>
+                                                            </select> 
+                                                            <x-input-error :messages="$errors->get('month')" class="mt-2" /> 
                                                         </td>
                                                         <td>
                                                             <x-text-input style="width:60px"  x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
@@ -175,8 +190,8 @@ document.addEventListener("alpine:init", () => {
 
             let maxId = 0; 
             id='';
-            @if($roi_accountability_report['ProductDetails'])
-            @foreach($roi_accountability_report['ProductDetails'] as $i=>$details)
+            @if($roi_accountability_report['RoiAccountabilityReportDetails'])
+            @foreach($roi_accountability_report['RoiAccountabilityReportDetails'] as $i=>$details)
             this.productDetails.push({
                 i: ++maxId,
                 id: '{{ $details->id }}',

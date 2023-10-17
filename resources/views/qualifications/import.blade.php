@@ -1,4 +1,12 @@
-<x-layout.default>        
+<x-layout.default>  
+    <ul class="flex space-x-2 rtl:space-x-reverse">
+        <li>
+            <a href="{{ route('qualifications.index') }}" class="text-primary hover:underline">Qualifications</a>
+        </li>
+        <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
+            <span>Import</span>
+        </li>
+    </ul>       
     <div class="pt-5">
         <form action="{{ route('importQualificationExcel')  }}" method="POST" enctype="multipart/form-data">
             @csrf

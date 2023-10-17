@@ -161,8 +161,10 @@
                         </div>
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'report'" x-collapse class="sub-menu text-gray-500">
-                        <li><a href="/grant_approvals/report">Grant Approval Format Report</a></li>
-                        <li><a href="/doctor_business_monitorings/report">Core Doctor Business Monitoring Report</a></li>
+                        <li><a href="/grant_approvals/report">GAF Report</a></li>
+                        <li><a href="/doctor_business_monitorings/report">CDBM Report</a></li>
+                        <li><a href="/roi_accountability_reports/report">RAR Report</a></li>
+
                     </ul>
                 </li> 
                 <?php endif; ?>

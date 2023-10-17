@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Exports\RARExport;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\Employee;
@@ -40,7 +41,7 @@ class RoiAccountabilityReportsController extends Controller
         $input = $request->all();
         $roi_accountability_report = RoiAccountabilityReport::create($input); 
         $data = $request->collect('product_details');
-        dd($data);
+        
         foreach($data as $record){
             
             RoiAccountabilityReportDetail::create([
@@ -106,5 +107,24 @@ class RoiAccountabilityReportsController extends Controller
         $roi_accountability_report->delete();
         $request->session()->flash('success', 'Roi Accountability Report deleted successfully!');
         return redirect()->route('roi_accountability_reports.index');
+    }
+
+    public function report()
+    {
+        return view('roi_accountability_reports.report');        
+    }
+
+    public function reportRAR(Request $request)
+    {
+        $request->validate([
+            'from_date' => 'required',
+            'to_date' => 'required',
+        ],[
+            'from_date.required' => 'You have to choose From-Date',
+            'to_date.required' => 'You have to choose To-Date'
+        ]);
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        return Excel::download(new RARExport($from_date, $to_date), 'RAR_report.xlsx');
     }
 }

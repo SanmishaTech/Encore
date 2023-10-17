@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
-use App\Models\ProductDetail;
+use App\Models\RoiAccountabilityReportDetail;
 use App\Models\GrantApproval;
-use App\Models\DoctorBusinessMonitoring;
+use App\Models\RoiAccountabilityReport;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Contracts\View\View;
@@ -17,10 +17,10 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Illuminate\Http\Request;
 
-class CDBMExport implements FromView
+class RARExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date, $to_date)
+    public function __construct($from_date,$to_date)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
@@ -31,16 +31,18 @@ class CDBMExport implements FromView
         $condition = [];
         if(isset($this->from_date)){
             $fromDate = Carbon::createFromFormat('Y-m-d', $this->from_date);
-            $condition[] = ['date', '>=' , $fromDate];
+            $condition[] = ['rar_date', '>=' , $fromDate];
+            // dd($fromDate);
         }        
-
+        
         if(isset($this->to_date)){
             $toDate = Carbon::createFromFormat('Y-m-d', $this->to_date);
-            $condition[] = ['date', '<=' , $toDate];
+            $condition[] = ['rar_date', '<=' , $toDate];
         }
-
-        return view('doctor_business_monitorings.print', [
-            'print' => ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]])->whereRelation('DoctorBusinessMonitoring', $condition)->get()
+        
+        return view('roi_accountability_reports.print', [
+            // dd($condition),
+            'print' => RoiAccountabilityReportDetail::with(['Product', 'RoiAccountabilityReport'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]])->whereRelation('RoiAccountabilityReport', $condition)->get()
         ]);
-    } 
+    }
 }

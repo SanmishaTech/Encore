@@ -1,4 +1,12 @@
-<x-layout.default>        
+<x-layout.default>
+    <ul class="flex space-x-2 rtl:space-x-reverse">
+        <li>
+            <a href="{{ route('chemists.index') }}" class="text-primary hover:underline">Chemist</a>
+        </li>
+        <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
+            <span>Import</span>
+        </li>
+    </ul>         
     <div class="pt-5">
         <form action="{{ route('importChemistsExcel')  }}" method="POST" enctype="multipart/form-data">
             @csrf
