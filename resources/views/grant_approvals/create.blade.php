@@ -66,18 +66,9 @@
                         <label>Proposal Month :</label>
                         <select class="form-input" name="proposal_month">
                             <option>Select Month</option>
-                            <option value="Jan /2023">Jan /2023</option>
-                            <option value="Feb /2023">Feb /2023</option>
-                            <option value="Mar /2023">Mar /2023</option>
-                            <option value="Apr /2023">Apr /2023</option>
-                            <option value="May /2023">May /2023</option>
-                            <option value="Jun /2023">Jun /2023</option>
-                            <option value="Jul /2023">Jul /2023</option>
-                            <option value="Aug /2023">Aug /2023</option>
-                            <option value="Sep /2023">Sep /2023</option>
-                            <option value="Oct /2023">Oct /2023</option>
-                            <option value="Nov /2023">Nov /2023</option>
-                            <option value="Dec /2023">Dec /2023</option>
+                            <template x-for="list in lists" :key="list.key">
+                                <option :value="list" x-text="list.name"></option>
+                            </template>
                         </select> 
                         <x-input-error :messages="$errors->get('proposal_month')" class="mt-2" /> 
                     </div>
@@ -127,6 +118,7 @@ document.addEventListener("alpine:init", () => {
                 this.employee_id = {{ auth()->user()->id}};
                 this.mehqChange();
             @endif
+            this.monthChange();
         },   
 
       
@@ -154,6 +146,26 @@ document.addEventListener("alpine:init", () => {
             this.area = this.data.area_manager.name;
             this.zone = this.data.zonal_manager.name;
             console.log(this.data.area_manager.name);
+        },
+        monthChange(){
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            data = ['2023', '2024', '2025'];
+            monthList = [];
+            count = 0;
+            for(let y in data){
+                for(let m in months){
+                        
+                     monthList[count] =  {
+                            key : months[m]+" / "+ data[y],
+                            name : months[m]+" / "+ data[y],
+
+                        };
+                     count++;
+                }
+            }
+
+            this.lists = monthList;
+           
         }
     }));
 });

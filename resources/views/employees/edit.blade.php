@@ -45,7 +45,7 @@
                                 <option :value="state.name" x-text="state.name" :selected="state.name == '{{ $employee->state_name}}'"></option>
                             </template>
                         </select> 
-                        <x-input-error :messages="$errors->get('reporting_office_3')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('state_name')" class="mt-2" />
                     </div>   
                     <x-text-input name="city" value="{{ old('city', $employee->city) }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>             
                 </div>

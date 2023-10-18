@@ -62,18 +62,9 @@
                         <label>Proposal Month :<span style="color: red">*</span></label>
                         <select class="form-input" name="proposal_month">
                             <option>Select Proposal Month</option>
-                            <option value="Jan /2023" @if ($grant_approval->proposal_month == "Jan /2023") {{ 'Selected' }} @endif>Jan /2023</option>
-                            <option value="Feb /2023" @if ($grant_approval->proposal_month == "Feb /2023") {{ 'Selected' }} @endif>Feb /2023</option>
-                            <option value="Mar /2023" @if ($grant_approval->proposal_month == "Mar /2023") {{ 'Selected' }} @endif>Mar /2023</option>
-                            <option value="Apr /2023" @if ($grant_approval->proposal_month == "Apr /2023") {{ 'Selected' }} @endif>Apr /2023</option>
-                            <option value="May /2023" @if ($grant_approval->proposal_month == "May /2023") {{ 'Selected' }} @endif>May /2023</option>
-                            <option value="Jun /2023" @if ($grant_approval->proposal_month == "Jun /2023") {{ 'Selected' }} @endif>Jun /2023</option>
-                            <option value="Jul /2023" @if ($grant_approval->proposal_month == "Jul /2023") {{ 'Selected' }} @endif>Jul /2023</option>
-                            <option value="Aug /2023" @if ($grant_approval->proposal_month == "Aug /2023") {{ 'Selected' }} @endif>Aug /2023</option>
-                            <option value="Sep /2023" @if ($grant_approval->proposal_month == "Sep /2023") {{ 'Selected' }} @endif>Sep /2023</option>
-                            <option value="Oct /2023" @if ($grant_approval->proposal_month == "Oct /2023") {{ 'Selected' }} @endif>Oct /2023</option>
-                            <option value="Nov /2023" @if ($grant_approval->proposal_month == "Nov /2023") {{ 'Selected' }} @endif>Nov /2023</option>
-                            <option value="Dec /2023" @if ($grant_approval->proposal_month == "Dec /2023") {{ 'Selected' }} @endif>Dec /2023</option>
+                            <template x-for="list in lists" :key="list.key">
+                                <option :value="list" x-text="list.name"></option>
+                            </template>
                         </select> 
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
                     </div>
@@ -131,6 +122,7 @@
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
         init() {
+            this.monthChange();
             @if($grant_approval->doctor_id)
                 this.doctor_id = {{ $grant_approval->doctor_id }};
                 this.doctorChange();
@@ -142,7 +134,8 @@ document.addEventListener("alpine:init", () => {
             @endif
             flatpickr(document.getElementById('date'), {
                 dateFormat: 'd/m/Y',
-            });            
+            });      
+
         },
 
         doctor: '',
@@ -180,6 +173,26 @@ document.addEventListener("alpine:init", () => {
             this.area = this.data.area_manager.name;
             this.zone = this.data.zonal_manager.name;
             console.log(this.data.area_manager.name);
+        },
+        monthChange(){
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            data = ['2023', '2024', '2025'];
+            monthList = [];
+            count = 0;
+            for(let y in data){
+                for(let m in months){
+                        
+                     monthList[count] =  {
+                            key : months[m]+" / "+ data[y],
+                            name : months[m]+" / "+ data[y],
+
+                        };
+                     count++;
+                }
+            }
+
+            this.lists = monthList;
+           
         }
     }));
 });

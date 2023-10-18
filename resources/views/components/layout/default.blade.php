@@ -133,6 +133,7 @@
     <script src="/assets/js/nice-select2.js"></script>
     <script src="/assets/js/highlight.min.js"></script>
     <script src="/assets/js/swiper-bundle.min.js"></script>
+    <script src="/assets/js/simple-datatables.js"></script>
 
 </body>
 

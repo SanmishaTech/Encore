@@ -1,5 +1,4 @@
 <x-layout.default>
-    <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
         <x-add-button :link="route('users.create')" />
         <div class="panel mt-6 table-responsive">

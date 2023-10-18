@@ -1,5 +1,4 @@
 <x-layout.default>
-    <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
         @role(['Admin','Managing Executive'])
             <x-add-button :link="route('grant_approvals.create')" />

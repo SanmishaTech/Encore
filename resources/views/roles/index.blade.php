@@ -2,7 +2,6 @@
     <style>
         .dt-head-right {float: right;}
     </style>   
-    <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">
         <x-add-button :link="route('roles.create')" />
         <div class="panel mt-6 table-responsive">

@@ -1,5 +1,4 @@
 <x-layout.default>
-    <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
         <x-add-button :link="route('employees.create')" />
         <x-excel-button :link="route('employees.import')" />
