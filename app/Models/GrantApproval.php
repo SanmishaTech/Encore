@@ -68,11 +68,11 @@ class GrantApproval extends Model
         return $this->belongsTo(Employee::class, 'employee_id');
     }
 
-    public static function codeGenerate(): void
+    public static function booted(): void
     {
         static::creating(function(GrantApproval $grant_approval){
-            $grantApproval = GrantApproval::whereNotNull('code')->orderBy('created_at','DESC')->first();
-            $max = $grantApproval ? Str::substr($grantApproval->code, -1) : 0;
+            $grantApprovals = GrantApproval::whereNotNull('code')->orderBy('created_at','DESC')->first();
+            $max = $grantApprovals ? Str::substr($grantApprovals->code, 1) : 0;
             $grant_approval->code = 'G'.str_pad($max + 1, 5, "0", STR_PAD_LEFT);
         });
     }

@@ -23,7 +23,7 @@ class GrantApprovalsController extends Controller
         if($authUser == 'Managing Executive'){
             $manager = auth()->user()->id;
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
-            ->where('employee_id', $manager)
+            ->where('reporting_office_3', $manager)
             ->orderBy('code', 'DESC')->get();
           
         } elseif($authUser == 'Area Manager'){
@@ -50,7 +50,7 @@ class GrantApprovalsController extends Controller
             $employees = Employee::where('id', auth()->user()->id)
                                     ->pluck('name', 'id');   
                                     
-            $doctors = Doctor::where('employee_id', auth()->user()->id)->pluck('doctor_name', 'id');
+            $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
         }
         return view('grant_approvals.create')->with(['employees'=>$employees, 'activities'=>$activities, 'doctors'=>$doctors]);
     }
@@ -61,7 +61,6 @@ class GrantApprovalsController extends Controller
         $input['status'] = 'Open';
         if(empty($grant_approval->code)){
             $code = new GrantApproval();  
-            $grant_approval->code = $code->codeGenerate();
         }
         $grant_approval = GrantApproval::create($input); 
         $request->session()->flash('success', 'Grant Approval saved successfully!');
@@ -87,7 +86,7 @@ class GrantApprovalsController extends Controller
             $employees = Employee::where('id', auth()->user()->id)
                                     ->pluck('name', 'id');   
                                     
-            $doctors = Doctor::where('employee_id', auth()->user()->id)->pluck('doctor_name', 'id');
+            $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
         }
         return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
     }
