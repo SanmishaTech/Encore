@@ -1,5 +1,4 @@
 <x-layout.default>
-
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
@@ -31,6 +30,15 @@
                             @endif
                         </div> 
                     </div> 
+                    <!-- <div >
+                        <label>Permissions :</label>
+                        <select multiple='multiple' name="permission[]" id="permission" >
+                            @foreach($permissions as $permission)
+                                <option <?php //if (in_array($permission->name, $rolePermissions)) { echo "selected"; } ?> value="{{ $permission->name }}">{{ $permission->name }}</option>
+                            @endforeach
+                        </select>
+                    </div> -->
+                    
                     <div>
                         <ul>
                             @foreach($permissions as $permission)
@@ -56,4 +64,16 @@
             </div>
         </div>
     </div>
+<!-- <script>
+document.addEventListener("alpine:init", () => {
+    Alpine.data('data', () => ({   
+        init() {
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("permission"), options);
+        },
+    }));
+});
+</script> -->
 </x-layout.default>

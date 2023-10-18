@@ -70,7 +70,6 @@
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
-
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="#" class="btn btn-success btn-sm"  @click="toggle(<?php echo e($grant_approval->id); ?>)">Approval</a>
                                 </li>
@@ -120,7 +119,27 @@
                                 </li>
                                 <?php endif; ?>
                             <?php endif; ?>
-
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
+                                <?php if($grant_approval->status == "Open"): ?>
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.edit-button','data' => ['link' =>  route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('edit-button'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['link' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute( route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id]))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>                               
+                                </li>
+                                <?php endif; ?>
+                            <?php endif; ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.delete-button','data' => ['link' =>  route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -137,8 +156,7 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  
-                            </li>   
-                            
+                            </li> 
                         </ul>
                     </td>
                 </tr>

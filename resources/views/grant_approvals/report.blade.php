@@ -12,8 +12,8 @@
             @csrf
             <div class="panel" x-data="data">
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-text-input name="from_date" value="{{ old('from_date') }}" id="from_date" :label="__('From Date')"  :messages="$errors->get('from_date')" :require="true"/>                    
-                    <x-text-input name="to_date" value="{{ old('to_date') }}" id="to_date" :label="__('To Date')"  :messages="$errors->get('to_date')" :require="true"/>                
+                    <x-text-input name="from_date" value="{{ old('from_date') }}" id="from_date" :label="__('From Date')"  :messages="$errors->get('from_date')" />                    
+                    <x-text-input name="to_date" value="{{ old('to_date') }}" id="to_date" :label="__('To Date')"  :messages="$errors->get('to_date')" />                
                 </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>

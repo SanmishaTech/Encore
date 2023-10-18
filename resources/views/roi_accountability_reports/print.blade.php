@@ -2,10 +2,11 @@
 use Carbon\Carbon;
 ?>
 <table>
-    <!-- <div>
-        <h2><strong> ROI Accountability Report (RAR)</strong></h2>
-    </div>	 -->
+    	
     <thead >
+        <tr>
+            <th colspan="15" style="font-weight: bold; text-align: center;">ROI Accountability Report (RAR)</th>
+        </tr>
         <tr>
             <th>ME HQ</th>
             <th>ABM HQ</th>

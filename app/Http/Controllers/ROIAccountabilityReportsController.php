@@ -116,13 +116,6 @@ class RoiAccountabilityReportsController extends Controller
 
     public function reportRAR(Request $request)
     {
-        $request->validate([
-            'from_date' => 'required',
-            'to_date' => 'required',
-        ],[
-            'from_date.required' => 'You have to choose From-Date',
-            'to_date.required' => 'You have to choose To-Date'
-        ]);
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         return Excel::download(new RARExport($from_date, $to_date), 'RAR_report.xlsx');

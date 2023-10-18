@@ -5,6 +5,9 @@ use Carbon\Carbon;
     <table>
         <thead >
             <tr>
+                <th colspan="21" style="font-weight: bold; text-align: center;">Core Doctor Business Monitoring (CDBM)</th>
+            </tr>
+            <tr>
                 <th>ME HQ </th>
                 <th>ABM HQ </th>
                 <th>RBM HQ </th>

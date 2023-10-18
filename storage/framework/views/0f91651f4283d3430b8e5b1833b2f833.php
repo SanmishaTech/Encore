@@ -50,16 +50,24 @@
                             <p class="text-danger mt-1">Please select Guard name</p>
                             <?php endif; ?>
                         </div> 
-                    </div>                  
+                    </div>  
+                    <!-- <div>
+                        <label>Permissions :</label>
+                        <select multiple='multiple' name="permission[]" id="permission">
+                            <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($permission->name); ?>"><?php echo e($permission->name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                    </div>      -->
                     <div>
                         <ul>
                             <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <li style="width:19%;display: inline-block;">
                                 <label class="inline-flex">     
-                                <input type="checkbox" name="permission[<?php echo e($permission->name); ?>]" value="<?php echo e($permission->name); ?>" class="form-checkbox outline-info permission">
-                                <?php echo e($permission->name); ?>
+                                    <input type="checkbox" name="permission[<?php echo e($permission->name); ?>]" value="<?php echo e($permission->name); ?>" class="form-checkbox outline-info permission">
+                                    <?php echo e($permission->name); ?>
 
-                            </label>
+                                </label>
                             </li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </ul>
@@ -105,26 +113,22 @@
             </div>
         </div>
     </div>
+    <!-- <script>
+    document.addEventListener("alpine:init", () => {
+        Alpine.data('data', () => ({   
+            init() {
+                var options = {
+                    searchable: true
+                };
+                NiceSelect.bind(document.getElementById("permission"), options);
+            },
+        }));
+    });
+    </script>   -->
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-<?php $__env->startSection('scripts'); ?>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('[name="all_permission"]').on('click', function() {
-                if($(this).is(':checked')) {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',true);
-                    });
-                } else {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',false);
-                    });
-                }
-            });
-        });
-    </script>
-<?php $__env->stopSection(); ?><?php /**PATH C:\Users\HP\Project\encore\resources\views/roles/create.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\HP\Project\encore\resources\views/roles/create.blade.php ENDPATH**/ ?>

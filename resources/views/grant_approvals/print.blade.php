@@ -54,9 +54,18 @@ use Carbon\Carbon;
             <div>
                 <h2 align="center"><strong> Grant Approval Format (GAF) - Report</strong></h2>
             </div>
+            <div>                
+                @if(!empty($toDate) && !empty($fromDate))
+                    <h3 align="center">
+                        From Date: {{ date('d-m-Y', strtotime($fromDate)) }}
+                        &nbsp;&nbsp;
+                        To Date: {{ date('d-m-Y', strtotime($toDate)) }}
+                    </h3>
+                @endif
+            </div>
             <br>
             <table>
-                <thead >
+                <thead>
                     <tr>
                         <th>ME HQ: </th>
                         <th>ABM HQ: </th>

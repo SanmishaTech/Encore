@@ -47,7 +47,6 @@
                                 @endif
                             @endrole
                             @role(['Admin'])
-
                                 <li style="display: inline-block;vertical-align:top;">
                                     <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
                                 </li>
@@ -69,11 +68,16 @@
                                 </li>
                                 @endif
                             @endrole
-
+                            @role(['Admin'])
+                                @if($grant_approval->status == "Open")
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
+                                </li>
+                                @endif
+                            @endrole
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-delete-button :link=" route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )" />  
-                            </li>   
-                            
+                            </li> 
                         </ul>
                     </td>
                 </tr>

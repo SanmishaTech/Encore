@@ -201,16 +201,10 @@ class GrantApprovalsController extends Controller
     }
 
     public function reportPDF(GrantApproval $grant_approval, Request $request)
-    {       
-        $request->validate([
-            'from_date' => 'required',
-            'to_date' => 'required',
-        ],[
-            'from_date.required' => 'You have to choose From-Date',
-            'to_date.required' => 'You have to choose To-Date'
-        ]);
-         
+    {    
         $condition = [];
+        $fromDate = '';
+        $toDate = '';
         if(isset($request->from_date)){
             $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
             $condition[] = ['date_of_issue', '>=' , $fromDate];
@@ -223,7 +217,7 @@ class GrantApprovalsController extends Controller
         
         $doctor = Doctor::all();
         $grant_approval= GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get();
-        $pdf = PDF::loadView('grant_approvals.print', compact('grant_approval','doctor'));        
+        $pdf = PDF::loadView('grant_approvals.print', compact('grant_approval','doctor','fromDate','toDate'));        
         $pdf->setPaper('A4', 'landscape');
         $pdf->render();              
         return $pdf->stream("GAF -" . date("dmY") .".pdf");         

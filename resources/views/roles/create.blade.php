@@ -28,15 +28,23 @@
                             <p class="text-danger mt-1">Please select Guard name</p>
                             @endif
                         </div> 
-                    </div>                  
+                    </div>  
+                    <!-- <div>
+                        <label>Permissions :</label>
+                        <select multiple='multiple' name="permission[]" id="permission">
+                            @foreach($permissions as $permission)
+                                <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>      -->
                     <div>
                         <ul>
                             @foreach($permissions as $permission)
                             <li style="width:19%;display: inline-block;">
                                 <label class="inline-flex">     
-                                <input type="checkbox" name="permission[{{ $permission->name }}]" value="{{ $permission->name }}" class="form-checkbox outline-info permission">
-                                {{ $permission->name }}
-                            </label>
+                                    <input type="checkbox" name="permission[{{ $permission->name }}]" value="{{ $permission->name }}" class="form-checkbox outline-info permission">
+                                    {{ $permission->name }}
+                                </label>
                             </li>
                             @endforeach
                         </ul>
@@ -54,21 +62,16 @@
             </div>
         </div>
     </div>
+    <!-- <script>
+    document.addEventListener("alpine:init", () => {
+        Alpine.data('data', () => ({   
+            init() {
+                var options = {
+                    searchable: true
+                };
+                NiceSelect.bind(document.getElementById("permission"), options);
+            },
+        }));
+    });
+    </script>   -->
 </x-layout.default>
-@section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('[name="all_permission"]').on('click', function() {
-                if($(this).is(':checked')) {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',true);
-                    });
-                } else {
-                    $.each($('.permission'), function() {
-                        $(this).prop('checked',false);
-                    });
-                }
-            });
-        });
-    </script>
-@endsection

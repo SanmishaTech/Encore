@@ -7,7 +7,6 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-
     <div>
         <ul class="flex space-x-2 rtl:space-x-reverse">
             <li>
@@ -53,6 +52,15 @@
                             <?php endif; ?>
                         </div> 
                     </div> 
+                    <!-- <div >
+                        <label>Permissions :</label>
+                        <select multiple='multiple' name="permission[]" id="permission" >
+                            <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option <?php //if (in_array($permission->name, $rolePermissions)) { echo "selected"; } ?> value="<?php echo e($permission->name); ?>"><?php echo e($permission->name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </select>
+                    </div> -->
+                    
                     <div>
                         <ul>
                             <?php $__currentLoopData = $permissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -107,6 +115,18 @@
             </div>
         </div>
     </div>
+<!-- <script>
+document.addEventListener("alpine:init", () => {
+    Alpine.data('data', () => ({   
+        init() {
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("permission"), options);
+        },
+    }));
+});
+</script> -->
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

@@ -147,13 +147,6 @@ class DoctorBusinessMonitoringsController extends Controller
 
     public function reportCDBM(Request $request)
     {
-        $request->validate([
-            'from_date' => 'required',
-            'to_date' => 'required',
-        ],[
-            'from_date.required' => 'You have to choose From-Date',
-            'to_date.required' => 'You have to choose To-Date'
-        ]);
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         return Excel::download(new CDBMExport($from_date, $to_date), 'CDBM_report.xlsx');
