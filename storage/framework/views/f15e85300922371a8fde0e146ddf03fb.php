@@ -8,7 +8,7 @@
     <title><?php echo e(config('app.name', 'Laravel')); ?></title>
 
     <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <link rel="icon" type="image/svg" href="/assets/images/favicon.svg" />
+    <link rel="icon" type="image/svg" href="/assets/images/encore-logo-icon.svg" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -216,6 +216,7 @@
     <script src="/assets/js/nice-select2.js"></script>
     <script src="/assets/js/highlight.min.js"></script>
     <script src="/assets/js/swiper-bundle.min.js"></script>
+    <script src="/assets/js/simple-datatables.js"></script>
 
 </body>
 

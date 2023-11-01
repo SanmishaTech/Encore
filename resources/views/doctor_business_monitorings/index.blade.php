@@ -36,7 +36,7 @@
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
                             headings: [
-                                "Code", "Managing Executive", "Area Manager", "Zonal Manager", "Doctor", "ROI","Action"
+                                "Code", "Marketing Executive", "Area Manager", "Zonal Manager", "Doctor", "ROI","Action"
                             ],
                         },
                         searchable: true,

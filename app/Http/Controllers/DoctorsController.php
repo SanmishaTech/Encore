@@ -18,7 +18,7 @@ class DoctorsController extends Controller
     {
         $authUser = auth()->user()->roles->pluck('name')->first();
         $authUserId = auth()->user()->id;
-        if($authUser == 'Managing Executive'){  
+        if($authUser == 'Marketing Executive'){  
             $doctors = Doctor::with(['Employee'])
                                 ->where('reporting_office_3', $authUserId)
                                 ->orderBy('id', 'DESC')

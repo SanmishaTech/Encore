@@ -25,9 +25,9 @@
                 </div>               
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <div>
-                        <label>Managing Executive :</label>
+                        <label>Marketing Executive :</label>
                         <select class="form-input" name="employee_id" id="employee_id" x-model="employee_id" @change="mehqChange()">
-                            <?php if( auth()->user()->roles->pluck('name')->first() == "Managing Executive"): ?>
+                            <?php if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive"): ?>
                                 <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
                                     <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>                                
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>  
@@ -214,18 +214,9 @@
                         <label>Proposal Month :</label>
                         <select class="form-input" name="proposal_month">
                             <option>Select Month</option>
-                            <option value="Jan /2023">Jan /2023</option>
-                            <option value="Feb /2023">Feb /2023</option>
-                            <option value="Mar /2023">Mar /2023</option>
-                            <option value="Apr /2023">Apr /2023</option>
-                            <option value="May /2023">May /2023</option>
-                            <option value="Jun /2023">Jun /2023</option>
-                            <option value="Jul /2023">Jul /2023</option>
-                            <option value="Aug /2023">Aug /2023</option>
-                            <option value="Sep /2023">Sep /2023</option>
-                            <option value="Oct /2023">Oct /2023</option>
-                            <option value="Nov /2023">Nov /2023</option>
-                            <option value="Dec /2023">Dec /2023</option>
+                            <template x-for="list in lists" :key="list.key">
+                                <option :value="list" x-text="list.name"></option>
+                            </template>
                         </select> 
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('proposal_month'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -355,10 +346,11 @@ document.addEventListener("alpine:init", () => {
             NiceSelect.bind(document.getElementById("employee_id"), options);
             NiceSelect.bind(document.getElementById("doctor_id"), options);
             NiceSelect.bind(document.getElementById("activity_id"), options);
-            <?php if(auth()->user()->roles->pluck('name')->first() == "Managing Executive"): ?>
+            <?php if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive"): ?>
                 this.employee_id = <?php echo e(auth()->user()->id); ?>;
                 this.mehqChange();
             <?php endif; ?>
+            this.monthChange();
         },   
 
       
@@ -386,6 +378,26 @@ document.addEventListener("alpine:init", () => {
             this.area = this.data.area_manager.name;
             this.zone = this.data.zonal_manager.name;
             console.log(this.data.area_manager.name);
+        },
+        monthChange(){
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            data = ['2023', '2024', '2025'];
+            monthList = [];
+            count = 0;
+            for(let y in data){
+                for(let m in months){
+                        
+                     monthList[count] =  {
+                            key : months[m]+" / "+ data[y],
+                            name : months[m]+" / "+ data[y],
+
+                        };
+                     count++;
+                }
+            }
+
+            this.lists = monthList;
+           
         }
     }));
 });

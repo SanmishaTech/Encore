@@ -90,7 +90,7 @@
 <?php endif; ?>
                     </div>  
                     <div>
-                        <label>Managing Executive :<span style="color: red">*</span></label>
+                        <label>Marketing Executive :<span style="color: red">*</span></label>
                         <select class="form-input" name="employee_id_3">
                             <option>Select Managing Executive</option>
                             <template x-for="me in mehq" :key="me.id">

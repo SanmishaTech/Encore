@@ -1,6 +1,6 @@
 <x-layout.default>
     <div x-data="multicolumn">        
-        @role(['Admin','Managing Executive'])
+        @role(['Admin','Marketing Executive'])
             <x-add-button :link="route('grant_approvals.create')" />
         @endrole
         <div class="panel mt-6 table-responsive">
@@ -53,7 +53,7 @@
                                         <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                     </li>
                             @endrole
-                            @role(['Area Manager', 'Managing Executive'])
+                            @role(['Area Manager', 'Marketing Executive'])
                             @if($grant_approval->approval_level_1 == false)
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
@@ -74,9 +74,11 @@
                                 </li>
                                 @endif
                             @endrole
+                            @role(['Admin'])
                             <li style="display: inline-block;vertical-align:top;">
                                 <x-delete-button :link=" route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )" />  
                             </li> 
+                            @endrole
                         </ul>
                     </td>
                 </tr>
@@ -133,7 +135,7 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Code", "Managing Executive", "Area Manager",  "Zonal Manager", "Doctor", "Activity",  "Proposal Amount", "Approved Amount", "Status", "Action"],
+                            headings: ["Code", "Marketing Executive", "Area Manager",  "Zonal Manager", "Doctor", "Activity",  "Proposal Amount", "Approved Amount", "Status", "Action"],
                         },
                         searchable: true,
                         perPage: 30,

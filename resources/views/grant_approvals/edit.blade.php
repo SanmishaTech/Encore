@@ -18,9 +18,9 @@
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <div>
-                        <label>Managing Executive :</label>
+                        <label>Marketing Executive :</label>
                         <select class="form-input" name="employee_id" x-model="employee_id" @change="mehqChange()">
-                            <option>Select Managing Executive</option>
+                            <option>Select Marketing Executive</option>
                             @foreach ($employees as $id=>$employee)                                
                                 <option value="{{$id}}" {{ $id ? ($id == $grant_approval->employee_id ? 'Selected' : '') : '' }}>{{$employee}}</option>                                
                             @endforeach

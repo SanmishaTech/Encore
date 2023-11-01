@@ -7,9 +7,8 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-    <script src="/assets/js/simple-datatables.js"></script>
     <div x-data="multicolumn">        
-        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
+        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Marketing Executive'])): ?>
             <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.add-button','data' => ['link' => route('grant_approvals.create')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('add-button'); ?>
@@ -77,7 +76,7 @@
                                         <a href="/grant_approvals/rejected/<?php echo e($grant_approval->id); ?>" class="btn btn-danger btn-sm">Rejected</a>
                                     </li>
                             <?php endif; ?>
-                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Area Manager', 'Managing Executive'])): ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Area Manager', 'Marketing Executive'])): ?>
                             <?php if($grant_approval->approval_level_1 == false): ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -140,6 +139,7 @@
                                 </li>
                                 <?php endif; ?>
                             <?php endif; ?>
+                            <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                             <li style="display: inline-block;vertical-align:top;">
                                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.delete-button','data' => ['link' =>  route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
@@ -157,6 +157,7 @@
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  
                             </li> 
+                            <?php endif; ?>
                         </ul>
                     </td>
                 </tr>
@@ -255,7 +256,7 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Code", "Managing Executive", "Area Manager",  "Zonal Manager", "Doctor", "Activity",  "Proposal Amount", "Approved Amount", "Status", "Action"],
+                            headings: ["Code", "Marketing Executive", "Area Manager",  "Zonal Manager", "Doctor", "Activity",  "Proposal Amount", "Approved Amount", "Status", "Action"],
                         },
                         searchable: true,
                         perPage: 30,

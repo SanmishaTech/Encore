@@ -17,9 +17,9 @@
                 </div>               
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <div>
-                        <label>Managing Executive :</label>
+                        <label>Marketing Executive :</label>
                         <select class="form-input" name="employee_id" id="employee_id" x-model="employee_id" @change="mehqChange()">
-                            @if( auth()->user()->roles->pluck('name')->first() == "Managing Executive")
+                            @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                                 @foreach ($employees as $id=>$employee)                                
                                     <option value="{{$id}}">{{$employee}}</option>                                
                                 @endforeach  
@@ -114,7 +114,7 @@ document.addEventListener("alpine:init", () => {
             NiceSelect.bind(document.getElementById("employee_id"), options);
             NiceSelect.bind(document.getElementById("doctor_id"), options);
             NiceSelect.bind(document.getElementById("activity_id"), options);
-            @if(auth()->user()->roles->pluck('name')->first() == "Managing Executive")
+            @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                 this.employee_id = {{ auth()->user()->id}};
                 this.mehqChange();
             @endif

@@ -48,6 +48,7 @@
                         </div>
                     </button>
                 </li>
+                @role(['Admin'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'master' }"
                         @click="activeDropdown === 'master' ? activeDropdown = null : activeDropdown = 'master'">
@@ -76,26 +77,19 @@
                         </div>
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'master'" x-collapse class="sub-menu text-gray-500">
-                        @role(['Admin','Managing Executive'])
                         <li><a href="/products">Products</a></li>
-                        @endrole
-                        @role(['Admin'])
                         <li><a href="/territories">Territories</a></li>                        
                         <li><a href="/qualifications">Qualifications</a></li>                        
                         <li><a href="/categories">Categories</a></li>                       
                         <li><a href="/activities">Activities</a></li>                       
                         <li><a href="/employees">Employees</a></li>                      
                         <li><a href="/stockists">Stockists</a></li>
-                        @endrole
-                        @role(['Admin','Managing Executive'])
                         <li><a href="/doctors">Doctors</a></li>
-                        @endrole
-                        @role(['Admin'])
                         <li><a href="/chemists">Chemists</a></li>
-                        @endrole
                     </ul>
                 </li>
-                @role(['Admin','Zonal Manager','Area Manager','Managing Executive'])
+                @endrole
+                @role(['Admin','Zonal Manager','Area Manager','Marketing Executive'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'transaction' }"
                         @click="activeDropdown === 'transaction' ? activeDropdown = null : activeDropdown = 'transaction'">

@@ -38,7 +38,7 @@
                                 "Stockist Name",
                                 "Zonal Manager",
                                 "Area Manager",
-                                "Managing Executive",
+                                "Marketing Executive",
                                 "Action",
                             ],
                         },

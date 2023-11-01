@@ -38,7 +38,7 @@ class StockistRequest extends FormRequest
             'stockist.unique' => 'This name is already exist',
             'employee_id_1' => 'Please select zonal manager',
             'employee_id_2' => 'Please select area manager',
-            'employee_id_3' => 'Please select managing executive',
+            'employee_id_3' => 'Please select marketing executive',
         ];
     }
 }

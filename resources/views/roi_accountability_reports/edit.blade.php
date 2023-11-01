@@ -26,7 +26,7 @@
                         </select> 
                         <x-input-error :messages="$errors->get('code')" class="mt-2" /> 
                     </div>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Managing Executive')"  :messages="$errors->get('employee_id_2')" x-model="manager" readonly="true"/>                       
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Marketing Executive')"  :messages="$errors->get('employee_id_2')" x-model="manager" readonly="true"/>                       
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Zonal Manager')"  :messages="$errors->get('employee_id_2')" x-model="zone" readonly="true"/>   
                 </div>

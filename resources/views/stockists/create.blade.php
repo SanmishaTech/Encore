@@ -40,9 +40,9 @@
                         <x-input-error :messages="$errors->get('employee_id_2')"/>
                     </div>  
                     <div>
-                        <label>Managing Executive :<span style="color: red">*</span></label>
+                        <label>Marketing Executive :<span style="color: red">*</span></label>
                         <select class="form-input" name="employee_id_3">
-                            <option>Select Managing Executive</option>
+                            <option>Select Marketing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>

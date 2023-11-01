@@ -376,7 +376,7 @@
                 </div> 
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div >
-                        <label>Reporting Office 1 :</label>
+                        <label>Zonal Manager:</label>
                         <select class="form-input" name="reporting_office_1" id="office_1" x-model="rbm" @change="reportOffice()">
                             <option value="">Select Office-1</option>                            
                             <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -400,7 +400,7 @@
 <?php endif; ?> 
                     </div>
                     <div >
-                        <label>Reporting Office 2 :</label>
+                        <label>Area Manager :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
                             <option value="">Select Office-2</option>
                             <template x-for="list in abm" :key="list.id">
@@ -424,7 +424,7 @@
 <?php endif; ?>
                     </div>  
                     <div >
-                        <label>Reporting Office 3 :</label>
+                        <label>Marketing Executive :</label>
                         <select class="form-input" name="reporting_office_3" x-model="manager">
                             <option value="">Select Office-3</option>
                             <template x-for="me in mehq" :key="me.id">

@@ -22,7 +22,7 @@ class DoctorBusinessMonitoringsController extends Controller
         // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])->orderBy('id', 'DESC')->get();
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
-        if($authUser == 'Managing Executive'){            
+        if($authUser == 'Marketing Executive'){            
             $conditions[] = ['employee_id', auth()->user()->id];
           
         } elseif($authUser == 'Area Manager'){
@@ -41,7 +41,7 @@ class DoctorBusinessMonitoringsController extends Controller
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
         $conditions[] = ['approval_level_2', true];
-        if($authUser == 'Managing Executive'){            
+        if($authUser == 'Marketing Executive'){            
             $conditions[] = ['employee_id', auth()->user()->id];
           
         }   
@@ -92,7 +92,7 @@ class DoctorBusinessMonitoringsController extends Controller
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
         $conditions[] = ['approval_level_2', true];
-        if($authUser == 'Managing Executive'){            
+        if($authUser == 'Marketing Executive'){            
             $conditions[] = ['employee_id', auth()->user()->id];
           
         }   

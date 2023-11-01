@@ -52,7 +52,7 @@ class EmployeesController extends Controller
     {
         $mehq = Employee::select('id','name')
                         ->where('reporting_office_2',$employee->id)
-                        ->where('designation','Managing Executive')
+                        ->where('designation','Marketing Executive')
                         ->get();
         return $mehq;
     }

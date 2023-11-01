@@ -20,10 +20,10 @@ class GrantApprovalsController extends Controller
     {
         $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->orderBy('code', 'DESC')->get();
         $authUser = auth()->user()->roles->pluck('name')->first();
-        if($authUser == 'Managing Executive'){
+        if($authUser == 'Marketing Executive'){
             $manager = auth()->user()->id;
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
-            ->where('reporting_office_3', $manager)
+            ->where('employee_id', $manager)
             ->orderBy('code', 'DESC')->get();
           
         } elseif($authUser == 'Area Manager'){
@@ -45,8 +45,8 @@ class GrantApprovalsController extends Controller
         $authUser = auth()->user()->roles->pluck('name')->first();       
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
-        $employees = Employee::where('designation', 'Managing Executive')->pluck('name', 'id');
-        if($authUser == 'Managing Executive'){
+        $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
+        if($authUser == 'Marketing Executive'){
             $employees = Employee::where('id', auth()->user()->id)
                                     ->pluck('name', 'id');   
                                     
@@ -78,11 +78,11 @@ class GrantApprovalsController extends Controller
         
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
-        $employees = Employee::where('designation', 'Managing Executive')->pluck('name', 'id');
+        $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
         $grant_approval->load(['GrantApprovalDetail'=>['Employee']]);
 
         $authUser = auth()->user()->roles->pluck('name')->first();   
-        if($authUser == 'Managing Executive'){
+        if($authUser == 'Marketing Executive'){
             $employees = Employee::where('id', auth()->user()->id)
                                     ->pluck('name', 'id');   
                                     

@@ -35,7 +35,7 @@
                                 <option :value="state.name" x-text="state.name"></option>
                             </template>
                         </select> 
-                        <x-input-error :messages="$errors->get('reporting_office_3')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('state')" class="mt-2" />
                     </div> 
                     <x-text-input name="city" value="{{ old('city') }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>  
                 </div>
@@ -97,7 +97,7 @@
                 </div> 
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Reporting Office 1 :</label>
+                        <label>Zonal Manager :</label>
                         <select class="form-input" name="reporting_office_1" id="office_1" x-model="rbm" @change="reportOffice()">
                             <!-- <option value="">Select Office-1</option> -->
                             @foreach ($employees as $id => $employee)
@@ -107,9 +107,9 @@
                         <x-input-error :messages="$errors->get('reporting_office_1')" class="mt-2" /> 
                     </div>
                     <div>
-                        <label>Reporting Office 2 :</label>
+                        <label>Area Manager :</label>
                         <select class="form-input" name="reporting_office_2" @change="reportOfficeME()" x-model="abml">
-                            <option value="">Select Office-2</option>
+                            <option value="">Select Area Manager</option>
                             <template x-for="list in abm" :key="list.id">
                                 <option :value="list.id" x-text="list.name"></option>
                             </template>
@@ -117,9 +117,9 @@
                         <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  
                     <div>
-                        <label>Reporting Office 3 :</label>
+                        <label>Marketing Executive :</label>
                         <select class="form-input" name="reporting_office_3">
-                            <option value="">Select Office-3</option>
+                            <option value="">Select Martkeing Executive</option>
                             <template x-for="me in mehq" :key="me.id">
                                 <option :value="me.id" x-text="me.name"></option>
                             </template>

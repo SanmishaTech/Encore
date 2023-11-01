@@ -27,7 +27,7 @@ class RoiAccountabilityReportsController extends Controller
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
         $conditions[] = ['approval_level_2', true];
-        if($authUser == 'Managing Executive'){            
+        if($authUser == 'Marketing Executive'){            
             $conditions[] = ['employee_id', auth()->user()->id];
           
         }   
@@ -72,7 +72,7 @@ class RoiAccountabilityReportsController extends Controller
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
         $conditions[] = ['approval_level_2', true];
-        if($authUser == 'Managing Executive'){            
+        if($authUser == 'Marketing Executive'){            
             $conditions[] = ['employee_id', auth()->user()->id];          
         }   
         $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
