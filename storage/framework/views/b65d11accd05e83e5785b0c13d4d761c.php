@@ -23,21 +23,50 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Grant Approval</h5>
                 </div>               
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
-                    <div>
-                        <label>Marketing Executive :</label>
-                        <select class="form-input" name="employee_id" id="employee_id" x-model="employee_id" @change="mehqChange()">
-                            <?php if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive"): ?>
-                                <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
-                                    <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>                                
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>  
-                            <?php else: ?>
-                                <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
-                                    <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>                                
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>  
-                            <?php endif; ?>                          
-                        </select> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','name' => 'code','value' => ''.e(old('code')).'','label' => __('Code'),'messages' => $errors->get('code'),'readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'bg-gray-100 dark:bg-gray-700','name' => 'code','value' => ''.e(old('code')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('code')),'readonly' => 'true']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+                    <?php if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive"): ?>
+                        <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <input type="hidden" x-model="employee_id" x-on:change="mehqChange()" name="employee_id"/>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','value' => ''.e($employee).'','label' => __('Marketing Executive'),'messages' => $errors->get('employee_id'),'readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['class' => 'bg-gray-100 dark:bg-gray-700','value' => ''.e($employee).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Marketing Executive')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_id')),'readonly' => 'true']); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php else: ?>
+                        <div>
+                            <label>Marketing Executive :</label>
+                            <select class="form-input" name="employee_id" id="employee_id" x-model="employee_id" @change="mehqChange()">
+                            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
+                                <option value="<?php echo e($id); ?>"><?php echo e($employee); ?></option>                                
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>                
+                            </select> 
+                            <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('employee_id_1'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('input-error'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -52,9 +81,9 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-                    </div>
-                    
-                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','label' => __('Area Manager'),'messages' => $errors->get('employee_id_2'),'xModel' => 'area','readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -69,15 +98,15 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>                       
-                        <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','label' => __('Zonal Manager'),'messages' => $errors->get('employee_id_2'),'xModel' => 'zone','readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','label' => __('Zonal Manager'),'messages' => $errors->get('employee_id_3'),'xModel' => 'zone','readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['class' => 'bg-gray-100 dark:bg-gray-700','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Zonal Manager')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_id_2')),'x-model' => 'zone','readonly' => 'true']); ?>
+<?php $component->withAttributes(['class' => 'bg-gray-100 dark:bg-gray-700','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Zonal Manager')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('employee_id_3')),'x-model' => 'zone','readonly' => 'true']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -87,12 +116,19 @@
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Doctor :</label>
-                        <select class="form-input" name="doctor_id" id="doctor_id" @change="doctorChange()" x-model="doctor_id">
-                            <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $doctor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($id); ?>"><?php echo e($doctor); ?></option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </select> 
+                        <label>Doctor:</label>
+                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
+                                <option>Select Doctor</option>
+                                <?php if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive"): ?>
+                                    <?php $__currentLoopData = $doctors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id=>$doctor): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>                                
+                                        <option value="<?php echo e($id); ?>"><?php echo e($doctor); ?></option>                                
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>      
+                                <?php else: ?>
+                                    <template x-for="doctor in doctors" :key="doctor.id">
+                                        <option :value="doctor.id" x-text="doctor.doctor_name"></option>
+                                    </template>
+                                <?php endif; ?>
+                            </select>
                         <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.input-error','data' => ['messages' => $errors->get('doctor_id'),'class' => 'mt-2']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('input-error'); ?>
@@ -181,14 +217,14 @@
 <?php endif; ?> 
                     </div>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'date_of_issue','id' => 'date','value' => ''.e(old('date_of_issue')).'','label' => __('Date'),'messages' => $errors->get('date_of_issue')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'date_of_issue','id' => 'date','xOn:change.debounce' => 'dateChange','value' => ''.e(old('date_of_issue')).'','label' => __('Date'),'messages' => $errors->get('date_of_issue')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'date_of_issue','id' => 'date','value' => ''.e(old('date_of_issue')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Date')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('date_of_issue'))]); ?>
+<?php $component->withAttributes(['name' => 'date_of_issue','id' => 'date','x-on:change.debounce' => 'dateChange','value' => ''.e(old('date_of_issue')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Date')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('date_of_issue'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -210,6 +246,7 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>  -->
+                    <!-- <input type="hidden" name="proposal_month"/> -->
                     <div>
                         <label>Proposal Month :</label>
                         <select class="form-input" name="proposal_month">
@@ -237,21 +274,6 @@
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','name' => 'code','value' => ''.e(old('code')).'','label' => __('Code'),'messages' => $errors->get('code'),'readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
-<?php $component->withName('text-input'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
-<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
-<?php endif; ?>
-<?php $component->withAttributes(['class' => 'bg-gray-100 dark:bg-gray-700','name' => 'code','value' => ''.e(old('code')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Code')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('code')),'readonly' => 'true']); ?>
-<?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
-<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
-<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>
-                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.combo-input','data' => ['name' => 'proposal_amount','value' => ''.e(old('proposal_amount')).'','label' => __('Proposal Amount'),'messages' => $errors->get('proposal_amount')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('combo-input'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -275,6 +297,21 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['name' => 'email','value' => ''.e(old('email')).'','email' => true,'require' => true,'label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Email')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('email'))]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'contact_no','value' => ''.e(old('contact_no')).'','label' => __('Contact No'),'messages' => $errors->get('contact_no')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('text-input'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['name' => 'contact_no','value' => ''.e(old('contact_no')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Contact No')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('contact_no'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
@@ -327,15 +364,17 @@
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({   
         doctor_id: '',
+        docName : '',
         zone: '',
         area: '',
         employee_id: '',
         employee_id_2: '',
         employee_id_3: '',
-        doctorDate: '',
+        doctorData: '',
         location: '',
         speciality: '',
         mpl_no: '',
+        doctors:'',
         init() {
             flatpickr(document.getElementById('date'), {
                 dateFormat: 'd/m/Y',
@@ -343,12 +382,14 @@ document.addEventListener("alpine:init", () => {
             var options = {
                 searchable: true
             };
-            NiceSelect.bind(document.getElementById("employee_id"), options);
-            NiceSelect.bind(document.getElementById("doctor_id"), options);
+            // NiceSelect.bind(document.getElementById("doctor_id"), options);
             NiceSelect.bind(document.getElementById("activity_id"), options);
             <?php if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive"): ?>
                 this.employee_id = <?php echo e(auth()->user()->id); ?>;
                 this.mehqChange();
+            <?php else: ?>
+            NiceSelect.bind(document.getElementById("employee_id"), options);
+
             <?php endif; ?>
             this.monthChange();
         },   
@@ -377,8 +418,23 @@ document.addEventListener("alpine:init", () => {
             })).json();
             this.area = this.data.area_manager.name;
             this.zone = this.data.zonal_manager.name;
-            console.log(this.data.area_manager.name);
+            
+            this.doctors = await (await fetch('/doctors/getDoctors/'+ this.employee_id, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.doctors)
+            
         },
+        // date_of_issue : '',
+        // dateChange(){        
+        //     console.log(this.date_of_issue);
+        //     let monthName = new Date(this.date_of_issue).toLocaleDateString('en', { month:"short"})
+        //     console.log(monthName);
+        // },
+
         monthChange(){
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             data = ['2023', '2024', '2025'];

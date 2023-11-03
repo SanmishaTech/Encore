@@ -17,6 +17,7 @@
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Grant Approval</h5>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
                     <div>
                         <label>Marketing Executive :</label>
                         <select class="form-input" name="employee_id" x-model="employee_id" @change="mehqChange()">
@@ -32,13 +33,19 @@
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Doctor :</label>
-                        <select class="form-input" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
-                            <option>Select Doctor</option>
-                            @foreach ($doctors as $id => $doctor)
-                                <option value="{{$id}}" {{ $id ? ($id == $grant_approval->doctor_id ? 'Selected' : '') : '' }}>{{$doctor}}</option>
-                            @endforeach
-                        </select> 
+                        <label>Doctor:</label>
+                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
+                                <option>Select Doctor</option>
+                                @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                                    @foreach ($doctors as $id=>$doctor)                                
+                                        <option value="{{$id}}">{{$doctor}}</option>                                
+                                    @endforeach      
+                                @else
+                                    <template x-for="doctor in doctors" :key="doctor.id">
+                                        <option :value="doctor.id" x-text="doctor.doctor_name" :selected='doctor.id == doctor_id' selected="selected"></option>
+                                    </template>
+                                @endif
+                            </select>
                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
                     </div>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" x-model="mpl_no" :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
@@ -70,9 +77,9 @@
                     </div>
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
                     <x-combo-input name="proposal_amount" value="{{ old('proposal_amount',$grant_approval->proposal_amount) }}" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
                     <x-combo-input name="email" value="{{ old('email',$grant_approval->email) }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
+                    <x-text-input name="contact_no" value="{{ old('contact_no', $grant_approval->contact_no) }}" :label="__('Contact No')"  :messages="$errors->get('contact_no')"/>
                 </div> 
                 <div class="flex justify-end mt-4">
                     <x-success-button>
@@ -138,17 +145,18 @@ document.addEventListener("alpine:init", () => {
 
         },
 
-        doctor: '',
         doctor_id: '',
         zone: '',
         area: '',
         employee_id: '',
         employee_id_2: '',
         employee_id_3: '',
-        doctorDate: '',
+        doctorData: '',
         location: '',
         speciality: '',
         mpl_no: '',
+        doctors:'',
+        
         async doctorChange() {
             this.doctorData = await (await fetch('/doctors/'+ this.doctor_id, {
                 
@@ -160,7 +168,9 @@ document.addEventListener("alpine:init", () => {
             this.mpl_no = this.doctorData.mpl_no;
             this.location = this.doctorData.type;
             this.speciality = this.doctorData.speciality;
+            
         },
+        
 
         async mehqChange() {
             this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id, {
@@ -172,7 +182,14 @@ document.addEventListener("alpine:init", () => {
             })).json();
             this.area = this.data.area_manager.name;
             this.zone = this.data.zonal_manager.name;
-            console.log(this.data.area_manager.name);
+
+            this.doctors = await (await fetch('/doctors/getDoctors/'+ this.employee_id, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.doctors)
         },
         monthChange(){
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

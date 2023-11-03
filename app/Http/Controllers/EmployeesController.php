@@ -75,13 +75,15 @@ class EmployeesController extends Controller
         $input = $request->all();
         $user = User::find($employee->id);
         $employee->update($request->all());        
-       
+        $new_password = Hash::make($request->new_password);
         if ($user === null)
         {
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->password = Hash::make($request->password);
+            if($new_password){
+                $user->password = $new_password;
+            }
             $user->active = true;
             $employee->users()->save($user);
         }
@@ -90,7 +92,7 @@ class EmployeesController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => ($new_password ? $new_password : ''),
                 'active' => true,
             ]);
         }

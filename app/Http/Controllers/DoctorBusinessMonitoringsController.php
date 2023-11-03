@@ -45,7 +45,7 @@ class DoctorBusinessMonitoringsController extends Controller
             $conditions[] = ['employee_id', auth()->user()->id];
           
         }   
-        $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
+        $gaf_code = GrantApproval::pluck('code', 'id');
         return view('doctor_business_monitorings.create')->with(['gaf_code' => $gaf_code, 'products' => $products]);
     }
 
@@ -96,7 +96,7 @@ class DoctorBusinessMonitoringsController extends Controller
             $conditions[] = ['employee_id', auth()->user()->id];
           
         }   
-        $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
+        $gaf_code = GrantApproval::pluck('code', 'id');
         return view('doctor_business_monitorings.edit', ['doctor_business_monitoring' => $doctor_business_monitoring, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products]);        
     }
 

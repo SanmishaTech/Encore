@@ -16,9 +16,13 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Doctors</h5>
                 </div>
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">        
-                    <x-text-input name="doctor_name" value="{{ old('doctor_name', $doctor->doctor_name) }}" :label="__('Doctor Name')" :require="true" :messages="$errors->get('doctor_name')"/>                       
-                    <x-text-input name="hospital_name" value="{{ old('hospital_name', $doctor->hospital_name) }}" :label="__('Hospital Name')" :require="true" :messages="$errors->get('hospital_name')"/>  
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <div class="col-span-2">
+                        <x-text-input name="doctor_name" value="{{ old('doctor_name', $doctor->doctor_name) }}" :label="__('Doctor Name')" :require="true" :messages="$errors->get('doctor_name')"/> 
+                    </div>
+                    <div class="col-span-2">
+                        <x-text-input name="hospital_name" value="{{ old('hospital_name', $doctor->hospital_name) }}" :label="__('Hospital Name')" :require="true" :messages="$errors->get('hospital_name')"/>
+                    </div>        
                 </div>   
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-combo-input name="email" type="email" :email="true" value="{{ old('email', $doctor->email) }}" :require="true" :label="__('Email')" :messages="$errors->get('email')"/>                      
@@ -27,18 +31,7 @@
                 </div>  
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input name="dob" value="{{ old('dob', $doctor->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')"/>
-                    <x-text-input name="dow" value="{{ old('dow', $doctor->dow) }}" id="dow" :label="__('DOW')" :messages="$errors->get('dow')"/>
-                    <div>
-                        <label>States:<span style="color: red">*</span></label>
-                        <select class="form-input" name="state">
-                            <option value="">Select states</option>
-                            <template x-for="state in states" :key="state.code">
-                                <option :value="state.name" x-text="state.name" :selected="state.name == '{{ $doctor->state}}'"></option>
-                            </template>
-                        </select> 
-                        <x-input-error :messages="$errors->get('state')" class="mt-2" />
-                    </div> 
-                    <x-text-input name="city" value="{{ old('city', $doctor->city) }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>         
+                    <x-text-input name="dow" value="{{ old('dow', $doctor->dow) }}" id="dow" :label="__('DOW')" :messages="$errors->get('dow')"/>                           
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <!-- <div>
@@ -51,16 +44,7 @@
                         </select> 
                         <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
                     </div> -->
-                    <div>
-                        <label>Territory:<span style="color: red">*</span></label>
-                        <select class="form-input" name="territory_id" id="territory_id">
-                            <!-- <option value="">Select Territory</option>                             -->
-                            @foreach ($territories as $id => $territory)
-                                    <option value="{{$id}}" {{ $doctor->territory_id ? ($doctor->territory_id == $id ? 'Selected' : '' ) : ''}}>{{$territory}}</option>
-                            @endforeach
-                        </select> 
-                        <x-input-error :messages="$errors->get('territory_id')" class="mt-2" />
-                    </div>
+                    <x-text-input name="speciality" value="{{ old('speciality', $doctor->speciality) }}" :label="__('Speciality')" :messages="$errors->get('speciality')" :require="true"/>                     
                     <div>
                         <label>Category:<span style="color: red">*</span></label>
                         <select class="form-input" name="category_id" id="category_id">
@@ -72,15 +56,6 @@
                         <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
                     <div>
-                        <label>Type:<span style="color: red">*</span></label>
-                        <select class="form-input" name="type" id="type">
-                            <!-- <option>Select Type</option>  -->
-                            <option value="ex" @if ($doctor->type == 'ex') {{ 'Selected' }} @endif>EX</option>
-                            <option value="hq" @if ($doctor->type == 'hq') {{ 'Selected' }} @endif>HQ</option>
-                        </select> 
-                        <x-input-error :messages="$errors->get('type')" class="mt-2" />
-                    </div>
-                    <div>
                         <label>Qualification:<span style="color: red">*</span></label>
                         <select class="form-input" name="qualification_id" id="qualification_id">
                             <!-- <option value="">Select Qualification</option>                             -->
@@ -90,17 +65,33 @@
                         </select> 
                         <x-input-error :messages="$errors->get('qualification_id')" class="mt-2" />
                     </div>
+                    <div>
+                        <label>Type:<span style="color: red">*</span></label>
+                        <select class="form-input" name="type" id="type">
+                            <!-- <option>Select Type</option>  -->
+                            <option value="ex" @if ($doctor->type == 'ex') {{ 'Selected' }} @endif>EX</option>
+                            <option value="hq" @if ($doctor->type == 'hq') {{ 'Selected' }} @endif>HQ</option>
+                        </select> 
+                        <x-input-error :messages="$errors->get('type')" class="mt-2" />
+                    </div>  
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
-                    <x-text-input name="speciality" value="{{ old('speciality', $doctor->speciality) }}" :label="__('Speciality')" :messages="$errors->get('speciality')" :require="true"/> 
                     <x-text-input name="class" value="{{ old('class', $doctor->class) }}" :label="__(' Class')" :messages="$errors->get('class')"/>           
                     <x-text-input name="mpl_no" value="{{ old('mpl_no', $doctor->mpl_no) }}" :label="__(' MPL No')" :messages="$errors->get('mpl_no')" :require="true"/> 
-                </div>
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">   
-                    <x-text-input name="designation" value="{{ old('designation', $doctor->designation) }}" :label="__('Designation')" :messages="$errors->get('designation')" :require="true"/>                        
+                    <div>
+                        <label>Territory:<span style="color: red">*</span></label>
+                        <select class="form-input" name="territory_id" id="territory_id">
+                            <!-- <option value="">Select Territory</option>                             -->
+                            @foreach ($territories as $id => $territory)
+                                    <option value="{{$id}}" {{ $doctor->territory_id ? ($doctor->territory_id == $id ? 'Selected' : '' ) : ''}}>{{$territory}}</option>
+                            @endforeach
+                        </select> 
+                        <x-input-error :messages="$errors->get('territory_id')" class="mt-2" />
+                    </div> 
                     <x-text-input name="hq" value="{{ old('hq', $doctor->hq) }}" :label="__('HQ')" :messages="$errors->get('hq')"/>
-                </div> 
+                </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <x-text-input name="designation" value="{{ old('designation', $doctor->designation) }}" :label="__('Designation')" :messages="$errors->get('designation')" :require="true"/>
                     <div >
                         <label>Zonal Manager:</label>
                         <select class="form-input" name="reporting_office_1" id="office_1" x-model="rbm" @change="reportOffice()">
@@ -135,6 +126,19 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1">
                     <x-text-input name="doctor_address" value="{{ old('doctor_address', $doctor->doctor_address) }}" :label="__('Doctor Address')" :messages="$errors->get('doctor_address')"/>   
                 </div> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <div>
+                        <label>State:<span style="color: red">*</span></label>
+                        <select class="form-input" name="state">
+                            <option value="">Select state</option>
+                            <template x-for="state in states" :key="state.code">
+                                <option :value="state.name" x-text="state.name" :selected="state.name == '{{ $doctor->state}}'"></option>
+                            </template>
+                        </select> 
+                        <x-input-error :messages="$errors->get('state')" class="mt-2" />
+                    </div> 
+                    <x-text-input name="city" value="{{ old('city', $doctor->city) }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>         
+                </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1">
                     <x-text-input name="hospital_address" value="{{ old('hospital_address', $doctor->hospital_address) }}" :label="__('Hospital Address')" :messages="$errors->get('hospital_address')"/>       
                 </div> 

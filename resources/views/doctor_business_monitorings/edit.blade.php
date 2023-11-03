@@ -65,13 +65,13 @@
                                                     <th>Exp in Vol(M)</th>
                                                     <th>Exp in Vol(M+1)</th>
                                                     <th>Exp in Vol(M+2)</th>
-                                                    <th>Exp in Vol(M+3)</th>
+                                                    <!-- <th>Exp in Vol(M+3)</th>
                                                     <th>Exp in Vol(M+4)</th>
                                                     <th>Exp in Vol(M+5)</th>
                                                     <th>Exp in Vol(M+6)</th>
                                                     <th>Total Exp Vol (MtoM+6)</th>
                                                     <th>Total Exp Val (MtoM+6)</th>
-                                                    <th>Scheme %</th>
+                                                    <th>Scheme %</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -106,45 +106,31 @@
                                                                         {{ $id ? ($id == $doctor_business_monitoring->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
                                                                 @endforeach
                                                             </select>
+                                                            <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3" placeholder="M+3"/>
                                                         </td>
                                                         <td>
                                                             <x-text-input style="width:70px"  class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
+                                                            <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4" placeholder="M+4"/>
                                                         </td>
                                                         <td>
                                                             <x-text-input x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units"/>
+                                                            <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" placeholder="M+5"/>
                                                         </td>
                                                         <td>
                                                             <x-text-input  x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value"/>
+                                                            <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6" placeholder="M+6"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input style="width:60px"  x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                            <x-text-input class="w-20" style="width:60px"  x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                            <x-text-input class="mt-4 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol" placeholder="Total Vol"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1"/>
+                                                            <x-text-input class="w-20"  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1"/>
+                                                            <x-text-input class="mt-4 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val" placeholder="Total Val"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/>
+                                                            <x-text-input class="w-20"  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
+                                                            <x-text-input class="mt-4 w-31" x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" placeholder="Scheme"/>
                                                         </td>
                                                     </tr>
                                                 </template>

@@ -24,7 +24,7 @@
                                 <option value="{{$id}}" {{ $roi_accountability_report->grant_approval_id ? ($roi_accountability_report->grant_approval_id == $id ? 'Selected' : '' ) : ''}}>{{ $code }}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('code')" class="mt-2" /> 
+                        <x-input-error :messages="$errors->get('grant_approval_id')" class="mt-2" /> 
                     </div>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Marketing Executive')"  :messages="$errors->get('employee_id_2')" x-model="manager" readonly="true"/>                       
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       

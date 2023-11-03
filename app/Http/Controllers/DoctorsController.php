@@ -52,6 +52,14 @@ class DoctorsController extends Controller
         return $doctor;  
     }
 
+    public function getDoctors($id)
+    {
+        // $doctors = Doctor::where('reporting_office_3', $id)->pluck('doctor_name', 'id');
+        // return $doctors;
+        $doctors = Doctor::where('reporting_office_3', $id)->get();
+        return $doctors;
+    }
+
     public function edit(Doctor $doctor)
     {
         $qualifications = Qualification::pluck('name', 'id');

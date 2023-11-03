@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use PDF;
+use Excel;
+use App\Exports\GAFExport;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\Employee;
@@ -51,6 +53,7 @@ class GrantApprovalsController extends Controller
                                     ->pluck('name', 'id');   
                                     
             $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
+            
         }
         return view('grant_approvals.create')->with(['employees'=>$employees, 'activities'=>$activities, 'doctors'=>$doctors]);
     }
@@ -87,6 +90,7 @@ class GrantApprovalsController extends Controller
                                     ->pluck('name', 'id');   
                                     
             $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
+            // dd($doctors);
         }
         return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
     }
@@ -199,26 +203,30 @@ class GrantApprovalsController extends Controller
         return view('grant_approvals.report');
     }
 
-    public function reportPDF(GrantApproval $grant_approval, Request $request)
+    public function reportPDF(Request $request)
     {    
-        $condition = [];
-        $fromDate = '';
-        $toDate = '';
-        if(isset($request->from_date)){
-            $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
-            $condition[] = ['date_of_issue', '>=' , $fromDate];
-        }        
+        // $condition = [];
+        // $fromDate = '';
+        // $toDate = '';
+        // if(isset($request->from_date)){
+        //     $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
+        //     $condition[] = ['date_of_issue', '>=' , $fromDate];
+        // }        
 
-        if(isset($request->to_date)){
-            $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
-            $condition[] = ['date_of_issue', '<=' , $toDate];
-        }
+        // if(isset($request->to_date)){
+        //     $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
+        //     $condition[] = ['date_of_issue', '<=' , $toDate];
+        // }
         
-        $doctor = Doctor::all();
-        $grant_approval= GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get();
-        $pdf = PDF::loadView('grant_approvals.print', compact('grant_approval','doctor','fromDate','toDate'));        
-        $pdf->setPaper('A4', 'landscape');
-        $pdf->render();              
-        return $pdf->stream("GAF -" . date("dmY") .".pdf");         
+        // $doctor = Doctor::all();
+        // $grant_approval= GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get();
+        // $pdf = PDF::loadView('grant_approvals.print', compact('grant_approval','doctor','fromDate','toDate'));        
+        // $pdf->setPaper('A4', 'landscape');
+        // $pdf->render();              
+        // return $pdf->stream("GAF -" . date("dmY") .".pdf");     
+        
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        return Excel::download(new GAFExport($from_date, $to_date), 'GAF_report.xlsx');
     }
 }

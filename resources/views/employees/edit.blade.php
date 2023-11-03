@@ -16,13 +16,17 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Employee</h5>
                 </div>
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-5"> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
                     <x-text-input name="employee_code" value="{{ old('employee_code', $employee->employee_code) }}" :label="__('Employee Code')" :messages="$errors->get('employee_code')" :require="true"/>     
-                    <x-text-input name="name" value="{{ old('name', $employee->name) }}" :label="__('Employee Name')" :require="true" :messages="$errors->get('name')"/>  
-                    <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $employee->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')" :require="true"/>   
+                    <div class="col-span-3">
+                        <x-text-input name="name" value="{{ old('name', $employee->name) }}" :label="__('Employee Name')" :require="true" :messages="$errors->get('name')"/>  
+                    </div>                       
+                </div>  
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $employee->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')" :require="true"/>   
                     <x-text-input name="contact_no_2" value="{{ old('contact_no_2', $employee->contact_no_2) }}" :label="__('Contact No 2')" :messages="$errors->get('contact_no_2')"/>
-                    <x-text-input name="dob" type="dob" value="{{ old('dob', $employee->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')" :require="true"/>   
-                </div>     
+                    <x-text-input name="dob" type="dob" value="{{ old('dob', $employee->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')" :require="true"/>
+                </div>   
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1"> 
                     <x-text-input name="address" value="{{ old('address', $employee->address) }}" :label="__('Address')" :messages="$errors->get('address')"/> 
                 </div> 
@@ -38,8 +42,6 @@
                         <x-input-error :messages="$errors->get('state_name')" class="mt-2" />
                     </div>   
                     <x-text-input name="city" value="{{ old('city', $employee->city) }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>        
-                    <x-combo-input name="email" type="email" :email="true" value="{{ old('email', $employee->email) }}" :label="__('Email')" :messages="$errors->get('email')" :require="true"/> 
-                    <x-text-input name="password" type="password" :require="true" value="{{ @$employee->users->password }}"  :label="__('Password')" :messages="$errors->get('password')"/>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name', $employee->fieldforce_name) }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')" :require="true"/>
@@ -76,6 +78,11 @@
                         <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  
                 </div> 
+                <hr><br>
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <x-combo-input name="email" type="email" :email="true" value="{{ old('email', $employee->email) }}" :label="__('Email')" :messages="$errors->get('email')" :require="true"/> 
+                    <x-text-input name="new_password" type="password" :label="__('New Password')" :messages="$errors->get('new_password')"/>
+                </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}

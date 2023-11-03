@@ -51,7 +51,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('grant_approvals/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval');
         Route::get('grant_approvals/rejected/{grant_approval}', 'GrantApprovalsController@rejected')->name('grant_approvals.rejected');
         Route::get('grant_approvals/cancel/{grant_approval}', 'GrantApprovalsController@cancel')->name('grant_approvals.cancel');
-        
+        Route::get('doctors/getDoctors/{id}', 'DoctorsController@getDoctors')->name('doctors.getDoctors');
         /**
          * Import Excel
          */
@@ -97,6 +97,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/employees/getReportingOfficer3/{employee}', 'EmployeesController@getReportingOfficer3')->name('employees.getReportingOfficer3');
         Route::get('/employees/getEmployees/{employee}', 'EmployeesController@getEmployees')->name('employees.getEmployees');
         Route::resource('doctors', DoctorsController::class);
+        
+
         Route::resource('grant_approvals', GrantApprovalsController::class);
         // Route::get('/grant_approvals/report/{grant_approval}', [App\Http\Controllers\GrantApprovalsController::class, 'report'])->name('grant_approvals.report');        
         Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);

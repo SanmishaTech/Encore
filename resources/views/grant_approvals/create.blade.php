@@ -15,34 +15,42 @@
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Grant Approval</h5>
                 </div>               
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
-                    <div>
-                        <label>Marketing Executive :</label>
-                        <select class="form-input" name="employee_id" id="employee_id" x-model="employee_id" @change="mehqChange()">
-                            @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
-                                @foreach ($employees as $id=>$employee)                                
-                                    <option value="{{$id}}">{{$employee}}</option>                                
-                                @endforeach  
-                            @else
-                                @foreach ($employees as $id=>$employee)                                
-                                    <option value="{{$id}}">{{$employee}}</option>                                
-                                @endforeach  
-                            @endif                          
-                        </select> 
-                        <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" />
-                    </div>
-                    
-                        <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       
-                        <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Zonal Manager')"  :messages="$errors->get('employee_id_2')" x-model="zone" readonly="true"/>                      
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') }}" :label="__('Code')"  :messages="$errors->get('code')" readonly="true"/>
+                    @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                        @foreach ($employees as $id=>$employee)
+                        <input type="hidden" x-model="employee_id" x-on:change="mehqChange()" name="employee_id"/>
+                        <x-text-input class="bg-gray-100 dark:bg-gray-700" value="{{ $employee }}" :label="__('Marketing Executive')" :messages="$errors->get('employee_id')" readonly="true"/>
+                        @endforeach
+                    @else
+                        <div>
+                            <label>Marketing Executive :</label>
+                            <select class="form-input" name="employee_id" id="employee_id" x-model="employee_id" @change="mehqChange()">
+                            @foreach ($employees as $id=>$employee)                                
+                                <option value="{{$id}}">{{$employee}}</option>                                
+                            @endforeach                
+                            </select> 
+                            <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" />
+                        </div>
+                    @endif
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Zonal Manager')"  :messages="$errors->get('employee_id_3')" x-model="zone" readonly="true"/>                      
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Doctor :</label>
-                        <select class="form-input" name="doctor_id" id="doctor_id" @change="doctorChange()" x-model="doctor_id">
-                            @foreach ($doctors as $id => $doctor)
-                                <option value="{{$id}}">{{$doctor}}</option>
-                            @endforeach
-                        </select> 
+                        <label>Doctor:</label>
+                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
+                                <option>Select Doctor</option>
+                                @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                                    @foreach ($doctors as $id=>$doctor)                                
+                                        <option value="{{$id}}">{{$doctor}}</option>                                
+                                    @endforeach      
+                                @else
+                                    <template x-for="doctor in doctors" :key="doctor.id">
+                                        <option :value="doctor.id" x-text="doctor.doctor_name"></option>
+                                    </template>
+                                @endif
+                            </select>
                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
                     </div>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="mpl_no"  :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
@@ -60,8 +68,9 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue') }}" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
+                    <x-text-input name="date_of_issue" id="date" x-on:change.debounce="dateChange"  value="{{ old('date_of_issue') }}" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
                     <!-- <x-text-input name="proposal_month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_month')"/>  -->
+                    <!-- <input type="hidden" name="proposal_month"/> -->
                     <div>
                         <label>Proposal Month :</label>
                         <select class="form-input" name="proposal_month">
@@ -74,9 +83,9 @@
                     </div>
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') }}" :label="__('Code')"  :messages="$errors->get('code')" readonly="true"/>
                     <x-combo-input name="proposal_amount" value="{{ old('proposal_amount') }}" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
                     <x-combo-input name="email" value="{{ old('email') }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
+                    <x-text-input name="contact_no" value="{{ old('contact_no') }}" :label="__('Contact No')"  :messages="$errors->get('contact_no')"/>
                 </div> 
                 <div class="flex justify-end mt-4">
                     <x-success-button>
@@ -95,15 +104,17 @@
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({   
         doctor_id: '',
+        docName : '',
         zone: '',
         area: '',
         employee_id: '',
         employee_id_2: '',
         employee_id_3: '',
-        doctorDate: '',
+        doctorData: '',
         location: '',
         speciality: '',
         mpl_no: '',
+        doctors:'',
         init() {
             flatpickr(document.getElementById('date'), {
                 dateFormat: 'd/m/Y',
@@ -111,12 +122,14 @@ document.addEventListener("alpine:init", () => {
             var options = {
                 searchable: true
             };
-            NiceSelect.bind(document.getElementById("employee_id"), options);
-            NiceSelect.bind(document.getElementById("doctor_id"), options);
+            // NiceSelect.bind(document.getElementById("doctor_id"), options);
             NiceSelect.bind(document.getElementById("activity_id"), options);
             @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                 this.employee_id = {{ auth()->user()->id}};
                 this.mehqChange();
+            @else
+            NiceSelect.bind(document.getElementById("employee_id"), options);
+
             @endif
             this.monthChange();
         },   
@@ -145,8 +158,23 @@ document.addEventListener("alpine:init", () => {
             })).json();
             this.area = this.data.area_manager.name;
             this.zone = this.data.zonal_manager.name;
-            console.log(this.data.area_manager.name);
+            
+            this.doctors = await (await fetch('/doctors/getDoctors/'+ this.employee_id, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+            })).json();
+            console.log(this.doctors)
+            
         },
+        // date_of_issue : '',
+        // dateChange(){        
+        //     console.log(this.date_of_issue);
+        //     let monthName = new Date(this.date_of_issue).toLocaleDateString('en', { month:"short"})
+        //     console.log(monthName);
+        // },
+
         monthChange(){
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             data = ['2023', '2024', '2025'];

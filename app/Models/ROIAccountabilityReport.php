@@ -16,8 +16,7 @@ class RoiAccountabilityReport extends Model
 {
     use HasFactory, CreatedUpdatedBy;
     protected $fillable = [
-        'grant_approval_id',
-        'doctor_id', 
+        'grant_approval_id', 
         'roi',
         'rar_date',    
         'proposal_month',

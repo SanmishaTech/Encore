@@ -16,8 +16,12 @@
                     <h5 class="font-semibold text-lg dark:text-white-light">Add Doctor</h5>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
-                    <x-text-input name="doctor_name" value="{{ old('doctor_name') }}" :label="__('Doctor Name')" :require="true" :messages="$errors->get('doctor_name')"/>  
-                    <x-text-input name="hospital_name" value="{{ old('hospital_name') }}" :label="__('Hospital Name')" :require="true" :messages="$errors->get('hospital_name')"/> 
+                    <div class="col-span-2">
+                        <x-text-input name="doctor_name" value="{{ old('doctor_name') }}" :label="__('Doctor Name')" :require="true" :messages="$errors->get('doctor_name')"/>  
+                    </div> 
+                    <div class="col-span-2">
+                        <x-text-input name="hospital_name" value="{{ old('hospital_name') }}" :label="__('Hospital Name')" :require="true" :messages="$errors->get('hospital_name')"/> 
+                    </div> 
                 </div>   
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <x-combo-input name="email" :email="true" value="{{ old('email') }}" :require="true" :label="__('Email')" :messages="$errors->get('email')"/>  
@@ -40,25 +44,7 @@
                     <x-text-input name="city" value="{{ old('city') }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>  
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <!-- <div>
-                        <label>Employee:<span style="color: red">*</span></label>
-                        <select class="form-input" id="employee_id" name="employee_id">
-                            <option>Select employee</option>                            
-                            @foreach ($employees as $id => $employee)
-                                    <option value="{{$id}}">{{$employee}}</option>
-                            @endforeach
-                        </select> 
-                        <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
-                    </div> -->
-                    <div>
-                        <label>Territory:<span style="color: red">*</span></label>
-                        <select class="form-input" id="territory_id" name="territory_id">
-                            <!-- <option>Select Territory</option>                             -->
-                            @foreach ($territories as $id => $territory)
-                                    <option value="{{$id}}">{{$territory}}</option>
-                            @endforeach
-                        </select> 
-                    </div>
+                    <x-text-input name="speciality" value="{{ old('speciality') }}" :label="__('Speciality')" :messages="$errors->get('speciality')" :require="true"/>
                     <div>
                         <label>Category:<span style="color: red">*</span></label>
                         <select class="form-input" id="category_id" name="category_id">
@@ -66,14 +52,6 @@
                             @foreach ($categories as $id => $category)
                                     <option value="{{$id}}">{{$category}}</option>
                             @endforeach
-                        </select> 
-                    </div>
-                    <div>
-                        <label>Type:<span style="color: red">*</span></label>
-                        <select class="form-input" id="type" name="type">
-                            <!-- <option>Select Type</option>  -->
-                            <option value="ex">EX</option>
-                            <option value="hq">HQ</option>
                         </select> 
                     </div>
                     <div>
@@ -85,17 +63,31 @@
                             @endforeach
                         </select> 
                     </div>
+                    <div>
+                        <label>Type:<span style="color: red">*</span></label>
+                        <select class="form-input" id="type" name="type">
+                            <!-- <option>Select Type</option>  -->
+                            <option value="ex">EX</option>
+                            <option value="hq">HQ</option>
+                        </select> 
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">                     
-                    <x-text-input name="speciality" value="{{ old('speciality') }}" :label="__('Speciality')" :messages="$errors->get('speciality')" :require="true"/>       
                     <x-text-input name="class" value="{{ old('class') }}" :label="__(' Class')" :messages="$errors->get('class')"/>  
                     <x-text-input name="mpl_no" value="{{ old('mpl_no') }}" :label="__(' MPL No')" :messages="$errors->get('mpl_no')" :require="true"/>     
+                    <div>
+                        <label>Territory:<span style="color: red">*</span></label>
+                        <select class="form-input" id="territory_id" name="territory_id">
+                            <!-- <option>Select Territory</option>                             -->
+                            @foreach ($territories as $id => $territory)
+                                    <option value="{{$id}}">{{$territory}}</option>
+                            @endforeach
+                        </select> 
+                    </div> 
+                    <x-text-input name="hq" value="{{ old('hq') }}" :label="__('HQ')" :messages="$errors->get('hq')"/> 
                 </div>
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">       
-                    <x-text-input name="designation" value="{{ old('designation') }}" :label="__('Designation')" :messages="$errors->get('designation')" :require="true"/>  
-                    <x-text-input name="hq" value="{{ old('hq') }}" :label="__('HQ')" :messages="$errors->get('hq')"/>  
-                </div> 
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <x-text-input name="designation" value="{{ old('designation') }}" :label="__('Designation')" :messages="$errors->get('designation')" :require="true"/> 
                     <div>
                         <label>Zonal Manager :</label>
                         <select class="form-input" name="reporting_office_1" id="office_1" x-model="rbm" @change="reportOffice()">
@@ -130,6 +122,19 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1"> 
                     <x-text-input name="doctor_address" value="{{ old('doctor_address') }}" :label="__('Doctor Address')" :messages="$errors->get('doctor_address')"/> 
                 </div> 
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <div>
+                        <label>State:<span style="color: red">*</span></label>
+                        <select class="form-input" name="state">
+                            <option value="">Select state</option>
+                            <template x-for="state in states" :key="state.code">
+                                <option :value="state.name" x-text="state.name"></option>
+                            </template>
+                        </select> 
+                        <x-input-error :messages="$errors->get('state')" class="mt-2" />
+                    </div> 
+                    <x-text-input name="city" value="{{ old('city') }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>  
+                </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1">
                     <x-text-input name="hospital_address" value="{{ old('hospital_address') }}" :label="__('Hospital Address')" :messages="$errors->get('hospital_address')"/>  
                 </div> 
