@@ -21,6 +21,7 @@ class RoiAccountabilityReport extends Model
         'rar_date',    
         'proposal_month',
         'amount',
+        'total_actual_value',
     ];
 
     public function setRARDateAttribute($value)

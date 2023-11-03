@@ -25,6 +25,8 @@ class DoctorBusinessMonitoring extends Model
         'month',
         'amount',
         'code',
+        'total_expected_value',
+        'total_business_value'
     ];
     
     public function setDateAttribute($value)

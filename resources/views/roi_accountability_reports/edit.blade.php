@@ -41,7 +41,7 @@
                    <x-text-input name="rar_date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('rar_date') }}" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
                    <x-text-input name="proposal_month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
                    <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
-                    <x-text-input name="roi" value="{{ old('roi', $roi_accountability_report->roi) }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
+                    <x-text-input name="roi" x-model="roi" value="{{ old('roi', $roi_accountability_report->roi) }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
                 </div>    
             </div>
             <div class="panel table-responsive">
@@ -61,8 +61,8 @@
                                                     <th>Product</th>
                                                     <th>NRV</th>
                                                     <th>Month</th>
-                                                    <th>Exp Vol</th>
-                                                    <th>Exp Val</th>
+                                                    <th>Act Vol</th>
+                                                    <th>Act Val</th>
                                                     <th>Scheme %</th>
                                                 </tr>
                                             </thead>
@@ -121,10 +121,10 @@
                                                             <x-input-error :messages="$errors->get('month')" class="mt-2" /> 
                                                         </td>
                                                         <td>
-                                                            <x-text-input style="width:60px"  x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                            <x-text-input style="width:60px"  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][exp_val]`"  :messages="$errors->get('exp_val')" x-model="productDetail.exp_val"/>
+                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
                                                         </td>
                                                         <td>
                                                             <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/>
@@ -136,7 +136,15 @@
                                                         <button type="button" class="btn btn-info" @click.prevent="addItem()">+ </button>
                                                     </td>
                                                 </tr>
-                                            </tbody>                                  
+                                            </tbody>
+                                            <tfoot  style="background-color: #FFFFF;">
+                                                <tr>
+                                                    <th colspan="6" style="text-align:right;">Total of Actual Value: </th>
+                                                    <td>               
+                                                        <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" style="width:90px;" x-model="total" readonly="true" :messages="$errors->get('total_actual_value')" value="{{ old('total_actual_value', $roi_accountability_report->total_actual_value) }}" name="total_actual_value"/>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>                                   
                                         </table>
                                     </div>
                                 </template>                                                
@@ -175,6 +183,9 @@ document.addEventListener("alpine:init", () => {
         nrv: '',     
         productDetails: [],       
         init() {
+            this.roi = 0;
+            this.total = 0;
+
             var options = {
                 searchable: true
             };
@@ -198,12 +209,23 @@ document.addEventListener("alpine:init", () => {
                 product_id: '{{ $details->product_id }}',
                 nrv: '{{ $details->nrv }}',
                 month: '{{ $details->month }}',
-                exp_vol: '{{ $details->exp_vol }}',
-                exp_val: '{{ $details->exp_val }}',
+                act_vol: '{{ $details->act_vol }}',
+                act_val: '{{ $details->act_val }}',
                 scheme: '{{ $details->scheme }}',
             });                    
             @endforeach
-            @endif               
+            @endif 
+            
+            @if($roi_accountability_report->total_actual_value)                
+                this.total = {{  $roi_accountability_report->total_actual_value }};
+                this.calculateTotal();
+            @endif
+
+            @if($roi_accountability_report->roi)                
+                this.roi = {{  $roi_accountability_report->roi }};
+                this.calcROI();
+            @endif
+
         },
            
         addItem() {
@@ -217,14 +239,16 @@ document.addEventListener("alpine:init", () => {
                 product_id: '',
                 nrv: '',
                 month: '',
-                exp_vol: '',
-                exp_val: '',
+                act_vol: '',
+                act_val: '',
                 scheme: '',
             });
+            this.calculateTotal();
         }, 
                         
         removeItem(productDetail) {
             this.productDetails = this.productDetails.filter((d) => d.id != productDetail.id);
+            this.calculateTotal();
         },
 
         code: '',
@@ -260,6 +284,21 @@ document.addEventListener("alpine:init", () => {
             this.date = this.data.date_of_issue;
             this.month = this.data.proposal_month;
             this.amount = this.data.proposal_amount;
+        },
+
+        calculateTotal() {
+            let total = 0;  
+            this.productDetails.forEach(productDetail => {
+                total = parseFloat(total) + parseFloat(productDetail.act_val);
+            });                     
+            if(!isNaN(total)){
+                this.total = total;
+            }    
+            this.calcROI();
+        },
+
+        calcROI() {
+            this.roi = this.total / this.amount;   
         },
     }));
 });

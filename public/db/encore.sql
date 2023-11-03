@@ -34,7 +34,7 @@ CREATE TABLE `activities` (
 
 insert  into `activities`(`id`,`name`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
 (1,'Medical Camp',1,1,'2023-10-02 12:19:32','2023-10-02 12:19:32'),
-(2,'Social activities',1,1,'2023-10-02 12:19:47','2023-10-02 12:20:28'),
+(2,'Social Event',1,1,'2023-10-02 12:19:47','2023-11-01 04:52:25'),
 (3,'Conference',1,1,'2023-10-13 10:33:20','2023-10-13 10:33:20'),
 (4,'Committee',1,1,'2023-10-13 10:33:20','2023-10-13 10:33:20'),
 (5,'Healthcare event',1,1,'2023-10-13 10:33:20','2023-10-13 10:33:20'),
@@ -63,7 +63,7 @@ CREATE TABLE `activity_log` (
   KEY `subject` (`subject_type`,`subject_id`),
   KEY `causer` (`causer_type`,`causer_id`),
   KEY `activity_log_log_name_index` (`log_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `activity_log` */
 
@@ -120,7 +120,15 @@ insert  into `activity_log`(`id`,`log_name`,`description`,`subject_type`,`event`
 (50,'default','created','App\\Models\\User','created',18,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"YAMINI ROY\",\"email\":\"yamini@encore.com\",\"password\":\"$2y$10$GXqN2xoxHHhYDMqDJZjgjelJYmpVTW8Fly\\/5P1bLB2K.xbHjDoM0a\",\"active\":1}}',NULL,'2023-10-16 08:41:09','2023-10-16 08:41:09'),
 (51,'default','created','App\\Models\\User','created',19,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"VINITA KOLHE\",\"email\":\"vinita@encore.com\",\"password\":\"$2y$10$kJKSJXW43M.FURIF121zfOF.5St75w7AQg6y8FqSfHSW32YmTREg2\",\"active\":1}}',NULL,'2023-10-16 08:50:49','2023-10-16 08:50:49'),
 (52,'default','deleted','App\\Models\\User','deleted',19,'App\\Models\\User',1,'{\"old\":{\"name\":\"VINITA KOLHE\",\"email\":\"vinita@encore.com\",\"password\":\"$2y$10$kJKSJXW43M.FURIF121zfOF.5St75w7AQg6y8FqSfHSW32YmTREg2\",\"active\":1}}',NULL,'2023-10-16 08:51:23','2023-10-16 08:51:23'),
-(53,'default','created','App\\Models\\User','created',20,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"VINITA KOLHE\",\"email\":\"vinita@encore.com\",\"password\":\"$2y$10$\\/UVQ3WkC9AWxBAF3ghM2euqTnAkt4wp7ulHKX9rNe4eSSQOY8MphW\",\"active\":1}}',NULL,'2023-10-16 08:52:16','2023-10-16 08:52:16');
+(53,'default','created','App\\Models\\User','created',20,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"VINITA KOLHE\",\"email\":\"vinita@encore.com\",\"password\":\"$2y$10$\\/UVQ3WkC9AWxBAF3ghM2euqTnAkt4wp7ulHKX9rNe4eSSQOY8MphW\",\"active\":1}}',NULL,'2023-10-16 08:52:16','2023-10-16 08:52:16'),
+(54,'default','updated','App\\Models\\User','updated',2,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"Anamika\",\"email\":\"anamika@encore.com\",\"password\":\"$2y$10$GVYKnU3\\/bhThtVerxGJwPO0In4TWmAkzn8eO9RyiKZnvlbRQnD6UG\",\"active\":1},\"old\":{\"name\":\"Anamika\",\"email\":\"anamika@encore.com\",\"password\":\"$2y$10$XRb9AlaVAMI.NtMNc7MG9.jlMLfWJCfOwgSzhnK1afV\\/gJWO12szK\",\"active\":1}}',NULL,'2023-10-18 10:09:31','2023-10-18 10:09:31'),
+(55,'default','updated','App\\Models\\User','updated',8,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"avinash\",\"email\":\"avinash@encore.com\",\"password\":\"$2y$10$WxjQHeTp0Z42NvpQG3lbteX8gHwtT0.Db7vdmrSXyw3.mUMNrJd9m\",\"active\":1},\"old\":{\"name\":\"avinash\",\"email\":\"avinash@encore.com\",\"password\":\"$2y$10$0W98fK8VDicP18OPr\\/wiOemoTi1d4LpD8qEWHEk1ENakLTdeJzFWq\",\"active\":1}}',NULL,'2023-10-18 10:40:44','2023-10-18 10:40:44'),
+(56,'default','created','App\\Models\\User','created',14,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"G L DAKSH\",\"email\":\"daksh@encore1.com\",\"password\":\"$2y$10$gfwZ0\\/EqKKQLc.EhVqS4\\/eoKKfmEJaIYtRnMJRPKBMRfIrMshwEZe\",\"active\":1}}',NULL,'2023-10-30 06:06:32','2023-10-30 06:06:32'),
+(57,'default','updated','App\\Models\\User','updated',14,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"G L DAKSH\",\"email\":\"daksh@encore1.com\",\"password\":\"$2y$10$lPB6gsBzjltXtSBwfObHc..iX6AZIzGtcldkhGruCA1zk8W8APwnS\",\"active\":1},\"old\":{\"name\":\"G L DAKSH\",\"email\":\"daksh@encore1.com\",\"password\":\"$2y$10$gfwZ0\\/EqKKQLc.EhVqS4\\/eoKKfmEJaIYtRnMJRPKBMRfIrMshwEZe\",\"active\":1}}',NULL,'2023-10-30 06:19:26','2023-10-30 06:19:26'),
+(58,'default','updated','App\\Models\\User','updated',6,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"bina\",\"email\":\"bina@encore.com\",\"password\":\"$2y$10$blloVD7dszAAHDQf6PEh5..L5cjDgBM4hr.gsupkPVl9xqNIx8gra\",\"active\":1},\"old\":{\"name\":\"bina\",\"email\":\"bina@encore.com\",\"password\":\"$2y$10$zCr8UKvdb8eL93NQMNJR.ukuG2uNLkm50ewfCZbuAAAaooalf7uOa\",\"active\":1}}',NULL,'2023-10-30 06:20:00','2023-10-30 06:20:00'),
+(59,'default','updated','App\\Models\\User','updated',6,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"bina\",\"email\":\"bina@encore.com\",\"password\":\"$2y$10$h\\/9xGd0Yx9JZ.4nIr5JoZu4tunH5k4lf2CS\\/T8MK6BxyylOTar5OG\",\"active\":1},\"old\":{\"name\":\"bina\",\"email\":\"bina@encore.com\",\"password\":\"$2y$10$blloVD7dszAAHDQf6PEh5..L5cjDgBM4hr.gsupkPVl9xqNIx8gra\",\"active\":1}}',NULL,'2023-10-30 06:33:18','2023-10-30 06:33:18'),
+(60,'default','updated','App\\Models\\User','updated',10,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"BHASKAR GUPTA\",\"email\":\"bhaskar@encore.com\",\"password\":\"$2y$10$gELqf.n2AI7\\/xJty2QODwuJMQDV53uhggeCchqyR0iaJCx8WhaD4a\",\"active\":1},\"old\":{\"name\":\"BHASKAR GUPTA\",\"email\":\"bhaskar@encore.com\",\"password\":\"$2y$10$kEO\\/qyuv87VFPnOzXhrIF.xd1pVhmNm.VVpWGzLDlhFKrkvqWsncG\",\"active\":1}}',NULL,'2023-11-01 05:14:40','2023-11-01 05:14:40'),
+(61,'default','updated','App\\Models\\User','updated',15,'App\\Models\\User',1,'{\"attributes\":{\"name\":\"Nisha N Mehta\",\"email\":\"nisha@encore.com\",\"password\":\"$2y$10$2tOOku5Jw9qg2vaW.j6.9uh98EGgPO8bpTRw7CVEvSYMxp8BUdKae\",\"active\":1},\"old\":{\"name\":\"Nisha N Mehta\",\"email\":\"nisha@encore.com\",\"password\":\"$2y$10$l5JJ5SimFXwh3z2fExGdcOgXj8.83MMMpHfVp6u2hU.rYS550VDzK\",\"active\":1}}',NULL,'2023-11-01 05:25:43','2023-11-01 05:25:43');
 
 /*Table structure for table `categories` */
 
@@ -144,7 +152,7 @@ insert  into `categories`(`id`,`name`,`created_by`,`updated_by`,`created_at`,`up
 (4,'SCPAED',1,1,'2023-10-11 10:55:34','2023-10-11 10:55:34'),
 (5,'practitioner',1,1,'2023-10-13 10:15:32','2023-10-13 10:15:32'),
 (7,'Homeopathy',1,1,'2023-10-13 10:15:32','2023-10-17 05:53:38'),
-(8,'ayurved',1,1,'2023-10-13 10:15:32','2023-10-13 10:15:32');
+(8,'Ayurved',1,1,'2023-10-13 10:15:32','2023-11-01 04:50:31');
 
 /*Table structure for table `chemists` */
 
@@ -197,14 +205,18 @@ CREATE TABLE `doctor_business_monitorings` (
   `updated_by` int(10) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `total_expected_value` decimal(10,2) DEFAULT NULL,
+  `total_business_value` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `doctor_business_monitorings` */
 
-insert  into `doctor_business_monitorings`(`id`,`grant_approval_id`,`doctor_id`,`roi`,`date`,`month`,`amount`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
-(1,12,NULL,'111','2023-11-01','Nov /2023',20000.00,1,1,'2023-10-16 05:49:18','2023-10-16 05:49:18'),
-(2,8,NULL,'101','2023-12-27','Dec /2023',45000.00,1,1,'2023-10-17 07:11:02','2023-10-17 07:11:02');
+insert  into `doctor_business_monitorings`(`id`,`grant_approval_id`,`doctor_id`,`roi`,`date`,`month`,`amount`,`created_by`,`updated_by`,`created_at`,`updated_at`,`total_expected_value`,`total_business_value`) values 
+(1,12,NULL,'111','2023-11-01','Nov /2023',20000.00,1,1,'2023-10-16 05:49:18','2023-10-16 05:49:18',NULL,NULL),
+(2,8,NULL,'101','2023-12-27','Dec /2023',45000.00,1,1,'2023-10-17 07:11:02','2023-10-17 07:11:02',NULL,NULL),
+(3,5,NULL,'0','2023-12-13','Dec /2023',7000.00,1,1,'2023-11-03 09:53:35','2023-11-03 11:24:14',43562.85,8256.30),
+(4,3,NULL,'10.53605','2023-10-31','Oct /2023',6000.00,1,1,'2023-11-03 11:08:23','2023-11-03 11:08:23',NULL,NULL);
 
 /*Table structure for table `doctors` */
 
@@ -253,7 +265,7 @@ insert  into `doctors`(`id`,`doctor_name`,`doctor_address`,`hospital_name`,`hosp
 (5,'DR H P TYAGI','RAJ NAGAR','tyagi hsp','KHAJORI','9311444110',NULL,'tyagi@encore.com',NULL,1,2,4,'Delhi','DELHI','G PRC','ME','1989-08-22','2000-04-04','DELHI 1',NULL,'ex',1,1,'2023-10-12 06:49:21','2023-10-12 08:01:18','202',10,11,12),
 (6,'HABDE ALI BOHRA','BHINDER','R.K.HOSPITAL','BHINDER','9414688279','7568707099','bohra@encore.com',NULL,NULL,NULL,NULL,'RAJASTHAN','BHINDER','PHY','ME',NULL,NULL,'UDAIPUR',NULL,'ex',1,1,'2023-10-12 12:05:24','2023-10-12 12:05:24','111',NULL,NULL,NULL),
 (7,'Prachi Khadayate','Indore','Krishna Hospital','Indore','9414622768','7568707099','prachi@encore.com',NULL,2,4,2,'Madhya Pradesh','Indore','MD','ME','2023-10-13','2023-10-13','INDORE',NULL,'hq',1,1,'2023-10-13 12:14:24','2023-10-13 12:15:00','234',10,11,8),
-(8,'SUGANITA','BARABANKI NEAR','HIND HOSPITAL BARABANKI','FATEHPUR','7080285555','9140074109','suganita@encore.com',NULL,1,1,1,'Uttar Pradesh','BARABANKI','DER','ME','2023-10-16','2023-10-16','LUCKNOW','dd','ex',1,1,'2023-10-16 08:03:52','2023-10-16 08:04:22','98',10,11,8);
+(8,'SUGANITA','BARABANKI NEAR','HIND HOSPITAL BARABANKI','FATEHPUR','7080285555','9140074109','suganita@encore.com',NULL,1,1,1,'Uttar Pradesh','BARABANKI','DER','ME','2023-10-16','2023-10-16','LUCKNOW','dd','ex',1,1,'2023-10-16 08:03:52','2023-10-18 10:26:15','98',10,11,12);
 
 /*Table structure for table `employees` */
 
@@ -289,16 +301,16 @@ insert  into `employees`(`id`,`name`,`email`,`contact_no_1`,`contact_no_2`,`addr
 (3,'Abhishek','abhishek@encore.com','9887567898','9987564278','near SHARMA HOSPITAL','Zonal Manager','UTTAR PRADESH','GHAZIABAD','GHAZIABAD 1 HQ','ENMKT0815','2000-06-06',1,1,'2023-10-09 05:57:21','2023-10-09 05:57:21',NULL,NULL,NULL),
 (4,'chhaya','chhaya@encore.com','9479836261','7000345593','SHANKER GHEE BHANDAR K PAS','Area Manager','MADHYA PRADESH','JABALPUR','JABALPUR 1 HQ','ENMKT0826','1990-03-13',1,1,'2023-10-09 05:59:25','2023-10-09 05:59:25',2,NULL,NULL),
 (5,'pradip','pradip@encore.com','9425068761','9424567761','near RAY CLINIC','Area Manager','Chhattisgarh','NASHIK','NASHIK 1 HQ','ENMKT0787','1999-03-15',1,1,'2023-10-09 06:05:07','2023-10-16 07:36:06',3,NULL,NULL),
-(6,'bina','bina@encore.com','9414296968','9414166608','dadar','Managing Executive','MAHARASHTRA','Mumbai','DADAR HQ','ENMKT0832','1991-02-12',1,1,'2023-10-09 06:12:40','2023-10-09 06:12:40',2,4,NULL),
-(7,'dattta','datta@encore.com','9975318528','7798602992','CESSTLE MIL','Managing Executive','MAHARASHTRA','Mumbai','THANE HQ','ENMKT0791','1997-06-17',1,1,'2023-10-09 06:14:46','2023-10-09 06:14:46',3,5,NULL),
-(8,'avinash','avinash@encore.com','9869059380','986905897','SHOP NO 48 F1 SAROVAR TOWER THAKUR VILLEGE KANDIWALI WEST','Managing Executive','Maharashtra','Mumbai','BORIAVLI HQ','ENMKT0824','1987-10-07',1,1,'2023-10-09 06:16:28','2023-10-12 07:56:46',10,11,NULL),
+(6,'bina','bina@encore.com','9414296968','9414166608','dadar','Marketing Executive','Maharashtra','Mumbai','DADAR HQ','ENMKT0832','1991-02-12',1,1,'2023-10-09 06:12:40','2023-10-30 06:33:18',2,4,NULL),
+(7,'dattta','datta@encore.com','9975318528','7798602992','CESSTLE MIL','Marketing Executive','MAHARASHTRA','Mumbai','THANE HQ','ENMKT0791','1997-06-17',1,1,'2023-10-09 06:14:46','2023-10-09 06:14:46',3,5,NULL),
+(8,'avinash','avinash@encore.com','9869059380','986905897','SHOP NO 48 F1 SAROVAR TOWER THAKUR VILLEGE KANDIWALI WEST','Marketing Executive','Maharashtra','Mumbai','BORIAVLI HQ','ENMKT0824','1987-10-07',1,1,'2023-10-09 06:16:28','2023-10-18 10:40:43',10,11,NULL),
 (9,'laxmi','laxmi@encore.com','9210308792','9223458792','KHANAWALI KHANDWA','Operator','MADHYA PRADESH','KHANDWA','KHARGAON HQ','ENMKT0850','1997-03-04',1,1,'2023-10-09 06:26:19','2023-10-09 08:44:24',2,4,6),
-(10,'BHASKAR GUPTA','bhaskar@encore.com','9405563547',NULL,'SINNAR','Zonal Manager','MAHARASHTRA','Sinnar','NASHIK 1 HQ','ENMKT0787','1994-01-20',1,1,'2023-10-11 11:07:25','2023-10-11 11:07:25',2,4,NULL),
+(10,'BHASKAR GUPTA','bhaskar@encore.com','9405563547',NULL,'SINNAR','Zonal Manager','Maharashtra','Sinnar','NASHIK 1 HQ','ENMKT0787','1994-01-20',1,1,'2023-10-11 11:07:25','2023-11-01 05:14:40',2,NULL,NULL),
 (11,'B.L VERMA','verma@encore.com','7942695646',NULL,'VERMA CLINIC NAGRECHI KI GALI','Area Manager','Punjab','SALUMBER','UDAIPUR HQ','ENMKT0761','1999-05-03',1,1,'2023-10-12 06:28:18','2023-10-12 06:38:11',10,NULL,NULL),
-(12,'H.C.SONI','soni@encore.com','7627096662','7568707099','BHINDER','Managing Executive','Rajasthan','BHINDER','UDAIPUR HQ','ENMKT0761','1988-04-05',1,1,'2023-10-12 07:59:03','2023-10-12 07:59:03',10,11,NULL),
-(13,'G L DAKSH','daksh@encore.com','9414688279','7568707099','CHITTORGARH','ME','RAJASTHAN','CHITTORGARH','UDAIPUR HQ','ENMKT0761',NULL,1,1,'2023-10-12 13:19:43','2023-10-12 13:19:43',NULL,NULL,NULL),
-(14,'G L DAKSH','daksh@encore.com','9414688279','7568707099','CHITTORGARH','ME','RAJASTHAN','CHITTORGARH','UDAIPUR HQ','ENMKT0761',NULL,1,1,'2023-10-12 13:38:58','2023-10-12 13:38:58',NULL,NULL,NULL),
-(15,'Nisha N Mehta','nisha@encore.com','9876588279','7568707099','JAIPUR','Area Manager','Rajasthan','JAIPUR','JAIPUR HQ','ENMKT07','2023-10-13',1,1,'2023-10-13 11:43:06','2023-10-13 11:53:21',2,NULL,NULL),
+(12,'H.C.SONI','soni@encore.com','7627096662','7568707099','BHINDER','Marketing Executive','Rajasthan','BHINDER','UDAIPUR HQ','ENMKT0761','1988-04-05',1,1,'2023-10-12 07:59:03','2023-10-12 07:59:03',10,11,NULL),
+(13,'G L DAKSH','daksh@encore.com','9414688279','7568707099','CHITTORGARH','Marketing Executive','RAJASTHAN','CHITTORGARH','UDAIPUR HQ','ENMKT0761',NULL,1,1,'2023-10-12 13:19:43','2023-10-12 13:19:43',NULL,NULL,NULL),
+(14,'G L DAKSH','daksh@encore1.com','9414688279','7568707099','RAJ LAKSHMI TAWAR SOUTH MEGHWAL SIROHI','Marketing Executive','Delhi','CHITTORGARH','UDAIPUR HQ','ENMKT0761','2023-10-31',1,1,'2023-10-12 13:38:58','2023-10-30 06:19:26',3,5,NULL),
+(15,'Nisha N Mehta','nisha@encore.com','9876588279','7568707099','JAIPUR','Area Manager','Rajasthan','JAIPUR','JAIPUR HQ','ENMKT07','2023-10-13',1,1,'2023-10-13 11:43:06','2023-11-01 05:25:43',2,NULL,NULL),
 (19,'YAMINI ROY','yamini@encore.com','9987764544','8830686723','UMRED','Zonal Manager','MAHARASHTRA','UMRED','NAGPUR 1 HQ','ENMKT0858',NULL,1,1,'2023-10-16 08:41:09','2023-10-16 08:41:09',2,15,12),
 (21,'VINITA KOLHE','vinita@encore.com','9090864544','9090886723','NEAR SBI','Area Manager','MAHARASHTRA','WELTUR','NAGPUR 1 HQ','E0858',NULL,1,1,'2023-10-16 08:52:16','2023-10-16 08:52:16',10,11,8);
 
@@ -335,7 +347,7 @@ CREATE TABLE `grant_approval_details` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `grant_approval_details` */
 
@@ -350,7 +362,11 @@ insert  into `grant_approval_details`(`id`,`grant_approval_id`,`status`,`amount`
 (8,11,'Level 1 Approved',15000.00,NULL,5,5,'2023-10-11 07:04:10','2023-10-11 07:04:10'),
 (9,11,'Level 2 Rejected',NULL,NULL,3,3,'2023-10-11 07:04:27','2023-10-11 07:04:27'),
 (10,12,'Level 1 Approved',15000.00,NULL,4,4,'2023-10-11 10:25:49','2023-10-11 10:25:49'),
-(11,12,'Level 2 Approved',16000.00,NULL,2,2,'2023-10-11 10:29:13','2023-10-11 10:29:13');
+(11,12,'Level 2 Approved',16000.00,NULL,2,2,'2023-10-11 10:29:13','2023-10-11 10:29:13'),
+(12,14,'Level 1 Rejected',NULL,NULL,4,4,'2023-10-18 10:05:30','2023-10-18 10:05:30'),
+(13,13,'Level 1 Approved',11000.00,NULL,4,4,'2023-10-18 10:05:45','2023-10-18 10:05:45'),
+(14,13,'Level 2 Approved',10000.00,NULL,2,2,'2023-10-18 10:10:46','2023-10-18 10:10:46'),
+(15,3,'Level 2 Rejected',NULL,NULL,2,2,'2023-10-18 10:11:56','2023-10-18 10:11:56');
 
 /*Table structure for table `grant_approvals` */
 
@@ -382,21 +398,29 @@ CREATE TABLE `grant_approvals` (
   KEY `grant_approvals_activity_id_foreign` (`activity_id`),
   CONSTRAINT `grant_approvals_activity_id_foreign` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`id`),
   CONSTRAINT `grant_approvals_doctor_id_foreign` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `grant_approvals` */
 
 insert  into `grant_approvals`(`id`,`code`,`employee_id`,`doctor_id`,`activity_id`,`email`,`contact_no`,`date_of_issue`,`proposal_date`,`proposal_month`,`proposal_amount`,`approval_amount`,`status`,`approval_level_1`,`approval_level_2`,`approved_on`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
 (1,'G00001',6,3,2,'bina@mail.com',NULL,'2023-10-31',NULL,'Oct /2023',10000.00,0.00,'Open',0,0,NULL,6,6,'2023-10-10 06:29:56','2023-10-10 06:29:56'),
 (2,'G00002',6,1,1,'bina@hmail.com',NULL,'2023-11-01',NULL,'Nov /2023',4000.00,3000.00,'Level 1 Approved',1,0,NULL,6,4,'2023-10-10 06:30:31','2023-10-10 06:44:18'),
-(3,'G00003',6,1,1,'b@mail.com',NULL,'2023-10-31',NULL,'Oct /2023',6000.00,0.00,'Level 1 Approved',1,0,NULL,6,4,'2023-10-10 07:20:34','2023-10-10 07:37:21'),
+(3,'G00003',6,1,1,'b@mail.com',NULL,'2023-10-31',NULL,'Oct /2023',6000.00,0.00,'Level 2 Rejected',1,0,NULL,6,2,'2023-10-10 07:20:34','2023-10-18 10:11:56'),
 (4,'G00004',6,2,1,'bina@gmail.com',NULL,'2023-11-07',NULL,'Nov /2023',9000.00,0.00,'Cancel',0,0,NULL,6,6,'2023-10-10 07:29:19','2023-10-10 07:41:32'),
 (5,'G00005',6,3,1,'b@gmail.com',NULL,'2023-12-13',NULL,'Dec /2023',7000.00,0.00,'Level 1 Approved',1,0,NULL,6,4,'2023-10-10 07:30:13','2023-10-10 07:39:17'),
 (6,'G00006',6,2,2,'b@hmail.com',NULL,'2023-11-15',NULL,'Nov /2023',20000.00,17000.00,'Level 2 Approved',1,1,NULL,6,4,'2023-10-10 07:31:03','2023-10-10 07:35:17'),
 (7,'G00007',7,1,1,'datta@mail.com',NULL,'2023-10-31',NULL,'Oct /2023',2000.00,0.00,'Open',0,0,NULL,7,7,'2023-10-10 08:07:42','2023-10-10 08:07:42'),
 (8,'G00008',7,3,2,'datta@hmail1.com',NULL,'2023-12-27',NULL,'Dec /2023',45000.00,38000.00,'Level 2 Approved',1,1,NULL,7,3,'2023-10-10 08:11:00','2023-10-11 07:02:47'),
 (11,'G00009',7,1,1,'vs',NULL,'2020-10-10',NULL,'May /2023',100000.00,15000.00,'Level 2 Rejected',1,0,NULL,7,3,'2023-10-11 06:40:33','2023-10-11 07:04:27'),
-(12,'G00010',6,3,1,'bca@gmail.com',NULL,'2023-11-01',NULL,'Nov /2023',20000.00,16000.00,'Level 2 Approved',1,1,NULL,6,2,'2023-10-11 10:22:40','2023-10-11 10:29:13');
+(12,'G00010',6,3,1,'bca@gmail.com',NULL,'2023-11-01',NULL,'Nov /2023',20000.00,16000.00,'Level 2 Approved',1,1,NULL,6,2,'2023-10-11 10:22:40','2023-10-11 10:29:13'),
+(13,'G00001',6,3,1,'me@encore.com',NULL,'2023-11-09',NULL,'Nov /2023',12000.00,10000.00,'Level 2 Approved',1,1,NULL,6,2,'2023-10-18 10:02:09','2023-10-18 10:10:46'),
+(14,'G00002',6,3,2,'mohan04@gmail.com',NULL,'2023-10-31',NULL,'Oct /2023',23000.00,0.00,'Level 1 Rejected',0,0,NULL,6,4,'2023-10-18 10:04:22','2023-10-18 10:05:30'),
+(15,'G00003',12,8,2,'soni@gmail.com',NULL,'2023-11-15',NULL,'Nov /2023',5000.00,0.00,'Open',0,0,NULL,12,12,'2023-10-18 10:29:33','2023-10-18 10:29:33'),
+(16,'G00004',12,5,1,'tyagi@gmail.com',NULL,'2023-12-25',NULL,'Dec /2023',15000.00,0.00,'Open',0,0,NULL,12,12,'2023-10-18 10:31:02','2023-10-18 10:31:02'),
+(17,'G00005',12,8,1,'sug@gmail.com',NULL,'2023-10-20',NULL,'Oct /2023',10000.00,0.00,'Open',0,0,NULL,12,12,'2023-10-18 10:37:50','2023-10-18 10:37:50'),
+(18,'G00006',8,7,1,'prachi@gmail.com',NULL,'2023-10-31',NULL,'Oct /2023',10000.00,0.00,'Open',0,0,NULL,8,8,'2023-10-18 10:43:50','2023-10-18 10:43:50'),
+(19,'G00007',12,4,1,'anuja@mail.com',NULL,'2023-12-26',NULL,'Dec /2023',6000.00,0.00,'Open',0,0,NULL,1,1,'2023-10-18 10:46:02','2023-10-18 10:46:02'),
+(20,'G1',8,1,1,'p@mail.com',NULL,'2023-10-31',NULL,'Oct /2023',23000.00,0.00,'Open',0,0,NULL,8,8,'2023-10-18 11:01:32','2023-10-18 11:01:32');
 
 /*Table structure for table `media` */
 
@@ -438,7 +462,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `migrations` */
 
@@ -492,7 +516,9 @@ insert  into `migrations`(`id`,`migration`,`batch`) values
 (47,'2023_10_10_131020_alter_table_product_details',29),
 (48,'2023_10_11_125631_alter_table_doctors',30),
 (49,'2023_10_16_074725_create_roi_accountability_reports_table',31),
-(50,'2023_10_16_103609_create_roi_accountability_report_details_table',31);
+(50,'2023_10_16_103609_create_roi_accountability_report_details_table',31),
+(51,'2023_11_03_105333_alter_table_doctor_business_monitorings',32),
+(52,'2023_11_03_124706_add_total_actual_value_roi_accountability_reports',33);
 
 /*Table structure for table `model_has_permissions` */
 
@@ -533,7 +559,6 @@ insert  into `model_has_roles`(`role_id`,`model_type`,`model_id`) values
 (7,'App\\Models\\User',3),
 (7,'App\\Models\\User',10),
 (7,'App\\Models\\User',13),
-(7,'App\\Models\\User',14),
 (7,'App\\Models\\User',18),
 (8,'App\\Models\\User',4),
 (8,'App\\Models\\User',5),
@@ -543,7 +568,8 @@ insert  into `model_has_roles`(`role_id`,`model_type`,`model_id`) values
 (9,'App\\Models\\User',6),
 (9,'App\\Models\\User',7),
 (9,'App\\Models\\User',8),
-(9,'App\\Models\\User',12);
+(9,'App\\Models\\User',12),
+(9,'App\\Models\\User',14);
 
 /*Table structure for table `password_reset_tokens` */
 
@@ -575,7 +601,7 @@ CREATE TABLE `permissions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `permissions` */
 
@@ -732,7 +758,8 @@ insert  into `permissions`(`id`,`name`,`guard_name`,`created_at`,`updated_at`) v
 (150,'roi_accountability_reports.update','web','2023-10-16 10:52:33','2023-10-16 10:52:33'),
 (151,'roi_accountability_reports.destroy','web','2023-10-16 10:52:33','2023-10-16 10:52:33'),
 (152,'roi_accountability_reports.report','web','2023-10-17 06:21:48','2023-10-17 06:21:48'),
-(153,'reportRAR','web','2023-10-17 06:21:48','2023-10-17 06:21:48');
+(153,'reportRAR','web','2023-10-17 06:21:48','2023-10-17 06:21:48'),
+(154,'doctors.getDoctors','web','2023-11-01 08:41:20','2023-11-01 08:41:20');
 
 /*Table structure for table `personal_access_tokens` */
 
@@ -782,14 +809,20 @@ CREATE TABLE `product_details` (
   `total_exp_val` decimal(10,2) DEFAULT NULL,
   `scheme` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `product_details` */
 
 insert  into `product_details`(`id`,`doctor_business_monitoring_id`,`product_id`,`nrv`,`created_by`,`updated_by`,`created_at`,`updated_at`,`avg_business_units`,`avg_business_value`,`exp_vol`,`exp_vol_1`,`exp_vol_2`,`exp_vol_3`,`exp_vol_4`,`exp_vol_5`,`exp_vol_6`,`total_exp_vol`,`total_exp_val`,`scheme`) values 
 (1,1,11,128.56,1,1,'2023-10-16 05:49:18','2023-10-16 05:49:18',10,10.00,10.00,10.00,10.00,10.00,10.00,10.00,10.00,10.00,10.00,'10'),
 (2,1,1,256.89,1,1,'2023-10-16 05:49:18','2023-10-16 05:49:18',20,20.00,20.00,20.00,20.00,20.00,20.00,20.00,20.00,20.00,20.00,'20'),
-(3,2,1,256.89,1,1,'2023-10-17 07:11:02','2023-10-17 07:11:02',100,200.00,100.00,200.00,100.00,200.00,100.00,200.00,100.00,200.00,100.00,'5');
+(3,2,1,256.89,1,1,'2023-10-17 07:11:02','2023-10-17 07:11:02',100,200.00,100.00,200.00,100.00,200.00,100.00,200.00,100.00,200.00,100.00,'5'),
+(4,3,8,256.89,1,1,'2023-11-03 09:53:35','2023-11-03 11:24:14',10,2568.90,10.00,20.00,10.00,20.00,10.00,20.00,10.00,100.00,25689.00,'5'),
+(5,3,12,192.84,1,1,'2023-11-03 09:53:35','2023-11-03 11:24:14',20,3856.80,5.00,15.00,5.00,15.00,5.00,15.00,5.00,65.00,12534.60,'20'),
+(6,4,4,84.21,1,1,'2023-11-03 11:08:23','2023-11-03 11:08:23',20,1684.20,10.00,10.00,10.00,10.00,10.00,10.00,10.00,70.00,5894.70,'1'),
+(7,4,1,256.89,1,1,'2023-11-03 11:08:23','2023-11-03 11:08:23',10,2568.90,20.00,20.00,20.00,20.00,20.00,20.00,20.00,140.00,35964.60,'5'),
+(8,4,7,152.55,1,1,'2023-11-03 11:08:23','2023-11-03 11:08:23',5,762.75,20.00,30.00,10.00,5.00,15.00,25.00,35.00,140.00,21357.00,'16'),
+(51,3,7,152.55,NULL,NULL,'2023-11-03 11:24:14','2023-11-03 11:24:14',12,1830.60,2.00,3.00,4.00,5.00,6.00,7.00,8.00,35.00,5339.25,'18');
 
 /*Table structure for table `products` */
 
@@ -809,13 +842,12 @@ CREATE TABLE `products` (
 /*Data for the table `products` */
 
 insert  into `products`(`id`,`name`,`nrv`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
-(1,'ALverise Creams',256.89,1,1,'2023-10-02 11:33:11','2023-10-05 10:53:17'),
+(1,'ALVERISE CREAMS',256.89,1,1,'2023-10-02 11:33:11','2023-11-01 04:46:59'),
 (4,'CLINRED GEL 20G (TP)',84.21,1,1,'2023-10-10 10:46:33','2023-10-10 10:46:33'),
 (5,'D-WIK DROPS 15 ML (TP)',54.64,1,1,'2023-10-10 10:46:45','2023-10-10 10:46:45'),
 (7,'SOTIL LOTION 1X60 ML (TP)',152.55,1,1,'2023-10-11 10:47:48','2023-10-11 10:47:48'),
 (8,'GLAMWITE CREAM (TP)',256.89,1,1,'2023-10-13 10:00:04','2023-10-13 10:00:04'),
 (9,'GLAMWITE FACE WASH (TP)',103.73,1,1,'2023-10-13 10:00:04','2023-10-13 10:00:04'),
-(10,'JIMLIG CAPSULES 100 MG (TP)',83.56,1,1,'2023-10-13 10:00:04','2023-10-13 10:00:04'),
 (11,'JIMLIG CAPSULES 200 MG (TP)',128.56,1,1,'2023-10-13 10:00:04','2023-10-13 10:00:04'),
 (12,'MASKOFUNG 30 GM (TP)',192.84,1,1,'2023-10-17 05:45:45','2023-10-17 05:46:56');
 
@@ -831,18 +863,18 @@ CREATE TABLE `qualifications` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `qualifications` */
 
 insert  into `qualifications`(`id`,`name`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
 (1,'MBBS',1,1,'2023-10-02 11:36:39','2023-10-02 11:36:39'),
-(2,'MBBS.DNB',1,1,'2023-10-02 11:37:39','2023-10-11 10:54:25'),
 (4,'MD',1,1,'2023-10-11 10:53:29','2023-10-11 10:53:29'),
-(5,'Gynac',1,1,'2023-10-13 10:09:50','2023-10-13 10:09:50'),
+(5,'Gynacologist',1,1,'2023-10-13 10:09:50','2023-11-01 04:49:50'),
 (6,'Pediatrician',1,1,'2023-10-13 10:09:50','2023-10-17 05:52:13'),
 (8,'Medicine',1,1,'2023-10-17 05:51:42','2023-10-17 05:51:42'),
-(9,'General',1,1,'2023-10-17 05:51:42','2023-10-17 05:51:42');
+(9,'General',1,1,'2023-10-17 05:51:42','2023-10-17 05:51:42'),
+(10,'DNB',1,1,'2023-11-01 04:50:12','2023-11-01 04:50:12');
 
 /*Table structure for table `roi_accountability_report_details` */
 
@@ -854,24 +886,30 @@ CREATE TABLE `roi_accountability_report_details` (
   `product_id` bigint(20) unsigned DEFAULT NULL,
   `nrv` decimal(10,2) DEFAULT NULL,
   `month` varchar(20) DEFAULT NULL,
-  `exp_vol` decimal(10,2) DEFAULT NULL,
-  `exp_val` decimal(10,2) DEFAULT NULL,
+  `act_vol` decimal(10,2) DEFAULT NULL,
+  `act_val` decimal(10,2) DEFAULT NULL,
   `scheme` varchar(20) DEFAULT NULL,
   `created_by` int(10) unsigned DEFAULT NULL,
   `updated_by` int(10) unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4242 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `roi_accountability_report_details` */
 
-insert  into `roi_accountability_report_details`(`id`,`roi_accountability_report_id`,`product_id`,`nrv`,`month`,`exp_vol`,`exp_val`,`scheme`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
+insert  into `roi_accountability_report_details`(`id`,`roi_accountability_report_id`,`product_id`,`nrv`,`month`,`act_vol`,`act_val`,`scheme`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
 (1,33,1,256.89,'jan/2023',100.00,200.00,'10',1,1,'2023-10-17 04:51:47','2023-10-17 04:51:47'),
 (2,33,11,128.56,'feb/2023',200.00,300.00,'20',1,1,'2023-10-17 04:51:47','2023-10-17 04:51:47'),
 (3,34,8,256.89,'Jul /2023',10.00,100.00,'5',1,1,'2023-10-17 05:29:30','2023-10-17 05:29:30'),
 (4,35,9,103.73,'Nov /2023',10.00,200.00,'15',1,1,'2023-10-17 05:38:27','2023-10-17 05:39:08'),
-(41,35,8,256.89,'May /2023',20.00,100.00,'5',NULL,NULL,'2023-10-17 05:39:08','2023-10-17 05:39:08');
+(41,35,8,256.89,'May /2023',20.00,100.00,'5',NULL,NULL,'2023-10-17 05:39:08','2023-10-17 05:39:08'),
+(42,36,1,256.89,'Dec /2023',10.00,200.00,'10',1,1,'2023-11-01 10:24:44','2023-11-01 10:49:14'),
+(421,36,12,192.84,'Nov /2023',20.00,100.00,'15',NULL,NULL,'2023-11-01 10:49:14','2023-11-01 10:49:14'),
+(422,37,1,256.89,'Jan /2023',100.00,7000.00,'10',1,1,'2023-11-03 12:53:54','2023-11-03 13:15:12'),
+(423,37,7,152.55,'May /2023',200.00,5000.00,'15',1,1,'2023-11-03 12:53:54','2023-11-03 13:15:12'),
+(424,37,12,192.84,'Dec /2023',300.00,3000.00,'20',1,1,'2023-11-03 12:53:54','2023-11-03 13:15:12'),
+(4241,37,8,256.89,'Mar /2023',100.00,2000.00,'10',NULL,NULL,'2023-11-03 13:15:12','2023-11-03 13:15:12');
 
 /*Table structure for table `roi_accountability_reports` */
 
@@ -888,15 +926,18 @@ CREATE TABLE `roi_accountability_reports` (
   `updated_by` int(10) unsigned DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `total_actual_value` decimal(10,2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `roi_accountability_reports` */
 
-insert  into `roi_accountability_reports`(`id`,`grant_approval_id`,`rar_date`,`proposal_month`,`roi`,`amount`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
-(33,6,'2023-11-15','Nov /2023','100',20000.00,1,1,'2023-10-17 04:51:47','2023-10-17 04:51:47'),
-(34,12,'2023-11-01','Nov /2023','101',20000.00,1,1,'2023-10-17 05:29:30','2023-10-17 05:29:30'),
-(35,8,'2023-12-27','Dec /2023','102',45000.00,1,1,'2023-10-17 05:38:27','2023-10-17 05:39:08');
+insert  into `roi_accountability_reports`(`id`,`grant_approval_id`,`rar_date`,`proposal_month`,`roi`,`amount`,`created_by`,`updated_by`,`created_at`,`updated_at`,`total_actual_value`) values 
+(33,6,'2023-11-15','Nov /2023','100',20000.00,1,1,'2023-10-17 04:51:47','2023-10-17 04:51:47',NULL),
+(34,12,'2023-11-01','Nov /2023','101',20000.00,1,1,'2023-10-17 05:29:30','2023-10-17 05:29:30',NULL),
+(35,8,'2023-12-27','Dec /2023','102',45000.00,1,1,'2023-10-17 05:38:27','2023-10-17 05:39:08',NULL),
+(36,6,'2023-11-15','Nov /2023','100',20000.00,1,1,'2023-11-01 10:24:44','2023-11-01 10:49:14',NULL),
+(37,13,'2023-11-09','Nov /2023','1.4166666666666667',12000.00,1,1,'2023-11-03 12:53:54','2023-11-03 13:15:12',17000.00);
 
 /*Table structure for table `role_has_permissions` */
 
@@ -915,11 +956,8 @@ CREATE TABLE `role_has_permissions` (
 
 insert  into `role_has_permissions`(`permission_id`,`role_id`) values 
 (1,1),
-(1,11),
 (2,1),
-(2,11),
 (3,1),
-(3,11),
 (4,1),
 (5,1),
 (6,1),
@@ -942,21 +980,12 @@ insert  into `role_has_permissions`(`permission_id`,`role_id`) values
 (23,1),
 (24,1),
 (25,1),
-(25,9),
-(25,11),
 (26,1),
-(26,9),
 (27,1),
-(27,9),
-(27,11),
 (28,1),
-(28,9),
 (29,1),
-(29,9),
 (30,1),
-(30,9),
 (31,1),
-(31,9),
 (32,1),
 (33,1),
 (34,1),
@@ -1027,7 +1056,6 @@ insert  into `role_has_permissions`(`permission_id`,`role_id`) values
 (91,1),
 (91,9),
 (92,1),
-(92,9),
 (93,1),
 (94,1),
 (95,1),
@@ -1114,9 +1142,7 @@ insert  into `role_has_permissions`(`permission_id`,`role_id`) values
 (122,1),
 (123,1),
 (124,1),
-(124,9),
 (125,1),
-(125,9),
 (126,1),
 (127,1),
 (128,1),
@@ -1144,7 +1170,8 @@ insert  into `role_has_permissions`(`permission_id`,`role_id`) values
 (150,1),
 (151,1),
 (152,1),
-(153,1);
+(153,1),
+(154,1);
 
 /*Table structure for table `roles` */
 
@@ -1168,8 +1195,7 @@ insert  into `roles`(`id`,`name`,`guard_name`,`created_at`,`updated_at`) values
 (6,'Marketing','web','2023-09-12 10:27:23','2023-09-12 10:27:23'),
 (7,'Zonal Manager','web','2023-10-05 16:58:12','2023-10-09 05:31:57'),
 (8,'Area Manager','web','2023-10-05 16:59:34','2023-10-09 05:32:30'),
-(9,'Managing Executive','web','2023-10-05 17:00:55','2023-10-09 05:32:50'),
-(11,'demo','web','2023-10-18 05:40:03','2023-10-18 05:40:03');
+(9,'Marketing Executive','web','2023-10-05 17:00:55','2023-10-30 05:07:13');
 
 /*Table structure for table `stockists` */
 
@@ -1213,7 +1239,7 @@ CREATE TABLE `territories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `territories` */
 
@@ -1223,7 +1249,7 @@ insert  into `territories`(`id`,`name`,`created_by`,`updated_by`,`created_at`,`u
 (3,'BHILWARA',1,1,'2023-10-13 09:33:48','2023-10-13 09:33:48'),
 (4,'RAJSAMAD',1,1,'2023-10-13 09:33:48','2023-10-13 09:33:48'),
 (6,'PRATAP GARH',1,1,'2023-10-17 05:49:22','2023-10-17 05:49:22'),
-(7,'DUNGARPUR',1,1,'2023-10-17 05:49:22','2023-10-17 05:49:48');
+(7,'DUGARPUR',1,1,'2023-10-17 05:49:22','2023-11-01 04:47:48');
 
 /*Table structure for table `users` */
 
@@ -1248,18 +1274,19 @@ CREATE TABLE `users` (
 
 insert  into `users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remember_token`,`active`,`created_by`,`updated_by`,`created_at`,`updated_at`) values 
 (1,'Admin','admin@encore.com',NULL,'$2y$10$2zoI5I6WXWLI2haGg/31eOpg2svsU0KXZiVBpESoNx0IZ.XYQGjWe',NULL,1,NULL,NULL,'2023-07-12 08:28:19','2023-10-02 11:50:43'),
-(2,'Anamika','anamika@encore.com',NULL,'$2y$10$XRb9AlaVAMI.NtMNc7MG9.jlMLfWJCfOwgSzhnK1afV/gJWO12szK',NULL,1,NULL,NULL,'2023-10-09 05:55:42','2023-10-13 11:59:15'),
+(2,'Anamika','anamika@encore.com',NULL,'$2y$10$GVYKnU3/bhThtVerxGJwPO0In4TWmAkzn8eO9RyiKZnvlbRQnD6UG',NULL,1,NULL,NULL,'2023-10-09 05:55:42','2023-10-18 10:09:31'),
 (3,'Abhishek','abhishek@encore.com',NULL,'$2y$10$p1kX7L5iPC9/nrcKeTeKE.HIyIVfsQJM180wm.tYiNAddPe9LLVxm',NULL,1,NULL,NULL,'2023-10-09 05:57:21','2023-10-09 05:57:21'),
 (4,'chhaya','chhaya@encore.com',NULL,'$2y$10$wu.4sYr7cgee82Yd.TPze.m2rsMefDKincl/eoy0yynNpmZrIXsbG',NULL,1,NULL,NULL,'2023-10-09 05:59:25','2023-10-09 05:59:25'),
 (5,'pradip','pradip@encore.com',NULL,'$2y$10$/DtDdXOhglEvZxjJeTe.VuZG/kUiAvIV3crLdTRLWYzWvrgOTzSZa',NULL,1,NULL,NULL,'2023-10-09 06:05:07','2023-10-16 07:36:06'),
-(6,'bina','bina@encore.com',NULL,'$2y$10$zCr8UKvdb8eL93NQMNJR.ukuG2uNLkm50ewfCZbuAAAaooalf7uOa',NULL,1,NULL,NULL,'2023-10-09 06:12:40','2023-10-09 06:12:40'),
+(6,'bina','bina@encore.com',NULL,'$2y$10$h/9xGd0Yx9JZ.4nIr5JoZu4tunH5k4lf2CS/T8MK6BxyylOTar5OG',NULL,1,NULL,NULL,'2023-10-09 06:12:40','2023-10-30 06:33:18'),
 (7,'dattta','datta@encore.com',NULL,'$2y$10$VIj26ZBlyQMC39baNwkOEu6PGOOrX8OwRaGjFufYyn2st5xpJ.TQa',NULL,1,NULL,NULL,'2023-10-09 06:14:46','2023-10-09 06:14:46'),
-(8,'avinash','avinash@encore.com',NULL,'$2y$10$0W98fK8VDicP18OPr/wiOemoTi1d4LpD8qEWHEk1ENakLTdeJzFWq',NULL,1,NULL,NULL,'2023-10-09 06:16:28','2023-10-12 07:56:46'),
+(8,'avinash','avinash@encore.com',NULL,'$2y$10$WxjQHeTp0Z42NvpQG3lbteX8gHwtT0.Db7vdmrSXyw3.mUMNrJd9m',NULL,1,NULL,NULL,'2023-10-09 06:16:28','2023-10-18 10:40:44'),
 (9,'laxmi','laxmi@encore.com',NULL,'$2y$10$D2TzDeO4RMlGO47GezZvNuIrZJPt.AC6VSRKUu5y0jY7z.y5IiuFi',NULL,1,NULL,NULL,'2023-10-09 06:26:19','2023-10-09 08:44:24'),
-(10,'BHASKAR GUPTA','bhaskar@encore.com',NULL,'$2y$10$kEO/qyuv87VFPnOzXhrIF.xd1pVhmNm.VVpWGzLDlhFKrkvqWsncG',NULL,1,NULL,NULL,'2023-10-11 11:07:25','2023-10-11 11:07:25'),
+(10,'BHASKAR GUPTA','bhaskar@encore.com',NULL,'$2y$10$gELqf.n2AI7/xJty2QODwuJMQDV53uhggeCchqyR0iaJCx8WhaD4a',NULL,1,NULL,NULL,'2023-10-11 11:07:25','2023-11-01 05:14:40'),
 (11,'B.L VERMA','verma@encore.com',NULL,'$2y$10$Bc27E.n9mwdOrohsWAcGxOljTBjoIG0O4a5Fm1Pq.OyOSEJNzuNzW',NULL,1,NULL,NULL,'2023-10-12 06:28:18','2023-10-12 06:38:11'),
 (12,'H.C.SONI','soni@encore.com',NULL,'$2y$10$4/rf0dpZcrPlltoR0q8OLeEQF5/gH3EUBuvF7K508jNvj.DKcUOla',NULL,1,NULL,NULL,'2023-10-12 07:59:03','2023-10-12 07:59:03'),
-(15,'Nisha N Mehta','nisha@encore.com',NULL,'$2y$10$l5JJ5SimFXwh3z2fExGdcOgXj8.83MMMpHfVp6u2hU.rYS550VDzK',NULL,1,NULL,NULL,'2023-10-13 11:53:21','2023-10-13 11:53:21'),
+(14,'G L DAKSH','daksh@encore1.com',NULL,'$2y$10$lPB6gsBzjltXtSBwfObHc..iX6AZIzGtcldkhGruCA1zk8W8APwnS',NULL,1,NULL,NULL,'2023-10-30 06:06:24','2023-10-30 06:19:26'),
+(15,'Nisha N Mehta','nisha@encore.com',NULL,'$2y$10$2tOOku5Jw9qg2vaW.j6.9uh98EGgPO8bpTRw7CVEvSYMxp8BUdKae',NULL,1,NULL,NULL,'2023-10-13 11:53:21','2023-11-01 05:25:43'),
 (18,'YAMINI ROY','yamini@encore.com',NULL,'$2y$10$GXqN2xoxHHhYDMqDJZjgjelJYmpVTW8Fly/5P1bLB2K.xbHjDoM0a',NULL,1,NULL,NULL,'2023-10-16 08:41:09','2023-10-16 08:41:09'),
 (20,'VINITA KOLHE','vinita@encore.com',NULL,'$2y$10$/UVQ3WkC9AWxBAF3ghM2euqTnAkt4wp7ulHKX9rNe4eSSQOY8MphW',NULL,1,NULL,NULL,'2023-10-16 08:52:16','2023-10-16 08:52:16');
 

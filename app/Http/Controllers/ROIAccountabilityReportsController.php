@@ -49,8 +49,8 @@ class RoiAccountabilityReportsController extends Controller
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
                 'month' => $record['month'],
-                'exp_vol' => $record['exp_vol'],
-                'exp_val' => $record['exp_val'],
+                'act_vol' => $record['act_vol'],
+                'act_val' => $record['act_val'],
                 'scheme' => $record['scheme'],
             ]);            
         }   
@@ -91,8 +91,8 @@ class RoiAccountabilityReportsController extends Controller
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
                 'month' => $record['month'],
-                'exp_vol' => $record['exp_vol'],
-                'exp_val' => $record['exp_val'],
+                'act_vol' => $record['act_vol'],
+                'act_val' => $record['act_val'],
                 'scheme' => $record['scheme'],
             ],[
                 'id'

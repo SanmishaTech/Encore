@@ -16,8 +16,8 @@ class RoiAccountabilityReportDetail extends Model
         'product_id',
         'nrv',
         'month',
-        'exp_vol',
-        'exp_val',
+        'act_vol',
+        'act_val',
         'scheme'
     ];
 

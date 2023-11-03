@@ -11,7 +11,7 @@
                     <td>{{ @$doctor_business_monitoring->GrantApproval->Manager->AreaManager->name }}</td>
                     <td>{{ @$doctor_business_monitoring->GrantApproval->Manager->ZonalManager->name }}</td>
                     <td>{{ @$doctor_business_monitoring->GrantApproval->Doctor->doctor_name }}</td>
-                    <td>{{ $doctor_business_monitoring->roi }}</td>
+                    <td>{{ round($doctor_business_monitoring->roi, 2)}} </td>
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <li style="display: inline-block;vertical-align:top;">
