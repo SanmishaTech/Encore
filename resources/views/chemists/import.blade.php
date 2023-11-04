@@ -36,7 +36,7 @@
                             <path d="M12 2L12 15M12 15L9 11.5M12 15L15 11.5" stroke="currentColor" stroke-width="1.5"
                                 stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                        Download </a>
+                        Download Template </a>
                     </div> 
                 </div>
             </div>

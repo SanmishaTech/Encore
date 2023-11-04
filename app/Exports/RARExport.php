@@ -42,6 +42,8 @@ class RARExport implements FromView
         
         return view('roi_accountability_reports.print', [
             // dd($condition),
+            // 'print' => RoiAccountabilityReportDetail::with(['RoiAccountabilityReport'])->whereRelation('RoiAccountabilityReport', $condition)->get()
+
             'print' => RoiAccountabilityReportDetail::with(['Product', 'RoiAccountabilityReport'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]])->whereRelation('RoiAccountabilityReport', $condition)->get()
         ]);
     }

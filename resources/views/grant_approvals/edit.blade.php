@@ -36,7 +36,7 @@
                         <label>Doctor:</label>
                             <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
                                 <option>Select Doctor</option>
-                                @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                                @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                                     @foreach ($doctors as $id=>$doctor)                                
                                         <option value="{{$id}}">{{$doctor}}</option>                                
                                     @endforeach      

@@ -41,8 +41,8 @@ use Carbon\Carbon;
                 <td>{{ @$detail->Product->name }}</td>           
                 <td>{{ @$detail->Product->nrv }}</td>
                 <td>{{ @$detail->month }}</td>
-                <td>{{ @$detail->exp_vol }}</td>
-                <td>{{ @$detail->exp_val }}</td>
+                <td>{{ @$detail->act_vol }}</td>
+                <td>{{ @$detail->act_val }}</td>
                 <td>{{ @$detail->scheme }}</td>
             </tr>
         @endforeach
