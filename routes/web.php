@@ -51,6 +51,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('grant_approvals/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval');
         Route::get('grant_approvals/rejected/{grant_approval}', 'GrantApprovalsController@rejected')->name('grant_approvals.rejected');
         Route::get('grant_approvals/cancel/{grant_approval}', 'GrantApprovalsController@cancel')->name('grant_approvals.cancel');
+
+        Route::post('doctor_business_monitorings/approval', 'DoctorBusinessMonitoringsController@approval')->name('doctor_business_monitorings.approval');
+        Route::get('doctor_business_monitorings/rejected/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@rejected')->name('doctor_business_monitorings.rejected');
+        Route::get('doctor_business_monitorings/cancel/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@cancel')->name('doctor_business_monitorings.cancel');
+
         Route::get('doctors/getDoctors/{id}', 'DoctorsController@getDoctors')->name('doctors.getDoctors');
         /**
          * Import Excel

@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\ProductDetail;
 use App\Models\GrantApproval;
 use App\Models\DoctorBusinessMonitoring;
+use App\Models\DoctorBusinessMonitoringDetail;
 use Illuminate\Http\Request;
 use App\Http\Requests\DoctorBusinessMonitoringRequest;
 
@@ -52,6 +53,7 @@ class DoctorBusinessMonitoringsController extends Controller
     public function store(DoctorBusinessMonitoring $doctor_business_monitoring, DoctorBusinessMonitoringRequest $request) 
     {
         $input = $request->all(); 
+        $input['status'] = 'Open';
         // dd($request);
         $doctor_business_monitoring = DoctorBusinessMonitoring::create($input); 
         $data = $request->collect('product_details');
@@ -131,7 +133,88 @@ class DoctorBusinessMonitoringsController extends Controller
         $request->session()->flash('success', 'Doctor Business Monitoring updated successfully!');
         return redirect()->route('doctor_business_monitorings.index');
     }
-  
+    
+    public function approval(Request $request) 
+    {
+        $doctor_business_monitoring = DoctorBusinessMonitoring::find($request->id);
+        $input = [];
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $doctor_business_monitoring->status = 'Level 2 Approved';
+            $doctor_business_monitoring->approval_level_2 = true;
+        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
+            $doctor_business_monitoring->status = 'Level 1 Approved';
+            $doctor_business_monitoring->approval_level_1 = true;
+        } else{
+            if($doctor_business_monitoring->approval_level_1 == true){
+                $doctor_business_monitoring->status = 'Level 2 Approved';
+                $doctor_business_monitoring->approval_level_2 = true;
+            } else {
+                $doctor_business_monitoring->status = 'Level 1 Approved';
+                $doctor_business_monitoring->approval_level_1 = true;
+
+            }
+        }     
+        $doctor_business_monitoring->approval_amount = $request->amount;    
+        $doctor_business_monitoring->update();
+        $input = [];
+        $input['status'] =  $doctor_business_monitoring->status;
+        $input['amount'] = $doctor_business_monitoring->approval_amount;
+        $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
+        DoctorBusinessMonitoringDetail::create($input);
+        return redirect()->route('doctor_business_monitorings.index');
+    }
+
+    public function rejected(DoctorBusinessMonitoring $doctor_business_monitoring) 
+    {
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $doctor_business_monitoring->status = 'Level 2 Rejected';
+            $doctor_business_monitoring->approval_level_2 = false;
+        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
+            $doctor_business_monitoring->status = 'Level 1 Rejected';
+            $doctor_business_monitoring->approval_level_1 = false;
+        } else{
+            if($doctor_business_monitoring->approval_level_1 == false){
+                $doctor_business_monitoring->status = 'Level 2 Rejected';
+                $doctor_business_monitoring->approval_level_2 = false;
+            } else {
+                $doctor_business_monitoring->status = 'Level 1 Rejected';
+                $doctor_business_monitoring->approval_level_1 = false;
+            }
+        }     
+        $doctor_business_monitoring->update();
+        $input = [];
+        $input['status'] =  $doctor_business_monitoring->status;
+        $input['amount'] = $doctor_business_monitoring->amount;
+        $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
+        DoctorBusinessMonitoringDetail::create($input);
+        return redirect()->route('doctor_business_monitorings.index');
+    }
+
+    public function approvalSecond(DoctorBusinessMonitoring $doctor_business_monitoring) 
+    {
+        $doctor_business_monitoring->status = 'Approved';
+        $doctor_business_monitoring->update();
+        $input = [];
+        $input['status'] = 'Zonal Manager Approved';
+        $input['amount'] = $doctor_business_monitoring->amount;
+        $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
+        DoctorBusinessMonitoringDetail::create($input);
+        return redirect()->route('doctor_business_monitorings.index');
+    }
+
+    public function rejectedSecond(DoctorBusinessMonitoring $doctor_business_monitoring) 
+    {
+        $doctor_business_monitoring->status = 'Zonal Manager Rejected';
+        $doctor_business_monitoring->update();
+        $input = [];
+
+        $input['status'] = 'Rejected';
+        $input['amount'] = $doctor_business_monitoring->amount;
+        $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
+        DoctorBusinessMonitoringDetail::create($input);
+        return redirect()->route('doctor_business_monitorings.index');
+    }
+
     public function destroy(Request $request, DoctorBusinessMonitoring $doctor_business_monitoring)
     {
         $doctor_business_monitoring->delete();

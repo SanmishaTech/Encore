@@ -8,6 +8,7 @@ use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
 use App\Models\ProductDetail;
+use App\Models\DoctorBusinessMonitoringDetail;
 use App\Models\GrantApproval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,12 @@ class DoctorBusinessMonitoring extends Model
         'amount',
         'code',
         'total_expected_value',
-        'total_business_value'
+        'total_business_value',
+        'status',
+        'approval_level_1',
+        'approval_level_2',
+        'approved_on',
+        'approved_amount'
     ];
     
     public function setDateAttribute($value)
@@ -44,7 +50,10 @@ class DoctorBusinessMonitoring extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-   
+    public function DoctorBusinessMonitoringDetail() 
+    {
+        return $this->hasMany(DoctorBusinessMonitoringDetail::class, 'doctor_business_monitoring_id');
+    }
 
     public function ProductDetails()
     {

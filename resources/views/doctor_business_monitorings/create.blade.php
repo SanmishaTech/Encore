@@ -137,6 +137,35 @@
                                                         </select>
                                                     </td>
                                                 </tr>
+                                                <tr>
+                                                    <td>
+                                                        <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3" placeholder="M+3"/> 
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4"  placeholder="M+4"/>
+                                                    </td>           
+                                                    <td>                                                        
+                                                        <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" placeholder="M+5"/>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input class="mt-4 w-20" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6" @change="calculateValues()" placeholder="M+6"/>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input class="mt-4 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol"  placeholder="Total Vol"/>
+                                                    </td>
+                                                    <td>                                                        
+                                                        <x-text-input class="mt-4 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val"  placeholder="Total Val" @change="calculateValues()"/>
+                                                    </td>
+                                                    <td>
+                                                        <!-- <x-text-input class="mt-4 w-31" x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" placeholder="Scheme"/> -->
+                                                        <select class="form-input mt-4 w-31" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()">
+                                                        <option> Scheme% </option>
+                                                        @for ($i = 1; $i < 100; $i++)
+                                                            <option value="{{ $i }}"> {{ $i }} </option>
+                                                        @endfor
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                             </template>
                                             <tr>
                                                 <td>
@@ -285,11 +314,15 @@ document.addEventListener("alpine:init", () => {
     
                 productDetail.total_exp_vol = parseFloat(productDetail.exp_vol) + parseFloat(productDetail.exp_vol_1) + parseFloat(productDetail.exp_vol_2) + parseFloat(productDetail.exp_vol_3) + parseFloat(productDetail.exp_vol_4) + parseFloat(productDetail.exp_vol_5) + parseFloat(productDetail.exp_vol_6);
 
-                // if(!isNaN(productDetail.total_exp_vol)){
-                //     this.total_exp_vol = productDetail.total_exp_vol;
-                // }  
+                if(!isNaN(productDetail.total_exp_vol) && product_details.total_exp_vol != ''){
+                    this.total_exp_vol = productDetail.total_exp_vol;
+                }  
 
                 productDetail.total_exp_val = productDetail.total_exp_vol * productDetail.nrv;
+
+                if(!isNaN(productDetail.total_exp_val) && product_details.total_exp_val != ''){
+                    this.total_exp_val = productDetail.total_exp_val;
+                }  
             });  
         },
 

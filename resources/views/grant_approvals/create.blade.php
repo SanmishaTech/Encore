@@ -68,7 +68,7 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date_of_issue" id="date" x-on:change.debounce="dateChange"  value="{{ old('date_of_issue') }}" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
+                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue') }}" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
                     <!-- <x-text-input name="proposal_month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_month')"/>  -->
                     <!-- <input type="hidden" name="proposal_month"/> -->
                     <div>
