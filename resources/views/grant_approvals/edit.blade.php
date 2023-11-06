@@ -34,9 +34,9 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Doctor:</label>
-                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
-                                <option>Select Doctor</option>
+                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">                                
                                 @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                                    <option>Select Doctor</option>
                                     @foreach ($doctors as $id=>$doctor)                                
                                         <option value="{{$id}}">{{$doctor}}</option>                                
                                     @endforeach      
@@ -63,9 +63,9 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue', $grant_approval->date_of_issue) }}" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
-                    <!-- <x-text-input name="proposal_month" value="{{ old('proposal_month',$grant_approval->proposal_month) }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_date')"/>                     -->
-                    <div>
+                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue', $grant_approval->date_of_issue) }}" x-model="date_of_issue" x-on:change.debounce="dateChange()" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" value="{{ old('proposal_month', $grant_approval->proposal_month) }}" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
+                    <!-- <div>
                         <label>Proposal Month :<span style="color: red">*</span></label>
                         <select class="form-input" name="proposal_month">
                             <option>Select Proposal Month</option>
@@ -74,7 +74,7 @@
                             </template>
                         </select> 
                         <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
-                    </div>
+                    </div> -->
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-combo-input name="proposal_amount" value="{{ old('proposal_amount',$grant_approval->proposal_amount) }}" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
@@ -125,26 +125,10 @@
       
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
 document.addEventListener("alpine:init", () => {
-    Alpine.data('data', () => ({      
-        init() {
-            this.monthChange();
-            @if($grant_approval->doctor_id)
-                this.doctor_id = {{ $grant_approval->doctor_id }};
-                this.doctorChange();
-            @endif
-
-            @if($grant_approval->employee_id)
-                this.employee_id ={{  $grant_approval->employee_id }};
-                this.mehqChange();
-            @endif
-            flatpickr(document.getElementById('date'), {
-                dateFormat: 'd/m/Y',
-            });      
-
-        },
-
+    Alpine.data('data', () => ({ 
         doctor_id: '',
         zone: '',
         area: '',
@@ -155,7 +139,32 @@ document.addEventListener("alpine:init", () => {
         location: '',
         speciality: '',
         mpl_no: '',
-        doctors:'',
+        doctors:'',     
+        date_of_issue : '',
+        proposal_month: '',
+        init() {
+            flatpickr(document.getElementById('date'), {
+                dateFormat: 'd/m/Y',
+            });           
+
+            @if($grant_approval->doctor_id)
+                this.doctor_id = {{ $grant_approval->doctor_id }};
+                this.doctorChange();
+            @endif
+
+            @if($grant_approval->employee_id)
+                this.employee_id ={{  $grant_approval->employee_id }};
+                this.mehqChange();
+            @endif
+                          
+            @if($grant_approval->date_of_issue)
+                this.date_of_issue ='{{  $grant_approval->date_of_issue }}';
+            @endif
+
+            @if($grant_approval->proposal_month)
+                this.proposal_month ='{{  $grant_approval->proposal_month }}';
+            @endif
+        },
         
         async doctorChange() {
             this.doctorData = await (await fetch('/doctors/'+ this.doctor_id, {
@@ -167,10 +176,13 @@ document.addEventListener("alpine:init", () => {
             })).json();
             this.mpl_no = this.doctorData.mpl_no;
             this.location = this.doctorData.type;
-            this.speciality = this.doctorData.speciality;
-            
+            this.speciality = this.doctorData.speciality;      
+            console.log(this.doctor_id);      
+        },        
+       
+        dateChange(){     
+            this.proposal_month = moment(this.date_of_issue, 'DD/MM/YYYY').format("MMM / YYYY");
         },
-        
 
         async mehqChange() {
             this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id, {
@@ -191,6 +203,7 @@ document.addEventListener("alpine:init", () => {
             })).json();
             console.log(this.doctors)
         },
+
         monthChange(){
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
             data = ['2023', '2024', '2025'];

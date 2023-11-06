@@ -289,7 +289,7 @@ document.addEventListener("alpine:init", () => {
         calculateTotal() {
             let total = 0;  
             this.productDetails.forEach(productDetail => {
-                total = parseFloat(total) + parseFloat(productDetail.act_val);
+                total = (parseFloat(total) + parseFloat(productDetail.act_val)).toFixed(2);
             });                     
             if(!isNaN(total)){
                 this.total = total;
@@ -298,7 +298,11 @@ document.addEventListener("alpine:init", () => {
         },
 
         calcROI() {
-            this.roi = this.total / this.amount;   
+            let roi = 0;
+            this.roi = (this.total / this.amount).toFixed(2);   
+            if(!isNaN(roi)){
+                this.roi = roi;
+            }   
         },
     }));
 });

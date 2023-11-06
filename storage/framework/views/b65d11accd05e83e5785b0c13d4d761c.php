@@ -217,37 +217,36 @@
 <?php endif; ?> 
                     </div>
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'date_of_issue','id' => 'date','value' => ''.e(old('date_of_issue')).'','label' => __('Date'),'messages' => $errors->get('date_of_issue')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'date_of_issue','id' => 'date','value' => ''.e(old('date_of_issue')).'','label' => __('Date'),'xModel' => 'date_of_issue','xOn:change.debounce' => 'dateChange()','messages' => $errors->get('date_of_issue')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'date_of_issue','id' => 'date','value' => ''.e(old('date_of_issue')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Date')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('date_of_issue'))]); ?>
+<?php $component->withAttributes(['name' => 'date_of_issue','id' => 'date','value' => ''.e(old('date_of_issue')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Date')),'x-model' => 'date_of_issue','x-on:change.debounce' => 'dateChange()','messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('date_of_issue'))]); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?>
-                    <!-- <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
-<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['name' => 'proposal_month','value' => ''.e(old('proposal_month')).'','label' => __('Proposal Month'),'messages' => $errors->get('proposal_month')]] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+                    <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.text-input','data' => ['class' => 'bg-gray-100 dark:bg-gray-700','label' => __('Proposal Month'),'xModel' => 'proposal_month','name' => 'proposal_month','messages' => $errors->get('proposal_month'),'readonly' => 'true']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('text-input'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
-<?php $component->withAttributes(['name' => 'proposal_month','value' => ''.e(old('proposal_month')).'','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Proposal Month')),'messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('proposal_month'))]); ?>
+<?php $component->withAttributes(['class' => 'bg-gray-100 dark:bg-gray-700','label' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Proposal Month')),'x-model' => 'proposal_month','name' => 'proposal_month','messages' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($errors->get('proposal_month')),'readonly' => 'true']); ?>
 <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>  -->
-                    <!-- <input type="hidden" name="proposal_month"/> -->
-                    <div>
+<?php endif; ?> 
+                    <!-- <div>
                         <label>Proposal Month :</label>
                         <select class="form-input" name="proposal_month">
                             <option>Select Month</option>
@@ -270,7 +269,7 @@
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
 <?php endif; ?> 
-                    </div>
+                    </div> -->
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
@@ -360,6 +359,7 @@
         </form>         
     </div>
 </div> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({   
@@ -428,12 +428,13 @@ document.addEventListener("alpine:init", () => {
             console.log(this.doctors)
             
         },
-        // date_of_issue : '',
-        // dateChange(){        
-        //     console.log(this.date_of_issue);
-        //     let monthName = new Date(this.date_of_issue).toLocaleDateString('en', { month:"short"})
-        //     console.log(monthName);
-        // },
+        date_of_issue : '',
+        proposal_month: '',
+        dateChange(){     
+            console.log(this.date_of_issue);
+            this.proposal_month = moment(this.date_of_issue, 'DD/MM/YYYY').format("MMM / YYYY");
+            console.log(this.proposal_month);
+        },
 
         monthChange(){
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

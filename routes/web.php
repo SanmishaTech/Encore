@@ -2,6 +2,18 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\RoiAccountabilityReportsController;
+use App\Http\Controllers\DoctorBusinessMonitoringsController;
+use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\GrantApprovalsController;
+use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\TerritoriesController;
+use App\Http\Controllers\QualificationsController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\DoctorsController;
+use App\Http\Controllers\ChemistsController;
+use App\Http\Controllers\StockistsController;
 use Illuminate\Support\Facades\Route;
 
 /*

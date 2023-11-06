@@ -13,7 +13,6 @@
                     <td>{{ @$doctor_business_monitoring->GrantApproval->Doctor->doctor_name }}</td>
                     <td>{{ round($doctor_business_monitoring->roi, 2)}} </td>
                     <td style="text-align:right;"> &#8377;  {{ $doctor_business_monitoring->amount }}</td>
-                    <td style="text-align:right;"> &#8377;  {{ $doctor_business_monitoring->approval_amount }}</td>
                     <td>
                         {!! $doctor_business_monitoring->status == "Open" ? '<span class="badge bg-info"> Open </span>' : ($doctor_business_monitoring->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($doctor_business_monitoring->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>' :  ($doctor_business_monitoring->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($doctor_business_monitoring->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : '')) ))  !!}
                     </td>  
@@ -133,7 +132,7 @@
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
                             headings: [
-                                "Code", "Marketing Executive", "Area Manager", "Zonal Manager", "Doctor", "ROI", "Amount", "Approved amount", "Status", "Action"
+                                "Code", "Marketing Executive", "Area Manager", "Zonal Manager", "Doctor", "ROI", "Amount", "Status", "Action"
                             ],
                         },
                         searchable: true,
