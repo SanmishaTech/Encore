@@ -41,7 +41,7 @@
                     <x-text-input name="date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('date') }}" type="date" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
                     <x-text-input name="month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
                     <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
-                    <x-text-input name="roi" x-model="roi" value="{{ old('roi') }}" @change="calcROI()" :label="__('ROI')"  :messages="$errors->get('roi')"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" name="roi" x-model="roi" value="{{ old('roi') }}" @change="calcROI()" :label="__('ROI')"  :messages="$errors->get('roi')"/>
                 </div>                                
             </div>            
             <div class="panel table-responsive">
@@ -104,27 +104,27 @@
                                                             @endforeach
                                                         </select>
                                                         <x-input-error :messages="$errors->get('product_id')" class="mt-2" />
-                                                        <x-text-input class="mt-2 w-40" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3" placeholder="M+3"/> 
+                                                        <x-text-input class="mt-2 w-40" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3" @change="calculateValues()" placeholder="M+3"/> 
                                                     </td>
                                                     <td>
                                                         <x-text-input  class="bg-gray-100 dark:bg-gray-700 mt-2 w-28"  readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
-                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4"  placeholder="M+4"/>
+                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4" @change="calculateValues()" placeholder="M+4"/>
                                                     </td>           
                                                     <td>
                                                         <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units" @change="calculateValues()"/>
-                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" placeholder="M+5"/>
+                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" @change="calculateValues()" placeholder="M+5"/>
                                                     </td>
                                                     <td>
                                                         <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value" />
                                                         <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6" @change="calculateValues()" placeholder="M+6"/>
                                                     </td>
                                                     <td>
-                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol" @change="calculateValues()"/>
                                                         <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol"  placeholder="Total Vol"/>
                                                     </td>
                                                     <td>
                                                         <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1"  @change="calculateValues()"/>
-                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val"  placeholder="Total Val" @change="calculateValues()"/>
+                                                        <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val"  placeholder="Total Val"/>
                                                     </td>
                                                     <td>
                                                         <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2" />
@@ -132,7 +132,7 @@
                                                         <select class="form-input mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()">
                                                         <option> Scheme% </option>
                                                         @for ($i = 1; $i < 100; $i++)
-                                                            <option value="{{ $i }}%"> {{ $i }}%</option>
+                                                            <option value="{{ $i }}"> {{ $i }}%</option>
                                                         @endfor
                                                         </select>
                                                     </td>
@@ -278,7 +278,7 @@ document.addEventListener("alpine:init", () => {
         
         calculateValues() {
             let avg = 0; 
-            let total_vol = 0;
+            let total_exp_vol = 0;
             let total_val = 0;
 
             this.productDetails.forEach(productDetail => {
@@ -287,33 +287,33 @@ document.addEventListener("alpine:init", () => {
     
                 // productDetail.total_exp_vol = (parseFloat(productDetail.exp_vol) + parseFloat(productDetail.exp_vol_1) + parseFloat(productDetail.exp_vol_2) + parseFloat(productDetail.exp_vol_3) + parseFloat(productDetail.exp_vol_4) + parseFloat(productDetail.exp_vol_5) + parseFloat(productDetail.exp_vol_6)).toFixed(2);
                 if(!isNaN(productDetail.exp_vol) && productDetail.exp_vol != ''){
-                    total_vol += parseFloat(productDetail.exp_vol);
+                    total_exp_vol += parseFloat(productDetail.exp_vol);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_1) && productDetail.exp_vol_1 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_1);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_1);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_2) && productDetail.exp_vol_2 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_2);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_2);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_3) && productDetail.exp_vol_3 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_3);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_3);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_4) && productDetail.exp_vol_4 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_4);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_4);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_5) && productDetail.exp_vol_5 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_5);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_5);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_6) && productDetail.exp_vol_6 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_6);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_6);
                 }                  
-                productDetail.total_exp_vol = total_vol.toFixed(2);
+                productDetail.total_exp_vol = total_exp_vol.toFixed(2);
 
                 total_val = productDetail.total_exp_vol * productDetail.nrv;          
                 productDetail.total_exp_val = total_val.toFixed(2);

@@ -125,7 +125,13 @@
                                                         <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
                                                     </td>
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" />
+                                                        <!-- <x-text-input  x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" /> -->
+                                                        <select class="form-input" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme">
+                                                        <option> Scheme% </option>
+                                                        @for ($i = 1; $i < 100; $i++)
+                                                            <option value="{{ $i }}"> {{ $i }}%</option>
+                                                        @endfor
+                                                        </select>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -259,7 +265,8 @@ document.addEventListener("alpine:init", () => {
         },
 
         calcROI() {
-            this.roi = this.total / this.amount;   
+            let roi = 0;
+            this.roi = (this.total / this.amount).toFixed(2); 
         },
 
     }));

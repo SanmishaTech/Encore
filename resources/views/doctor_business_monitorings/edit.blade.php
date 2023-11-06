@@ -41,7 +41,7 @@
                     <x-text-input name="date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('date') }}" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
                     <x-text-input name="month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
                     <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
-                    <x-text-input name="roi" x-model="total_roi" value="{{ old('roi', $doctor_business_monitoring->roi) }}" @change="calcROI()" :label="__('ROI')"  :messages="$errors->get('roi')"/>
+                    <x-text-input name="roi" class="bg-gray-100 dark:bg-gray-700" readonly="true" x-model="total_roi" value="{{ old('roi', $doctor_business_monitoring->roi) }}" @change="calcROI()" :label="__('ROI')"  :messages="$errors->get('roi')"/>
                 </div>    
             </div>
             <div class="panel table-responsive">
@@ -134,7 +134,7 @@
                                                             <select class="form-input mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()">
                                                                 <option> Scheme% </option>
                                                                 @for ($i = 1; $i < 100; $i++)
-                                                                    <option value="{{ $i }}%" {{ $i ? ($i == $doctor_business_monitoring->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
+                                                                    <option value="{{ $i }}" {{ $i ? ($i == $doctor_business_monitoring->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                                 @endfor
                                                             </select>
                                                         </td>
@@ -313,7 +313,7 @@ document.addEventListener("alpine:init", () => {
 
         calculateValues() {
             let avg = 0; 
-            let total_vol = 0;
+            let total_exp_vol = 0;
             let total_val = 0;
 
             this.productDetails.forEach(productDetail => {                
@@ -323,33 +323,33 @@ document.addEventListener("alpine:init", () => {
                 }   
                     
                 if(!isNaN(productDetail.exp_vol) && productDetail.exp_vol != ''){
-                    total_vol += parseFloat(productDetail.exp_vol);
+                    total_exp_vol += parseFloat(productDetail.exp_vol);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_1) && productDetail.exp_vol_1 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_1);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_1);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_2) && productDetail.exp_vol_2 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_2);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_2);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_3) && productDetail.exp_vol_3 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_3);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_3);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_4) && productDetail.exp_vol_4 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_4);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_4);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_5) && productDetail.exp_vol_5 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_5);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_5);
                 }  
 
                 if(!isNaN(productDetail.exp_vol_6) && productDetail.exp_vol_6 != ''){
-                    total_vol += parseFloat(productDetail.exp_vol_6);
+                    total_exp_vol += parseFloat(productDetail.exp_vol_6);
                 }                  
-                productDetail.total_exp_vol = total_vol.toFixed(2);
+                productDetail.total_exp_vol = total_exp_vol.toFixed(2);
 
                 total_val = productDetail.total_exp_vol * productDetail.nrv;          
                 productDetail.total_exp_val = total_val.toFixed(2);

@@ -26,7 +26,11 @@ class GrantApprovalRequest extends FormRequest
     {
         return [
             'email' => 'required|unique:grant_approvals,email,'.($this->grant_approvals ? $this->grant_approvals->id : ''),
-
+            'employee_id' => 'required',
+            'doctor_id' => 'required',
+            'activity_id' => 'required',
+            'proposal_date' => 'required',
+            'amount' => 'required'
         ];
     }
     public function messages(): array

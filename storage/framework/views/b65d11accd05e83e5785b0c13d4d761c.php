@@ -431,9 +431,9 @@ document.addEventListener("alpine:init", () => {
         date_of_issue : '',
         proposal_month: '',
         dateChange(){     
-            console.log(this.date_of_issue);
+            // console.log(this.date_of_issue);
             this.proposal_month = moment(this.date_of_issue, 'DD/MM/YYYY').format("MMM / YYYY");
-            console.log(this.proposal_month);
+            // console.log(this.proposal_month);
         },
 
         monthChange(){

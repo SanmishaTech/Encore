@@ -41,7 +41,7 @@
                    <x-text-input name="rar_date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('rar_date') }}" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
                    <x-text-input name="proposal_month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
                    <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
-                    <x-text-input name="roi" x-model="roi" value="{{ old('roi', $roi_accountability_report->roi) }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
+                    <x-text-input name="roi" x-model="total_roi" @change="calcROI()" value="{{ old('roi', $roi_accountability_report->roi) }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
                 </div>    
             </div>
             <div class="panel table-responsive">
@@ -127,7 +127,13 @@
                                                             <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/>
+                                                            <!-- <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/> -->
+                                                            <select class="form-input" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" >
+                                                                <option> Scheme% </option>
+                                                                @for ($i = 1; $i < 100; $i++)
+                                                                    <option value="{{ $i }}" {{ $i ? ($i == $roi_accountability_report->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
+                                                                @endfor
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -183,9 +189,10 @@ document.addEventListener("alpine:init", () => {
         nrv: '',     
         productDetails: [],       
         init() {
+            
             this.roi = 0;
             this.total = 0;
-
+            this.total_roi = 0;
             var options = {
                 searchable: true
             };
@@ -222,8 +229,7 @@ document.addEventListener("alpine:init", () => {
             @endif
 
             @if($roi_accountability_report->roi)                
-                this.roi = {{  $roi_accountability_report->roi }};
-                this.calcROI();
+                this.total_roi = {{  $roi_accountability_report->roi }};
             @endif
 
         },
@@ -299,10 +305,10 @@ document.addEventListener("alpine:init", () => {
 
         calcROI() {
             let roi = 0;
-            this.roi = (this.total / this.amount).toFixed(2);   
+            roi = (this.total / this.amount).toFixed(2);
             if(!isNaN(roi)){
-                this.roi = roi;
-            }   
+                this.total_roi = roi;
+            }
         },
     }));
 });
