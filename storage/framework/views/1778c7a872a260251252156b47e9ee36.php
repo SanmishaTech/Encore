@@ -48,6 +48,7 @@
                         </div>
                     </button>
                 </li>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'Root'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'master' }"
                         @click="activeDropdown === 'master' ? activeDropdown = null : activeDropdown = 'master'">
@@ -76,26 +77,19 @@
                         </div>
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'master'" x-collapse class="sub-menu text-gray-500">
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
                         <li><a href="/products">Products</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/territories">Territories</a></li>                        
                         <li><a href="/qualifications">Qualifications</a></li>                        
                         <li><a href="/categories">Categories</a></li>                       
                         <li><a href="/activities">Activities</a></li>                       
                         <li><a href="/employees">Employees</a></li>                      
                         <li><a href="/stockists">Stockists</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Managing Executive'])): ?>
                         <li><a href="/doctors">Doctors</a></li>
-                        <?php endif; ?>
-                        <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
                         <li><a href="/chemists">Chemists</a></li>
-                        <?php endif; ?>
                     </ul>
                 </li>
-                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager','Area Manager','Managing Executive'])): ?>
+                <?php endif; ?>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'Root','Zonal Manager','Area Manager','Marketing Executive'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'transaction' }"
                         @click="activeDropdown === 'transaction' ? activeDropdown = null : activeDropdown = 'transaction'">
@@ -168,7 +162,7 @@
                     </ul>
                 </li> 
                 <?php endif; ?>
-                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Root'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'users' }"
                         @click="activeDropdown === 'users' ? activeDropdown = null : activeDropdown = 'users'">

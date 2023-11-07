@@ -19,7 +19,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') ? old('code') : $grant_approval->code }}" :label="__('Code')" :messages="$errors->get('code')" readonly="true"/>
                     <div>
-                        <label>Marketing Executive :</label>
+                        <label>Marketing Executive : <span class=text-danger>*</span></label>
                         <select class="form-input" name="employee_id" x-model="employee_id" @change="mehqChange()">
                             <option>Select Marketing Executive</option>
                             @foreach ($employees as $id=>$employee)                                
@@ -33,7 +33,7 @@
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Doctor:</label>
+                        <label>Doctor: <span class=text-danger>*</span></label>
                             <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">                                
                                 @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                                     <option>Select Doctor</option>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Activity :</label>
+                        <label>Activity : <span class=text-danger>*</span></label>
                         <select class="form-input" name="activity_id">
                             <option>Select Activity</option>
                             @foreach ($activities as $id => $activity)
@@ -63,8 +63,8 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue', $grant_approval->date_of_issue) }}" x-model="date_of_issue" x-on:change.debounce="dateChange()" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" value="{{ old('proposal_month', $grant_approval->proposal_month) }}" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
+                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue', $grant_approval->date_of_issue) }}"  :require="true" x-model="date_of_issue" x-on:change.debounce="dateChange()" :label="__('Date')"  :messages="$errors->get('date_of_issue')"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')"  x-model="proposal_month" value="{{ old('proposal_month', $grant_approval->proposal_month) }}" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
                     <!-- <div>
                         <label>Proposal Month :<span style="color: red">*</span></label>
                         <select class="form-input" name="proposal_month">
@@ -77,7 +77,7 @@
                     </div> -->
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-combo-input name="proposal_amount" value="{{ old('proposal_amount',$grant_approval->proposal_amount) }}" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
+                    <x-combo-input name="proposal_amount" value="{{ old('proposal_amount',$grant_approval->proposal_amount) }}"   :require="true" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
                     <x-combo-input name="email" value="{{ old('email',$grant_approval->email) }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
                     <x-text-input name="contact_no" value="{{ old('contact_no', $grant_approval->contact_no) }}" :label="__('Contact No')"  :messages="$errors->get('contact_no')"/>
                 </div> 

@@ -24,13 +24,13 @@
                         @endforeach
                     @else
                         <div>
-                            <label>Marketing Executive :</label>
+                            <label>Marketing Executive:  <span class=text-danger>*</span></label>
                             <select class="form-input" name="employee_id" id="employee_id" x-model="employee_id" @change="mehqChange()">
                             @foreach ($employees as $id=>$employee)                                
                                 <option value="{{$id}}">{{$employee}}</option>                                
                             @endforeach                
                             </select> 
-                            <x-input-error :messages="$errors->get('employee_id_1')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('employee_id')" class="mt-2" />
                         </div>
                     @endif
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Area Manager')"  :messages="$errors->get('employee_id_2')" x-model="area" readonly="true"/>                       
@@ -38,7 +38,7 @@
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Doctor:</label>
+                        <label>Doctor: <span class=text-danger>*</span></label>
                             <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
                                 <option>Select Doctor</option>
                                 @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
@@ -55,12 +55,12 @@
                     </div>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="mpl_no"  :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="speciality"   :label="__('Speciality')" :messages="$errors->get('speciality')" readonly="true"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="location" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="location"  :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Activity :</label>
-                        <select class="form-input" name="activity_id"  id="activity_id">
+                        <label>Activity :  <span class=text-danger>*</span></label>
+                        <select class="form-input" name="activity_id"  :require="true" id="activity_id">
                             <option>Select Activity</option>
                             @foreach ($activities as $id => $activity)
                                 <option value="{{$id}}">{{$activity}}</option>
@@ -68,7 +68,7 @@
                         </select> 
                         <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue') }}" :label="__('Date')" x-model="date_of_issue" x-on:change.debounce="dateChange()" :messages="$errors->get('date_of_issue')"/>
+                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue') }}"  :require="true" :label="__('Date')" x-model="date_of_issue" x-on:change.debounce="dateChange()" :messages="$errors->get('date_of_issue')"/>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
                     <!-- <div>
                         <label>Proposal Month :</label>
@@ -82,7 +82,7 @@
                     </div> -->
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-combo-input name="proposal_amount" value="{{ old('proposal_amount') }}" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
+                    <x-combo-input name="proposal_amount" value="{{ old('proposal_amount') }}"  :require="true" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
                     <x-combo-input name="email" value="{{ old('email') }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
                     <x-text-input name="contact_no" value="{{ old('contact_no') }}" :label="__('Contact No')"  :messages="$errors->get('contact_no')"/>
                 </div> 

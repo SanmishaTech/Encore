@@ -1,4 +1,12 @@
 <x-layout.default>
+    <style>
+        table thead tr th, table tfoot tr th, table tbody tr td {
+                padding-top: 0.75rem;
+                padding-bottom: 0.75rem;
+                padding-left: 0.2rem;
+                padding-right: 0.2rem;
+            }
+    </style>
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
@@ -38,7 +46,7 @@
                    <x-text-input name="location" class="bg-gray-100 dark:bg-gray-700" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                </div>
                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                   <x-text-input name="rar_date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('rar_date') }}" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
+                   <x-text-input name="rar_date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('rar_date') }}" id="text" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
                    <x-text-input name="proposal_month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
                    <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
                     <x-text-input name="roi" x-model="total_roi" @change="calcROI()" value="{{ old('roi', $roi_accountability_report->roi) }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
@@ -49,111 +57,110 @@
                     <h5 class="font-semibold text-lg dark:text-white-light"> Add Products</h5>
                 </div>
                 <div>
-                    <div class="flex xl:flex-row flex-col gap-2.5">
-                        <div class="panel px-0 flex-1 py-1 ltr:xl:mr-6 rtl:xl:ml-6">
+                    <div class="flex xl:flex-row flex-col gap-1">
+                        <div class="panel px-0 flex-1  ltr:xl:mr-6 rtl:xl:ml-6">
                             <div class="mt-8">
-                                <template x-if="productDetails">
                                 <div class="table-responsive">
-                                        <table class="table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th width="5%">&nbsp; #</th>
-                                                    <th>Product</th>
-                                                    <th>NRV</th>
-                                                    <th>Month</th>
-                                                    <th>Act Vol</th>
-                                                    <th>Act Val</th>
-                                                    <th>Scheme %</th>
+                                    <table class="table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">&nbsp; #</th>
+                                                <th>Product</th>
+                                                <th>NRV</th>
+                                                <th>Month</th>
+                                                <th>Scheme %</th>
+                                                <th>Act Vol</th>
+                                                <th>Act Val</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template x-if="productDetails.length <= 0">
+                                                <tr >
+                                                    <td colspan="5" class="!text-center font-semibold">No Data Available
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                <template x-if="productDetails.length <= 0">
-                                                    <tr >
-                                                        <td colspan="5" class="!text-center font-semibold">No Data Available
-                                                        </td>
-                                                    </tr>
-                                                </template>
-                                                <template x-for="(productDetail, i) in productDetails" :key="i">
-                                                    <tr>
-                                                        <td>
-                                                            <button type="button" @click="removeItem(productDetail)">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24px"
-                                                                    height="24px" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="1.5"
-                                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="w-5 h-5">
-                                                                    <line x1="18" y1="6" x2="6"
-                                                                        y2="18"></line>
-                                                                    <line x1="6" y1="6" x2="18"
-                                                                        y2="18"></line>
-                                                                </svg>
-                                                            </button>
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" class="form-input min-w-[200px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
-                                                            <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
-                                                                <option>Select Product</option>
-                                                                    @foreach ($products as $id => $product)
-                                                                        <option value="{{$id}}"
-                                                                        {{ $id ? ($id == $roi_accountability_report->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
-                                                                @endforeach
-                                                            </select>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input style="width:70px"  class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
-                                                        </td>
-                                                        <td>
-                                                            <select class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
-                                                                <option>Select Month</option>
-                                                                <option value="Jan /2023">Jan /2023</option>
-                                                                <option value="Feb /2023">Feb /2023</option>
-                                                                <option value="Mar /2023">Mar /2023</option>
-                                                                <option value="Apr /2023">Apr /2023</option>
-                                                                <option value="May /2023">May /2023</option>
-                                                                <option value="Jun /2023">Jun /2023</option>
-                                                                <option value="Jul /2023">Jul /2023</option>
-                                                                <option value="Aug /2023">Aug /2023</option>
-                                                                <option value="Sep /2023">Sep /2023</option>
-                                                                <option value="Oct /2023">Oct /2023</option>
-                                                                <option value="Nov /2023">Nov /2023</option>
-                                                                <option value="Dec /2023">Dec /2023</option>
-                                                            </select> 
-                                                            <x-input-error :messages="$errors->get('month')" class="mt-2" /> 
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input style="width:60px"  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol"/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
-                                                        </td>
-                                                        <td>
-                                                            <!-- <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/> -->
-                                                            <select class="form-input" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" >
-                                                                <option> Scheme% </option>
-                                                                @for ($i = 1; $i < 100; $i++)
-                                                                    <option value="{{ $i }}" {{ $i ? ($i == $roi_accountability_report->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
-                                                                @endfor
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                </template>
+                                            </template>
+                                            <template x-for="(productDetail, i) in productDetails" :key="i">
                                                 <tr>
                                                     <td>
-                                                        <button type="button" class="btn btn-info" @click.prevent="addItem()">+ </button>
+                                                        <button type="button" @click="removeItem(productDetail)">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px"
+                                                                height="24px" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="w-5 h-5">
+                                                                <line x1="18" y1="6" x2="6"
+                                                                    y2="18"></line>
+                                                                <line x1="6" y1="6" x2="18"
+                                                                    y2="18"></line>
+                                                            </svg>
+                                                        </button>
                                                     </td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot  style="background-color: #FFFFF;">
-                                                <tr>
-                                                    <th colspan="6" style="text-align:right;">Total of Actual Value: </th>
-                                                    <td>               
-                                                        <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" style="width:90px;" x-model="total" readonly="true" :messages="$errors->get('total_actual_value')" value="{{ old('total_actual_value', $roi_accountability_report->total_actual_value) }}" name="total_actual_value"/>
+                                                    <td>
+                                                        <input type="hidden" class="form-input min-w-[230px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
+                                                        <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <option>Select Product</option>
+                                                                @foreach ($products as $id => $product)
+                                                                    <option value="{{$id}}"
+                                                                    {{ $id ? ($id == $roi_accountability_report->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
+                                                            @endforeach
+                                                        </select>
                                                     </td>
+                                                    <td>
+                                                        <x-text-input   class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
+                                                            <option>Select Month</option>
+                                                            <option value="Jan /2023">Jan /2023</option>
+                                                            <option value="Feb /2023">Feb /2023</option>
+                                                            <option value="Mar /2023">Mar /2023</option>
+                                                            <option value="Apr /2023">Apr /2023</option>
+                                                            <option value="May /2023">May /2023</option>
+                                                            <option value="Jun /2023">Jun /2023</option>
+                                                            <option value="Jul /2023">Jul /2023</option>
+                                                            <option value="Aug /2023">Aug /2023</option>
+                                                            <option value="Sep /2023">Sep /2023</option>
+                                                            <option value="Oct /2023">Oct /2023</option>
+                                                            <option value="Nov /2023">Nov /2023</option>
+                                                            <option value="Dec /2023">Dec /2023</option>
+                                                        </select> 
+                                                        <x-input-error :messages="$errors->get('month')" class="mt-2" /> 
+                                                    </td>
+                                                    <td>
+                                                        <!-- <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/> -->
+                                                        <select class="form-input" style="width:100px;" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" >
+                                                            <option> Scheme </option>
+                                                            @for ($i = 1; $i < 100; $i++)
+                                                                <option value="{{ $i }}" {{ $i ? ($i == $roi_accountability_report->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
+                                                            @endfor
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol"/>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
+                                                    </td>
+                                                    
                                                 </tr>
-                                            </tfoot>                                   
-                                        </table>
-                                    </div>
-                                </template>                                                
+                                            </template>
+                                            <tr>
+                                                <td>
+                                                    <button type="button" class="btn btn-info" @click.prevent="addItem()">+ </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot  style="background-color: #FFFFF;">
+                                            <tr>
+                                                <th colspan="6" style="text-align:right;">Total of Actual Value: </th>
+                                                <td>               
+                                                    <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" x-model="total" readonly="true" :messages="$errors->get('total_actual_value')" value="{{ old('total_actual_value', $roi_accountability_report->total_actual_value) }}" name="total_actual_value"/>
+                                                </td>
+                                            </tr>
+                                        </tfoot>                                   
+                                    </table>
+                                </div>
                             </div>                            
                         </div>                    
                     </div>
@@ -183,6 +190,7 @@ document.addEventListener("alpine:init", () => {
                 'Content-type': 'application/json;',
             },
             })).json();
+            this.calcROI();
         },
 
         product_id: '',
@@ -202,9 +210,7 @@ document.addEventListener("alpine:init", () => {
                 this.codeChange();
             @endif
 
-            flatpickr(document.getElementById('date'), {
-                dateFormat: 'd/m/Y',
-            });
+          
 
             let maxId = 0; 
             id='';
@@ -305,10 +311,11 @@ document.addEventListener("alpine:init", () => {
 
         calcROI() {
             let roi = 0;
-            roi = (this.total / this.amount).toFixed(2);
-            if(!isNaN(roi)){
-                this.total_roi = roi;
-            }
+            if(!isNaN(this.total) && this.total != '' && !isNaN(this.amount) && this.amount != ''){
+                this.roi = (this.total / this.amount).toFixed(2); 
+            }    
+
+          
         },
     }));
 });

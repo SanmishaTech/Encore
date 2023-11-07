@@ -48,7 +48,7 @@
                         </div>
                     </button>
                 </li>
-                @role(['Admin'])
+                @role(['Admin', 'Root'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'master' }"
                         @click="activeDropdown === 'master' ? activeDropdown = null : activeDropdown = 'master'">
@@ -89,7 +89,7 @@
                     </ul>
                 </li>
                 @endrole
-                @role(['Admin','Zonal Manager','Area Manager','Marketing Executive'])
+                @role(['Admin', 'Root','Zonal Manager','Area Manager','Marketing Executive'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'transaction' }"
                         @click="activeDropdown === 'transaction' ? activeDropdown = null : activeDropdown = 'transaction'">
@@ -162,7 +162,7 @@
                     </ul>
                 </li> 
                 @endrole
-                @role(['Admin'])
+                @role(['Root'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'users' }"
                         @click="activeDropdown === 'users' ? activeDropdown = null : activeDropdown = 'users'">

@@ -1,4 +1,12 @@
 <x-layout.default>
+<style>
+    table thead tr th, table tfoot tr th, table tbody tr td {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+</style>
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
@@ -38,10 +46,10 @@
                     <x-text-input name="location" class="bg-gray-100 dark:bg-gray-700" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-text-input name="rar_date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('rar_date') }}" type="date" id="date" :label="__('Date')"  :messages="$errors->get('rar_date')" readonly="true"/>
+                    <x-text-input name="rar_date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('rar_date') }}" type="text" id="date" :label="__('Date')"  :messages="$errors->get('rar_date')" readonly="true"/>
                     <x-text-input name="proposal_month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_month')" readonly="true"/>     
                     <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
-                    <x-text-input name="roi" x-model="roi" @change="calcROI()" value="{{ old('roi') }}" :label="__('ROI')"  :messages="$errors->get('roi')"/>
+                    <x-text-input name="roi" x-model="roi" @change="calcROI()" value="{{ old('roi') }}" :label="__('ROI')"  :messages="$errors->get('roi')"  readonly="true"/>
                 </div>                                
             </div>            
             <div class="panel table-responsive">
@@ -53,16 +61,16 @@
                         <div class="mt-8">
                             <template x-if="productDetails">
                                 <div class="table-responsive">
-                                    <table class="table-hover">
+                                    <table class="table-hover" width="100%">
                                         <thead>
-                                            <tr>
+                                            <tr  width="100%">
                                                 <th>&nbsp; #</th>
                                                 <th>Products</th>
                                                 <th>NRV</th>
                                                 <th>Month</th>
+                                                <th>Scheme %</th>
                                                 <th>Act in Vol</th>
                                                 <th>Act in Val</th>
-                                                <th>Scheme %</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -119,12 +127,6 @@
                                                         <x-input-error :messages="$errors->get('month')" class="mt-2" /> 
                                                     </td> 
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol"/>
-                                                    </td>
-                                                    <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
-                                                    </td>
-                                                    <td>
                                                         <!-- <x-text-input  x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" /> -->
                                                         <select class="form-input" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme">
                                                         <option> Scheme% </option>
@@ -133,6 +135,13 @@
                                                         @endfor
                                                         </select>
                                                     </td>
+                                                    <td>
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol"/>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
+                                                    </td>
+                                                   
                                                 </tr>
                                             </template>
                                             <tr>
@@ -145,7 +154,7 @@
                                             <tr>
                                                 <th colspan="6" style="text-align:right;">Total of Actual Value: </th>
                                                 <td>               
-                                                    <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" style="width:90px;" x-model="total" readonly="true" :messages="$errors->get('total_actual_value')"  name="total_actual_value"/>
+                                                    <x-text-input class="form-input bg-gray-100 dark:bg-gray-700"  x-model="total" readonly="true" :messages="$errors->get('total_actual_value')"  name="total_actual_value"/>
                                                 </td>
                                             </tr>
                                         </tfoot>                
@@ -178,9 +187,7 @@ document.addEventListener("alpine:init", () => {
                 searchable: true
             };
             NiceSelect.bind(document.getElementById("code"), options);
-            flatpickr(document.getElementById('date'), {
-                dateFormat: 'd/m/Y',
-            });
+           
         },   
 
         code: '',
@@ -216,6 +223,7 @@ document.addEventListener("alpine:init", () => {
             this.date = this.data.date_of_issue;
             this.month = this.data.proposal_month;
             this.amount = this.data.proposal_amount;
+            this.calcROI();
         },
 
         product_id: '',
@@ -266,7 +274,11 @@ document.addEventListener("alpine:init", () => {
 
         calcROI() {
             let roi = 0;
-            this.roi = (this.total / this.amount).toFixed(2); 
+            if(!isNaN(this.total) && this.total != '' && !isNaN(this.amount) && this.amount != ''){
+                this.roi = (this.total / this.amount).toFixed(2); 
+            }    
+
+          
         },
 
     }));

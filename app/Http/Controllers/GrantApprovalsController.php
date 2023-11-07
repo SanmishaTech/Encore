@@ -62,9 +62,6 @@ class GrantApprovalsController extends Controller
     {
         $input = $request->all();      
         $input['status'] = 'Open';
-        if(empty($grant_approval->code)){
-            $code = new GrantApproval();  
-        }
         $grant_approval = GrantApproval::create($input); 
         $request->session()->flash('success', 'Grant Approval saved successfully!');
         return redirect()->route('grant_approvals.index'); 

@@ -1,4 +1,12 @@
 <x-layout.default>
+<style>
+    table thead tr th, table tfoot tr th, table tbody tr td {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+</style>
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
@@ -38,11 +46,14 @@
                    <x-text-input name="location" class="bg-gray-100 dark:bg-gray-700" x-model="location" value="{{ old('location') }}" :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                </div>
                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-text-input name="date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('date') }}" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
+                    <x-text-input name="date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('date') }}" type="date" id="date" :label="__('Date')"  :messages="$errors->get('date')" readonly="true"/>
                     <x-text-input name="month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('month') }}" :label="__('Proposal Month')"  :messages="$errors->get('month')" readonly="true"/>     
                     <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
-                    <x-text-input name="roi" class="bg-gray-100 dark:bg-gray-700" readonly="true" x-model="total_roi" value="{{ old('roi', $doctor_business_monitoring->roi) }}" @change="calcROI()" :label="__('ROI')"  :messages="$errors->get('roi')"/>
-                </div>    
+                    <x-combo-input name="approval_amount" class="bg-gray-100 dark:bg-gray-700" x-model="approval_amount" value="{{ old('approval_amount') }}" :label="__('Approval Amount')"  :messages="$errors->get('approval_amount')" readonly="true"/>
+                </div>   
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">                   
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" name="roi" x-model="roi" value="{{ old('roi') }}" @change="calcROI()" :label="__('ROI')"  :messages="$errors->get('roi')"/>
+                </div>      
             </div>
             <div class="panel table-responsive">
                 <div class="flex items-center justify-between mb-5">
@@ -109,29 +120,29 @@
                                                             <x-text-input class="mt-2 w-40" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3" placeholder="M+3"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2 w-28 bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
-                                                            <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4" placeholder="M+4"/>
+                                                            <x-text-input class="mt-2 bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4" placeholder="M+4"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units" @change="calculateValues()"/>
-                                                            <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" placeholder="M+5"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units" @change="calculateValues()"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" placeholder="M+5"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value"/>
-                                                            <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6" @change="calculateValues()" placeholder="M+6"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value" readonly=true/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6" @change="calculateValues()" placeholder="M+6"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2 w-28"   x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
-                                                            <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol" placeholder="Total Vol"/>
+                                                            <x-text-input class="mt-2"   x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol" placeholder="Total Vol" readonly=true/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2 w-28"  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1" @change="calculateValues()"/>
-                                                            <x-text-input class="mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val" placeholder="Total Val" @change="calculateValues()"/>
+                                                            <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1" @change="calculateValues()"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val" placeholder="Total Val" @change="calculateValues()" readonly=true/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2 w-28"  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
+                                                            <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
                                                             <!-- <x-text-input class="mt-4 w-31" x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" placeholder="Scheme"/> -->     
-                                                            <select class="form-input mt-2 w-28" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()">
+                                                            <select class="form-input mt-2" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()">
                                                                 <option> Scheme% </option>
                                                                 @for ($i = 1; $i < 100; $i++)
                                                                     <option value="{{ $i }}" {{ $i ? ($i == $doctor_business_monitoring->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
@@ -150,12 +161,12 @@
                                                 <tr>
                                                     <th colspan="7" style="text-align:right;">Total of Total Expected Value: </th>
                                                     <td>               
-                                                        <x-text-input class="form-input bg-gray-100 dark:bg-gray-700 mt-2 w-28" x-model="total" readonly="true" :messages="$errors->get('total_expected_value')" value="{{ $doctor_business_monitoring->total_expected_value }}" name="total_expected_value"/>
+                                                        <x-text-input class="form-input bg-gray-100 dark:bg-gray-700 mt-2" x-model="total" readonly="true" :messages="$errors->get('total_expected_value')" value="{{ $doctor_business_monitoring->total_expected_value }}" name="total_expected_value" readonly=true/>
                                                     </td>
                                                 </tr>
                                                 <tr >
                                                     <th colspan="7" style="text-align:right">Total of Avg Business Value:</th>
-                                                    <td><x-text-input class="form-input  bg-gray-100 dark:bg-gray-700 mt-2 w-28" :messages="$errors->get('total_business_value')" value="{{ $doctor_business_monitoring->total_business_value }}"  x-model="avg_total" name="total_business_value"/></td>
+                                                    <td><x-text-input class="form-input  bg-gray-100 dark:bg-gray-700 mt-2" :messages="$errors->get('total_business_value')" value="{{ $doctor_business_monitoring->total_business_value }}"  x-model="avg_total" name="total_business_value" readonly=true/></td>
                                                 </tr> 
                                             </tfoot>                             
                                         </table>
@@ -200,6 +211,7 @@ document.addEventListener("alpine:init", () => {
         zone: '',
         manager: '',
         docData: '',
+        roi: '',
         init() {
             this.avg_business_value = 0;  
             this.total_exp_vol = 0;
@@ -207,6 +219,7 @@ document.addEventListener("alpine:init", () => {
             this.total = 0;
             this.avg_total = 0;
             this.total_roi = 0;
+            this.approval_amount = 0;
             var options = {
                 searchable: true
             };
@@ -227,13 +240,10 @@ document.addEventListener("alpine:init", () => {
             @endif
 
             @if($doctor_business_monitoring->roi)
-                this.total_roi = {{  $doctor_business_monitoring->roi }};
+                this.roi = {{  $doctor_business_monitoring->roi }};
             @endif
 
-            flatpickr(document.getElementById('date'), {
-                dateFormat: 'd/m/Y',
-            });
-
+        
             let maxId = 0; 
             id='';
             @if($doctor_business_monitoring['ProductDetails'])
@@ -255,9 +265,11 @@ document.addEventListener("alpine:init", () => {
                 total_exp_vol: '{{ $details->total_exp_vol }}',
                 total_exp_val: '{{ $details->total_exp_val }}',
                 scheme: '{{ $details->scheme }}',
-            });                    
+            });   
+                             
             @endforeach
-            @endif               
+            @endif    
+                  
         },
 
         async productChange() {               
@@ -283,12 +295,15 @@ document.addEventListener("alpine:init", () => {
             });
             this.calculateValues();
             this.calculateTotal();
+            this.calculateAvg();
         }, 
                         
         removeItem(productDetail) {
             this.productDetails = this.productDetails.filter((d) => d.id != productDetail.id);
             this.calculateValues();
             this.calculateTotal();
+            this.calculateAvg();
+            this.calcROI();
         },
         
         async codeChange(){
@@ -309,18 +324,27 @@ document.addEventListener("alpine:init", () => {
             this.date = this.data.date_of_issue;
             this.month = this.data.proposal_month;
             this.amount = this.data.proposal_amount;
+            this.approval_amount = this.data.approval_amount;
+            this.calcROI();
         },
 
-        calculateValues() {
+        calculateAvg(){
             let avg = 0; 
-            let total_exp_vol = 0;
-            let total_val = 0;
 
-            this.productDetails.forEach(productDetail => {                
-                if(!isNaN(productDetail.avg_business_units) && productDetail.avg_business_units != ''){
-                    avg = productDetail.avg_business_units * productDetail.nrv;          
-                    productDetail.avg_business_value = avg.toFixed(2);
-                }   
+            if(!isNaN(this.productDetail.avg_business_units) && this.productDetail.avg_business_units != ''){
+                avg = this.productDetail.avg_business_units * this.productDetail.nrv;          
+                this.productDetail.avg_business_value = avg.toFixed(2);
+            }   
+
+        },
+        calculateValues() {
+          
+
+            this.productDetails.forEach(productDetail => {     
+                let avg = 0; 
+            let total_exp_vol = 0;
+            let total_val = 0;           
+                
                     
                 if(!isNaN(productDetail.exp_vol) && productDetail.exp_vol != ''){
                     total_exp_vol += parseFloat(productDetail.exp_vol);
@@ -354,15 +378,15 @@ document.addEventListener("alpine:init", () => {
                 total_val = productDetail.total_exp_vol * productDetail.nrv;          
                 productDetail.total_exp_val = total_val.toFixed(2);
             }); 
+            this.calculateTotal();
         },
-
         calculateTotal() {
             let total = 0;  
             this.productDetails.forEach(productDetail => {
                 total = parseFloat(total) + parseFloat(productDetail.total_exp_val);
             });                     
             if(!isNaN(total)){
-                this.total = total;
+                this.total = total.toFixed(2);
             }        
 
             let avg_total = 0;
@@ -371,17 +395,15 @@ document.addEventListener("alpine:init", () => {
             });                     
             if(!isNaN(avg_total)){
                 this.avg_total = avg_total.toFixed(2);
-            }       
-            
+            }                   
             this.calcROI();
         },
-
         calcROI() {
             let roi = 0;
-            roi = this.total / this.amount; 
-            if(!isNaN(roi)){
-                this.total_roi = roi.toFixed(2);
+            if(!isNaN(this.total) && this.total != '' && !isNaN(this.amount) && this.amount != ''){
+                this.roi = (this.total / this.amount).toFixed(2); 
             }   
+          
         },
     }));
 });

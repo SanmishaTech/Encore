@@ -25,19 +25,18 @@ class GrantApprovalRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|unique:grant_approvals,email,'.($this->grant_approvals ? $this->grant_approvals->id : ''),
+            'email' => 'required',
             'employee_id' => 'required',
             'doctor_id' => 'required',
             'activity_id' => 'required',
-            'proposal_date' => 'required',
-            'amount' => 'required'
+            'date_of_issue' => 'required',
+            'proposal_amount' => 'required'
         ];
     }
     public function messages(): array
     {
         return [
             'email.required' => 'Employee email is required',
-            'email.unique' => 'Already exist email',
         ];
     }
 }
