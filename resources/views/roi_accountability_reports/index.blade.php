@@ -5,11 +5,14 @@
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">ROI Accountability Report</h5>
             <table id="myTable" class="whitespace-nowrap">
                 @foreach ($roi_accountability_reports as $roi_accountability_report)
-                <tr>              
+                <tr>       
+                    <td>{{ @$roi_accountability_report->GrantApproval->code }}</td>         
                     <td>{{ @$roi_accountability_report->GrantApproval->Manager->name }}</td>           
                     <td>{{ @$roi_accountability_report->GrantApproval->Manager->AreaManager->name }}</td>
                     <td>{{ @$roi_accountability_report->GrantApproval->Manager->ZonalManager->name }}</td>
                     <td>{{ @$roi_accountability_report->GrantApproval->Doctor->doctor_name }}</td>
+                    <td>{{ @$roi_accountability_report->amount }}</td>
+                    <td>{{ @$roi_accountability_report->total_actual_value }}</td>
                     <td>{{ $roi_accountability_report->roi }}</td>
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
@@ -35,7 +38,7 @@
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
                             headings: [
-                                "Marketing Executive", "Area Manager", "Zonal Manager", "Doctor", "ROI","Action"
+                                "Code", "Marketing Executive", "Area Manager", "Zonal Manager", "Doctor", "Amount", "Acutal Value", "ROI","Action"
                             ],
                         },
                         searchable: true,

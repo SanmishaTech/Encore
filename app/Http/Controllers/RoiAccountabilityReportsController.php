@@ -17,8 +17,22 @@ class RoiAccountabilityReportsController extends Controller
 {
     public function index()
     {
-        $roi_accountability_reports = RoiAccountabilityReport::orderBy('id', 'desc')->get();
-        return view('roi_accountability_reports.index', compact('roi_accountability_reports'));
+        // $roi_accountability_reports = RoiAccountabilityReport::orderBy('id', 'desc')->get();
+        // return view('roi_accountability_reports.index', compact('roi_accountability_reports'));
+
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        $conditions = [];
+        if($authUser == 'Marketing Executive'){            
+            $conditions[] = ['employee_id', auth()->user()->id];
+          
+        } elseif($authUser == 'Area Manager'){
+           
+           
+        } elseif($authUser == 'Zonal Manager'){
+                  
+        }       
+        $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->get();
+        return view('roi_accountability_reports.index', ['roi_accountability_reports' => $roi_accountability_reports]);
     }
 
     public function create()

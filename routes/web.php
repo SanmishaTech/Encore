@@ -14,6 +14,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\ChemistsController;
 use App\Http\Controllers\StockistsController;
+use App\Http\Controllers\FreeSchemesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -120,6 +121,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         // Route::get('/grant_approvals/report/{grant_approval}', [App\Http\Controllers\GrantApprovalsController::class, 'report'])->name('grant_approvals.report');        
         Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);
         Route::resource('roi_accountability_reports', RoiAccountabilityReportsController::class);
+        Route::resource('free_schemes', FreeSchemesController::class);
     });
 
     Route::group(['middleware' => ['auth']], function() {  

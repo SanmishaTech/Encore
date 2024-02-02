@@ -49,7 +49,7 @@
                     <x-text-input name="rar_date" class="bg-gray-100 dark:bg-gray-700" x-model="date" value="{{ old('rar_date') }}" type="text" id="date" :label="__('Date')"  :messages="$errors->get('rar_date')" readonly="true"/>
                     <x-text-input name="proposal_month" class="bg-gray-100 dark:bg-gray-700" x-model="month" value="{{ old('proposal_month') }}" :label="__('Proposal Month')"  :messages="$errors->get('proposal_month')" readonly="true"/>     
                     <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
-                    <x-text-input name="roi" x-model="roi" @change="calcROI()" value="{{ old('roi') }}" :label="__('ROI')"  :messages="$errors->get('roi')"  readonly="true"/>
+                    <!-- <x-text-input name="roi" x-model="roi" @change="calcROI()" value="{{ old('roi') }}" :label="__('ROI')"  :messages="$errors->get('roi')"  readonly="true"/> -->
                 </div>                                
             </div>            
             <div class="panel table-responsive">
@@ -136,7 +136,7 @@
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol"/>
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol" @change="calculateAvg()"/>
                                                     </td>
                                                     <td>
                                                         <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>
@@ -155,6 +155,12 @@
                                                 <th colspan="6" style="text-align:right;">Total of Actual Value: </th>
                                                 <td>               
                                                     <x-text-input class="form-input bg-gray-100 dark:bg-gray-700"  x-model="total" readonly="true" :messages="$errors->get('total_actual_value')"  name="total_actual_value"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="6" style="text-align:right;">ROI: </th>
+                                                <td>               
+                                                    <x-text-input name="roi" x-model="roi" @change="calcROI()" value="{{ old('roi') }}"  :messages="$errors->get('roi')"  readonly="true"/>
                                                 </td>
                                             </tr>
                                         </tfoot>                
@@ -204,7 +210,6 @@ document.addEventListener("alpine:init", () => {
         manager: '',
         docData: '',
         async codeChange(){
-            console.log(this.code)
             this.data = await (await fetch('/grant_approvals/'+ this.code, {
                 
                 method: 'GET',
@@ -212,7 +217,6 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
                 })).json();
-                console.log(this.data);
             this.manager = this.data.manager.name;
             this.area = this.data.manager.area_manager.name;
             this.zone = this.data.manager.zonal_manager.name;
@@ -235,6 +239,7 @@ document.addEventListener("alpine:init", () => {
                 'Content-type': 'application/json;',
             },
             })).json();
+            
         },
 
         productDetails: [],
@@ -254,21 +259,33 @@ document.addEventListener("alpine:init", () => {
                 scheme: '',
             });
             this.calculateTotal();
+            
         }, 
         
         removeItem(productDetail) {
             this.productDetails = this.productDetails.filter((d) => d.id != productDetail.id);
             this.calculateTotal();
+            this.calculateAvg();
         },        
 
-        calculateTotal() {
-            let total = 0;  
-            this.productDetails.forEach(productDetail => {
+        calculateAvg(){
+            let act_val = 0; 
+
+            if(!isNaN(this.productDetail.act_vol) && this.productDetail.act_vol != ''){
+                act_val = this.productDetail.act_vol * this.productDetail.nrv;          
+                this.productDetail.act_val = act_val.toFixed(2);
+            } 
+            this.calculateTotal();
+        },
+
+        calculateTotal() {               
+            let total = 0; 
+            this.productDetails.forEach(productDetail => {                
                 total = parseFloat(total) + parseFloat(productDetail.act_val);
-            });                     
+            });                               
             if(!isNaN(total)){
                 this.total = total;
-            }    
+            }             
             this.calcROI();
         },
 
@@ -276,9 +293,7 @@ document.addEventListener("alpine:init", () => {
             let roi = 0;
             if(!isNaN(this.total) && this.total != '' && !isNaN(this.amount) && this.amount != ''){
                 this.roi = (this.total / this.amount).toFixed(2); 
-            }    
-
-          
+            }              
         },
 
     }));

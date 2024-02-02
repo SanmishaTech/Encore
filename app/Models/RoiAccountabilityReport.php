@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
+use App\Models\ProductDetail;
 use App\Models\RoiAccountabilityReportDetail;
 use App\Models\GrantApproval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,6 +45,11 @@ class RoiAccountabilityReport extends Model
         return $this->hasMany(RoiAccountabilityReportDetail::class);
     }
 
+    public function ProductDetails()
+    {
+        return $this->hasMany(ProductDetail::class);
+    }
+    
     public function GrantApproval() 
     {
         return $this->belongsTo(GrantApproval::class);

@@ -22,7 +22,7 @@
             @method('PUT')
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
-                    <h5 class="font-semibold text-lg dark:text-white-light">Edit DBM</h5>
+                    <h5 class="font-semibold text-lg dark:text-white-light">Edit CDBM</h5>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
@@ -51,9 +51,9 @@
                     <x-combo-input name="amount" class="bg-gray-100 dark:bg-gray-700" x-model="amount" value="{{ old('amount') }}" :label="__('Amount')"  :messages="$errors->get('amount')" readonly="true"/>
                     <x-combo-input name="approval_amount" class="bg-gray-100 dark:bg-gray-700" x-model="approval_amount" value="{{ old('approval_amount') }}" :label="__('Approval Amount')"  :messages="$errors->get('approval_amount')" readonly="true"/>
                 </div>   
-                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">                   
+                <!-- <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">                   
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" name="roi" x-model="roi" value="{{ old('roi') }}" @change="calcROI()" :label="__('ROI')"  :messages="$errors->get('roi')"/>
-                </div>      
+                </div>       -->
             </div>
             <div class="panel table-responsive">
                 <div class="flex items-center justify-between mb-5">
@@ -68,21 +68,21 @@
                                         <table class="table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th width="5%">&nbsp; #</th>
-                                                    <th>Product</th>
-                                                    <th>NRV</th>
-                                                    <th>Avg Business(Units)</th>
-                                                    <th>Avg Business(Value)</th>
-                                                    <th>Exp in Vol(M)</th>
-                                                    <th>Exp in Vol(M+1)</th>
-                                                    <th>Exp in Vol(M+2)</th>
-                                                    <!-- <th>Exp in Vol(M+3)</th>
-                                                    <th>Exp in Vol(M+4)</th>
-                                                    <th>Exp in Vol(M+5)</th>
-                                                    <th>Exp in Vol(M+6)</th>
-                                                    <th>Total Exp Vol (MtoM+6)</th>
-                                                    <th>Total Exp Val (MtoM+6)</th>
-                                                    <th>Scheme %</th> -->
+                                                <th>&nbsp; #</th>
+                                                <th>Products</th>
+                                                <th>NRV</th>
+                                                <th>Avg Business(Units)</th>
+                                                <th>Avg Business(Value)</th>
+                                                <th>Total Exp Vol (MtoM+6)</th>
+                                                <th>Total Exp Val (MtoM+6)</th>
+                                                <th>Scheme %</th>
+                                                <!--<th>Exp in Vol(M)</th>
+                                                <th>Exp in Vol(M+1)</th>
+                                                <th>Exp in Vol(M+2)</th>
+                                                <th>Exp in Vol(M+3)</th>
+                                                <th>Exp in Vol(M+4)</th>
+                                                <th>Exp in Vol(M+5)</th>
+                                                <th>Exp in Vol(M+6)</th>-->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -110,44 +110,43 @@
                                                         </td>
                                                         <td>
                                                             <input type="hidden" class="form-input min-w-[200px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
-                                                            <select class="form-input mt-2 w-40" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <select class="form-input mt-2 w-100" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
                                                                 <option>Select Product</option>
                                                                     @foreach ($products as $id => $product)
                                                                         <option value="{{$id}}"
                                                                         {{ $id ? ($id == $doctor_business_monitoring->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
                                                                 @endforeach
                                                             </select>
-                                                            <x-text-input class="mt-2 w-40" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3" placeholder="M+3"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
                                                         </td>
                                                         <td>
                                                             <x-text-input class="mt-2 bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
-                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4" placeholder="M+4"/>
+                                                            <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1" @change="calculateValues()"/>
                                                         </td>
                                                         <td>
                                                             <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units" @change="calculateValues()"/>
-                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" placeholder="M+5"/>
+                                                            <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
                                                         </td>
                                                         <td>
                                                             <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][avg_business_value]`"  :messages="$errors->get('avg_business_value')" x-model="productDetail.avg_business_value" readonly=true/>
-                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6" @change="calculateValues()" placeholder="M+6"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_3]`"  :messages="$errors->get('exp_vol_3')" x-model="productDetail.exp_vol_3" placeholder="M+3"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2"   x-bind:name="`product_details[${productDetail.id}][exp_vol]`"  :messages="$errors->get('exp_vol')" x-model="productDetail.exp_vol"/>
-                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol" placeholder="Total Vol" readonly=true/>
-                                                        </td>
-                                                        <td>
-                                                            <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1" @change="calculateValues()"/>
                                                             <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][total_exp_val]`"  :messages="$errors->get('total_exp_val')" x-model="productDetail.total_exp_val" placeholder="Total Val" @change="calculateValues()" readonly=true/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_4]`"  :messages="$errors->get('exp_vol_4')" x-model="productDetail.exp_vol_4" placeholder="M+4"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
-                                                            <!-- <x-text-input class="mt-4 w-31" x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" placeholder="Scheme"/> -->     
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][total_exp_vol]`"  :messages="$errors->get('total_exp_vol')" x-model="productDetail.total_exp_vol" placeholder="Total Vol" readonly=true/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_5]`"  :messages="$errors->get('exp_vol_5')" x-model="productDetail.exp_vol_5" placeholder="M+5"/>
+                                                        </td>
+                                                        <td>
                                                             <select class="form-input mt-2" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()">
                                                                 <option> Scheme% </option>
                                                                 @for ($i = 1; $i < 100; $i++)
                                                                     <option value="{{ $i }}" {{ $i ? ($i == $doctor_business_monitoring->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                                 @endfor
                                                             </select>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][exp_vol_6]`"  :messages="$errors->get('exp_vol_6')" x-model="productDetail.exp_vol_6" @change="calculateValues()" placeholder="M+6"/>
                                                         </td>
                                                     </tr>
                                                 </template>
@@ -168,6 +167,12 @@
                                                     <th colspan="7" style="text-align:right">Total of Avg Business Value:</th>
                                                     <td><x-text-input class="form-input  bg-gray-100 dark:bg-gray-700 mt-2" :messages="$errors->get('total_business_value')" value="{{ $doctor_business_monitoring->total_business_value }}"  x-model="avg_total" name="total_business_value" readonly=true/></td>
                                                 </tr> 
+                                                <tr>
+                                                    <th colspan="7" style="text-align:right">ROI: </th>
+                                                    <td>
+                                                        <x-text-input class="bg-gray-100 dark:bg-gray-700 mt-2" readonly="true" name="roi" x-model="roi" value="{{ old('roi') }}" @change="calcROI()" :messages="$errors->get('roi')"/>
+                                                    </td>
+                                                </tr>
                                             </tfoot>                             
                                         </table>
                                     </div>
