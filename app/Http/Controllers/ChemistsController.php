@@ -48,7 +48,7 @@ class ChemistsController extends Controller
      */
     public function show(Chemist $chemist)
     {
-        //
+        return $chemist;  
     }
 
     /**

@@ -48,7 +48,7 @@
                         </div>
                     </button>
                 </li>
-                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'Root'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'master' }"
                         @click="activeDropdown === 'master' ? activeDropdown = null : activeDropdown = 'master'">
@@ -89,7 +89,7 @@
                     </ul>
                 </li>
                 <?php endif; ?>
-                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin','Zonal Manager','Area Manager','Marketing Executive'])): ?>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin', 'Root','Zonal Manager','Area Manager','Marketing Executive'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'transaction' }"
                         @click="activeDropdown === 'transaction' ? activeDropdown = null : activeDropdown = 'transaction'">
@@ -122,6 +122,7 @@
                         <li><a href="/grant_approvals">Grant Approvals</a></li>
                         <li><a href="/doctor_business_monitorings">Core Doctor Business Monitorings</a></li>
                         <li><a href="/roi_accountability_reports">ROI Accountability Reports</a></li>
+                        <li><a href="/free_schemes">Free Schemes Reports</a></li>
                     </ul>
                 </li> 
                 <?php endif; ?>
@@ -162,7 +163,7 @@
                     </ul>
                 </li> 
                 <?php endif; ?>
-                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Admin'])): ?>
+                <?php if(\Spatie\Permission\PermissionServiceProvider::bladeMethodWrapper('hasRole', ['Root'])): ?>
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'users' }"
                         @click="activeDropdown === 'users' ? activeDropdown = null : activeDropdown = 'users'">

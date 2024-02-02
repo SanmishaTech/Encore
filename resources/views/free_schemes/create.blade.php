@@ -2,21 +2,20 @@
 <div>
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
-            <a href="{{ route('grant_approvals.index') }}" class="text-primary hover:underline">Grant Approval</a>
+            <a href="{{ route('free_schemes.index') }}" class="text-primary hover:underline">Free Scheme</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
             <span>Add</span>
         </li>
     </ul>
     <div class="pt-5" x-data="data">        
-        <form class="space-y-5" action="{{ route('grant_approvals.store') }}" method="POST">
+        <form class="space-y-5" action="{{ route('free_schemes.store') }}" method="POST">
             @csrf
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
-                    <h5 class="font-semibold text-lg dark:text-white-light">Add Grant Approval</h5>
+                    <h5 class="font-semibold text-lg dark:text-white-light">Add Free Scheme</h5>
                 </div>               
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') }}" :label="__('Code')"  :messages="$errors->get('code')" readonly="true"/>
                     @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                         @foreach ($employees as $id=>$employee)
                         <input type="hidden" x-model="employee_id" x-on:change="mehqChange()" name="employee_id"/>
@@ -55,46 +54,175 @@
                     </div>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="mpl_no"  :label="__('MPL No')"  :messages="$errors->get('mpl_no')" readonly="true"/>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="speciality"   :label="__('Speciality')" :messages="$errors->get('speciality')" readonly="true"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700"  x-model="location"  :label="__('Location')"  :messages="$errors->get('location')" readonly="true"/>
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
-                        <label>Activity :  <span class=text-danger>*</span></label>
-                        <select class="form-input" name="activity_id"  :require="true" id="activity_id">
-                            <option>Select Activity</option>
-                            @foreach ($activities as $id => $activity)
-                                <option value="{{$id}}">{{$activity}}</option>
+                        <label>Location:</label>
+                        <select class="form-input" name="location">
+                            <option >Select Location</option>
+                            <option value='HQ'>HQ</option>
+                            <option value='Ex-Station'>Ex-Station</option>
+                            <option value='Ex-Station'>Ex-Station</option>                           
+                        </select>
+                    </div>
+                    <x-text-input name="proposal_date" id="proposal_date" value="{{ old('proposal_date') }}"  :require="true" :label="__('Date')" x-model="proposal_date" x-on:change.debounce="dateChange()" :messages="$errors->get('proposal_date')"/>
+                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
+                </div>
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
+                    <div>
+                        <label>Stockist :<span class=text-danger>*</span></label>
+                        <select class="form-input" name="stockist_id"  :require="true" id="stockist_id">
+                            <option>Select Stockist</option>
+                            @foreach ($stockists as $id => $stockist)
+                                <option value="{{$id}}">{{$stockist}}</option>
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('activity_id')" class="mt-2" /> 
+                        <x-input-error :messages="$errors->get('stockist_id')" class="mt-2" /> 
                     </div>
-                    <x-text-input name="date_of_issue" id="date" value="{{ old('date_of_issue') }}"  :require="true" :label="__('Date')" x-model="date_of_issue" x-on:change.debounce="dateChange()" :messages="$errors->get('date_of_issue')"/>
-                    <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
-                    <!-- <div>
-                        <label>Proposal Month :</label>
-                        <select class="form-input" name="proposal_month">
-                            <option>Select Month</option>
-                            <template x-for="list in lists" :key="list.key">
-                                <option :value="list" x-text="list.name"></option>
-                            </template>
+                    <x-text-input name="contact_no" value="{{ old('contact_no') }}" :label="__('Contact No')"  :messages="$errors->get('contact_no')" class="bg-gray-100 dark:bg-gray-700" readonly="true"/>
+                    <div>
+                        <label>Chemist :<span class=text-danger>*</span></label>
+                        <select class="form-input" name="chemist_id" @change="chemistChange()" x-model="chemist_id">
+                            <option>Select Chemist</option>
+                            @foreach ($chemists as $id => $chemist)
+                                <option value="{{$id}}">{{$chemist}}</option>
+                            @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('proposal_month')" class="mt-2" /> 
-                    </div> -->
+                        <x-input-error :messages="$errors->get('chemist_id')" class="mt-2" /> 
+                    </div>
+                    <x-text-input :label="__('Contact No')" :messages="$errors->get('contact_no')" x-model="chemist_contact_no" class="bg-gray-100 dark:bg-gray-700" readonly="true"/>
                 </div>       
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-combo-input name="proposal_amount" value="{{ old('proposal_amount') }}"  :require="true" :label="__('Proposal Amount')"  :messages="$errors->get('proposal_amount')"/>
-                    <x-combo-input name="email" value="{{ old('email') }}" :email="true" :require="true" :label="__('Email')"  :messages="$errors->get('email')"/>
-                    <x-text-input name="contact_no" value="{{ old('contact_no') }}" :label="__('Contact No')"  :messages="$errors->get('contact_no')"/>
-                </div> 
+                    <div>
+                        <label>Open Scheme:</label>
+                        <select class="form-input" name="open_scheme">
+                            <option >Select Open scheme</option>
+                            <option value='Yes'>Yes</option>
+                            <option value='No'>No</option>                           
+                        </select>
+                    </div>
+                    <div>
+                        <label>Scheme:</label>
+                        <select class="form-input" name="scheme">
+                            <option>Select Scheme% </option>
+                            @for($i = 1; $i < 100; $i++)
+                                <option value="{{ $i }}"> {{ $i }}%</option>
+                            @endfor
+                        </select>
+                    </div>    
+                    <div>
+                        <label>CRM Done:</label>
+                        <select class="form-input" name="crm_done">
+                            <option >Select CRM Done</option>
+                            <option value='Yes'>Yes</option>
+                            <option value='No'>No</option>                           
+                        </select>
+                    </div>
+                    <div>
+                        <label>Dr Own Counter:</label>
+                        <select class="form-input" name="dr_own_counter">
+                            <option >Select Counter</option>
+                            <option value='Yes'>Yes</option>
+                            <option value='No'>No</option>                           
+                        </select>
+                    </div>           
+                </div>
+            </div>
+            <div class="panel table-responsive">
+                <div class="flex items-center justify-between mb-5">
+                    <h5 class="font-semibold text-lg dark:text-white-light"> Add Products</h5>
+                </div>
+                <div class="flex xl:flex-row flex-col gap-2.5">
+                    <div class="panel px-0 flex-1 py-1 ltr:xl:mr-6 rtl:xl:ml-6">
+                        <div class="mt-8">
+                            <template x-if="productDetails">
+                                <div class="table-responsive">
+                                    <table class="table-hover" width="100%">
+                                        <thead>
+                                            <tr  width="100%">
+                                                <th>&nbsp; #</th>
+                                                <th>Products</th>
+                                                <th>NRV</th>
+                                                <th>Quantity</th>
+                                                <th>Free %</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template x-if="productDetails.length <= 0">
+                                                <tr >
+                                                    <td colspan="5" class="!text-center font-semibold">No Data Available
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <template x-for="(productDetail, i) in productDetails" :key="i">
+                                                <tr>
+                                                    <td>
+                                                        <button type="button" @click="removeItem(productDetail)">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px"
+                                                                height="24px" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="1.5"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="w-5 h-5">
+                                                                <line x1="18" y1="6" x2="6"
+                                                                    y2="18"></line>
+                                                                <line x1="6" y1="6" x2="18"
+                                                                    y2="18"></line>
+                                                            </svg>
+                                                        </button>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <option>Select Product</option>
+                                                                @foreach ($products as $id => $product)
+                                                                    <option value="{{$id}}"> {{$product}} </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <x-input-error :messages="$errors->get('product_id')" class="mt-2" /> 
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="productDetail.qty"/>
+                                                    </td> 
+                                                    <td>
+                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][free]`"  :messages="$errors->get('free')" x-model="productDetail.free"/>
+                                                    </td>
+                                                    <td>
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][val]`"  :messages="$errors->get('val')" x-model="productDetail.val" @change="calculateTotal()"/>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <tr>
+                                                <td>
+                                                    <button type="button" class="btn btn-info" @click.prevent="addItem()">+ </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>           
+                                        <tfoot  style="background-color: #FFFFF;">
+                                            <tr>
+                                                <th colspan="5" style="text-align:right;">Total Amount: </th>
+                                                <td>               
+                                                    <x-text-input class="form-input bg-gray-100 dark:bg-gray-700"  readonly="true" :messages="$errors->get('amount')"  name="amount"/>
+                                                </td>
+                                            </tr>
+                                        </tfoot>                
+                                    </table>
+                                </div>
+                            </template>                                                
+                        </div>                            
+                    </div>                    
+                </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}
                     </x-success-button>                    
                     &nbsp;&nbsp;
-                    <x-cancel-button :link="route('grant_approvals.index')">
+                    <x-cancel-button :link="route('free_schemes.index')">
                         {{ __('Cancel') }}
                     </x-cancel-button>
-                </div>
+                </div>         
             </div>            
         </form>         
     </div>
@@ -103,41 +231,26 @@
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({   
+        init() {
+            flatpickr(document.getElementById('proposal_date'), {
+                dateFormat: 'd/m/Y',
+            });
+            
+            @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                this.employee_id = {{ auth()->user()->id}};
+                // this.mehqChange();
+            @else
+                NiceSelect.bind(document.getElementById("employee_id"), options);
+            @endif
+        },   
+
         doctor_id: '',
-        docName : '',
-        zone: '',
-        area: '',
-        employee_id: '',
-        employee_id_2: '',
-        employee_id_3: '',
         doctorData: '',
         location: '',
         speciality: '',
         mpl_no: '',
-        doctors:'',
-        init() {
-            flatpickr(document.getElementById('date'), {
-                dateFormat: 'd/m/Y',
-            });
-            var options = {
-                searchable: true
-            };
-            // NiceSelect.bind(document.getElementById("doctor_id"), options);
-            NiceSelect.bind(document.getElementById("activity_id"), options);
-            @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
-                this.employee_id = {{ auth()->user()->id}};
-                this.mehqChange();
-            @else
-            NiceSelect.bind(document.getElementById("employee_id"), options);
-
-            @endif
-            this.monthChange();
-        },   
-
-      
         async doctorChange() {
-            this.doctorData = await (await fetch('/doctors/'+ this.doctor_id, {
-                
+            this.doctorData = await (await fetch('/doctors/'+ this.doctor_id, {                
             method: 'GET',
             headers: {
                 'Content-type': 'application/json;',
@@ -148,6 +261,24 @@ document.addEventListener("alpine:init", () => {
             this.speciality = this.doctorData.speciality;
         },
 
+        chemistData:'',
+        chemist_id:'',
+        chemist_contact_no:'',
+        async chemistChange() {
+            this.chemistData = await (await fetch('/chemists/'+ this.chemist_id, {                
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json;',
+            },
+            })).json();
+            this.chemist_contact_no = this.chemistData.contact_no_1;
+            console.log(this.chemist_contact_no);
+        },
+
+        employee_id: '',
+        doctors:'',
+        zone: '',
+        area: '',
         async mehqChange() {
             this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id, {
                 
@@ -165,37 +296,50 @@ document.addEventListener("alpine:init", () => {
                     'Content-type': 'application/json;',
                 },
             })).json();
-            console.log(this.doctors)
+            
             
         },
-        date_of_issue : '',
+
+        proposal_date : '',
         proposal_month: '',
-        dateChange(){     
-            // console.log(this.date_of_issue);
-            this.proposal_month = moment(this.date_of_issue, 'DD/MM/YYYY').format("MMM / YYYY");
-            // console.log(this.proposal_month);
+        dateChange(){    
+            this.proposal_month = moment(this.proposal_date, 'DD/MM/YYYY').format("MMM / YYYY");
         },
 
-        monthChange(){
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            data = ['2023', '2024', '2025'];
-            monthList = [];
-            count = 0;
-            for(let y in data){
-                for(let m in months){
-                        
-                     monthList[count] =  {
-                            key : months[m]+" / "+ data[y],
-                            name : months[m]+" / "+ data[y],
+        product_id: '',
+        nrv: '',
+        async productChange() {                    
+            this.productDetail.nrv = await (await fetch('/products/'+ this.productDetail.product_id, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json;',
+            },
+            })).json();
+            
+        },
 
-                        };
-                     count++;
-                }
+        productDetails: [],
+        addItem() {
+            let maxId = 0;
+            if (this.productDetails && this.productDetails.length) {
+                maxId = this.productDetails.reduce((max, character) => (character.id > max ? character
+                    .id : max), this.productDetails[0].id);
             }
-
-            this.lists = monthList;
+            this.productDetails.push({
+                id: maxId + 1,
+                product_id: '',
+                nrv: '',
+                qty: '',
+                free: '',
+                val: '',
+            });
+            
+        }, 
+        
+        removeItem(productDetail) {
+            this.productDetails = this.productDetails.filter((d) => d.id != productDetail.id);
            
-        }
+        },
     }));
 });
 </script>

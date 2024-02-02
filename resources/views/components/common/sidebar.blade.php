@@ -122,6 +122,7 @@
                         <li><a href="/grant_approvals">Grant Approvals</a></li>
                         <li><a href="/doctor_business_monitorings">Core Doctor Business Monitorings</a></li>
                         <li><a href="/roi_accountability_reports">ROI Accountability Reports</a></li>
+                        <li><a href="/free_schemes">Free Schemes Reports</a></li>
                     </ul>
                 </li> 
                 @endrole
