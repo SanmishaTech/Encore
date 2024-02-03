@@ -15,6 +15,7 @@ use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\ChemistsController;
 use App\Http\Controllers\StockistsController;
 use App\Http\Controllers\FreeSchemesController;
+use App\Http\Controllers\CustomerTrackingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -122,6 +123,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);
         Route::resource('roi_accountability_reports', RoiAccountabilityReportsController::class);
         Route::resource('free_schemes', FreeSchemesController::class);
+        Route::resource('customer_trackings', CustomerTrackingsController::class);
     });
 
     Route::group(['middleware' => ['auth']], function() {  

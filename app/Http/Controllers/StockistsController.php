@@ -33,7 +33,7 @@ class StockistsController extends Controller
   
     public function show(Stockist $stockist)
     {
-        //
+        return $stockist;  
     }
 
     public function edit(Stockist $stockist)

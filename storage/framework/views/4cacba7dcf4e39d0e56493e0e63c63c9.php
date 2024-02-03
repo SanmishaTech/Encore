@@ -44,6 +44,7 @@
                 <?php $__currentLoopData = $stockists; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $stockist): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>                    
                     <td > <?php echo e($stockist->stockist); ?></td>
+                    <td > <?php echo e($stockist->contact_no); ?></td>                    
                     <td><?php echo e(@$stockist->ZonalManager->name); ?></td>
                     <td><?php echo e(@$stockist->AreaManager->name); ?></td>
                     <td><?php echo e(@$stockist->Manager->name); ?></td>
@@ -100,6 +101,7 @@
                         data: {
                             headings: [
                                 "Stockist Name",
+                                "Stockist Contact No",
                                 "Zonal Manager",
                                 "Area Manager",
                                 "Marketing Executive",

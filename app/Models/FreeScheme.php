@@ -9,6 +9,8 @@ use App\Models\FreeSchemeDetail;
 use App\Models\Doctor;
 use App\Models\Stockist;
 use App\Models\Chemist;
+use App\Models\Product;
+use App\Models\ProductDetail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,7 +29,7 @@ class FreeScheme extends Model
         'doctor_id',
         'crm_done',
         'dr_own_counter',
-        'total_amount'
+        'amount'
     ];
 
     public function setProposalDateAttribute($value)
@@ -52,7 +54,7 @@ class FreeScheme extends Model
 
     public function FreeSchemeDetail() 
     {
-        return $this->hasMany(FreeSchemeDetail::class, 'grant_approval_id');
+        return $this->hasMany(FreeSchemeDetail::class, 'free_scheme_id');
     }
 
     public function Doctor() 
@@ -63,5 +65,10 @@ class FreeScheme extends Model
     public function Manager() 
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+    public function ProductDetails()
+    {
+        return $this->hasMany(ProductDetail::class);
     }
 }

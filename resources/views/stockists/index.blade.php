@@ -8,6 +8,7 @@
                 @foreach ($stockists as $stockist)
                 <tr>                    
                     <td > {{ $stockist->stockist }}</td>
+                    <td > {{ $stockist->contact_no }}</td>                    
                     <td>{{ @$stockist->ZonalManager->name }}</td>
                     <td>{{ @$stockist->AreaManager->name }}</td>
                     <td>{{ @$stockist->Manager->name }}</td>
@@ -36,6 +37,7 @@
                         data: {
                             headings: [
                                 "Stockist Name",
+                                "Stockist Contact No",
                                 "Zonal Manager",
                                 "Area Manager",
                                 "Marketing Executive",

@@ -51,6 +51,9 @@
                     </div>
                   
                 </div>
+                <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
+                    <x-text-input name="contact_no" value="{{ old('contact_no') }}" :label="__('Contact No')" :messages="$errors->get('contact_no')"/>   
+                </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}

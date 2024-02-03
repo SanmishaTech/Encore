@@ -1,28 +1,25 @@
 <x-layout.default>
     <div x-data="multicolumn">        
         @role(['Admin','Marketing Executive'])
-            <x-add-button :link="route('free_schemes.create')" />
+            <x-add-button :link="route('customer_trackings.create')" />
         @endrole
         <div class="panel mt-6 table-responsive">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Free Schemes
             </h5>
             <table id="myTable" class="whitespace-nowrap table-hover">
-                @foreach ($free_schemes as $free_scheme)
+                @foreach ($customer_trackings as $free_scheme)
                 <tr> 
-                    <td>{{ @$free_scheme->Manager->name }}</td>           
-                    <td>{{ @$free_scheme->Manager->AreaManager->name }}</td>
-                    <td>{{ @$free_scheme->Manager->ZonalManager->name }}</td>
-                    <td>{{ @$free_scheme->Doctor->doctor_name }}</td>
-                    <td>{{ @$free_scheme->Stockist->stockist }}</td>
-                    <td>{{ @$free_scheme->Chemist->chemist }}</td>  
-                    <td>{{ @$free_scheme->amount }}</td> 
+                    <td>{{ @$customer_tracking->Manager->name }}</td>           
+                    <td>{{ @$customer_tracking->Manager->AreaManager->name }}</td>
+                    <td>{{ @$customer_tracking->Manager->ZonalManager->name }}</td>
+                    <td>{{ @$customer_tracking->amount }}</td> 
                     <td class="float-right">
                         <ul class="flex items-center gap-2" >
                             <li style="display: inline-block;vertical-align:top;">
-                                <x-edit-button :link=" route('free_schemes.edit', ['free_scheme'=> $free_scheme->id])" />                               
+                                <x-edit-button :link=" route('customer_trackings.edit', ['customer_tracking'=> $customer_tracking->id])" />                               
                             </li>
                             <li style="display: inline-block;vertical-align:top;">
-                                <x-delete-button :link=" route('free_schemes.destroy', ['free_scheme'=> $free_scheme->id] )" />  
+                                <x-delete-button :link=" route('customer_trackings.destroy', ['customer_tracking'=> $customer_tracking->id] )" />  
                             </li>                           
                         </ul>
                     </td>
@@ -42,7 +39,7 @@
                     this.open= false;
                     this.datatable = new simpleDatatables.DataTable('#myTable', {
                         data: {
-                            headings: ["Marketing Executive", "Area Manager",  "Zonal Manager", "Doctor", "Stockist",  "Chemist", "Amount", "Action"],
+                            headings: ["Marketing Executive", "Area Manager",  "Zonal Manager", "Amount", "Action"],
                         },
                         searchable: true,
                         perPage: 30,
