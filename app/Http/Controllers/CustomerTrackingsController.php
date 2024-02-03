@@ -98,7 +98,7 @@ class CustomerTrackingsController extends Controller
     public function update(CustomerTracking $customer_tracking, CustomerTrackingRequest $request) 
     {
         $customer_tracking->update($request->all());
-        $data = $request->collect('product_details');         
+        $data = $request->collect('product_details');                
         foreach($data as $record){
             CustomerTrackingDetail::create([
                 'customer_tracking_id' => $customer_tracking->id,

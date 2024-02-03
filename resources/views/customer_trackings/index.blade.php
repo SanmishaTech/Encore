@@ -4,10 +4,10 @@
             <x-add-button :link="route('customer_trackings.create')" />
         @endrole
         <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Free Schemes
+            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Customer Tracking
             </h5>
             <table id="myTable" class="whitespace-nowrap table-hover">
-                @foreach ($customer_trackings as $free_scheme)
+                @foreach ($customer_trackings as $customer_tracking)
                 <tr> 
                     <td>{{ @$customer_tracking->Manager->name }}</td>           
                     <td>{{ @$customer_tracking->Manager->AreaManager->name }}</td>

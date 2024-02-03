@@ -6,6 +6,8 @@ use App\Traits\CreatedUpdatedBy;
 use Carbon\Carbon;
 use App\Models\Employee;
 use App\Models\CustomerTrackingDetail;
+use App\Models\ProductDetail;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -40,4 +42,9 @@ class CustomerTracking extends Model
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
+
+    public function ProductDetail() 
+    {
+        return $this->hasMany(ProductDetail::class);
+    } 
 }
