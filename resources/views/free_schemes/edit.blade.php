@@ -131,86 +131,88 @@
                     <div class="flex xl:flex-row flex-col gap-1">
                         <div class="panel px-0 flex-1  ltr:xl:mr-6 rtl:xl:ml-6">
                             <div class="mt-8">
-                                <div class="table-responsive">
-                                    <table class="table-hover">
-                                        <thead>
-                                            <tr width="100%">
-                                                <th>&nbsp; #</th>
-                                                <th>Products</th>
-                                                <th>NRV</th>
-                                                <th>Quantity</th>
-                                                <th>Free %</th>
-                                                <th>Value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <template x-if="productDetails.length <= 0">
-                                                <tr >
-                                                    <td colspan="5" class="!text-center font-semibold">No Data Available
-                                                    </td>
+                                <template x-if="freeSchemeDetails">
+                                    <div class="table-responsive">
+                                        <table class="table-hover">
+                                            <thead>
+                                                <tr width="100%">
+                                                    <th>&nbsp; #</th>
+                                                    <th>Products</th>
+                                                    <th>NRV</th>
+                                                    <th>Quantity</th>
+                                                    <th>Free %</th>
+                                                    <th>Value</th>
                                                 </tr>
-                                            </template>
-                                            <template x-for="(productDetail, i) in productDetails" :key="i">
+                                            </thead>
+                                            <tbody>
+                                                <template x-if="freeSchemeDetails.length <= 0">
+                                                    <tr >
+                                                        <td colspan="5" class="!text-center font-semibold">No Data Available
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template x-for="(freeSchemeDetail, i) in freeSchemeDetails" :key="i">
+                                                    <tr>
+                                                        <td>
+                                                            <button type="button" @click="removeItem(freeSchemeDetail)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24px"
+                                                                    height="24px" viewBox="0 0 24 24" fill="none"
+                                                                    stroke="currentColor" stroke-width="1.5"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="w-5 h-5">
+                                                                    <line x1="18" y1="6" x2="6"
+                                                                        y2="18"></line>
+                                                                    <line x1="6" y1="6" x2="18"
+                                                                        y2="18"></line>
+                                                                </svg>
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" class="form-input min-w-[230px]" x-model="freeSchemeDetail.id" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][id]`"/>
+                                                            <select class="form-input" name="product_id" x-model="freeSchemeDetail.product_id" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                                <option>Select Product</option>
+                                                                    @foreach ($products as $id => $product)
+                                                                        <option value="{{$id}}"
+                                                                        {{ $id ? ($id == $free_scheme->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <x-text-input   class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="freeSchemeDetail.nrv"/>
+                                                        </td>   
+                                                        <td>
+                                                            <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="freeSchemeDetail.qty" @change="calculateVal()"/>
+                                                        </td>                                                
+                                                        <td>                                                       
+                                                            <select class="form-input" style="width:100px;" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free"  @change="calculateVal()">
+                                                                <option> Free </option>
+                                                                @for ($i = 1; $i < 100; $i++)
+                                                                    <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->free ? 'selected' : '') : '' }}> {{ $i }}% </option>
+                                                                @endfor
+                                                            </select>
+                                                        </td>                                                    
+                                                        <td>
+                                                            <x-text-input  x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][val]`"  :messages="$errors->get('val')" x-model="freeSchemeDetail.val" @change="calculateTotal()"/>
+                                                        </td>                                                    
+                                                    </tr>
+                                                </template>
                                                 <tr>
                                                     <td>
-                                                        <button type="button" @click="removeItem(productDetail)">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24px"
-                                                                height="24px" viewBox="0 0 24 24" fill="none"
-                                                                stroke="currentColor" stroke-width="1.5"
-                                                                stroke-linecap="round" stroke-linejoin="round"
-                                                                class="w-5 h-5">
-                                                                <line x1="18" y1="6" x2="6"
-                                                                    y2="18"></line>
-                                                                <line x1="6" y1="6" x2="18"
-                                                                    y2="18"></line>
-                                                            </svg>
-                                                        </button>
+                                                        <button type="button" class="btn btn-info" @click.prevent="addItem()">+ </button>
                                                     </td>
-                                                    <td>
-                                                        <input type="hidden" class="form-input min-w-[230px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
-                                                        <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
-                                                            <option>Select Product</option>
-                                                                @foreach ($products as $id => $product)
-                                                                    <option value="{{$id}}"
-                                                                    {{ $id ? ($id == $free_scheme->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <x-text-input   class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
-                                                    </td>   
-                                                    <td>
-                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="productDetail.qty" @change="calculateVal()"/>
-                                                    </td>                                                
-                                                    <td>                                                       
-                                                        <select class="form-input" style="width:100px;" x-bind:name="`product_details[${productDetail.id}][free]`" x-model="productDetail.free"  @change="calculateVal()">
-                                                            <option> Free </option>
-                                                            @for ($i = 1; $i < 100; $i++)
-                                                                <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->free ? 'selected' : '') : '' }}> {{ $i }}% </option>
-                                                            @endfor
-                                                        </select>
-                                                    </td>                                                    
-                                                    <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][val]`"  :messages="$errors->get('val')" x-model="productDetail.val" @change="calculateTotal()"/>
-                                                    </td>                                                    
                                                 </tr>
-                                            </template>
-                                            <tr>
-                                                <td>
-                                                    <button type="button" class="btn btn-info" @click.prevent="addItem()">+ </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot  style="background-color: #FFFFF;">
-                                            <tr>
-                                                <th colspan="5" style="text-align:right;">Total Amount: </th>
-                                                <td>               
-                                                    <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" x-model="amount" readonly="true" :messages="$errors->get('amount')" value="{{ old('amount', $free_scheme->amount) }}" name="amount"/>
-                                                </td>
-                                            </tr>                                           
-                                        </tfoot>                                   
-                                    </table>
-                                </div>
+                                            </tbody>
+                                            <tfoot  style="background-color: #FFFFF;">
+                                                <tr>
+                                                    <th colspan="5" style="text-align:right;">Total Amount: </th>
+                                                    <td>               
+                                                        <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" x-model="amount" readonly="true" :messages="$errors->get('amount')" value="{{ old('amount', $free_scheme->amount) }}" name="amount"/>
+                                                    </td>
+                                                </tr>                                           
+                                            </tfoot>                                   
+                                        </table>
+                                    </div>
+                                </template>
                             </div>                            
                         </div>                    
                     </div>
@@ -272,9 +274,9 @@ document.addEventListener("alpine:init", () => {
 
             let maxId = 0; 
             id='';
-            @if($free_scheme['FreeSchemeDetail'])
-            @foreach($free_scheme['FreeSchemeDetail'] as $i=>$details)
-            this.productDetails.push({
+            @if($free_scheme['freeSchemeDetail'])
+            @foreach($free_scheme['freeSchemeDetail'] as $i=>$details)
+            this.freeSchemeDetails.push({
                 i: ++maxId,
                 id: '{{ $details->id }}',
                 product_id: '{{ $details->product_id }}',
@@ -363,23 +365,22 @@ document.addEventListener("alpine:init", () => {
         product_id: '',
         nrv: '',
         async productChange() {                    
-            this.productDetail.nrv = await (await fetch('/products/'+ this.productDetail.product_id, {
+            this.freeSchemeDetail.nrv = await (await fetch('/products/'+ this.freeSchemeDetail.product_id, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json;',
             },
             })).json();
-            
         },
 
-        productDetails: [],
+        freeSchemeDetails: [],
         addItem() {
             let maxId = 0;
-            if (this.productDetails && this.productDetails.length) {
-                maxId = this.productDetails.reduce((max, character) => (character.id > max ? character
-                    .id : max), this.productDetails[0].id);
+            if (this.freeSchemeDetails && this.freeSchemeDetails.length) {
+                maxId = this.freeSchemeDetails.reduce((max, character) => (character.id > max ? character
+                    .id : max), this.freeSchemeDetails[0].id);
             }
-            this.productDetails.push({
+            this.freeSchemeDetails.push({
                 id: maxId + 1,
                 product_id: '',
                 nrv: '',
@@ -390,25 +391,25 @@ document.addEventListener("alpine:init", () => {
             this.calculateTotal();
         }, 
         
-        removeItem(productDetail) {
-            this.productDetails = this.productDetails.filter((d) => d.id != productDetail.id);
+        removeItem(freeSchemeDetail) {
+            this.freeSchemeDetails = this.freeSchemeDetails.filter((d) => d.id != freeSchemeDetail.id);
             this.calculateVal();
             this.calculateTotal();
         },
 
         calculateVal(){
             let val = 0; 
-            if(!isNaN(this.productDetail.qty) && this.productDetail.qty != ''){
-                val = this.productDetail.qty * this.productDetail.nrv;          
-                this.productDetail.val = val.toFixed(2);
+            if(!isNaN(this.freeSchemeDetail.qty) && this.freeSchemeDetail.qty != ''){
+                val = this.freeSchemeDetail.qty * this.freeSchemeDetail.nrv;          
+                this.freeSchemeDetail.val = val.toFixed(2);
             } 
             this.calculateTotal();
         },
 
         calculateTotal() {               
             let amount = 0; 
-            this.productDetails.forEach(productDetail => {                
-                amount = parseFloat(amount) + parseFloat(productDetail.val);
+            this.freeSchemeDetails.forEach(freeSchemeDetail => {                
+                amount = parseFloat(amount) + parseFloat(freeSchemeDetail.val);
             });                               
             if(!isNaN(amount)){
                 this.amount = amount.toFixed(2);

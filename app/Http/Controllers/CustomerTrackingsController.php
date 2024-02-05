@@ -31,7 +31,6 @@ class CustomerTrackingsController extends Controller
         } elseif($authUser == 'Zonal Manager'){
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->where('approval_level_1', true)
             ->orderBy('id', 'DESC')->get();           
         }       
         // dd($customer_trackings->Stockist); 
@@ -100,7 +99,7 @@ class CustomerTrackingsController extends Controller
         $customer_tracking->update($request->all());
         $data = $request->collect('product_details');                
         foreach($data as $record){
-            CustomerTrackingDetail::create([
+            CustomerTrackingDetail::updateOrCreate([
                 'customer_tracking_id' => $customer_tracking->id,
                 'doctor_id' => $record['doctor_id'],
                 'speciality' => $record['speciality'],

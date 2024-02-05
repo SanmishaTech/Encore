@@ -124,7 +124,7 @@
                                                             <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_1]`"  :messages="$errors->get('exp_vol_1')" x-model="productDetail.exp_vol_1" @change="calculateValues()"/>
                                                         </td>
                                                         <td>
-                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units" @change="calculateValues()"/>
+                                                            <x-text-input class="mt-2" x-bind:name="`product_details[${productDetail.id}][avg_business_units]`"  :messages="$errors->get('avg_business_units')" x-model="productDetail.avg_business_units" @change="calculateAvg()"/>
                                                             <x-text-input class="mt-2"  x-bind:name="`product_details[${productDetail.id}][exp_vol_2]`"  :messages="$errors->get('exp_vol_2')" x-model="productDetail.exp_vol_2"/>
                                                         </td>
                                                         <td>
@@ -230,6 +230,11 @@ document.addEventListener("alpine:init", () => {
             };
             
             NiceSelect.bind(document.getElementById("code"), options);
+
+            flatpickr(document.getElementById('date'), {
+                dateFormat: 'd/m/Y',
+            });
+            
             @if($doctor_business_monitoring->grant_approval_id)
                 
                 this.code = {{  $doctor_business_monitoring->grant_approval_id }};
@@ -284,7 +289,7 @@ document.addEventListener("alpine:init", () => {
                 'Content-type': 'application/json;',
             },
             })).json();
-            this.calculateValues();
+            this.calculateAvg();
         },
            
         addItem() {
@@ -299,8 +304,7 @@ document.addEventListener("alpine:init", () => {
                 nrv: '',
             });
             this.calculateValues();
-            this.calculateTotal();
-            this.calculateAvg();
+            this.calculateTotal();           
         }, 
                         
         removeItem(productDetail) {

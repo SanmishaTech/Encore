@@ -134,10 +134,36 @@ class DoctorBusinessMonitoringsController extends Controller
         return redirect()->route('doctor_business_monitorings.index');
     }
     
-    public function approval(Request $request) 
+    // public function approval(Request $request) 
+    // {
+    //     $doctor_business_monitoring = DoctorBusinessMonitoring::find($request->id);
+    //     $input = [];
+    //     if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+    //         $doctor_business_monitoring->status = 'Level 2 Approved';
+    //         $doctor_business_monitoring->approval_level_2 = true;
+    //     } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
+    //         $doctor_business_monitoring->status = 'Level 1 Approved';
+    //         $doctor_business_monitoring->approval_level_1 = true;
+    //     } else{
+    //         if($doctor_business_monitoring->approval_level_1 == true){
+    //             $doctor_business_monitoring->status = 'Level 2 Approved';
+    //             $doctor_business_monitoring->approval_level_2 = true;
+    //         } else {
+    //             $doctor_business_monitoring->status = 'Level 1 Approved';
+    //             $doctor_business_monitoring->approval_level_1 = true;
+
+    //         }
+    //     }  
+    //     $doctor_business_monitoring->update();
+    //     $input = [];
+    //     $input['status'] =  $doctor_business_monitoring->status;
+    //     $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
+    //     DoctorBusinessMonitoringDetail::create($input);
+    //     return redirect()->route('doctor_business_monitorings.index');
+    // }
+
+    public function approval(DoctorBusinessMonitoring $doctor_business_monitoring) 
     {
-        $doctor_business_monitoring = DoctorBusinessMonitoring::find($request->id);
-        $input = [];
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $doctor_business_monitoring->status = 'Level 2 Approved';
             $doctor_business_monitoring->approval_level_2 = true;
@@ -151,14 +177,11 @@ class DoctorBusinessMonitoringsController extends Controller
             } else {
                 $doctor_business_monitoring->status = 'Level 1 Approved';
                 $doctor_business_monitoring->approval_level_1 = true;
-
             }
         }     
-        $doctor_business_monitoring->approval_amount = $request->amount;    
         $doctor_business_monitoring->update();
         $input = [];
         $input['status'] =  $doctor_business_monitoring->status;
-        $input['amount'] = $doctor_business_monitoring->approval_amount;
         $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
         DoctorBusinessMonitoringDetail::create($input);
         return redirect()->route('doctor_business_monitorings.index');
@@ -184,7 +207,6 @@ class DoctorBusinessMonitoringsController extends Controller
         $doctor_business_monitoring->update();
         $input = [];
         $input['status'] =  $doctor_business_monitoring->status;
-        $input['amount'] = $doctor_business_monitoring->amount;
         $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
         DoctorBusinessMonitoringDetail::create($input);
         return redirect()->route('doctor_business_monitorings.index');
@@ -196,7 +218,6 @@ class DoctorBusinessMonitoringsController extends Controller
         $doctor_business_monitoring->update();
         $input = [];
         $input['status'] = 'Zonal Manager Approved';
-        $input['amount'] = $doctor_business_monitoring->amount;
         $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
         DoctorBusinessMonitoringDetail::create($input);
         return redirect()->route('doctor_business_monitorings.index');
@@ -209,7 +230,6 @@ class DoctorBusinessMonitoringsController extends Controller
         $input = [];
 
         $input['status'] = 'Rejected';
-        $input['amount'] = $doctor_business_monitoring->amount;
         $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
         DoctorBusinessMonitoringDetail::create($input);
         return redirect()->route('doctor_business_monitorings.index');

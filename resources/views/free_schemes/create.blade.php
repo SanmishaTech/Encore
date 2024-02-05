@@ -135,7 +135,7 @@
                 <div class="flex xl:flex-row flex-col gap-2.5">
                     <div class="panel px-0 flex-1 py-1 ltr:xl:mr-6 rtl:xl:ml-6">
                         <div class="mt-8">
-                            <template x-if="productDetails">
+                            <template x-if="freeSchemeDetails">
                                 <div class="table-responsive">
                                     <table class="table-hover" width="100%">
                                         <thead>
@@ -149,16 +149,16 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <template x-if="productDetails.length <= 0">
+                                            <template x-if="freeSchemeDetails.length <= 0">
                                                 <tr >
                                                     <td colspan="5" class="!text-center font-semibold">No Data Available
                                                     </td>
                                                 </tr>
                                             </template>
-                                            <template x-for="(productDetail, i) in productDetails" :key="i">
+                                            <template x-for="(freeSchemeDetail, i) in freeSchemeDetails" :key="i">
                                                 <tr>
                                                     <td>
-                                                        <button type="button" @click="removeItem(productDetail)">
+                                                        <button type="button" @click="removeItem(freeSchemeDetail)">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24px"
                                                                 height="24px" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="1.5"
@@ -172,7 +172,7 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                        <select class="form-input" x-model="freeSchemeDetail.product_id" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][product_id]`"  x-on:change="productChange()">
                                                             <option>Select Product</option>
                                                                 @foreach ($products as $id => $product)
                                                                     <option value="{{$id}}"> {{$product}} </option>
@@ -181,14 +181,13 @@
                                                         <x-input-error :messages="$errors->get('product_id')" class="mt-2" /> 
                                                     </td>
                                                     <td>
-                                                        <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
+                                                        <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="freeSchemeDetail.nrv"/>
                                                     </td>
                                                     <td>
-                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="productDetail.qty" @change="calculateVal()"/>
+                                                        <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="freeSchemeDetail.qty" @change="calculateVal()"/>
                                                     </td> 
-                                                    <td>
-                                                        <!-- <x-text-input x-bind:name="`product_details[${productDetail.id}][free]`"  :messages="$errors->get('free')" x-model="productDetail.free" @change="calculateVal()"/> -->
-                                                        <select class="form-input" x-bind:name="`product_details[${productDetail.id}][free]`" x-model="productDetail.free" @change="calculateVal()">
+                                                    <td>                                                      
+                                                        <select class="form-input" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free" @change="calculateVal()">
                                                         <option> Free% </option>
                                                         @for ($i = 1; $i < 100; $i++)
                                                             <option value="{{ $i }}"> {{ $i }}%</option>
@@ -196,7 +195,7 @@
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][val]`"  :messages="$errors->get('val')" x-model="productDetail.val" @change="calculateTotal()"/>
+                                                        <x-text-input  x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][val]`"  :messages="$errors->get('val')" x-model="freeSchemeDetail.val" @change="calculateTotal()"/>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -280,7 +279,6 @@ document.addEventListener("alpine:init", () => {
             },
             })).json();
             this.chemist_contact_no = this.chemistData.contact_no_1;
-            console.log(this.chemist_contact_no);
         },
 
         stockistData:'',
@@ -294,7 +292,6 @@ document.addEventListener("alpine:init", () => {
             },
             })).json();
             this.stockist_contact_no = this.stockistData.contact_no;
-            console.log(this.stockist_contact_no);
         },
 
 
@@ -330,7 +327,7 @@ document.addEventListener("alpine:init", () => {
         product_id: '',
         nrv: '',
         async productChange() {                    
-            this.productDetail.nrv = await (await fetch('/products/'+ this.productDetail.product_id, {
+            this.freeSchemeDetail.nrv = await (await fetch('/products/'+ this.freeSchemeDetail.product_id, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json;',
@@ -339,14 +336,14 @@ document.addEventListener("alpine:init", () => {
             
         },
 
-        productDetails: [],
+        freeSchemeDetails: [],
         addItem() {
             let maxId = 0;
-            if (this.productDetails && this.productDetails.length) {
-                maxId = this.productDetails.reduce((max, character) => (character.id > max ? character
-                    .id : max), this.productDetails[0].id);
+            if (this.freeSchemeDetails && this.freeSchemeDetails.length) {
+                maxId = this.freeSchemeDetails.reduce((max, character) => (character.id > max ? character
+                    .id : max), this.freeSchemeDetails[0].id);
             }
-            this.productDetails.push({
+            this.freeSchemeDetails.push({
                 id: maxId + 1,
                 product_id: '',
                 nrv: '',
@@ -357,25 +354,25 @@ document.addEventListener("alpine:init", () => {
             this.calculateTotal();
         }, 
         
-        removeItem(productDetail) {
-            this.productDetails = this.productDetails.filter((d) => d.id != productDetail.id);
+        removeItem(freeSchemeDetail) {
+            this.freeSchemeDetails = this.freeSchemeDetails.filter((d) => d.id != freeSchemeDetail.id);
             this.calculateVal();
             this.calculateTotal();
         },
 
         calculateVal(){
             let val = 0; 
-            if(!isNaN(this.productDetail.qty) && this.productDetail.qty != ''){
-                val = this.productDetail.qty * this.productDetail.nrv;          
-                this.productDetail.val = val.toFixed(2);
+            if(!isNaN(this.freeSchemeDetail.qty) && this.freeSchemeDetail.qty != ''){
+                val = this.freeSchemeDetail.qty * this.freeSchemeDetail.nrv;          
+                this.freeSchemeDetail.val = val.toFixed(2);
             } 
             this.calculateTotal();
         },
 
         calculateTotal() {               
             let amount = 0; 
-            this.productDetails.forEach(productDetail => {                
-                amount = parseFloat(amount) + parseFloat(productDetail.val);
+            this.freeSchemeDetails.forEach(freeSchemeDetail => {                
+                amount = parseFloat(amount) + parseFloat(freeSchemeDetail.val);
             });                               
             if(!isNaN(amount)){
                 this.amount = amount.toFixed(2);

@@ -33,7 +33,6 @@ class FreeSchemesController extends Controller
         } elseif($authUser == 'Zonal Manager'){
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->where('approval_level_1', true)
             ->orderBy('id', 'DESC')->get();           
         }       
         // dd($free_schemes->Stockist); 
@@ -62,7 +61,7 @@ class FreeSchemesController extends Controller
     {
         $input = $request->all();   
         $free_scheme = FreeScheme::create($input); 
-        $data = $request->collect('product_details');        
+        $data = $request->collect('free_scheme_details');        
         foreach($data as $record){
             FreeSchemeDetail::create([
                 'free_scheme_id' => $free_scheme->id,
@@ -103,9 +102,9 @@ class FreeSchemesController extends Controller
     public function update(FreeScheme $free_scheme, FreeSchemeRequest $request) 
     {
         $free_scheme->update($request->all());
-        $data = $request->collect('product_details');         
+        $data = $request->collect('free_scheme_details');         
         foreach($data as $record){
-            FreeSchemeDetail::create([
+            FreeSchemeDetail::updateOrCreate([
                 'free_scheme_id' => $free_scheme->id,
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
