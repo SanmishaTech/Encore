@@ -17,7 +17,7 @@ class FreeSchemesController extends Controller
 {
     public function index()
     {
-        // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])->orderBy('id', 'DESC')->get();
+        $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])->orderBy('id', 'DESC')->get();
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
             $manager = auth()->user()->id;

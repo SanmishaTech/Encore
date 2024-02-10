@@ -16,6 +16,8 @@ class CustomerTrackingsController extends Controller
 {
     public function index()
     {
+        $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])->orderBy('id', 'DESC')->get();
+
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
             $manager = auth()->user()->id;

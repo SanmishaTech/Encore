@@ -68,7 +68,7 @@ document.addEventListener("alpine:init", () => {
             var options = {
                 searchable: true
             };
-            NiceSelect.bind(document.getElementById("employee_id"), options);
+            (document.getElementById("employee_id"), options);
             NiceSelect.bind(document.getElementById("territory_id"), options);
         },
     }));
