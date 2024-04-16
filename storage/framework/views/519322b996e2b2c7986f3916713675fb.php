@@ -1,1 +1,0 @@
-components.amount-input<?php /**PATH /home/sanmisha/@Projects/Encore/storage/framework/views/b745a957bd6cf7aeb646b16f9c7d5dbf.blade.php ENDPATH**/ ?>
