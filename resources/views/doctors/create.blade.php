@@ -30,18 +30,7 @@
                 </div>  
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input name="dob" value="{{ old('dob') }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')"/>
-                    <x-text-input name="dow" value="{{ old('dow') }}" id="dow" :label="__('DOW')" :messages="$errors->get('dow')"/>
-                    <div>
-                        <label>States:<span style="color: red">*</span></label>
-                        <select class="form-input" name="state">
-                            <option value="">Select states</option>
-                            <template x-for="state in states" :key="state.code">
-                                <option :value="state.name" x-text="state.name"></option>
-                            </template>
-                        </select> 
-                        <x-input-error :messages="$errors->get('state')" class="mt-2" />
-                    </div> 
-                    <x-text-input name="city" value="{{ old('city') }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>  
+                    <x-text-input name="dow" value="{{ old('dow') }}" id="dow" :label="__('DOW')" :messages="$errors->get('dow')"/> 
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input name="speciality" value="{{ old('speciality') }}" :label="__('Speciality')" :messages="$errors->get('speciality')" :require="true"/>

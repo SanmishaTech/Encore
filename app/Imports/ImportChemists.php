@@ -1,6 +1,7 @@
 <?php
 namespace App\Imports;
 use App\Models\Chemist;
+use App\Models\Employee;
 use Illuminate\Support\Facades\DB;
 
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -20,24 +21,21 @@ class ImportChemists implements ToModel,WithHeadingRow,WithValidation
     public function rules(): array
     {
         return [
-            'chemist' => 'unique:chemists,chemist',
-            'address' => 'unique:chemists,address',
-            'contact_no_1' => 'unique:chemists,contact_no_1',
-            'email' => 'unique:chemists,email'
+            // 'chemist' => 'unique:chemists,chemist',
         ];
     }
     public function customValidationMessages()
     {
         return [
-            'chemist.unique' => 'Chemists Already Exist',
-            'address.unique' => 'Address Already Exist',
-            'contact_no_1.unique' => 'Contact no Already Exist',
-            'email.unique' => 'Email Already Exist',
+            // 'chemist.unique' => 'Chemists Already Exist',
         ];
     }
+
     public function model(array $row)
     {
-        $employee = DB::table('employees')->where('name', $row['employee_name'])->first();
+        // $employee = DB::table('employees')->where('name', $row['employee_name'])->first();
+        $employee = DB::table('employees')->where('employee_code', $row['employee_name'])->first();
+        $territory = DB::table('territories')->where('name', $row['territory'])->first();
         return new Chemist([
             'chemist' => $row['chemist'],
             'address' => $row['address'],
@@ -46,7 +44,8 @@ class ImportChemists implements ToModel,WithHeadingRow,WithValidation
             'contact_no_2' => $row['contact_no_2'],
             'email' => $row['email'],
             'employee_id' => isset($employee->id) ? $employee->id : NULL,
-            'territory_id' => $row['territory_id'],
+            'territory_id' => isset($territory->id) ? $territory->id : NULL,
+            'class' => $row['class'],
         ]);
 
     }

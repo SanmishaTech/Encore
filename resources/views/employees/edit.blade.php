@@ -23,37 +23,35 @@
                     </div>                       
                 </div>  
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $employee->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')" :require="true"/>   
+                <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $employee->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')"/>   
                     <x-text-input name="contact_no_2" value="{{ old('contact_no_2', $employee->contact_no_2) }}" :label="__('Contact No 2')" :messages="$errors->get('contact_no_2')"/>
-                    <x-text-input name="dob" type="dob" value="{{ old('dob', $employee->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')" :require="true"/>
+                    <x-text-input name="dob" type="dob" value="{{ old('dob', $employee->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')"/>
                 </div>   
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1"> 
                     <x-text-input name="address" value="{{ old('address', $employee->address) }}" :label="__('Address')" :messages="$errors->get('address')"/> 
                 </div> 
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">               
                     <div>
-                        <label>State:<span style="color: red">*</span></label>
+                        <label>State:</label>
                         <select class="form-input" name="state_name">
                             <option value="">Select state</option>
                             <template x-for="state in states" :key="state.code">
                                 <option :value="state.name" x-text="state.name" :selected="state.name == '{{ $employee->state_name}}'"></option>
                             </template>
                         </select> 
-                        <x-input-error :messages="$errors->get('state_name')" class="mt-2" />
                     </div>   
-                    <x-text-input name="city" value="{{ old('city', $employee->city) }}" :label="__('City')" :messages="$errors->get('city')" :require="true"/>        
+                    <x-text-input name="city" value="{{ old('city', $employee->city) }}" :label="__('City')" :messages="$errors->get('city')"/>        
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name', $employee->fieldforce_name) }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')" :require="true"/>
+                    <x-text-input name="fieldforce_name" value="{{ old('fieldforce_name', $employee->fieldforce_name) }}" :label="__('Fieldforce Name')" :messages="$errors->get('fieldforce_name')"/>
                     <div>
-                        <label>Designation :<span style="color: red">*</span></label>
+                        <label>Designation :</label>
                         <select class="form-input" name="designation" id="designation" x-model="designation" @change="designationChange()">
                             <!-- <option>Select Designation</option> -->
                             <option value="Zonal Manager" @if ($employee->designation == "Zonal Manager") {{ 'Selected' }} @endif>Zonal Manager</option>
                             <option value="Area Manager" @if ($employee->designation == "Area Manager") {{ 'Selected' }} @endif>Area Manager</option>                        
                             <option value="Marketing Executive" @if ($employee->designation == "Marketing Executive") {{ 'Selected' }} @endif>Marketing Executive</option> 
                         </select> 
-                        <x-input-error :messages="$errors->get('designation')" class="mt-2" /> 
                     </div>
                     <div x-show="rbmopen">
                         <label>Zonal Manager :</label>
@@ -65,7 +63,6 @@
                                 @endif
                             @endforeach
                         </select> 
-                        <x-input-error :messages="$errors->get('reporting_office_1')" class="mt-2" /> 
                     </div>
                     <div x-show="abmopen">
                         <label>Area Manager :</label>
@@ -75,7 +72,6 @@
                                 <option :value="list.id" :selected='list.id == abml' x-text="list.name"></option>
                             </template>
                         </select> 
-                        <x-input-error :messages="$errors->get('reporting_office_2')" class="mt-2" />
                     </div>  
                 </div> 
                 <hr><br>

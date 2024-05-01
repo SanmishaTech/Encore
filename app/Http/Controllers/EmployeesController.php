@@ -30,7 +30,7 @@ class EmployeesController extends Controller
         $input = $request->all();    
 
         $input['name'] = $request->name;
-        $input['password'] = Hash::make($request->password);
+        $input['password'] = Hash::make($request->new_password);
         $input['active'] = true;        
         $user = User::create($input);     
         $user->syncRoles($input['designation']); 

@@ -1,9 +1,7 @@
 <x-layout.default>
     <div x-data="multicolumn">        
         <x-add-button :link="route('doctors.create')" />
-        @role(['Admin'])
         <x-excel-button :link="route('doctors.import')" />
-        @endrole
         <div class="panel mt-6 table-responsive">
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Doctors
             </h5>

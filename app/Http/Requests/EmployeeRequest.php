@@ -24,12 +24,6 @@ class EmployeeRequest extends FormRequest
         return [
             'name' => 'required',  
             'email' => 'required|unique:employees,email,'.($this->employee ? $this->employee->id : ''),
-            'contact_no_1' => 'required|numeric|min:10',
-            'designation' => 'required',
-            'state_name' => 'required',
-            'city' => 'required',
-            'fieldforce_name' => 'required',
-            'dob' => 'required',
             'employee_code' => 'required'
         ];
     }
@@ -39,10 +33,6 @@ class EmployeeRequest extends FormRequest
             'name.required' => 'Employee name is required',
             'email.required' => 'Employee email is required',
             'email.unique' => 'Already exist email',
-            'contact_no_1.required' => 'Contact no is required',
-            'dob.required' => 'Please add birth date',
-            'state_name.required' => 'State is required',
-            'designation.required' => 'Select Designation',
         ];
     }
 }

@@ -32,12 +32,14 @@ class Employee extends Model
     //date of birth
     public function setDobAttribute($value)
     {
-        $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value);
+        // $this->attributes['dob'] = Carbon::createFromFormat('d/m/Y', $value);
+        $this->attributes['dob'] = $value != null  ? Carbon::createFromFormat('d/m/Y', $value) : null;
     }
 
     public function getDobAttribute($value)
     {
-        return Carbon::parse($value)->format('d/m/Y');
+        // return Carbon::parse($value)->format('d/m/Y');
+        return $value != null  ? Carbon::parse($value)->format('d/m/Y') : null;
     }
 
     public function users() 

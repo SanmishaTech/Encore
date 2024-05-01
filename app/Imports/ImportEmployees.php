@@ -22,8 +22,6 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
         return [
             'name' => 'unique:employees,name',
             'email' => 'unique:employees,email',
-            'contact_no_1' => 'unique:employees,contact_no_1',
-            'employee_code' => 'unique:employees,employee_code',
         ];
     }
     public function customValidationMessages()
@@ -31,8 +29,6 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
         return [
             'name.unique' => 'Employees Already Exist',
             'email.unique' => 'Email Already Exist',
-            'contact_no_1.unique' => 'Contact No Already Exist',
-            'employee_code.unique' => 'Employee Code Already Exist',
         ];
     }
     public function model(array $row)
@@ -45,7 +41,9 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
         ]);
         
         $data = DB::table('users')->where('name', $row['name'])->first();
-
+        $zbm = DB::table('employees')->where('name', $row['reporting_office_1'])->first();
+        $abm = DB::table('employees')->where('name', $row['reporting_office_2'])->first();
+        $me = DB::table('employees')->where('name', $row['reporting_office_3'])->first();
         $employee = new Employee([
             'id' => isset($data->id) ? $data->id : NULL,
             'name' => $row['name'],
@@ -58,9 +56,9 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
             'city' => $row['city'],
             'fieldforce_name' => $row['fieldforce_name'],
             'employee_code' => $row['employee_code'],
-            'reporting_office_1' => $row['reporting_office_1'],
-            'reporting_office_2' => $row['reporting_office_2'],
-            'reporting_office_3' => $row['reporting_office_3'],
+            'reporting_office_1' => $zbm->id,
+            'reporting_office_2' => $abm->id ?? null,
+            'reporting_office_3' => $me->id ?? null,
         ]);
 
         return [$employee, $user, $user->syncRoles($row['designation'])];

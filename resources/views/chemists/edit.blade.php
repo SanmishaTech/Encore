@@ -43,7 +43,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">      
                     <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $chemist->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')" :require="true"/>  
                     <x-text-input name="contact_no_2" value="{{ old('contact_no_2', $chemist->contact_no_2) }}" :label="__('Contact No 2')" :messages="$errors->get('contact_no_2')"/>  
-                    <x-combo-input name="email" :email="true" value="{{ old('email', $chemist->email) }}" :label="__('Email')" :messages="$errors->get('email')" :require="true"/>  
+                    <x-combo-input name="email" :email="true" value="{{ old('email', $chemist->email) }}" :label="__('Email')" :messages="$errors->get('email')"/>  
                     <x-text-input name="contact_person" value="{{ old('contact_person', $chemist->contact_person) }}" :label="__('Contact Person')" :messages="$errors->get('contact_person')"/> 
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-1">  
