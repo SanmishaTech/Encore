@@ -26,6 +26,7 @@ class ImportDoctors implements ToModel,WithHeadingRow,WithValidation
             // 'email' => 'unique:doctors,email',
         ];
     }
+
     public function customValidationMessages()
     {
         return [
@@ -35,18 +36,30 @@ class ImportDoctors implements ToModel,WithHeadingRow,WithValidation
             // 'email.unique' => 'Email Code Already Exist',
         ];
     }
+
     public function model(array $row)
     {
         $employee = DB::table('employees')->where('employee_code', $row['reporting_office_1'])->first();
-        $territory = DB::table('territories')->where('name', $row['territory_id'])->first();        
+        $territory = DB::table('territories')->where('name', $row['territory_id'])->first();
         $category = DB::table('categories')->where('name', $row['category_id'])->first();
-        
         $qualification = DB::table('qualifications')->where('name', $row['qualification_id'])->first();
+
+        if(!$employee || !$territory || !$category || !$qualification) {
+            echo "<pre>";
+            echo "Employee <br />"; print_r($employee); echo "<hr/>";
+            echo "Territory <br />"; print_r($territory); echo "<hr/>";
+            echo "Category <br />"; print_r($category); echo "<hr/>";
+            echo "Qualification <br />"; print_r($qualification); echo "<hr/>";
+            echo "Data <br />"; print_r($row);
+            echo "</pre>";
+            exit;
+        }
+
         return new Doctor([
             'doctor_name' => $row['doctor_name'],
             'doctor_address' => $row['doctor_address'],
             'hospital_name' => $row['hospital_name'],
-            'hospital_address' => $row['hospital_address'],
+            'hospital_address' => substr($row['hospital_address'], 0, 250),
             'contact_no_1' => $row['contact_no_1'],
             'contact_no_2' => $row['contact_no_2'],
             'email' => $row['email'],
@@ -64,6 +77,5 @@ class ImportDoctors implements ToModel,WithHeadingRow,WithValidation
             'reporting_office_2' => $employee->reporting_office_2,
             'reporting_office_3' => $employee->id,
         ]);
-
     }
 }
