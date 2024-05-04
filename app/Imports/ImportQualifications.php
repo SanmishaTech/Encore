@@ -18,13 +18,13 @@ class ImportQualifications implements ToModel,WithHeadingRow,WithValidation
     public function rules(): array
     {
         return [
-            'name' => 'unique:qualifications,name',
+            // 'name' => 'unique:qualifications,name',
         ];
     }
     public function customValidationMessages()
     {
         return [
-            'name.unique' => 'Qualifications Already Exist',
+            // 'name.unique' => 'Qualifications Already Exist',
         ];
     }
     public function model(array $row)

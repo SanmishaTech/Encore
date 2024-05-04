@@ -9,8 +9,10 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class ImportChemists implements ToModel,WithHeadingRow,WithValidation
+class ImportChemists implements ToModel, WithHeadingRow, WithValidation, WithBatchInserts, WithChunkReading
 {
     use Importable;
     /**
@@ -36,17 +38,36 @@ class ImportChemists implements ToModel,WithHeadingRow,WithValidation
         // $employee = DB::table('employees')->where('name', $row['employee_name'])->first();
         $employee = DB::table('employees')->where('employee_code', $row['employee_name'])->first();
         $territory = DB::table('territories')->where('name', $row['territory'])->first();
-        return new Chemist([
-            'chemist' => $row['chemist'],
-            'address' => $row['address'],
-            'contact_person' => $row['contact_person'],
-            'contact_no_1' => $row['contact_no_1'],
-            'contact_no_2' => $row['contact_no_2'],
-            'email' => $row['email'],
-            'employee_id' => isset($employee->id) ? $employee->id : NULL,
-            'territory_id' => isset($territory->id) ? $territory->id : NULL,
-            'class' => $row['class'],
-        ]);
 
+        if(!$employee || !$territory) {
+            echo "<pre>";
+            echo "Employee <br />"; print_r($employee); echo "<hr/>";
+            echo "Territory <br />"; print_r($territory); echo "<hr/>";
+            echo "Data <br />"; print_r($row);
+            echo "</pre>";
+            // exit;
+        } else {
+            return new Chemist([
+                'chemist' => $row['chemist'],
+                'address' => $row['address'],
+                'contact_person' => $row['contact_person'],
+                'contact_no_1' => $row['contact_no_1'],
+                'contact_no_2' => $row['contact_no_2'],
+                'email' => $row['email'],
+                'employee_id' => isset($employee->id) ? $employee->id : NULL,
+                'territory_id' => isset($territory->id) ? $territory->id : NULL,
+                'class' => $row['class'],
+            ]);
+        }
     }
+
+    public function batchSize(): int
+    {
+        return 500;
+    }    
+
+    public function chunkSize(): int
+    {
+        return 500;
+    }  
 }

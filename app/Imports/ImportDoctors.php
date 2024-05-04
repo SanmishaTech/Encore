@@ -8,8 +8,10 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class ImportDoctors implements ToModel,WithHeadingRow,WithValidation
+class ImportDoctors implements ToModel, WithHeadingRow, WithValidation, WithBatchInserts, WithChunkReading
 {
     use Importable;
     /**
@@ -39,7 +41,8 @@ class ImportDoctors implements ToModel,WithHeadingRow,WithValidation
 
     public function model(array $row)
     {
-        $employee = DB::table('employees')->where('employee_code', $row['reporting_office_1'])->first();
+        // print_r($row); exit;
+        $employee = DB::table('employees')->where('employee_code', $row['reporting_office_1'])->first();        
         $territory = DB::table('territories')->where('name', $row['territory_id'])->first();
         $category = DB::table('categories')->where('name', $row['category_id'])->first();
         $qualification = DB::table('qualifications')->where('name', $row['qualification_id'])->first();
@@ -78,4 +81,14 @@ class ImportDoctors implements ToModel,WithHeadingRow,WithValidation
             'reporting_office_3' => $employee->id,
         ]);
     }
+
+    public function batchSize(): int
+    {
+        return 500;
+    }    
+
+    public function chunkSize(): int
+    {
+        return 500;
+    }    
 }
