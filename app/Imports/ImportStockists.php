@@ -33,7 +33,7 @@ class ImportStockists implements ToModel,WithHeadingRow,WithValidation
     {
         $rbm = DB::table('employees')->where('name', $row['employee_id_1'])->first();
         $abm = DB::table('employees')->where('name', $row['employee_id_2'])->first();
-        $me = DB::table('employees')->where('name', $row['employee_id_3'])->first();
+        $me = DB::table('employees')->where('employee_code', $row['employee_id_3'])->first();
         // print_r($me);exit;
         return new Stockist([
             'stockist' => $row['stockist'],

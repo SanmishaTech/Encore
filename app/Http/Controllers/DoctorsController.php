@@ -24,7 +24,7 @@ class DoctorsController extends Controller
                                 ->orderBy('id', 'DESC')
                                 ->get();
         } else{
-            $doctors = Doctor::orderBy('id', 'desc')->limit(1500)->get();     
+            $doctors = Doctor::orderBy('id', 'desc')->get();     
         } 
         return view('doctors.index', ['doctors' => $doctors]);
     }
