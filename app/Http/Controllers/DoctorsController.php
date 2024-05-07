@@ -22,9 +22,9 @@ class DoctorsController extends Controller
             $doctors = Doctor::with(['Employee'])
                                 ->where('reporting_office_3', $authUserId)
                                 ->orderBy('id', 'DESC')
-                                ->get();
+                                ->paginate(12);
         } else{
-            $doctors = Doctor::orderBy('id', 'desc')->get();     
+            $doctors = Doctor::orderBy('id', 'desc')->paginate(12);     
         } 
         return view('doctors.index', ['doctors' => $doctors]);
     }

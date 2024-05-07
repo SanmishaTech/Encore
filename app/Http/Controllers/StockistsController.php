@@ -13,7 +13,12 @@ class StockistsController extends Controller
 {
     public function index()
     {
-        $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])->orderBy('id', 'desc')->get();
+        // $search_stockist = $request->input('search');
+        // ->where('stockist', 'LIKE' , '%'.$search_stockist.'%' )
+        // ->orWhere('employee_id_1', 'LIKE' , '%'.$search_stockist.'%' )
+        $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])
+                                ->orderBy('id', 'desc')
+                                ->paginate(12);
         return view('stockists.index', ['stockists' => $stockists]);
     }
 

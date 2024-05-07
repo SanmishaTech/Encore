@@ -27,7 +27,7 @@
                         </button>
                     </div> 
                     <div>
-                        <a href="{{ asset('files/employees.xls') }}" class="btn btn-success gap-2">
+                        <a href="{{ asset('files/employee_template.xls') }}" class="btn btn-success gap-2">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5">
                             <path opacity="0.5"

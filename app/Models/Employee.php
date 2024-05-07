@@ -17,6 +17,7 @@ class Employee extends Model
         'contact_no_1',
         'contact_no_2',
         'email',
+        'communication_email',
         'address',
         'designation',
         'state_name',

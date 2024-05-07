@@ -36,7 +36,7 @@ class ImportChemists implements ToModel, WithHeadingRow, WithValidation, WithBat
     public function model(array $row)
     {
         // $employee = DB::table('employees')->where('name', $row['employee_name'])->first();
-        $employee = DB::table('employees')->where('employee_code', $row['employee_name'])->first();
+        $employee = DB::table('employees')->where('employee_code', $row['employee_code'])->first();
         $territory = DB::table('territories')->where('name', $row['territory'])->first();
 
         if(!$employee || !$territory) {

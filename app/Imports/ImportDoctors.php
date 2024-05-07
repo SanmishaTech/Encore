@@ -42,7 +42,7 @@ class ImportDoctors implements ToModel, WithHeadingRow, WithValidation, WithBatc
     public function model(array $row)
     {
         // print_r($row); exit;
-        $employee = DB::table('employees')->where('employee_code', $row['reporting_office_1'])->first();        
+        $employee = DB::table('employees')->where('employee_code', $row['zbm_employee_code'])->first();        
         $territory = DB::table('territories')->where('name', $row['territory_id'])->first();
         $category = DB::table('categories')->where('name', $row['category_id'])->first();
         $qualification = DB::table('qualifications')->where('name', $row['qualification_id'])->first();
