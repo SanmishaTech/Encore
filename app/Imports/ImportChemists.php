@@ -43,7 +43,7 @@ class ImportChemists implements ToModel, WithHeadingRow, WithValidation, WithBat
             echo "<pre>";
             echo "Employee <br />"; print_r($employee); echo "<hr/>";
             echo "Territory <br />"; print_r($territory); echo "<hr/>";
-            echo "Data <br />"; print_r($row);
+            // echo "Data <br />"; print_r($row);
             echo "</pre>";
             // exit;
         } else {

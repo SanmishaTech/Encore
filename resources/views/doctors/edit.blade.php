@@ -69,8 +69,8 @@
                         <label>Type:<span style="color: red">*</span></label>
                         <select class="form-input" name="type" id="type">
                             <!-- <option>Select Type</option>  -->
-                            <option value="ex" @if ($doctor->type == 'ex') {{ 'Selected' }} @endif>EX</option>
-                            <option value="hq" @if ($doctor->type == 'hq') {{ 'Selected' }} @endif>HQ</option>
+                            <option value="EX" @if ($doctor->type == 'EX') {{ 'Selected' }} @endif>EX</option>
+                            <option value="HQ" @if ($doctor->type == 'HQ') {{ 'Selected' }} @endif>HQ</option>
                         </select> 
                         <x-input-error :messages="$errors->get('type')" class="mt-2" />
                     </div>  

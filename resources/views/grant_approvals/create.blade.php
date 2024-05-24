@@ -17,7 +17,7 @@
                 </div>               
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" name="code" value="{{ old('code') }}" :label="__('Code')"  :messages="$errors->get('code')" readonly="true"/>
-                    @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                    @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                         @foreach ($employees as $id=>$employee)
                         <input type="hidden" x-model="employee_id" x-on:change="mehqChange()" name="employee_id"/>
                         <x-text-input class="bg-gray-100 dark:bg-gray-700" value="{{ $employee }}" :label="__('Marketing Executive')" :messages="$errors->get('employee_id')" readonly="true"/>

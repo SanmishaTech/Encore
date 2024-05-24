@@ -7,7 +7,7 @@
             <div class="flex items-center justify-between mb-5">
                 <h5 class="font-semibold text-lg dark:text-white-light" >Stockist</h5>
             
-                <!-- <div class="relative group">
+                <div class="relative group">
                     <input type="text" placeholder="Search" class="form-input" @change="searchData()" name="search" x-model="stockist_id"/>
                     <div class="absolute ltr:right-[11px] rtl:left-[11px] top-1/2 -translate-y-1/2 peer-focus:text-primary">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -18,7 +18,7 @@
                                 stroke-linecap="round"></path>
                         </svg>
                     </div>
-                </div> -->
+                </div>
             </div>
             <div class="mt-6">
                 <div class="table-responsive">
@@ -34,11 +34,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                       
+                        <template x-for="stockist in searchStockist">
                         @foreach ($stockists as $stockist)
                         <tr>                    
-                            <td> {{ $stockist->stockist }}</td>
-                            <td> {{ $stockist->contact_no }}</td>                    
+                            <td x-text="stockist.stockist"> {{ $stockist->stockist }}</td>
+                            <td x-text="stockist.contact_no"> {{ $stockist->contact_no }}</td>                    
                             <td>{{ @$stockist->ZonalManager->name }}</td>
                             <td>{{ @$stockist->AreaManager->name }}</td>
                             <td>{{ @$stockist->Manager->name }}</td>
@@ -54,7 +54,7 @@
                             </td>
                         </tr>
                         @endforeach
-                        
+                        </template>
                         </tbody>
                     </table>
                     {{ $stockists->links() }}
@@ -81,7 +81,23 @@
                     }
                 },
 
-                
+                searchStockist: '',
+                stockist_id: '',
+                stockist: '',
+                contact_no: '',
+                async searchData() {
+                    
+                    this.searchStockist = await (await fetch('/stockists/'+ this.stockist_id, {
+                        
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json;',
+                    },
+                    })).json();
+                    alert(this.searchStockist);
+                    this.stockist = this.searchStockist.stockist;
+                    this.contact_no = this.searchStockist.contact_no;
+                },
             }));
         });       
     </script>

@@ -23,7 +23,7 @@
                     </div>                       
                 </div>  
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
-                    <x-text-input name="communication_email" value="{{ old('communication_email') }}" :label="__('Communication Email')" :messages="$errors->get('communication_email')"/>
+                    <x-text-input name="communication_email" value="{{ old('communication_email', $employee->communication_email) }}" :label="__('Communication Email')" :messages="$errors->get('communication_email')"/>
                     <x-text-input name="contact_no_1" value="{{ old('contact_no_1', $employee->contact_no_1) }}" :label="__('Contact No 1')" :messages="$errors->get('contact_no_1')"/>   
                     <x-text-input name="contact_no_2" value="{{ old('contact_no_2', $employee->contact_no_2) }}" :label="__('Contact No 2')" :messages="$errors->get('contact_no_2')"/>
                     <x-text-input name="dob" type="dob" value="{{ old('dob', $employee->dob) }}" id="dob" :label="__('DOB')" :messages="$errors->get('dob')"/>
@@ -48,10 +48,14 @@
                     <div>
                         <label>Designation :</label>
                         <select class="form-input" name="designation" id="designation" x-model="designation" @change="designationChange()">
-                            <!-- <option>Select Designation</option> -->
                             <option value="Zonal Manager" @if ($employee->designation == "Zonal Manager") {{ 'Selected' }} @endif>Zonal Manager</option>
-                            <option value="Area Manager" @if ($employee->designation == "Area Manager") {{ 'Selected' }} @endif>Area Manager</option>                        
-                            <option value="Marketing Executive" @if ($employee->designation == "Marketing Executive") {{ 'Selected' }} @endif>Marketing Executive</option> 
+                            <option value="Area Manager" @if ($employee->designation == "Area Manager") {{ 'Selected' }} @endif>Area Manager</option>
+                            <option value="Marketing Executive" @if ($employee->designation == "Marketing Executive") {{ 'Selected' }} @endif>Marketing Executive</option>
+                            <!-- <option value="TERRITORY MANAGER" @if ($employee->designation == "TERRITORY MANAGER") {{ 'Selected' }} @endif>TERRITORY MANAGER</option>
+                            <option value="REGIONAL BUSINESS MANAGER" @if ($employee->designation == "REGIONAL BUSINESS MANAGER") {{ 'Selected' }} @endif>REGIONAL BUSINESS MANAGER</option>
+                            <option value="ME-BRAND ASSOCIATE" @if ($employee->designation == "ME-BRAND ASSOCIATE") {{ 'Selected' }} @endif>ME-BRAND ASSOCIATE</option>
+                            <option value="FIELD SALES OFFICER" @if ($employee->designation == "FIELD SALES OFFICER") {{ 'Selected' }} @endif>FIELD SALES OFFICER</option>
+                            <option value="SR. AREA BUSINESS MANAGER" @if ($employee->designation == "SR. AREA BUSINESS MANAGER") {{ 'Selected' }} @endif>SR. AREA BUSINESS MANAGER</option> -->
                         </select> 
                     </div>
                     <div x-show="rbmopen">

@@ -50,6 +50,11 @@
                             <option value="Zonal Manager">Zonal Manager</option>
                             <option value="Area Manager">Area Manager</option>
                             <option value="Marketing Executive">Marketing Executive</option>
+                            <!-- <option value="TERRITORY MANAGER">TERRITORY MANAGER</option>
+                            <option value="REGIONAL BUSINESS MANAGER">REGIONAL BUSINESS MANAGER</option>
+                            <option value="ME-BRAND ASSOCIATE">ME-BRAND ASSOCIATE</option>
+                            <option value="FIELD SALES OFFICER">FIELD SALES OFFICER</option>
+                            <option value="SR. AREA BUSINESS MANAGER">SR. AREA BUSINESS MANAGER</option> -->
                         </select> 
                     </div> 
                     <div x-show="rbmopen">
@@ -174,7 +179,7 @@ document.addEventListener("alpine:init", () => {
             } else if (this.designation == 'Area Manager') {
                 this.rbmopen = true;
                 this.abmopen = false;
-            } else if (this.designation == 'Markeing Executive') {
+            } else if (this.designation == 'Marketing Executive') {
                 this.rbmopen = true;
                 this.abmopen = true;
             } else {

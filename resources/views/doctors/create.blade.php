@@ -56,8 +56,8 @@
                         <label>Type:<span style="color: red">*</span></label>
                         <select class="form-input" id="type" name="type">
                             <!-- <option>Select Type</option>  -->
-                            <option value="ex">EX</option>
-                            <option value="hq">HQ</option>
+                            <option value="EX">EX</option>
+                            <option value="HQ">HQ</option>
                         </select> 
                     </div>
                 </div>

@@ -20,15 +20,15 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
     public function rules(): array
     {
         return [
-            'name' => 'unique:employees,name',
-            'email' => 'unique:employees,email',
+            // 'name' => 'unique:employees,name',
+            // 'email' => 'unique:employees,email',
         ];
     }
     public function customValidationMessages()
     {
         return [
-            'name.unique' => 'Employees Already Exist',
-            'email.unique' => 'Email Already Exist',
+            // 'name.unique' => 'Employees Already Exist',
+            // 'email.unique' => 'Email Already Exist',
         ];
     }
     public function model(array $row)
@@ -41,9 +41,10 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
         ]);
         
         $data = DB::table('users')->where('name', $row['name'])->first();
-        $zbm = DB::table('employees')->where('name', $row['zbm_employee_code'])->first();
-        $abm = DB::table('employees')->where('name', $row['abm_employee_code'])->first();
-        $me = DB::table('employees')->where('name', $row['mehq_employee_code'])->first();
+        $zbm = DB::table('employees')->where('employee_code', $row['zbm_emp_code'])->first();
+        $abm = DB::table('employees')->where('employee_code', $row['abm_emp_code'])->first();
+        $me = DB::table('employees')->where('employee_code', $row['mehq_emp_code'])->first();
+        
         $employee = new Employee([
             'id' => isset($data->id) ? $data->id : NULL,
             'name' => $row['name'],
@@ -57,7 +58,7 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
             'city' => $row['city'],
             'fieldforce_name' => $row['fieldforce_name'],
             'employee_code' => $row['employee_code'],
-            'reporting_office_1' => $zbm->id,
+            'reporting_office_1' => $zbm->id ?? null,
             'reporting_office_2' => $abm->id ?? null,
             'reporting_office_3' => $me->id ?? null,
         ]);

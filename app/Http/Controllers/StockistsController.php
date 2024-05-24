@@ -11,14 +11,22 @@ use App\Models\Employee;
 
 class StockistsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // $search_stockist = $request->input('search');
-        // ->where('stockist', 'LIKE' , '%'.$search_stockist.'%' )
-        // ->orWhere('employee_id_1', 'LIKE' , '%'.$search_stockist.'%' )
-        $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])
+
+        // if ($request->input('search')) {
+        //     $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])
+        //                         ->orderBy('id', 'desc')
+        //                         ->where('stockist', 'LIKE' , '%'.$search_stockist.'%' )
+        //                         ->orWhere('employee_id_1', 'LIKE' , '%'.$search_stockist.'%' )
+        //                         ->paginate(12);
+        // } else {
+            $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])
                                 ->orderBy('id', 'desc')
                                 ->paginate(12);
+        // }
+        
         return view('stockists.index', ['stockists' => $stockists]);
     }
 

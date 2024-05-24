@@ -42,7 +42,7 @@ class ImportDoctors implements ToModel, WithHeadingRow, WithValidation, WithBatc
     public function model(array $row)
     {
         // print_r($row); exit;
-        $employee = DB::table('employees')->where('employee_code', $row['zbm_employee_code'])->first();        
+        $employee = DB::table('employees')->where('employee_code', $row['mehq_employee_code'])->first();        
         $territory = DB::table('territories')->where('name', $row['territory_id'])->first();
         $category = DB::table('categories')->where('name', $row['category_id'])->first();
         $qualification = DB::table('qualifications')->where('name', $row['qualification_id'])->first();
@@ -53,33 +53,33 @@ class ImportDoctors implements ToModel, WithHeadingRow, WithValidation, WithBatc
             echo "Territory <br />"; print_r($territory); echo "<hr/>";
             echo "Category <br />"; print_r($category); echo "<hr/>";
             echo "Qualification <br />"; print_r($qualification); echo "<hr/>";
-            echo "Data <br />"; print_r($row);
+            // echo "Data <br />"; print_r($row);
             echo "</pre>";
-            exit;
+            // exit;
+        }else{
+            return new Doctor([
+                'doctor_name' => $row['doctor_name'],
+                'doctor_address' => $row['doctor_address'],
+                'hospital_name' => $row['hospital_name'],
+                'hospital_address' => substr($row['hospital_address'], 0, 250),
+                'contact_no_1' => $row['contact_no_1'],
+                'contact_no_2' => $row['contact_no_2'],
+                'email' => $row['email'],
+                'state' => $row['state'],
+                'city' => $row['city'],
+                'speciality' => $row['speciality'],
+                'designation' => $row['designation'],
+                'hq' => $row['hq'],
+                'type' => $row['type'],
+                'mpl_no' => $row['mpl_no'],
+                'territory_id' => $territory->id ?? null,
+                'category_id' => $category->id ?? null,
+                'qualification_id' => $qualification->id ?? null,
+                'reporting_office_1' => $employee->reporting_office_1 ?? null,
+                'reporting_office_2' => $employee->reporting_office_2 ?? null,
+                'reporting_office_3' => $employee->id,
+            ]);        
         }
-
-        return new Doctor([
-            'doctor_name' => $row['doctor_name'],
-            'doctor_address' => $row['doctor_address'],
-            'hospital_name' => $row['hospital_name'],
-            'hospital_address' => substr($row['hospital_address'], 0, 250),
-            'contact_no_1' => $row['contact_no_1'],
-            'contact_no_2' => $row['contact_no_2'],
-            'email' => $row['email'],
-            'state' => $row['state'],
-            'city' => $row['city'],
-            'speciality' => $row['speciality'],
-            'designation' => $row['designation'],
-            'hq' => $row['hq'],
-            'type' => $row['type'],
-            'mpl_no' => $row['mpl_no'],
-            'territory_id' => $territory->id ?? null,
-            'category_id' => $category->id ?? null,
-            'qualification_id' => $qualification->id ?? null,
-            'reporting_office_1' => $employee->reporting_office_1,
-            'reporting_office_2' => $employee->reporting_office_2,
-            'reporting_office_3' => $employee->id,
-        ]);
     }
 
     public function batchSize(): int

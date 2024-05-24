@@ -27,10 +27,10 @@ class DoctorBusinessMonitoringsController extends Controller
             $conditions[] = ['employee_id', auth()->user()->id];
           
         } elseif($authUser == 'Area Manager'){
-           
+            $conditions[] = ['employee_id', auth()->user()->id];
            
         } elseif($authUser == 'Zonal Manager'){
-                  
+            $conditions[] = ['employee_id', auth()->user()->id];
         }       
         $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->get();
         return view('doctor_business_monitorings.index', ['doctor_business_monitorings' => $doctor_business_monitorings]);
