@@ -40,12 +40,23 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
             'email' => $row['email'],
         ]);
         
-        $data = DB::table('users')->where('name', $row['name'])->first();
         $zbm = DB::table('employees')->where('employee_code', $row['zbm_emp_code'])->first();
         $abm = DB::table('employees')->where('employee_code', $row['abm_emp_code'])->first();
         $me = DB::table('employees')->where('employee_code', $row['mehq_emp_code'])->first();
+        $data = DB::table('users')->where('name', $row['name'])->first();
         
-        $employee = new Employee([
+        // if(!$zbm || !$abm || !$me || !$data) {
+        //     echo "<pre>";
+        //     echo "ZBM <br />"; print_r($zbm); echo "<hr/>";
+        //     echo "ABM <br />"; print_r($abm); echo "<hr/>";
+        //     echo "ME <br />"; print_r($me); echo "<hr/>";
+        //     echo "user <br />"; print_r($data); echo "<hr/>";
+        //     echo "Data <br />"; print_r($row);
+        //     echo "</pre>";
+        //     exit;
+        // }
+
+        $user->Employee()->create([
             'id' => isset($data->id) ? $data->id : NULL,
             'name' => $row['name'],
             'email' => $row['email'],
@@ -61,8 +72,8 @@ class ImportEmployees implements ToModel,WithHeadingRow,WithValidation
             'reporting_office_1' => $zbm->id ?? null,
             'reporting_office_2' => $abm->id ?? null,
             'reporting_office_3' => $me->id ?? null,
-        ]);
+        ]);        
 
-        return [$employee, $user, $user->syncRoles($row['designation'])];
+        return [$user, $user->syncRoles($row['designation'])];
     }
 }

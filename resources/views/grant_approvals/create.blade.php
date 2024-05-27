@@ -39,7 +39,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Doctor: <span class=text-danger>*</span></label>
-                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
+                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id" id="doctor_id">
                                 <option>Select Doctor</option>
                                 @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                                     @foreach ($doctors as $id=>$doctor)                                
@@ -122,7 +122,7 @@ document.addEventListener("alpine:init", () => {
             var options = {
                 searchable: true
             };
-            // NiceSelect.bind(document.getElementById("doctor_id"), options);
+            NiceSelect.bind(document.getElementById("doctor_id"), options);
             NiceSelect.bind(document.getElementById("activity_id"), options);
             @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                 this.employee_id = {{ auth()->user()->id}};

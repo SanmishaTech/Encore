@@ -30,8 +30,10 @@ class GrantApprovalsController extends Controller
           
         } elseif($authUser == 'Area Manager'){
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
-            ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('code', 'DESC')->get();
+                ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+                ->orderBy('code', 'DESC')->get();
+            // dd(auth()->user()->id); exit;
+
            
         } elseif($authUser == 'Zonal Manager'){
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])

@@ -18,15 +18,15 @@ class ImportProducts implements ToModel,WithHeadingRow,WithValidation
     public function rules(): array
     {
         return [
-            'name' => 'unique:products,name',
-            'nrv' => 'unique:products,nrv|numeric',
+            // 'name' => 'unique:products,name',
+            // 'nrv' => 'unique:products,nrv|numeric',
         ];
     }
     public function customValidationMessages()
     {
         return [
-            'name.unique' => 'Products Already Exist',
-            'nrv.unique' => 'Nrv Already Exist',
+            // 'name.unique' => 'Products Already Exist',
+            // 'nrv.unique' => 'Nrv Already Exist',
         ];
     }
     public function model(array $row)
