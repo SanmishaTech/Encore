@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
-
+use Excel;
+use App\Imports\ImportUsers;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -66,5 +67,21 @@ class UsersController extends Controller
         $user->delete();
         $request->session()->flash('success', 'User deleted successfully!');
         return redirect()->route('users.index');
+    }
+
+    public function import()
+    {
+        return view('users.import');
+    }
+
+    public function importUsersExcel(Request $request)
+    {      
+        try {
+            Excel::import(new ImportUsers, $request->file);
+            $request->session()->flash('success', 'Excel imported successfully!');
+            return redirect()->route('users.index');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

@@ -92,6 +92,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('importStockistsExcel','StockistsController@importStockistsExcel')->name('importStockistsExcel');
         Route::get('/import/employees/', 'EmployeesController@import')->name('employees.import');
         Route::post('importEmployeesExcel','EmployeesController@importEmployeesExcel')->name('importEmployeesExcel');
+        Route::get('/import/users/', 'UsersController@import')->name('users.import');
+        Route::post('importUsersExcel','UsersController@importUsersExcel')->name('importUsersExcel');
 
         /**
          * PDF Report

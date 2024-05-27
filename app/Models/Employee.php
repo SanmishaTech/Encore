@@ -13,6 +13,7 @@ class Employee extends Model
 {
     use HasFactory, CreatedUpdatedBy;
     protected $fillable = [
+        'id',
         'name',        
         'contact_no_1',
         'contact_no_2',
