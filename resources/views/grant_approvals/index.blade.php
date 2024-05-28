@@ -25,7 +25,7 @@
                             @role(['Area Manager'])
                             @if($grant_approval->status == "Open")
                                 <li style="display: inline-block;vertical-align:top;">
-                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
+                                    <a href="/grant_approvals/approval_form/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
                                 </li>
                             
                                 <li style="display: inline-block;vertical-align:top;">

@@ -107,6 +107,7 @@ class GrantApprovalsController extends Controller
 
     public function approval(Request $request) 
     {
+        // dd($request); exit;
         $grant_approval = GrantApproval::find($request->id);
         $input = [];
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
@@ -227,5 +228,36 @@ class GrantApprovalsController extends Controller
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         return Excel::download(new GAFExport($from_date, $to_date), 'GAF_report.xlsx');
+    }
+
+    public function approval_form(GrantApproval $grant_approval)
+    {        
+        $doctors = Doctor::pluck('doctor_name', 'id');
+        $activities = Activity::pluck('name', 'id');
+        $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
+        $grant_approval->load(['GrantApprovalDetail'=>['Employee']]);
+
+        $authUser = auth()->user()->roles->pluck('name')->first();   
+        if($authUser == 'Marketing Executive'){
+            $employees = Employee::where('id', auth()->user()->id)
+                                    ->pluck('name', 'id');   
+                                    
+            $doctors = Doctor::where('reporting_office_2', auth()->user()->id)->pluck('doctor_name', 'id');
+            // dd($doctors);
+        }
+        return view('grant_approvals.approval_form', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
+    }
+
+    public function getGrantApprovalData($id)
+    {
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        if($authUser == 'Area Manager'){
+            $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+                ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+                ->where('id', $id)
+                ->orderBy('code', 'DESC')
+                ->get();
+        } 
+        return $grant_approvals;
     }
 }

@@ -61,8 +61,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::delete('/{user}/destroy', 'UsersController@destroy')->name('users.destroy');
         });
 
-        Route::get('profile', 'ProfileController@index')->name('profile.change');
-        Route::post('grant_approvals/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval');
+        Route::get('profile', 'ProfileController@index')->name('profile.change');        
         Route::get('grant_approvals/rejected/{grant_approval}', 'GrantApprovalsController@rejected')->name('grant_approvals.rejected');
         Route::get('grant_approvals/cancel/{grant_approval}', 'GrantApprovalsController@cancel')->name('grant_approvals.cancel');
 
@@ -71,6 +70,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('doctor_business_monitorings/cancel/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@cancel')->name('doctor_business_monitorings.cancel');
 
         Route::get('doctors/getDoctors/{id}', 'DoctorsController@getDoctors')->name('doctors.getDoctors');
+        // Route::get('grant_approvals/getGrantApprovalData/{id}', 'GrantApprovalsController@getGrantApprovalData')->name('grant_approvals.getGrantApprovalData');
+        Route::get('grant_approvals/approval_form/{grant_approval}', 'GrantApprovalsController@approval_form')->name('grant_approvals.approval_form');
+        Route::post('grant_approvals/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval');
         /**
          * Import Excel
          */
@@ -118,9 +120,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/employees/getReportingOfficer3/{employee}', 'EmployeesController@getReportingOfficer3')->name('employees.getReportingOfficer3');
         Route::get('/employees/getEmployees/{employee}', 'EmployeesController@getEmployees')->name('employees.getEmployees');
         Route::resource('doctors', DoctorsController::class);
-        
-
         Route::resource('grant_approvals', GrantApprovalsController::class);
+        
         // Route::get('/grant_approvals/report/{grant_approval}', [App\Http\Controllers\GrantApprovalsController::class, 'report'])->name('grant_approvals.report');        
         Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);
         Route::resource('roi_accountability_reports', RoiAccountabilityReportsController::class);
