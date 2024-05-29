@@ -4,8 +4,26 @@
             <x-add-button :link="route('grant_approvals.create')" />
         @endrole
         <div class="panel mt-6 table-responsive">
+            <!-- <form action="{{ route('grant_approvals.index') }}" method="GET" role="search">
+                <div class="float-right mr-2">
+                    <span>
+                        <button class="btn btn-info" type="submit" title="Search projects">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="w-4 h-4">
+                                <circle cx="11.5" cy="11.5" r="9.5"
+                                    stroke="currentColor" stroke-width="1.5" opacity="0.5"></circle>
+                                <path d="M18.5 18.5L22 22" stroke="currentColor" stroke-width="1.5"
+                                    stroke-linecap="round"></path>
+                            </svg>
+                        </button>
+                    </span>
+                </div>
+                <div class="float-right"> 
+                    <input type="text" placeholder="Search" class="form-input" name="search"/>                
+                </div>
+            </form> -->
             <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Grant Approvals
-            </h5>
+            </h5>            
             <table id="myTable" class="whitespace-nowrap table-hover">
                 @foreach ($grant_approvals as $grant_approval)
                 <tr> 
@@ -34,15 +52,17 @@
                             @endif
                             @endrole
 
-                            @role(['Zonal Manager'])
-                                @if($grant_approval->status == "Level 1 Approved")
+                            @role(['Zonal Manager'])               
+                                @if($grant_approval->status == "Open")                 
                                 <li style="display: inline-block;vertical-align:top;">
-                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
+                                    <a href="/grant_approvals/approval_form/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
                                 </li>
-                               
-                                    <li style="display: inline-block;vertical-align:top;">
-                                        <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
-                                    </li>
+                                <!-- <li style="display: inline-block;vertical-align:top;">
+                                    <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
+                                </li> -->
+                                <li style="display: inline-block;vertical-align:top;">
+                                    <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                </li>
                                 @endif
                             @endrole
                             @role(['Admin'])
@@ -109,7 +129,7 @@
                         </button>
                     </div>
                     <div class="p-5">
-                        <form class="space-y-5" action="{{ route('grant_approvals.approval') }}" method="POST">
+                        <form class="space-y-5" action="" method="POST">
                         @csrf
                             <div class="relative mb-4">
                             <x-text-input name="id" x-model="id"  :messages="$errors->get('code')" hidden/>

@@ -9,9 +9,9 @@
         </li>
     </ul>
     <div class="pt-5" x-data="data">        
-        <form class="space-y-5" action="{{ route('grant_approvals.approval') }}" method="POST">
+        <form class="space-y-5" action="{{ route('grant_approvals.approval', ['grant_approval' => $grant_approval->id]) }}" method="POST">
             @csrf
-            @method('PATCH')
+            @method('PUT')
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Grant Approval</h5>
@@ -55,7 +55,7 @@
                 <div class="relative mt-6">
                     <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4"> 
                         <x-combo-input name="amount"  :label="__('Approval Amount')"  :messages="$errors->get('amount')"/>
-                        <x-text-input name="id" x-model="id"  :messages="$errors->get('code')" hidden/> 
+                        <x-text-input name="id" value="{{$grant_approval->id}}"  :messages="$errors->get('code')" hidden/> 
                     </div>
                 </div>
                 <div class="flex justify-end mt-4">

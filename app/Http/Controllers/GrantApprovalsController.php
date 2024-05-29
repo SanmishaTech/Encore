@@ -18,8 +18,17 @@ use App\Models\GrantApproval\codeGenerate;
 
 class GrantApprovalsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // $search = $request->input('search');
+        // dd($search);exit;
+        // if ($search) {
+        //     $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor','Activity'])
+        //                         ->orderBy('code', 'DESC')
+        //                         ->where('code', 'LIKE' , '%'.$search.'%' )
+        //                         ->orWhere('proposal_amount', 'LIKE' , '%'.$search.'%' )
+        //                         ->paginate(12);
+        // } 
         $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->orderBy('code', 'DESC')->get();
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
@@ -38,7 +47,7 @@ class GrantApprovalsController extends Controller
         } elseif($authUser == 'Zonal Manager'){
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->where('approval_level_1', true)
+            // ->where('approval_level_1', true)
             ->orderBy('code', 'DESC')->get();           
         }        
         return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
@@ -105,36 +114,7 @@ class GrantApprovalsController extends Controller
         return redirect()->route('grant_approvals.index');
     }
 
-    public function approval(Request $request) 
-    {
-        // dd($request); exit;
-        $grant_approval = GrantApproval::find($request->id);
-        $input = [];
-        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
-            $grant_approval->status = 'Level 2 Approved';
-            $grant_approval->approval_level_2 = true;
-        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
-            $grant_approval->status = 'Level 1 Approved';
-            $grant_approval->approval_level_1 = true;
-        } else{
-            if($grant_approval->approval_level_1 == true){
-                $grant_approval->status = 'Level 2 Approved';
-                $grant_approval->approval_level_2 = true;
-            } else {
-                $grant_approval->status = 'Level 1 Approved';
-                $grant_approval->approval_level_1 = true;
-
-            }
-        }     
-        $grant_approval->approval_amount = $request->amount;    
-        $grant_approval->update();
-        $input = [];
-        $input['status'] =  $grant_approval->status;
-        $input['amount'] = $grant_approval->approval_amount;
-        $input['grant_approval_id'] = $grant_approval->id;
-        GrantApprovalDetail::create($input);
-        return redirect()->route('grant_approvals.index');
-    }
+    
 
     public function rejected(GrantApproval $grant_approval) 
     {
@@ -246,6 +226,37 @@ class GrantApprovalsController extends Controller
             // dd($doctors);
         }
         return view('grant_approvals.approval_form', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
+    }
+
+    public function approval(GrantApproval $grant_approval, Request $request) 
+    {
+        $grant_approval = GrantApproval::find($request->id);
+        $input = [];
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $grant_approval->status = 'Level 2 Approved';
+            $grant_approval->approval_level_2 = true;
+            $grant_approval->approval_level_1 = true;
+        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
+            $grant_approval->status = 'Level 1 Approved';
+            $grant_approval->approval_level_1 = true;
+        } else{
+            if($grant_approval->approval_level_1 == true){
+                $grant_approval->status = 'Level 2 Approved';
+                $grant_approval->approval_level_2 = true;
+            } else {
+                $grant_approval->status = 'Level 1 Approved';
+                $grant_approval->approval_level_1 = true;
+            }
+        }     
+        $grant_approval->approval_amount = $request->amount;    
+        $grant_approval->approved_on = Carbon::now();
+        $grant_approval->update();
+        $input = [];
+        $input['status'] =  $grant_approval->status;
+        $input['amount'] = $grant_approval->approval_amount;
+        $input['grant_approval_id'] = $grant_approval->id;
+        GrantApprovalDetail::create($input);
+        return redirect()->route('grant_approvals.index');
     }
 
     public function getGrantApprovalData($id)
