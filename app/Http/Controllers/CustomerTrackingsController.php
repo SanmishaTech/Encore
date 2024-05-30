@@ -16,24 +16,24 @@ class CustomerTrackingsController extends Controller
 {
     public function index()
     {
-        $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])->orderBy('id', 'DESC')->get();
+        $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])->orderBy('id', 'DESC')->paginate(12);
 
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
             $manager = auth()->user()->id;
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
             ->where('employee_id', $manager)
-            ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')->paginate(12);
           
         } elseif($authUser == 'Area Manager'){
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')->paginate(12);
            
         } elseif($authUser == 'Zonal Manager'){
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->orderBy('id', 'DESC')->get();           
+            ->orderBy('id', 'DESC')->paginate(12);          
         }       
         // dd($customer_trackings->Stockist); 
         return view('customer_trackings.index', ['customer_trackings' => $customer_trackings]);

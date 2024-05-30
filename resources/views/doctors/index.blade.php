@@ -9,7 +9,7 @@
             </div>
             <div class="mt-6">
                 <div class="table-responsive">
-                    <table>
+                    <table class="table-hover">
                         <thead>
                             <tr>
                                 <th>Doctor Name</th>
@@ -17,7 +17,7 @@
                                 <th>Contact No</th>
                                 <th>Hospital Name</th>
                                 <th>Type</th>
-                                <th>Action </th>
+                                <th style="float:right;">Action </th>
                             </tr>
                         </thead>
                         <tbody>

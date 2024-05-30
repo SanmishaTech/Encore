@@ -9,7 +9,7 @@
             </div>
             <div class="mt-6">
                 <div class="table-responsive">
-                    <table>
+                    <table class="table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>

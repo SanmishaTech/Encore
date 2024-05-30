@@ -71,7 +71,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Stockist :</label>
-                        <select class="form-input" name="stockist_id" x-model="stockist_id" @change="stockistChange()">
+                        <select class="form-select" name="stockist_id" id="stockist_id" x-model="stockist_id" @change="stockistChange()">
                             <option>Select Stockist</option>
                             @foreach ($stockists as $id => $stockist)
                                 <option value="{{$id}}">{{$stockist}}</option>
@@ -82,7 +82,7 @@
                     <x-text-input :label="__('Contact No')" x-model="stockist_contact_no" :messages="$errors->get('contact_no')" class="bg-gray-100 dark:bg-gray-700" readonly="true"/>
                     <div>
                         <label>Chemist :</label>
-                        <select class="form-input" name="chemist_id" @change="chemistChange()" x-model="chemist_id">
+                        <select class="form-input" id="chemist_id" name="chemist_id" @change="chemistChange()" x-model="chemist_id">
                             <option>Select Chemist</option>
                             @foreach ($chemists as $id => $chemist)
                                 <option value="{{$id}}">{{$chemist}}</option>
@@ -238,7 +238,11 @@ document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({   
         init() {
             this.amount = 0;
-
+            var options = {
+                searchable: true
+            };
+            NiceSelect.bind(document.getElementById("stockist_id"), options);
+            NiceSelect.bind(document.getElementById("chemist_id"), options);
             flatpickr(document.getElementById('proposal_date'), {
                 dateFormat: 'd/m/Y',
             });

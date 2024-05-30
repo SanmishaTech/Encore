@@ -88,7 +88,7 @@
                                     <td>{{ @$id+1 }}</td>           
                                     <td> &#8377; {{ @$detail->amount }}</td>
                                     <td>{{ @$detail->status }}</td>
-                                    <td>   {{ @$detail->Employee->designation }} -  {{ @$detail->Employee->name }}</td>
+                                    <td>{{ @$detail->Employee->designation }} -  {{ @$detail->Employee->name }}</td>
                                     <td>{{ @$detail->created_at->format('d/m/Y h:m a') }}</td>  
                                 </tr>
                             @endforeach

@@ -1,72 +1,69 @@
 <x-layout.default>
-    <div x-data="multicolumn">        
-        @role(['Admin','Marketing Executive'])
-            <x-add-button :link="route('customer_trackings.create')" />
-        @endrole
-        <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Customer Tracking
-            </h5>
-            <table id="myTable" class="whitespace-nowrap table-hover">
-                @foreach ($customer_trackings as $customer_tracking)
-                <tr> 
-                    <td>{{ @$customer_tracking->Manager->name }}</td>           
-                    <td>{{ @$customer_tracking->Manager->AreaManager->name }}</td>
-                    <td>{{ @$customer_tracking->Manager->ZonalManager->name }}</td>
-                    <td>{{ @$customer_tracking->amount }}</td> 
-                    <td class="float-right">
-                        <ul class="flex items-center gap-2" >
-                            <li style="display: inline-block;vertical-align:top;">
-                                <x-edit-button :link=" route('customer_trackings.edit', ['customer_tracking'=> $customer_tracking->id])" />                               
-                            </li>
-                            <li style="display: inline-block;vertical-align:top;">
-                                <x-delete-button :link=" route('customer_trackings.destroy', ['customer_tracking'=> $customer_tracking->id] )" />  
-                            </li>                           
-                        </ul>
-                    </td>
-                </tr>
-                @endforeach
-            </table>
+    @role(['Admin','Marketing Executive'])
+        <x-add-button :link="route('customer_trackings.create')" />
+    @endrole
+    <br><br>
+    <div x-data="form"> 
+        <div class="panel">
+            <div class="flex items-center justify-between mb-5">
+                <h5 class="font-semibold text-lg dark:text-white-light">Customer Tracking</h5>
+            </div>
+            <div class="mt-6">
+                <div class="table-responsive">
+                    <table class="table-hover">
+                        <thead>
+                            <tr>
+                                <th>Marketing Executive</th>
+                                <th>Area Manager</th>
+                                <th>Zonal Manager</th>
+                                <th>Amount</th>
+                                <th style="float:right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($customer_trackings as $customer_tracking)
+                            <tr> 
+                                <td>{{ @$customer_tracking->Manager->name }}</td>           
+                                <td>{{ @$customer_tracking->Manager->AreaManager->name }}</td>
+                                <td>{{ @$customer_tracking->Manager->ZonalManager->name }}</td>
+                                <td>&#8377; {{ @$customer_tracking->amount }}</td> 
+                                <td class="float-right">
+                                    <ul class="flex items-center gap-2" >
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <x-edit-button :link=" route('customer_trackings.edit', ['customer_tracking'=> $customer_tracking->id])" />                               
+                                        </li>
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <x-delete-button :link=" route('customer_trackings.destroy', ['customer_tracking'=> $customer_tracking->id] )" />  
+                                        </li>                           
+                                    </ul>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $customer_trackings->links() }}
+                </div>
+            </div>
         </div>
     </div>
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("multicolumn", () => ({
-                id: null,
-                datatable: null,
-                open: false,
+            Alpine.data("form", () => ({
+               // highlightjs
+                codeArr: [],
+                toggleCode(name) {
+                    if (this.codeArr.includes(name)) {
+                        this.codeArr = this.codeArr.filter((d) => d != name);
+                    } else {
+                        this.codeArr.push(name);
 
-                init() {
-                    this.open= false;
-                    this.datatable = new simpleDatatables.DataTable('#myTable', {
-                        data: {
-                            headings: ["Marketing Executive", "Area Manager",  "Zonal Manager", "Amount", "Action"],
-                        },
-                        searchable: true,
-                        perPage: 30,
-                        perPageSelect: [10, 20, 30, 50, 100],
-                        columns: [{
-                            order: [0, 'desc']
-                        }, ],
-                        firstLast: true,
-                        firstText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M13 19L7 12L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M16.9998 19L10.9998 12L16.9998 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        lastText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M11 19L17 12L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> <path opacity="0.5" d="M6.99976 19L12.9998 12L6.99976 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        prevText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M15 5L9 12L15 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        nextText: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 rtl:rotate-180"> <path d="M9 5L15 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/> </svg>',
-                        labels: {
-                            perPage: "{select}"
-                        },
-                        layout: {
-                            top: "{search}",
-                            bottom: "{info}{select}{pager}",
-                        },
-                    })
-                },          
-               
-                toggle(x) {
-                    console.log(x);
-                    this.id = x;
-                    this.open = !this.open;
-                },
+                        setTimeout(() => {
+                            document.querySelectorAll('pre.code').forEach(el => {
+                                hljs.highlightElement(el);
+                            });
+                        });
+                    }
+                }
             }));
         });
     </script>

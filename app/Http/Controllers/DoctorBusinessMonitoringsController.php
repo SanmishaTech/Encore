@@ -32,7 +32,7 @@ class DoctorBusinessMonitoringsController extends Controller
         } elseif($authUser == 'Zonal Manager'){
             // $conditions[] = ['employee_id', auth()->user()->id];
         }       
-        $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->get();
+        $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
         return view('doctor_business_monitorings.index', ['doctor_business_monitorings' => $doctor_business_monitorings]);
     }
 
@@ -161,12 +161,29 @@ class DoctorBusinessMonitoringsController extends Controller
     //     DoctorBusinessMonitoringDetail::create($input);
     //     return redirect()->route('doctor_business_monitorings.index');
     // }
+    public function approval_form(DoctorBusinessMonitoring $doctor_business_monitoring)
+    {        
+        $doctors = Doctor::pluck('doctor_name', 'id');       
+        $employees = Employee::pluck('name', 'id');
+        $products = Product::pluck('name', 'id');
+
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        $conditions = [];
+        $conditions[] = ['approval_level_2', true];
+        if($authUser == 'Marketing Executive'){            
+            $conditions[] = ['employee_id', auth()->user()->id];
+          
+        }   
+        $gaf_code = GrantApproval::pluck('code', 'id');
+        return view('doctor_business_monitorings.approval_form', ['doctor_business_monitoring' => $doctor_business_monitoring, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products]); 
+    }
 
     public function approval(DoctorBusinessMonitoring $doctor_business_monitoring) 
     {
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $doctor_business_monitoring->status = 'Level 2 Approved';
             $doctor_business_monitoring->approval_level_2 = true;
+            $doctor_business_monitoring->approval_level_1 = true;
         } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
             $doctor_business_monitoring->status = 'Level 1 Approved';
             $doctor_business_monitoring->approval_level_1 = true;
@@ -179,6 +196,7 @@ class DoctorBusinessMonitoringsController extends Controller
                 $doctor_business_monitoring->approval_level_1 = true;
             }
         }     
+        $doctor_business_monitoring->approved_on = Carbon::now();
         $doctor_business_monitoring->update();
         $input = [];
         $input['status'] =  $doctor_business_monitoring->status;

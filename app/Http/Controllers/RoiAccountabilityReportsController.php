@@ -31,7 +31,7 @@ class RoiAccountabilityReportsController extends Controller
         } elseif($authUser == 'Zonal Manager'){
                   
         }       
-        $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->get();
+        $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
         return view('roi_accountability_reports.index', ['roi_accountability_reports' => $roi_accountability_reports]);
     }
 

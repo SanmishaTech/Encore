@@ -17,23 +17,23 @@ class FreeSchemesController extends Controller
 {
     public function index()
     {
-        $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])->orderBy('id', 'DESC')->get();
+        $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])->orderBy('id', 'DESC')->paginate(12);
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
             $manager = auth()->user()->id;
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->where('employee_id', $manager)
-            ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')->paginate(12);
           
         } elseif($authUser == 'Area Manager'){
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('id', 'DESC')->get();
+            ->orderBy('id', 'DESC')->paginate(12);
            
         } elseif($authUser == 'Zonal Manager'){
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->orderBy('id', 'DESC')->get();           
+            ->orderBy('id', 'DESC')->paginate(12);          
         }       
         // dd($free_schemes->Stockist); 
         return view('free_schemes.index', ['free_schemes' => $free_schemes]);
@@ -52,6 +52,8 @@ class FreeSchemesController extends Controller
                                     ->pluck('name', 'id');   
                                     
             $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
+            $stockists = Stockist::where('employee_id_3', auth()->user()->id)->pluck('stockist', 'id');
+            $chemists = Chemist::where('employee_id', auth()->user()->id)->pluck('chemist', 'id');
             
         }
         return view('free_schemes.create')->with(['employees'=>$employees, 'stockists'=>$stockists,'chemists'=>$chemists, 'doctors'=>$doctors, 'products'=>$products]);
@@ -95,6 +97,8 @@ class FreeSchemesController extends Controller
                                     ->pluck('name', 'id');   
                                     
             $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
+            $stockists = Stockist::where('employee_id_3', auth()->user()->id)->pluck('stockist', 'id');
+            $chemists = Chemist::where('employee_id', auth()->user()->id)->pluck('chemist', 'id');
         }
         return view('free_schemes.edit', ['free_scheme' => $free_scheme, 'employees'=>$employees, 'doctors'=>$doctors, 'stockists'=>$stockists, 'chemists'=>$chemists, 'products'=>$products]);
     }

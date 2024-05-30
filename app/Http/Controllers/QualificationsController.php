@@ -11,7 +11,7 @@ class QualificationsController extends Controller
 {
     public function index()
     {
-        $qualifications = Qualification::orderBy('id', 'desc')->get();
+        $qualifications = Qualification::orderBy('id', 'desc')->paginate(12);
         return view('qualifications.index', ['qualifications' => $qualifications]);
     }
 

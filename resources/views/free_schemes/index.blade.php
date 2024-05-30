@@ -1,39 +1,60 @@
 <x-layout.default>
-    <div x-data="multicolumn">        
-        @role(['Admin','Marketing Executive'])
-            <x-add-button :link="route('free_schemes.create')" />
-        @endrole
-        <div class="panel mt-6 table-responsive">
-            <h5 class="md:absolute md:top-[25px] md:mb-0 mb-5 font-semibold text-lg dark:text-white-light">Free Schemes
-            </h5>
-            <table id="myTable" class="whitespace-nowrap table-hover">
-                @foreach ($free_schemes as $free_scheme)
-                <tr> 
-                    <td>{{ @$free_scheme->Manager->name }}</td>           
-                    <td>{{ @$free_scheme->Manager->AreaManager->name }}</td>
-                    <td>{{ @$free_scheme->Manager->ZonalManager->name }}</td>
-                    <td>{{ @$free_scheme->Doctor->doctor_name }}</td>
-                    <td>{{ @$free_scheme->Stockist->stockist }}</td>
-                    <td>{{ @$free_scheme->Chemist->chemist }}</td>  
-                    <td>{{ @$free_scheme->amount }}</td> 
-                    <td class="float-right">
-                        <ul class="flex items-center gap-2" >
-                            <li style="display: inline-block;vertical-align:top;">
-                                <x-edit-button :link=" route('free_schemes.edit', ['free_scheme'=> $free_scheme->id])" />                               
-                            </li>
-                            <li style="display: inline-block;vertical-align:top;">
-                                <x-delete-button :link=" route('free_schemes.destroy', ['free_scheme'=> $free_scheme->id] )" />  
-                            </li>                           
-                        </ul>
-                    </td>
-                </tr>
-                @endforeach
-            </table>
+    @role(['Admin','Marketing Executive'])
+        <x-add-button :link="route('free_schemes.create')" />
+    @endrole
+    <br><br>
+    <div x-data="form">
+        <div class="panel">
+            <div class="flex items-center justify-between mb-5">
+                <h5 class="font-semibold text-lg dark:text-white-light">Free Schemes</h5>
+            </div>
+            <div class="mt-6">
+                <div class="table-responsive">
+                    <table class="table-hover">
+                        <thead>
+                            <tr>
+                                <th>Marketing Executive</th>
+                                <th>Area Manager</th>
+                                <th>Zonal Manager</th>
+                                <th>Doctor</th>
+                                <th>Stockist</th>
+                                <th>Chemist</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($free_schemes as $free_scheme)
+                            <tr> 
+                                <td>{{ @$free_scheme->Manager->name }}</td>           
+                                <td>{{ @$free_scheme->Manager->AreaManager->name }}</td>
+                                <td>{{ @$free_scheme->Manager->ZonalManager->name }}</td>
+                                <td>{{ @$free_scheme->Doctor->doctor_name }}</td>
+                                <td>{{ @$free_scheme->Stockist->stockist }}</td>
+                                <td>{{ @$free_scheme->Chemist->chemist }}</td>  
+                                <td class="whitespace-nowrap">&#8377; {{ @$free_scheme->amount }}</td> 
+                                <td class="float-right">
+                                    <ul class="flex items-center gap-2" >
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <x-edit-button :link=" route('free_schemes.edit', ['free_scheme'=> $free_scheme->id])" />                               
+                                        </li>
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <x-delete-button :link=" route('free_schemes.destroy', ['free_scheme'=> $free_scheme->id] )" />  
+                                        </li>                           
+                                    </ul>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>                        
+                    </table>
+                    {{ $free_schemes->links() }}
+                </div>
+            </div>
         </div>
     </div>
     <script>
         document.addEventListener("alpine:init", () => {
-            Alpine.data("multicolumn", () => ({
+            Alpine.data("form", () => ({
                 id: null,
                 datatable: null,
                 open: false,

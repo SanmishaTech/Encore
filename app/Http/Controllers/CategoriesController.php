@@ -12,7 +12,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->get();
+        $categories = Category::orderBy('id', 'desc')->paginate(12);
         return view('categories.index', ['categories' => $categories]);
     }
 

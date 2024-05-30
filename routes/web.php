@@ -64,15 +64,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('profile', 'ProfileController@index')->name('profile.change');        
         Route::get('grant_approvals/rejected/{grant_approval}', 'GrantApprovalsController@rejected')->name('grant_approvals.rejected');
         Route::get('grant_approvals/cancel/{grant_approval}', 'GrantApprovalsController@cancel')->name('grant_approvals.cancel');
-
-        Route::get('doctor_business_monitorings/approval/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval')->name('doctor_business_monitorings.approval');
+       
         Route::get('doctor_business_monitorings/rejected/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@rejected')->name('doctor_business_monitorings.rejected');
         Route::get('doctor_business_monitorings/cancel/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@cancel')->name('doctor_business_monitorings.cancel');
 
         Route::get('doctors/getDoctors/{id}', 'DoctorsController@getDoctors')->name('doctors.getDoctors');
-        // Route::get('grant_approvals/getGrantApprovalData/{id}', 'GrantApprovalsController@getGrantApprovalData')->name('grant_approvals.getGrantApprovalData');
+       
         Route::get('grant_approvals/approval_form/{grant_approval}', 'GrantApprovalsController@approval_form')->name('grant_approvals.approval_form');
-        Route::put('grant_approvals/{grant_approval}/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval');    
+        Route::put('grant_approvals/{grant_approval}/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval'); 
+        
+        Route::get('doctor_business_monitorings/approval_form/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval_form')->name('doctor_business_monitorings.approval_form');
+        Route::put('doctor_business_monitorings/approval/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval')->name('doctor_business_monitorings.approval');
         /**
          * Import Excel
          */

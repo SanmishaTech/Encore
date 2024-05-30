@@ -12,7 +12,7 @@ class TerritoriesController extends Controller
 {
     public function index()
     {
-        $territories = Territory::orderBy('id', 'desc')->get();
+        $territories = Territory::orderBy('id', 'desc')->paginate(12);
         return view('territories.index', ['territories' => $territories]);
     }
 

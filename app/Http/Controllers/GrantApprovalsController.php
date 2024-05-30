@@ -29,18 +29,18 @@ class GrantApprovalsController extends Controller
         //                         ->orWhere('proposal_amount', 'LIKE' , '%'.$search.'%' )
         //                         ->paginate(12);
         // } 
-        $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->orderBy('code', 'DESC')->get();
+        $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->orderBy('code', 'DESC')->paginate(12);
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
             $manager = auth()->user()->id;
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
             ->where('employee_id', $manager)
-            ->orderBy('code', 'DESC')->get();
+            ->orderBy('code', 'DESC')->paginate(12);
           
         } elseif($authUser == 'Area Manager'){
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
                 ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-                ->orderBy('code', 'DESC')->get();
+                ->orderBy('code', 'DESC')->paginate(12);
             // dd(auth()->user()->id); exit;
 
            
@@ -48,7 +48,7 @@ class GrantApprovalsController extends Controller
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             // ->where('approval_level_1', true)
-            ->orderBy('code', 'DESC')->get();           
+            ->orderBy('code', 'DESC')->paginate(12);           
         }        
         return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
     }
