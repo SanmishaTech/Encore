@@ -22,12 +22,12 @@
                         </button>
                     </span>
                 </div>
-                <div class="float-right"> 
-                    <input type="text" placeholder="Search" class="form-input" name="search"/>                
+                <div class="float-right">
+                    <input type="text" placeholder="Search" class="form-input" name="search"/>
                 </div>
-            </form> -->  
+            </form> -->
             <div class="mt-6">
-                <div class="table-responsive">    
+                <div class="table-responsive">
                     <table class="table-hover">
                         <thead>
                             <tr>
@@ -45,18 +45,18 @@
                         </thead>
                         <tbody>
                             @foreach ($grant_approvals as $grant_approval)
-                                <tr> 
-                                    <td>{{ @$grant_approval->code }}</td> 
-                                    <td>{{ @$grant_approval->Manager->name }}</td>           
+                                <tr>
+                                    <td>{{ @$grant_approval->code }}</td>
+                                    <td>{{ @$grant_approval->Manager->name }}</td>
                                     <td>{{ @$grant_approval->Manager->AreaManager->name }}</td>
                                     <td>{{ @$grant_approval->Manager->ZonalManager->name }}</td>
                                     <td>{{ @$grant_approval->Doctor->doctor_name }}</td>
                                     <td>{{ @$grant_approval->Activity->name }}</td>
-                                    <td class="whitespace-nowrap"> &#8377;  {{ @$grant_approval->proposal_amount }}</td>           
-                                    <td class="whitespace-nowrap"> &#8377;  {{ $grant_approval->approval_amount }}</td>           
+                                    <td class="whitespace-nowrap"> &#8377;  {{ @$grant_approval->proposal_amount }}</td>
+                                    <td class="whitespace-nowrap"> &#8377;  {{ $grant_approval->approval_amount }}</td>
                                     <td class="whitespace-nowrap" >
                                         {!! $grant_approval->status == "Open" ? '<span class="badge bg-info"> Open </span>' : ($grant_approval->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($grant_approval->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>' :  ($grant_approval->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($grant_approval->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : '')) ))  !!}
-                                    </td>           
+                                    </td>
                                     <td class="whitespace-nowrap">
                                         <ul class="flex items-center gap-2" >
                                             @role(['Area Manager'])
@@ -64,15 +64,15 @@
                                                 <li style="display: inline-block;vertical-align:top;">
                                                     <a href="/grant_approvals/approval_form/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
                                                 </li>
-                                            
+
                                                 <li style="display: inline-block;vertical-align:top;">
                                                     <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                                 </li>
                                             @endif
                                             @endrole
 
-                                            @role(['Zonal Manager'])               
-                                                @if($grant_approval->status == "Open")                 
+                                            @role(['Zonal Manager'])
+                                                @if($grant_approval->status == "Open" || $grant_approval->status == "Level 1 Approved")
                                                 <li style="display: inline-block;vertical-align:top;">
                                                     <a href="/grant_approvals/approval_form/{{$grant_approval->id }}" class="btn btn-success btn-sm">Approval</a>
                                                 </li>
@@ -95,28 +95,28 @@
                                             @role(['Area Manager', 'Marketing Executive'])
                                             @if($grant_approval->approval_level_1 == false)
                                             <li style="display: inline-block;vertical-align:top;">
-                                                <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
+                                                <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />
                                             </li>
                                             @endif
                                             @endrole
                                             @role(['Zonal Manager'])
                                                 @if($grant_approval->approval_level_2 == false)
                                                 <li style="display: inline-block;vertical-align:top;">
-                                                    <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
+                                                    <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />
                                                 </li>
                                                 @endif
                                             @endrole
                                             @role(['Admin'])
                                                 @if($grant_approval->status == "Open")
                                                 <li style="display: inline-block;vertical-align:top;">
-                                                    <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />                               
+                                                    <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />
                                                 </li>
                                                 @endif
                                             @endrole
                                             @role(['Admin'])
                                             <li style="display: inline-block;vertical-align:top;">
-                                                <x-delete-button :link=" route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )" />  
-                                            </li> 
+                                                <x-delete-button :link=" route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )" />
+                                            </li>
                                             @endrole
                                         </ul>
                                     </td>
@@ -175,7 +175,7 @@
 
                 init() {
                     this.open= false;
-                }, 
+                },
 
                 codeArr: [],
                 toggleCode(name) {
@@ -190,8 +190,8 @@
                             });
                         });
                     }
-                },    
-               
+                },
+
                 toggle(x) {
                     console.log(x);
                     this.id = x;

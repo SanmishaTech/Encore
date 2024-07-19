@@ -78,18 +78,18 @@
                     </button>
                     <ul x-cloak x-show="activeDropdown === 'master'" x-collapse class="sub-menu text-gray-500">
                         <li><a href="/products">Products</a></li>
-                        <li><a href="/territories">Territories</a></li>                        
-                        <li><a href="/qualifications">Qualifications</a></li>                        
-                        <li><a href="/categories">Categories</a></li>                       
-                        <li><a href="/activities">Activities</a></li>                       
-                        <li><a href="/employees">Employees</a></li>                      
+                        <li><a href="/territories">Territories</a></li>
+                        <li><a href="/qualifications">Qualifications</a></li>
+                        <li><a href="/categories">Categories</a></li>
+                        <li><a href="/activities">Activities</a></li>
+                        <li><a href="/employees">Employees</a></li>
                         <li><a href="/stockists">Stockists</a></li>
                         <li><a href="/doctors">Doctors</a></li>
                         <li><a href="/chemists">Chemists</a></li>
                     </ul>
                 </li>
                 @endrole
-                @role(['Admin', 'Root','Zonal Manager','Area Manager','Marketing Executive'])
+                @role(['Zonal Manager','Area Manager','Marketing Executive'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'transaction' }"
                         @click="activeDropdown === 'transaction' ? activeDropdown = null : activeDropdown = 'transaction'">
@@ -125,9 +125,9 @@
                         <li><a href="/free_schemes">Free Schemes</a></li>
                         <li><a href="/customer_trackings">Customer Trackings</a></li>
                     </ul>
-                </li> 
+                </li>
                 @endrole
-                @role(['Admin'])
+                @role(['Admin', 'Root'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'report' }"
                         @click="activeDropdown === 'report' ? activeDropdown = null : activeDropdown = 'report'">
@@ -159,10 +159,11 @@
                     <ul x-cloak x-show="activeDropdown === 'report'" x-collapse class="sub-menu text-gray-500">
                         <li><a href="/grant_approvals/report">GAF Report</a></li>
                         <li><a href="/doctor_business_monitorings/report">CDBM Report</a></li>
-                        <li><a href="/roi_accountability_reports/report">RAR Report</a></li>
-
+                        <li><a href="/roi_accountability_reports/report">ROI Accountability Report</a></li>
+                        <li><a href="/free_schemes/reports">Free Schemes</a></li>
+                        <li><a href="/customer_trackings/reports">Customer Trackings</a></li>
                     </ul>
-                </li> 
+                </li>
                 @endrole
                 @role(['Root'])
                 <li class="menu nav-item">
@@ -192,13 +193,13 @@
                             </svg>
                         </div>
                     </button>
-                    <ul x-cloak x-show="activeDropdown === 'users'" x-collapse class="sub-menu text-gray-500">                    
+                    <ul x-cloak x-show="activeDropdown === 'users'" x-collapse class="sub-menu text-gray-500">
                         <li><a href="/permissions">Permissions</a></li>
                         <li><a href="/roles">Roles</a></li>
                         <li><a href="/users">Users</a></li>
                     </ul>
-                </li> 
-                @endrole 
+                </li>
+                @endrole
             </ul>
         </div>
     </nav>
