@@ -5,7 +5,7 @@ use Carbon\Carbon;
     <table>
         <thead >
             <tr>
-                <th colspan="12" style="font-weight: bold; text-align: center;">Grant Approval Format (GAF) - Report</th>
+                <th colspan="12" style="font-weight: bold; text-align: center;">Free Schemes - Report</th>
             </tr>
             <tr>
                 <th>Code: </th>

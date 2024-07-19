@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+use Excel;
 use Carbon\Carbon;
-use App\Models\Employee;
-use App\Models\FreeSchemeDetail;
 use App\Models\Doctor;
-use App\Models\Stockist;
 use App\Models\Chemist;
-use App\Models\FreeScheme;
 use App\Models\Product;
+use App\Models\Activity;
+use App\Models\Employee;
+use App\Models\Stockist;
+use App\Exports\FSExport;
+use App\Models\FreeScheme;
 use Illuminate\Http\Request;
+use App\Models\FreeSchemeDetail;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\FreeSchemeRequest;
 
@@ -77,6 +80,43 @@ class FreeSchemesController extends Controller
         $request->session()->flash('success', 'Free Schemes saved successfully!');
         return redirect()->route('free_schemes.index'); 
     }
+
+    public function report()
+    {
+        $activities = Activity::all();
+        $doctors = Doctor::paginate(310);
+        return view('free_schemes.report',compact('activities','doctors'));
+    }
+
+    public function reportFS(Request $request)
+    {    
+        // $condition = [];
+        // $fromDate = '';
+        // $toDate = '';
+        // if(isset($request->from_date)){
+        //     $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
+        //     $condition[] = ['date_of_issue', '>=' , $fromDate];
+        // }        
+
+        // if(isset($request->to_date)){
+        //     $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
+        //     $condition[] = ['date_of_issue', '<=' , $toDate];
+        // }
+        
+        // $doctor = Doctor::all();
+        // $grant_approval= GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get();
+        // $pdf = PDF::loadView('grant_approvals.print', compact('grant_approval','doctor','fromDate','toDate'));        
+        // $pdf->setPaper('A4', 'landscape');
+        // $pdf->render();              
+        // return $pdf->stream("GAF -" . date("dmY") .".pdf");     
+        
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        // $activity = $request->activity;
+        // $doctor = $request->doctor;
+        return Excel::download(new FSExport($from_date, $to_date), 'FreeScheme_report.xlsx');
+    }
+
   
     public function show(FreeScheme $free_scheme)
     {

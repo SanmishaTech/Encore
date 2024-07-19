@@ -19,10 +19,12 @@ use Illuminate\Http\Request;
 class GAFExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date, $to_date)
+    public function __construct($from_date, $to_date, $activity, $doctor)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
+        $this->activity = $activity;
+        $this->doctor = $doctor;
     }
 
     public function view(): View
@@ -36,6 +38,16 @@ class GAFExport implements FromView
         if(isset($this->to_date)){
             $toDate = Carbon::createFromFormat('Y-m-d', $this->to_date);
             $condition[] = ['date_of_issue', '<=' , $toDate];
+        }
+
+        if(isset($this->activity)){
+            $activ= Activity::where('name',$this->activity)->first();
+            $condition[] = ['activity_id', '=' , $activ->id];
+        }
+
+        if(isset($this->doctor)){
+            $doctor= Doctor::where('doctor_name',$this->doctor)->first();
+            $condition[] = ['doctor_id', '=' , $doctor->id];
         }
 
         return view('grant_approvals.print', [

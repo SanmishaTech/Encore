@@ -108,6 +108,10 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('reportCDBM','DoctorBusinessMonitoringsController@reportCDBM')->name('reportCDBM');
         Route::get('/roi_accountability_reports/report/', 'RoiAccountabilityReportsController@report')->name('roi_accountability_reports.report');
         Route::post('reportRAR','RoiAccountabilityReportsController@reportRAR')->name('reportRAR');
+        Route::get('/free_schemes/report/', 'FreeSchemesController@report')->name('free_schemes.report');
+        Route::post('reportFS','FreeSchemesController@reportFS')->name('reportFS');
+        Route::get('/customer_trackings/report', 'CustomerTrackingsController@report')->name('customer_trakings.report');
+        Route::post('reportCT','CustomerTrackingsController@reportCT')->name('reportCT');
         /**
          * Masters Route
          */
