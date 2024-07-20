@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
-use App\Traits\CreatedUpdatedBy;
 use Carbon\Carbon;
-use App\Models\Employee;
-use App\Models\FreeSchemeDetail;
 use App\Models\Doctor;
-use App\Models\Stockist;
 use App\Models\Chemist;
 use App\Models\Product;
+use App\Models\Employee;
+use App\Models\Stockist;
+use App\Models\GrantApproval;
 use App\Models\ProductDetail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\FreeSchemeDetail;
+use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FreeScheme extends Model
 {

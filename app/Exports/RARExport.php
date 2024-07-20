@@ -20,10 +20,11 @@ use Illuminate\Http\Request;
 class RARExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date,$to_date)
+    public function __construct($from_date,$to_date,$doctor)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
+        $this->doctor = $doctor;
     }
 
     public function view(): View
@@ -38,6 +39,10 @@ class RARExport implements FromView
         if(isset($this->to_date)){
             $toDate = Carbon::createFromFormat('Y-m-d', $this->to_date);
             $condition[] = ['rar_date', '<=' , $toDate];
+        }
+
+        if(isset($this->doctor)){
+            $condition[] = ['doctor_id', '=' , $this->doctor];
         }
         
         return view('roi_accountability_reports.print', [

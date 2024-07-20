@@ -8,18 +8,19 @@ use Carbon\Carbon;
                 <th colspan="12" style="font-weight: bold; text-align: center;">Free Schemes - Report</th>
             </tr>
             <tr>
-                <th>Code: </th>
                 <th>ME HQ: </th>
                 <th>ABM HQ: </th>
                 <th>RBM HQ: </th>
                 <th>Doctor Name: </th>
+                <th>Stockist: </th>
+                <th>Chemist: </th>
                 <th>Speciality: </th>
-                <th>MPL No: </th>
                 <th>Doctor Type: </th>
-                <th>City: </th>
-                <th>Email: </th>
-                <th>Contact No: </th>
-                <th>Activity: </th>
+                <th>Location: </th>
+                <th>Product: </th>
+                <th>NRV: </th>
+                <th>Quantity: </th>
+                <th>Free: </th>
                 <th>Date: </th>
                 <th>Month: </th>
                 <th>Amount: </th>
@@ -29,21 +30,22 @@ use Carbon\Carbon;
             @if(!empty($print))
             @foreach($print as $detail)                           
             <tr>
-                <td>{{ @$detail->code }}</td>
-                <td>{{ ucfirst(@$detail->Manager->name) }}</td>
-                <td>{{ ucfirst(@$detail->Manager->AreaManager->name) }}</td>
-                <td>{{ ucfirst(@$detail->Manager->ZonalManager->name) }}</td>
-                <td>{{ ucfirst(@$detail->Doctor->doctor_name) }}</td>
-                <td>{{ @$detail->doctor->speciality }}</td>
-                <td>{{ @$detail->doctor->mpl_no }}</td>                
-                <td>{{ @$detail->doctor->type }}</td>
-                <td>{{ @$detail->doctor->city }}</td>                
-                <td>{{ @$detail->email }}</td>
-                <td>{{ @$detail->contact_no }}</td>
-                <td>{{ ucfirst(@$detail->Activity->name) }}</td>
-                <td>{{ @$detail->date_of_issue }}</td>
-                <td>{{ @$detail->proposal_month }}</td>
-                <td>{{ @$detail->proposal_amount }}</td>
+                <td>{{ @$detail->FreeScheme->Manager->name }}</td>
+                <td>{{ @$detail->FreeScheme->Manager->AreaManager->name }}</td>
+                <td>{{ @$detail->FreeScheme->Manager->ZonalManager->name }}</td>
+                <td>{{ ucfirst(@$detail->FreeScheme->Doctor->doctor_name) }}</td>
+                <td>{{ @$detail->FreeScheme->Stockist->stockist }}</td>
+                <td>{{ @$detail->FreeScheme->Chemist->chemist }}</td>
+                <td>{{ @$detail->FreeScheme->doctor->speciality }}</td>
+                <td>{{ @$detail->FreeScheme->doctor->type }}</td>
+                <td>{{ @$detail->FreeScheme->location }}</td>                
+                <td>{{ @$detail->Product->name }}</td>      
+                <td>{{ @$detail->nrv }}</td>      
+                <td>{{ @$detail->qty }}</td>                
+                <td>{{ @$detail->free }}</td>                          
+                <td>{{ @$detail->FreeScheme->proposal_date }}</td>
+                <td>{{ @$detail->FreeScheme->proposal_month }}</td>
+                <td>{{ @$detail->FreeScheme->amount }}</td>
             </tr>
             @endforeach
             @endif

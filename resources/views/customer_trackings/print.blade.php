@@ -5,23 +5,22 @@ use Carbon\Carbon;
     <table>
         <thead >
             <tr>
-                <th colspan="12" style="font-weight: bold; text-align: center;">Customer Traking Report</th>
+                <th colspan="12" style="font-weight: bold; text-align: center;">Customer Tracking - Report</th>
             </tr>
             <tr>
-                <th>Code: </th>
                 <th>ME HQ: </th>
                 <th>ABM HQ: </th>
                 <th>RBM HQ: </th>
-                <th>Doctor Name: </th>
-                <th>Speciality: </th>
-                <th>MPL No: </th>
-                <th>Doctor Type: </th>
-                <th>City: </th>
-                <th>Email: </th>
-                <th>Contact No: </th>
-                <th>Activity: </th>
                 <th>Date: </th>
                 <th>Month: </th>
+                <th>Primary: </th>
+                <th>Secondary: </th>
+                <th>Doctor: </th>
+                <th>Speciality: </th>
+                <th>Location: </th>
+                <th>Product: </th>
+                <th>NRV: </th>
+                <th>Quantity: </th>
                 <th>Amount: </th>
             </tr>
         </thead>
@@ -29,21 +28,32 @@ use Carbon\Carbon;
             @if(!empty($print))
             @foreach($print as $detail)                           
             <tr>
-                <td>{{ @$detail->code }}</td>
-                <td>{{ ucfirst(@$detail->Manager->name) }}</td>
-                <td>{{ ucfirst(@$detail->Manager->AreaManager->name) }}</td>
-                <td>{{ ucfirst(@$detail->Manager->ZonalManager->name) }}</td>
+                <td>{{ @$detail->CustomerTracking->Manager->name }}</td>
+                <td>{{ @$detail->CustomerTracking->Manager->AreaManager->name }}</td>
+                <td>{{ @$detail->CustomerTracking->Manager->ZonalManager->name }}</td>
+                <td>{{ @$detail->CustomerTracking->proposal_date }}</td>
+                <td>{{ @$detail->CustomerTracking->proposal_month }}</td>
+                <td>{{ @$detail->CustomerTracking->primary }}</td>
+                <td>{{ @$detail->CustomerTracking->secondary }}</td>
                 <td>{{ ucfirst(@$detail->Doctor->doctor_name) }}</td>
-                <td>{{ @$detail->doctor->speciality }}</td>
-                <td>{{ @$detail->doctor->mpl_no }}</td>                
-                <td>{{ @$detail->doctor->type }}</td>
-                <td>{{ @$detail->doctor->city }}</td>                
-                <td>{{ @$detail->email }}</td>
-                <td>{{ @$detail->contact_no }}</td>
-                <td>{{ ucfirst(@$detail->Activity->name) }}</td>
-                <td>{{ @$detail->date_of_issue }}</td>
-                <td>{{ @$detail->proposal_month }}</td>
-                <td>{{ @$detail->proposal_amount }}</td>
+                <td>{{ ucfirst(@$detail->Doctor->speciality) }}</td>
+                <td>{{ ucfirst(@$detail->location) }}</td>
+                <td>{{ ucfirst(@$detail->Product->name) }}</td>
+                <td>{{ ucfirst(@$detail->nrv) }}</td>
+                <td>{{ ucfirst(@$detail->qty) }}</td>
+                <td>{{ @$detail->CustomerTracking->amount }}</td>
+
+                {{-- <td>{{ @$detail->CustomerTracking->doctor->speciality }}</td>
+                <td>{{ @$detail->FreeScheme->doctor->type }}</td>
+                <td>{{ @$detail->FreeScheme->location }}</td>                
+                <td>{{ @$detail->CustomerTracking->amount }}</td> --}}
+                {{--  --}}
+                {{-- <td>{{ @$detail->nrv }}</td>      
+                <td>{{ @$detail->qty }}</td>                
+                <td>{{ @$detail->free }}</td>                          
+                <td>{{ @$detail->FreeScheme->proposal_date }}</td>
+                <td>{{ @$detail->FreeScheme->proposal_month }}</td>
+                <td>{{ @$detail->FreeScheme->amount }}</td> --}}
             </tr>
             @endforeach
             @endif

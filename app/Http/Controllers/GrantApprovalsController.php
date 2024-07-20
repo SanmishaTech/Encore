@@ -182,8 +182,7 @@ class GrantApprovalsController extends Controller
     public function report()
     {
         $activities = Activity::all();
-        // $doctors = Doctor::paginate(310);
-        $doctors = Doctor::select('id', 'doctor_name')->get();
+        $doctors = Doctor::select('id', 'doctor_name')->OrderBy('doctor_name', 'ASC')->get();
         return view('grant_approvals.report',compact('activities','doctors'));
     }
 

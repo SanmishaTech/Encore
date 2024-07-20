@@ -15,6 +15,20 @@
                     <x-text-input name="from_date" value="{{ old('from_date') }}" id="from_date" :label="__('From Date')"  :messages="$errors->get('from_date')" />                    
                     <x-text-input name="to_date" value="{{ old('to_date') }}" id="to_date" :label="__('To Date')"  :messages="$errors->get('to_date')" />                
                 </div>
+                <div class="flex space-x-4">
+                    <div class="flex-1">
+                        <label for="doctor" class="block text-sm font-medium text-gray-700">Doctor</label>
+                        <select name="doctor" id="doctor" class="form-select mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                            <option value="">Select Doctor</option>
+                            @foreach($doctors as $doctor)
+                                <option value="{{ $doctor->id }}" @if(old('doctor') == $doctor->doctor_name) selected @endif>{{ $doctor->doctor_name }}</option>
+                            @endforeach
+                        </select>
+                        @error('doctor')
+                            <p class="mt-2 text-sm text-red-600" role="alert">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}

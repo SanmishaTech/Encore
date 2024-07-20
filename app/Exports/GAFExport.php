@@ -41,13 +41,11 @@ class GAFExport implements FromView
         }
 
         if(isset($this->activity)){
-            $activ= Activity::where('name',$this->activity)->first();
-            $condition[] = ['activity_id', '=' , $activ->id];
+            $condition[] = ['activity_id', '=' , $this->activity];
         }
 
         if(isset($this->doctor)){
-            $doctor= Doctor::where('doctor_name',$this->doctor)->first();
-            $condition[] = ['doctor_id', '=' , $doctor->id];
+            $condition[] = ['doctor_id', '=' , $this->doctor];
         }
 
         return view('grant_approvals.print', [

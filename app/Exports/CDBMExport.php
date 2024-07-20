@@ -20,10 +20,11 @@ use Illuminate\Http\Request;
 class CDBMExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date, $to_date)
+    public function __construct($from_date, $to_date, $doctor)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
+        $this->doctor = $doctor;
     }
 
     public function view(): View
@@ -37,6 +38,10 @@ class CDBMExport implements FromView
         if(isset($this->to_date)){
             $toDate = Carbon::createFromFormat('Y-m-d', $this->to_date);
             $condition[] = ['date', '<=' , $toDate];
+        }
+
+        if(isset($this->doctor)){
+            $condition[] = ['doctor_id', '=' , $this->doctor];
         }
 
         return view('doctor_business_monitorings.print', [

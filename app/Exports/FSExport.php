@@ -11,6 +11,7 @@ use App\Models\FreeScheme;
 use Illuminate\Http\Request;
 use App\Models\GrantApproval;
 use App\Models\ProductDetail;
+use App\Models\FreeSchemeDetail;
 use Illuminate\Contracts\View\View;
 use App\Models\DoctorBusinessMonitoring;
 use Maatwebsite\Excel\Concerns\FromView;
@@ -42,11 +43,13 @@ class FSExport implements FromView
             $condition[] = ['proposal_date', '<=' , $toDate];
         }
         
+       
         return view('free_schemes.print', [
             // dd($condition),
-            // 'print' => RoiAccountabilityReportDetail::with(['RoiAccountabilityReport'])->whereRelation('RoiAccountabilityReport', $condition)->get()
-            'print' => FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor'])->where($condition)->get()
-
+            // 'print' => FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor'])->where($condition)->get()
+            // 'print' => ProductDetail::with(['Product', 'FreeScheme'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]])->whereRelation('FreeScheme', $condition)->get()
+          'print' => FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get()
+            //   'print' => FreeSchemeDetail::with(['Product'])->whereRelation('FreeScheme', $condition)->get()
         ]);
     }
 }

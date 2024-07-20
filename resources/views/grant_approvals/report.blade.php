@@ -21,7 +21,7 @@
                     <select name="activity" id="activity" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
                         <option value="">Select Activity</option>
                         @foreach($activities as $activity)
-                            <option value="{{ $activity->name }}" @if(old('activity') == $activity->name) selected @endif>{{ $activity->name }}</option>
+                            <option value="{{ $activity->id }}" @if(old('activity') == $activity->name) selected @endif>{{ $activity->name }}</option>
                         @endforeach
                     </select>
                     @error('activity')
@@ -33,7 +33,7 @@
                     <select name="doctor" id="doctor" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
                         <option value="">Select Doctor</option>
                         @foreach($doctors as $doctor)
-                            <option value="{{ $doctor->doctor_name }}" @if(old('doctor') == $doctor->doctor_name) selected @endif>{{ $doctor->doctor_name }}</option>
+                            <option value="{{ $doctor->id }}" @if(old('doctor') == $doctor->doctor_name) selected @endif>{{ $doctor->doctor_name }}</option>
                         @endforeach
                     </select>
                     @error('doctor')

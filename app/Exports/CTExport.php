@@ -14,6 +14,7 @@ use App\Models\GrantApproval;
 use App\Models\ProductDetail;
 use App\Models\CustomerTracking;
 use Illuminate\Contracts\View\View;
+use App\Models\CustomerTrackingDetail;
 use App\Models\DoctorBusinessMonitoring;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -44,11 +45,12 @@ class CTExport implements FromView
             $condition[] = ['proposal_date', '<=' , $toDate];
         }
         
+        $data = CustomerTrackingDetail::with(['CustomerTracking' => ['Manager' => ['AreaManager', 'ZonalManager']], 'Doctor'])->whereRelation('CustomerTracking', $condition)->get();
+
         return view('customer_trackings.print', [
             // dd($condition),
             // 'print' => RoiAccountabilityReportDetail::with(['RoiAccountabilityReport'])->whereRelation('RoiAccountabilityReport', $condition)->get()
-            'print' => CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])->where($condition)->get()
-
+            'print' => $data
         ]);
     }
 }
