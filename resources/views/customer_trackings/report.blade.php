@@ -1,27 +1,27 @@
 <x-layout.default>   
     <ul class="flex space-x-2 rtl:space-x-reverse">
         <li>
-            <a href="{{ route('grant_approvals.index') }}" class="text-primary hover:underline">Grant Approval</a>
+            <a href="{{ route('customer_trackings.index') }}" class="text-primary hover:underline">Customer Tracking</a>
         </li>
         <li class="before:content-['/'] ltr:before:mr-1 rtl:before:ml-1">
             <span>Report</span>
         </li>
     </ul>     
     <div class="pt-5">
-        <form action="{{ route('reportPDF')  }}" method="POST" target="_blank">
+        <form action="{{ route('reportCT')  }}" method="POST" target="_blank">
             @csrf
             <div class="panel" x-data="data">
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <x-text-input name="from_date" value="{{ old('from_date') }}" id="from_date" :label="__('From Date')"  :messages="$errors->get('from_date')" />                    
                     <x-text-input name="to_date" value="{{ old('to_date') }}" id="to_date" :label="__('To Date')"  :messages="$errors->get('to_date')" />   
                 </div>
-            <div class="flex space-x-4">
+            {{-- <div class="flex space-x-4">
                 <div class="flex-1">
                     <label for="activity" class="block text-sm font-medium text-gray-700">Activity</label>
                     <select name="activity" id="activity" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
                         <option value="">Select Activity</option>
                         @foreach($activities as $activity)
-                            <option value="{{ $activity->id }}" @if(old('activity') == $activity->name) selected @endif>{{ $activity->name }}</option>
+                            <option value="{{ $activity->name }}" @if(old('activity') == $activity->name) selected @endif>{{ $activity->name }}</option>
                         @endforeach
                     </select>
                     @error('activity')
@@ -33,20 +33,20 @@
                     <select name="doctor" id="doctor" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
                         <option value="">Select Doctor</option>
                         @foreach($doctors as $doctor)
-                            <option value="{{ $doctor->id }}" @if(old('doctor') == $doctor->doctor_name) selected @endif>{{ $doctor->doctor_name }}</option>
+                            <option value="{{ $doctor->doctor_name }}" @if(old('doctor') == $doctor->doctor_name) selected @endif>{{ $doctor->doctor_name }}</option>
                         @endforeach
                     </select>
                     @error('doctor')
                         <p class="mt-2 text-sm text-red-600" role="alert">{{ $message }}</p>
                     @enderror
                 </div>
-            </div>
+            </div> --}}
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}
                     </x-success-button>                    
                     &nbsp;&nbsp;
-                    <x-cancel-button :link="route('grant_approvals.index')">
+                    <x-cancel-button :link="route('free_schemes.index')">
                         {{ __('Cancel') }}
                     </x-cancel-button>
                 </div>

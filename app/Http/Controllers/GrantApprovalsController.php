@@ -48,6 +48,7 @@ class GrantApprovalsController extends Controller
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             // ->where('approval_level_1', true)
+            ->where('status','Level 2 Approved')
             ->orderBy('code', 'DESC')->paginate(12);           
         }        
         return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
@@ -180,7 +181,9 @@ class GrantApprovalsController extends Controller
 
     public function report()
     {
-        return view('grant_approvals.report');
+        $activities = Activity::all();
+        $doctors = Doctor::select('id', 'doctor_name')->OrderBy('doctor_name', 'ASC')->get();
+        return view('grant_approvals.report',compact('activities','doctors'));
     }
 
     public function reportPDF(Request $request)
@@ -207,7 +210,9 @@ class GrantApprovalsController extends Controller
         
         $from_date = $request->from_date;
         $to_date = $request->to_date;
-        return Excel::download(new GAFExport($from_date, $to_date), 'GAF_report.xlsx');
+        $activity = $request->activity;
+        $doctor = $request->doctor;
+        return Excel::download(new GAFExport($from_date, $to_date, $activity,$doctor), 'GAF_report.xlsx');
     }
 
     public function approval_form(GrantApproval $grant_approval)

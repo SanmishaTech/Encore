@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 use PDF;
 use Excel;
-use App\Exports\CDBMExport;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
-use App\Models\ProductDetail;
+use App\Models\Activity;
+use App\Models\Employee;
+use App\Exports\CDBMExport;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\GrantApproval;
+use App\Models\ProductDetail;
 use App\Models\DoctorBusinessMonitoring;
 use App\Models\DoctorBusinessMonitoringDetail;
-use Illuminate\Http\Request;
 use App\Http\Requests\DoctorBusinessMonitoringRequest;
 
 class DoctorBusinessMonitoringsController extends Controller
@@ -262,15 +263,16 @@ class DoctorBusinessMonitoringsController extends Controller
 
     public function report()
     {
-        return view('doctor_business_monitorings.report');
-        
+        $doctors = Doctor::select('id', 'doctor_name')->OrderBy('doctor_name', 'ASC')->get();
+        return view('doctor_business_monitorings.report', compact('doctors'));
     }
 
     public function reportCDBM(Request $request)
     {
         $from_date = $request->from_date;
         $to_date = $request->to_date;
-        return Excel::download(new CDBMExport($from_date, $to_date), 'CDBM_report.xlsx');
+        $doctor = $request->doctor;
+        return Excel::download(new CDBMExport($from_date, $to_date, $doctor), 'CDBM_report.xlsx');
         
         // $doctor_business_monitorings = ProductDetails::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor']])->whereRelation('DoctorBusinessMonitoring', $condition)->get();
         // // $doctor_business_monitorings->load(['ProductDetails'=>['Products']]);

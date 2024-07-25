@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Models;
-use App\Traits\CreatedUpdatedBy;
 use App\Models\Product;
-use App\Models\DoctorBusinessMonitoring;
+use App\Models\FreeScheme;
+use App\Traits\CreatedUpdatedBy;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DoctorBusinessMonitoring;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ProductDetail extends Model
 {

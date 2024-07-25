@@ -160,8 +160,8 @@
                         <li><a href="/grant_approvals/report">GAF Report</a></li>
                         <li><a href="/doctor_business_monitorings/report">CDBM Report</a></li>
                         <li><a href="/roi_accountability_reports/report">ROI Accountability Report</a></li>
-                        <li><a href="/free_schemes/reports">Free Schemes</a></li>
-                        <li><a href="/customer_trackings/reports">Customer Trackings</a></li>
+                        <li><a href="/free_schemes/report">Free Schemes</a></li>
+                        <li><a href="/customer_trackings/report">Customer Trackings</a></li>
                     </ul>
                 </li>
                 @endrole

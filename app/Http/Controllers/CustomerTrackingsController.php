@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Excel;
 use Carbon\Carbon;
-use App\Models\Employee;
-use App\Models\CustomerTrackingDetail;
-use App\Models\CustomerTracking;
-use App\Models\Product;
 use App\Models\Doctor;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\CustomerTrackingRequest;
+use App\Models\Product;
+use App\Models\Activity;
+use App\Models\Employee;
+use App\Exports\CTExport;
 use Illuminate\Http\Request;
+use App\Models\CustomerTracking;
+use Illuminate\Support\Facades\Auth;
+use App\Models\CustomerTrackingDetail;
+use App\Http\Requests\CustomerTrackingRequest;
 
 class CustomerTrackingsController extends Controller
 {
@@ -124,4 +127,42 @@ class CustomerTrackingsController extends Controller
         $request->session()->flash('success', 'Customer Tracking deleted successfully!');
         return redirect()->route('customer_trackings.index');
     }
+
+    public function report()
+    {
+        $activities = Activity::all();
+        $doctors = Doctor::all();
+        // $doctors = Doctor::select('id', 'name')->get();
+        return view('customer_trackings.report',compact('activities','doctors'));
+    }
+
+    public function reportCT(Request $request)
+    {    
+        // $condition = [];
+        // $fromDate = '';
+        // $toDate = '';
+        // if(isset($request->from_date)){
+        //     $fromDate = Carbon::createFromFormat('Y-m-d', $request->from_date);
+        //     $condition[] = ['date_of_issue', '>=' , $fromDate];
+        // }        
+
+        // if(isset($request->to_date)){
+        //     $toDate = Carbon::createFromFormat('Y-m-d', $request->to_date);
+        //     $condition[] = ['date_of_issue', '<=' , $toDate];
+        // }
+        
+        // $doctor = Doctor::all();
+        // $grant_approval= GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get();
+        // $pdf = PDF::loadView('grant_approvals.print', compact('grant_approval','doctor','fromDate','toDate'));        
+        // $pdf->setPaper('A4', 'landscape');
+        // $pdf->render();              
+        // return $pdf->stream("GAF -" . date("dmY") .".pdf");     
+        
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        // $activity = $request->activity;
+        // $doctor = $request->doctor;
+        return Excel::download(new CTExport($from_date, $to_date), 'CustomerTrackings_report.xlsx');
+    }
+    
 }

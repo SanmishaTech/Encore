@@ -20,8 +20,8 @@ use Carbon\Carbon;
             <th>Product</th>
             <th>NRV</th>
             <th>Month</th>
-            <th>Actual Vol</th>
-            <th>Actual Val</th>
+            <th>Expectation in Volume</th>
+            <th>Expectation in Value</th>
             <th>Scheme</th>
         </tr>
     </thead>
