@@ -125,13 +125,15 @@ class RoiAccountabilityReportsController extends Controller
 
     public function report()
     {
-        return view('roi_accountability_reports.report');        
+        $zonalManagers = Employee::select('e1.*')->from('employees as e1')->join('employees as e2','e1.id', '=', 'e2.reporting_office_1')->distinct()->get();
+        return view('roi_accountability_reports.report', compact('zonalManagers'));        
     }
 
     public function reportRAR(Request $request)
     {
         $from_date = $request->from_date;
         $to_date = $request->to_date;
-        return Excel::download(new RARExport($from_date, $to_date), 'RAR_report.xlsx');
+        $zonalManager = $request->zonalManager;
+        return Excel::download(new RARExport($from_date, $to_date, $zonalManager), 'RAR_report.xlsx');
     }
 }

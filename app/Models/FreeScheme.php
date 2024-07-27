@@ -30,7 +30,11 @@ class FreeScheme extends Model
         'doctor_id',
         'crm_done',
         'dr_own_counter',
-        'amount'
+        'amount',
+        'status',
+        'approved_on',
+        'proof_of_order',
+        'proof_of_delivery',
     ];
 
     public function setProposalDateAttribute($value)

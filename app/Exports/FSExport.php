@@ -23,10 +23,12 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 class FSExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date,$to_date)
+    public function __construct($from_date,$to_date,$doctor,$zonalManager)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
+        $this->doctor = $doctor;
+        $this->zonalManager = $zonalManager;
     }
 
     public function view(): View
@@ -42,14 +44,40 @@ class FSExport implements FromView
             $toDate = Carbon::createFromFormat('Y-m-d', $this->to_date);
             $condition[] = ['proposal_date', '<=' , $toDate];
         }
+
+        if(isset($this->doctor)){
+            $condition[] = ['doctor_id', '=' , $this->doctor];
+        }
         
+        $condition[] = ['approval_level_2', '=', true];
+
+        $query = FreeSchemeDetail::with([
+            'Product', 
+            'FreeScheme' => [
+                'Manager' => ['AreaManager', 'ZonalManager'], 
+                'Stockist', 
+                'Chemist', 
+                'Doctor'
+            ]
+        ]);
+    
+        // Apply conditions on FreeScheme relationship
+        if (isset($this->zonalManager)) {
+            $query->whereHas('FreeScheme', function ($query) {
+                $query->whereHas('Manager', function ($query) {
+                    $query->whereHas('ZonalManager', function ($query) {
+                        $query->where('id', '=', $this->zonalManager);
+                    });
+                });
+            });
+        }
+    
+        // Apply additional conditions
+        $printData = $query->whereRelation('FreeScheme', $condition)->get();
        
         return view('free_schemes.print', [
-            // dd($condition),
-            // 'print' => FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor'])->where($condition)->get()
-            // 'print' => ProductDetail::with(['Product', 'FreeScheme'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]])->whereRelation('FreeScheme', $condition)->get()
-          'print' => FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get()
-            //   'print' => FreeSchemeDetail::with(['Product'])->whereRelation('FreeScheme', $condition)->get()
-        ]);
+        // 'print' => FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get()
+          'print' => $printData,   
+      ]);
     }
 }

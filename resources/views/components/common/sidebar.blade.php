@@ -37,7 +37,7 @@
                                     fill="currentColor" />
                             </svg>
                             <span
-                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Dashboard</span>
+                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark"><a href="{{ url('/dashboards') }}">Dashboard</a></span>
                         </div>
                         <div class="rtl:rotate-180" :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -46,6 +46,7 @@
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
+                        
                     </button>
                 </li>
                 @role(['Admin', 'Root'])

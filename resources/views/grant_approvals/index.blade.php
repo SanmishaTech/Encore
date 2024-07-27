@@ -92,6 +92,7 @@
                                                         <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                                     </li>
                                             @endrole
+                                            {{--  --}}
                                             @role(['Area Manager', 'Marketing Executive'])
                                             @if($grant_approval->approval_level_1 == false)
                                             <li style="display: inline-block;vertical-align:top;">

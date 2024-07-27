@@ -28,7 +28,8 @@
                         {{ __('Submit') }}
                     </x-success-button>                    
                     &nbsp;&nbsp;
-                    <x-cancel-button :link="route('dashboard')">
+                    {{-- <x-cancel-button :link="route('dashboard')"> --}}
+                        <x-cancel-button :link="url('/dashboards')">
                         {{ __('Cancel') }}
                     </x-cancel-button>
                 </div>

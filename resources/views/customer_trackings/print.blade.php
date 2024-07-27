@@ -10,7 +10,7 @@ use Carbon\Carbon;
             <tr>
                 <th>ME HQ: </th>
                 <th>ABM HQ: </th>
-                <th>RBM HQ: </th>
+                <th>ZBM HQ: </th>
                 <th>Date: </th>
                 <th>Month: </th>
                 <th>Primary: </th>

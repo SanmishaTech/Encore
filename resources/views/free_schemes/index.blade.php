@@ -20,6 +20,7 @@
                                 <th>Stockist</th>
                                 <th>Chemist</th>
                                 <th>Amount</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -33,8 +34,60 @@
                                 <td>{{ @$free_scheme->Stockist->stockist }}</td>
                                 <td>{{ @$free_scheme->Chemist->chemist }}</td>  
                                 <td class="whitespace-nowrap">&#8377; {{ @$free_scheme->amount }}</td> 
+                                <td class="whitespace-nowrap" >
+                                    {!! $free_scheme->status == "Open" ? '<span class="badge bg-info"> Open </span>' : ($free_scheme->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($free_scheme->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>': ($free_scheme->status == "Level 3 Approved" ? '<span class="badge bg-success"> Level 3</span>' :  ($free_scheme->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($free_scheme->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : ($free_scheme->status == "Level 3 Rejected" ? '<span class="badge bg-danger"> Level 3</span>' : '')) ))))  !!}
+                                </td>
                                 <td class="float-right">
                                     <ul class="flex items-center gap-2" >
+                                        {{-- start --}}
+                                        @role(['Area Manager'])
+                                        @if($free_scheme->status == "Open")
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <a href="/free_schemes/approval_form/{{$free_scheme->id }}" class="btn btn-success btn-sm">Approval</a>
+                                        </li>
+                                            <li style="display: inline-block;vertical-align:top;">
+                                                <a href="/free_schemes/rejected/{{$free_scheme->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                            </li>
+                                        @endif
+                                        @endrole
+
+                                        @role(['Zonal Manager'])
+                                            @if($free_scheme->status == "Open" || $free_scheme->status == "Level 1 Approved")
+                                            <li style="display: inline-block;vertical-align:top;">
+                                                <a href="/free_schemes/approval_form/{{$free_scheme->id }}" class="btn btn-success btn-sm">Approval</a>
+                                            </li>
+                                            <!-- <li style="display: inline-block;vertical-align:top;">
+                                                <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$free_scheme->id }})">Approval</a>
+                                            </li> -->
+                                            <li style="display: inline-block;vertical-align:top;">
+                                                <a href="/free_schemes/rejected/{{$free_scheme->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                            </li>
+                                            @endif
+                                        @endrole
+                                            {{-- g --}}
+                                        @role(['Root']) 
+                                        @if($free_scheme->status == "Level 2 Approved")
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <a href="/free_schemes/approval_form/{{$free_scheme->id }}" class="btn btn-success btn-sm">Approval</a>
+                                        </li>
+                                        <!-- <li style="display: inline-block;vertical-align:top;">
+                                            <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$free_scheme->id }})">Approval</a>
+                                        </li> -->
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <a href="/free_schemes/rejected/{{$free_scheme->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                        </li>
+                                        @endif
+                                    @endrole
+
+                                        @role(['Admin'])
+                                            <li style="display: inline-block;vertical-align:top;">
+                                                <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$free_scheme->id }})">Approval</a>
+                                            </li>
+                                                <li style="display: inline-block;vertical-align:top;">
+                                                    <a href="/free_schemes/rejected/{{$free_scheme->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                                </li>
+                                        @endrole
+                                        {{-- end --}}
                                         <li style="display: inline-block;vertical-align:top;">
                                             <x-edit-button :link=" route('free_schemes.edit', ['free_scheme'=> $free_scheme->id])" />                               
                                         </li>

@@ -20,11 +20,12 @@ use Illuminate\Http\Request;
 class CDBMExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date, $to_date, $doctor)
+    public function __construct($from_date, $to_date, $doctor,$zonalManager)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
         $this->doctor = $doctor;
+        $this->zonalManager = $zonalManager;
     }
 
     public function view(): View
@@ -44,8 +45,25 @@ class CDBMExport implements FromView
             $condition[] = ['doctor_id', '=' , $this->doctor];
         }
 
+        $query = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]]);
+        
+        if(isset($this->zonalManager)){
+             $query->whereHas('DoctorBusinessMonitoring', function($query){
+                $query->whereHas('GrantApproval', function($query){
+                    $query->whereHas('Manager', function($query){
+                       $query->wherehas('ZonalManager', function($query){
+                        $query->where('id', '=', $this->zonalManager);
+                       });
+                    });
+                });
+             });
+        }
+
+        $printData = $query->whereRelation('DoctorBusinessMonitoring', $condition)->get();
+
         return view('doctor_business_monitorings.print', [
-            'print' => ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]])->whereRelation('DoctorBusinessMonitoring', $condition)->get()
+            // 'print' => ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]])->whereRelation('DoctorBusinessMonitoring', $condition)->get()
+           'print'=>$printData
         ]);
     } 
 }

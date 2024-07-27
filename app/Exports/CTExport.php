@@ -25,10 +25,11 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 class CTExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date,$to_date)
+    public function __construct($from_date,$to_date,$zonalManager)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
+        $this->zonalManager = $zonalManager;
     }
 
     public function view(): View
@@ -45,12 +46,23 @@ class CTExport implements FromView
             $condition[] = ['proposal_date', '<=' , $toDate];
         }
         
-        $data = CustomerTrackingDetail::with(['CustomerTracking' => ['Manager' => ['AreaManager', 'ZonalManager']], 'Doctor'])->whereRelation('CustomerTracking', $condition)->get();
+        $query = CustomerTrackingDetail::with(['CustomerTracking' => ['Manager' => ['AreaManager', 'ZonalManager']], 'Doctor']);
 
+          if(isset($this->zonalManager)){
+            $query->whereHas('CustomerTracking', function($query){
+                 $query->whereHas('Manager', function($query){
+                    $query->whereHas('ZonalManager', function($query){
+                        $query->where('id', '=', $this->zonalManager);
+                    });
+                 });
+            });
+          }
+
+          $printData = $query->whereRelation('CustomerTracking', $condition)->get();
         return view('customer_trackings.print', [
             // dd($condition),
             // 'print' => RoiAccountabilityReportDetail::with(['RoiAccountabilityReport'])->whereRelation('RoiAccountabilityReport', $condition)->get()
-            'print' => $data
+            'print' => $printData
         ]);
     }
 }

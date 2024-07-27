@@ -19,12 +19,13 @@ use Illuminate\Http\Request;
 class GAFExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date, $to_date, $activity, $doctor)
+    public function __construct($from_date, $to_date, $activity, $doctor, $zonalManager)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
         $this->activity = $activity;
         $this->doctor = $doctor;
+        $this->zonalManager = $zonalManager;
     }
 
     public function view(): View
@@ -48,9 +49,30 @@ class GAFExport implements FromView
             $condition[] = ['doctor_id', '=' , $this->doctor];
         }
 
+        // if(isset($this->zonalManager)){
+        //     $condition[] = ['id', '=' , $this->zonalManager];
+        // }
+        
+         $condition[] = ['approval_level_2', '=', true];
+        
+         $query = GrantApproval::with(['Manager' => ['ZonalManager', 'AreaManager'], 'Doctor', 'Activity']);
+
+         // Apply conditions on relationships
+         if (isset($this->zonalManager)) {
+             $query->whereHas('Manager', function ($query) {
+                 $query->whereHas('ZonalManager', function ($query) {
+                     $query->where('id', '=', $this->zonalManager);
+                 });
+             });
+         }
+     
+         // Apply additional conditions
+         $printData = $query->where($condition)->get();
+        
         return view('grant_approvals.print', [
             $doctor = Doctor::all(),
-            'print' => GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get()
+            // 'print' => GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where($condition)->get()
+            'print' => $printData,
         ]);
     } 
 }

@@ -15,7 +15,20 @@
                     <x-text-input name="from_date" value="{{ old('from_date') }}" id="from_date" :label="__('From Date')"  :messages="$errors->get('from_date')" />                    
                     <x-text-input name="to_date" value="{{ old('to_date') }}" id="to_date" :label="__('To Date')"  :messages="$errors->get('to_date')" />                
                 </div>
-               
+                <div class="flex space-x-4">
+                    <div class="flex-1">
+                        <label for="zonalManager" class="block text-sm font-medium text-gray-700">Zonal Manager</label>
+                        <select name="zonalManager" id="zonalManager" class="form-select mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
+                            <option value="">Select Zonal Manager</option>
+                            @foreach($zonalManagers as $zonalManager)
+                                <option value="{{ $zonalManager->id }}" @if(old('zonalManager') == $zonalManager->name) selected @endif>{{ $zonalManager->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('zonalManager')
+                            <p class="mt-2 text-sm text-red-600" role="alert">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}

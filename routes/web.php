@@ -1,22 +1,23 @@
 <?php
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\RoiAccountabilityReportsController;
-use App\Http\Controllers\DoctorBusinessMonitoringsController;
-use App\Http\Controllers\EmployeesController;
-use App\Http\Controllers\GrantApprovalsController;
-use App\Http\Controllers\ActivitiesController;
-use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\TerritoriesController;
-use App\Http\Controllers\QualificationsController;
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\DoctorsController;
-use App\Http\Controllers\ChemistsController;
-use App\Http\Controllers\StockistsController;
-use App\Http\Controllers\FreeSchemesController;
-use App\Http\Controllers\CustomerTrackingsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\DoctorsController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ChemistsController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\StockistsController;
+use App\Http\Controllers\ActivitiesController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\FreeSchemesController;
+use App\Http\Controllers\TerritoriesController;
+use App\Http\Controllers\GrantApprovalsController;
+use App\Http\Controllers\QualificationsController;
+use App\Http\Controllers\CustomerTrackingsController;
+use App\Http\Controllers\RoiAccountabilityReportsController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\DoctorBusinessMonitoringsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,10 +36,11 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     //     return view('welcome');
     // });
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth', 'verified'])->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->middleware(['auth', 'verified'])->name('dashboard');
   
+    Route::resource('dashboards', DashboardController::class)->middleware(['auth', 'verified']);
 
     Route::group(['middleware' => ['guest']], function() {
         Route::get('/', [AuthenticatedSessionController::class, 'create'])
@@ -75,6 +77,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         
         Route::get('doctor_business_monitorings/approval_form/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval_form')->name('doctor_business_monitorings.approval_form');
         Route::put('doctor_business_monitorings/approval/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval')->name('doctor_business_monitorings.approval');
+
+        Route::get('free_schemes/rejected/{free_scheme}', 'FreeSchemesController@rejected')->name('free_schemes.rejected');
+        Route::get('free_schemes/approval_form/{free_scheme}', 'FreeSchemesController@approval_form')->name('free_schemes.approval_form');
+        Route::put('free_schemes/{free_scheme}/approval', 'FreeSchemesController@approval')->name('free_schemes.approval'); 
+
+
         /**
          * Import Excel
          */

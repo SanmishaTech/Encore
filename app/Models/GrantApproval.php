@@ -77,4 +77,9 @@ class GrantApproval extends Model
             $grant_approval->code = 'G'.str_pad($max + 1, 5, "0", STR_PAD_LEFT);
         });
     }
+
+    public function zzonalManager() 
+    {
+        return $this->hasMany(Employee::class, 'reporting_office_1');
+    }
 }

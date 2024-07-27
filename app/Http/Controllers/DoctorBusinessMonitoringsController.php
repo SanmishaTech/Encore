@@ -264,7 +264,8 @@ class DoctorBusinessMonitoringsController extends Controller
     public function report()
     {
         $doctors = Doctor::select('id', 'doctor_name')->OrderBy('doctor_name', 'ASC')->get();
-        return view('doctor_business_monitorings.report', compact('doctors'));
+        $zonalManagers = Employee::select('e1.*')->from('employees as e1')->join('employees as e2','e1.id', '=', 'e2.reporting_office_1')->distinct()->get();
+        return view('doctor_business_monitorings.report', compact('doctors','zonalManagers'));
     }
 
     public function reportCDBM(Request $request)
@@ -272,7 +273,8 @@ class DoctorBusinessMonitoringsController extends Controller
         $from_date = $request->from_date;
         $to_date = $request->to_date;
         $doctor = $request->doctor;
-        return Excel::download(new CDBMExport($from_date, $to_date, $doctor), 'CDBM_report.xlsx');
+        $zonalManager = $request->zonalManager;
+        return Excel::download(new CDBMExport($from_date, $to_date, $doctor,$zonalManager), 'CDBM_report.xlsx');
         
         // $doctor_business_monitorings = ProductDetails::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor']])->whereRelation('DoctorBusinessMonitoring', $condition)->get();
         // // $doctor_business_monitorings->load(['ProductDetails'=>['Products']]);

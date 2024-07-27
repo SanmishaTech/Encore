@@ -28,6 +28,7 @@ class StockistRequest extends FormRequest
             'employee_id_1' => 'required',
             'employee_id_2' => 'required',
             'employee_id_3' => 'required',
+            'cfa_email' => 'email|string',
         ];
     }
     

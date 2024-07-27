@@ -9,7 +9,7 @@
         </li>
     </ul>
     <div class="pt-5" x-data="data">        
-        <form class="space-y-5" action="{{ route('free_schemes.update', ['free_scheme' => $free_scheme->id]) }}" method="POST">
+        <form class="space-y-5" action="{{ route('free_schemes.update', ['free_scheme' => $free_scheme->id]) }}" enctype="multipart/form-data" method="POST">
             @csrf
             @method('PUT')
             <div class="panel">
@@ -208,9 +208,40 @@
                                                     <td>               
                                                         <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" x-model="amount" readonly="true" :messages="$errors->get('amount')" value="{{ old('amount', $free_scheme->amount) }}" name="amount"/>
                                                     </td>
-                                                </tr>                                           
-                                            </tfoot>                                   
+                                                </tr>
+                                            </tfoot>                                 
                                         </table>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                                            <div style="flex: 1;">
+                                                <p style="font-size: 16px; font-weight: bold; color: #333; padding: 10px;">
+                                                    Proof Of Order:
+                                                </p>
+                                                <input type="file" name="proof_of_order" id="proof_of_order" style="margin-top: 5px; margin-left:10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 100%;">
+                                            </div>
+                                            <div style="flex: 1; margin-left: 10px;">
+                                                <p style="font-size: 16px; font-weight: bold; color: #333; padding: 10px;">
+                                                    Proof Of Delivery:
+                                                </p>
+                                                <input type="file" name="proof_of_delivery" id="proof_of_delivery" style="margin-top: 5px; margin-left:10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 94%;">
+                                            </div>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-around;">
+                                            <div>
+                                                @if ($free_scheme->proof_of_order)
+                                                    <a href="{{ asset('storage/FreeScheme/proof_of_order/' . $free_scheme->proof_of_order) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+                                                        View Proof of Order
+                                                    </a>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                @if ($free_scheme->proof_of_delivery)
+                                                    <a href="{{ asset('storage/FreeScheme/proof_of_delivery/' . $free_scheme->proof_of_delivery) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+                                                        View Proof of Delivery
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 </template>
                             </div>                            

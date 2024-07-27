@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Excel;
+use Exception;
 use Carbon\Carbon;
 use App\Models\Doctor;
 use App\Models\Chemist;
@@ -13,8 +14,12 @@ use App\Exports\FSExport;
 use App\Models\FreeScheme;
 use Illuminate\Http\Request;
 use App\Models\FreeSchemeDetail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\FreeSchemeRequest;
+use App\Mail\FreeSchemeApprovalNotification;
 
 class FreeSchemesController extends Controller
 {
@@ -64,7 +69,26 @@ class FreeSchemesController extends Controller
 
     public function store(FreeScheme $free_scheme, FreeSchemeRequest $request) 
     {
-        $input = $request->all();   
+        $input = $request->all(); 
+        if($request->hasFile('proof_of_order')){
+            $poffileNameWithExt = $request->file('proof_of_order')->getClientOriginalName();
+            $poffilename = pathinfo($poffileNameWithExt, PATHINFO_FILENAME);
+            $pofExtention = $request->file('proof_of_order')->getClientOriginalExtension();
+            $pofFileNameToStore = $poffilename.'_'.time().'.'.$pofExtention;
+            $pofPath = $request->file('proof_of_order')->storeAs('public/FreeScheme/proof_of_order', $pofFileNameToStore);
+            $input['proof_of_order'] = $pofFileNameToStore;
+        }
+       
+        if($request->hasFile('proof_of_delivery')){
+            $podfileNameWithExt = $request->file('proof_of_delivery')->getClientOriginalName();
+            $podfilename = pathinfo($podfileNameWithExt, PATHINFO_FILENAME);
+            $podExtention = $request->file('proof_of_delivery')->getClientOriginalExtension();
+            $podFileNameToStore = $podfilename.'_'.time().'.'.$podExtention;
+            $podPath = $request->file('proof_of_delivery')->storeAs('public/FreeScheme/proof_of_delivery', $podFileNameToStore);
+            $input['proof_of_delivery'] = $podFileNameToStore;
+        }
+
+        $input['status'] = 'Open';  
         $free_scheme = FreeScheme::create($input); 
         $data = $request->collect('free_scheme_details');        
         foreach($data as $record){
@@ -83,9 +107,9 @@ class FreeSchemesController extends Controller
 
     public function report()
     {
-        $activities = Activity::all();
-        $doctors = Doctor::paginate(310);
-        return view('free_schemes.report',compact('activities','doctors'));
+        $doctors = Doctor::select('id', 'doctor_name')->OrderBy('doctor_name', 'ASC')->get();
+        $zonalManagers = Employee::select('e1.*')->from('employees as e1')->join('employees as e2','e1.id', '=', 'e2.reporting_office_1')->distinct()->get();
+        return view('free_schemes.report',compact('doctors','zonalManagers'));
     }
 
     public function reportFS(Request $request)
@@ -112,9 +136,9 @@ class FreeSchemesController extends Controller
         
         $from_date = $request->from_date;
         $to_date = $request->to_date;
-        // $activity = $request->activity;
-        // $doctor = $request->doctor;
-        return Excel::download(new FSExport($from_date, $to_date), 'FreeScheme_report.xlsx');
+        $doctor = $request->doctor;
+        $zonalManager = $request->zonalManager;
+        return Excel::download(new FSExport($from_date, $to_date,$doctor,$zonalManager), 'FreeScheme_report.xlsx');
     }
 
   
@@ -145,7 +169,34 @@ class FreeSchemesController extends Controller
 
     public function update(FreeScheme $free_scheme, FreeSchemeRequest $request) 
     {
-        $free_scheme->update($request->all());
+        $input = $request->all(); 
+        if($request->hasFile('proof_of_order')){
+            if ($free_scheme->proof_of_order) {
+                Storage::delete('public/FreeScheme/proof_of_order/' . $free_scheme->proof_of_order);
+            }
+            $poffileNameWithExt = $request->file('proof_of_order')->getClientOriginalName();
+            $poffilename = pathinfo($poffileNameWithExt, PATHINFO_FILENAME);
+            $pofExtention = $request->file('proof_of_order')->getClientOriginalExtension();
+            $pofFileNameToStore = $poffilename.'_'.time().'.'.$pofExtention;
+            $pofPath = $request->file('proof_of_order')->storeAs('public/FreeScheme/proof_of_order', $pofFileNameToStore);
+            $input['proof_of_order'] = $pofFileNameToStore;
+        }
+       
+        if($request->hasFile('proof_of_delivery')){
+
+            if ($free_scheme->proof_of_order) {
+                Storage::delete('public/FreeScheme/proof_of_delivery/' . $free_scheme->proof_of_order);
+            }
+            $podfileNameWithExt = $request->file('proof_of_delivery')->getClientOriginalName();
+            $podfilename = pathinfo($podfileNameWithExt, PATHINFO_FILENAME);
+            $podExtention = $request->file('proof_of_delivery')->getClientOriginalExtension();
+            $podFileNameToStore = $podfilename.'_'.time().'.'.$podExtention;
+            $podPath = $request->file('proof_of_delivery')->storeAs('public/FreeScheme/proof_of_delivery', $podFileNameToStore);
+            $input['proof_of_delivery'] = $podFileNameToStore;
+        }
+
+
+        $free_scheme->update($input);
         $data = $request->collect('free_scheme_details');         
         foreach($data as $record){
             FreeSchemeDetail::updateOrCreate([
@@ -165,8 +216,116 @@ class FreeSchemesController extends Controller
   
     public function destroy(Request $request, FreeScheme $free_scheme)
     {
+        if (!empty($free_scheme->proof_of_order) && Storage::exists('public/FreeScheme/proof_of_order/'.$free_scheme->proof_of_order)) {
+            Storage::delete('public/FreeScheme/proof_of_order/'.$free_scheme->proof_of_order);
+           }
+
+           if (!empty($free_scheme->proof_of_delivery) && Storage::exists('public/FreeScheme/proof_of_delivery/'.$free_scheme->proof_of_delivery)) {
+            Storage::delete('public/FreeScheme/proof_of_delivery/'.$free_scheme->proof_of_delivery);
+           }
+
         $free_scheme->delete();
         $request->session()->flash('success', 'Free Scheme deleted successfully!');
         return redirect()->route('free_schemes.index');
     }
+
+    public function rejected(FreeScheme $free_scheme) 
+    {
+       
+        if(auth()->user()->roles->pluck('name')->first() == 'Root'){
+            $free_scheme->status = 'Level 3 Rejected';
+            $free_scheme->approval_level_3 = false;
+        }
+        elseif(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $free_scheme->status = 'Level 2 Rejected';
+            $free_scheme->approval_level_2 = false;
+        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
+            $free_scheme->status = 'Level 1 Rejected';
+            $free_scheme->approval_level_1 = false;
+        } else{
+            if($free_scheme->approval_level_1 == false){
+                $free_scheme->status = 'Level 2 Rejected';
+                $free_scheme->approval_level_2 = false;
+            } else {
+                $free_scheme->status = 'Level 1 Rejected';
+                $free_scheme->approval_level_1 = false;
+
+            }
+        }     
+        $free_scheme->update();
+        // $input = [];
+        // $input['status'] =  $free_scheme->status;
+        // $input['free_scheme_id'] = $free_scheme->id;
+        // FreeSchemeDetail::create($input);
+        return redirect()->route('free_schemes.index');
+    }
+
+
+    public function approval(FreeScheme $free_scheme, Request $request) 
+    {
+       // $free_scheme = GrantApproval::find($request->id);
+        $input = [];
+        if(auth()->user()->roles->pluck('name')->first() == 'Root'){
+            $free_scheme->status = 'Level 3 Approved';
+            $free_scheme->approval_level_3 = true;
+            $free_scheme->approval_level_2 = true;
+            $free_scheme->approval_level_1 = true;
+        }
+        elseif(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $free_scheme->status = 'Level 2 Approved';
+            $free_scheme->approval_level_2 = true;
+            $free_scheme->approval_level_1 = true;
+        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
+            $free_scheme->status = 'Level 1 Approved';
+            $free_scheme->approval_level_1 = true;
+        } else{
+            if($free_scheme->approval_level_1 == true){
+                $free_scheme->status = 'Level 2 Approved';
+                $free_scheme->approval_level_2 = true;
+
+            } else {
+                $free_scheme->status = 'Level 1 Approved';
+                $free_scheme->approval_level_1 = true;
+            }
+        }     
+
+        $free_scheme->approved_on = Carbon::now();
+        $free_scheme->update();
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Root'){
+            $condition[] = ['id', '=', $free_scheme->id];
+            $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
+            // $recipients =  $print[0]->FreeScheme->Stockist->cfa_email;
+            // $recipients = "ganeshghadi084@gmail.com";
+            // if (!empty($recipients)){
+            
+                Mail::to('ganeshghadi084@gmail.com')->send(new FreeSchemeApprovalNotification($print));
+           
+            // }
+        }
+       
+        return redirect()->route('free_schemes.index');
+    }
+
+     public function approval_form(FreeScheme $free_scheme)
+    {   
+        $doctors = Doctor::pluck('doctor_name', 'id');
+        $stockists = Stockist::pluck('stockist', 'id');
+        $chemists = Chemist::pluck('chemist', 'id');
+        $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
+        $products = Product::pluck('name', 'id');
+        $free_scheme->load(['FreeSchemeDetail']);
+        $authUser = auth()->user()->roles->pluck('name')->first();   
+        if($authUser == 'Marketing Executive'){
+            $employees = Employee::where('id', auth()->user()->id)
+                                    ->pluck('name', 'id');   
+                                    
+            $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
+            $stockists = Stockist::where('employee_id_3', auth()->user()->id)->pluck('stockist', 'id');
+            $chemists = Chemist::where('employee_id', auth()->user()->id)->pluck('chemist', 'id');
+        }
+        return view('free_schemes.approval_form', ['free_scheme' => $free_scheme, 'employees'=>$employees, 'doctors'=>$doctors, 'stockists'=>$stockists, 'chemists'=>$chemists, 'products'=>$products]);
+    }
+
+
 }

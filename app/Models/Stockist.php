@@ -17,6 +17,7 @@ class Stockist extends Model
         'employee_id_2',
         'employee_id_3',
         'contact_no',
+        'cfa_email',
     ];
 
     public function ZonalManager() 

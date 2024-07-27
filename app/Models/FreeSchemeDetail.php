@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\CreatedUpdatedBy;
 use App\Models\Product;
+use App\Models\Employee;
 use App\Models\FreeScheme;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FreeSchemeDetail extends Model
 {
@@ -18,6 +19,7 @@ class FreeSchemeDetail extends Model
         'qty',
         'free',
         'val',
+        'status',
     ];
 
     public function FreeScheme() 
@@ -29,4 +31,10 @@ class FreeSchemeDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function Employee() 
+    {
+        return $this->belongsTo(Employee::class, 'created_by');
+    }
+    
 }

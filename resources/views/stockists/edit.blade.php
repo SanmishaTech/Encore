@@ -52,7 +52,8 @@
                     </div>                  
                 </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">  
-                    <x-text-input name="contact_no" value="{{ old('contact_no', $stockist->contact_no) }}" :label="__('Contact No')" :messages="$errors->get('contact_no')"/>   
+                    <x-text-input name="contact_no" value="{{ old('contact_no', $stockist->contact_no) }}" :label="__('Contact No')" :messages="$errors->get('contact_no')"/> 
+                    <x-text-input name="cfa_email" value="{{ old('cfa_email', $stockist->cfa_email) }}" :label="__('CFA Email')" :messages="$errors->get('cfa_email')"/>     
                 </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>

@@ -27,7 +27,7 @@ class FreeSchemeRequest extends FormRequest
     public function rules(): array
     {
         return [            
-            'doctor_id' => 'required',
+            'doctor_id' => 'required',   
         ];
     }
 }
