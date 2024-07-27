@@ -41,8 +41,8 @@ class DashboardController extends Controller
         }    
         elseif($authUser == 'Root'){
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
-            ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             ->where('approval_level_2', true)
+            ->where('approval_level_3', false)
             ->orderBy('id', 'DESC')->paginate(12);          
         }       
 
@@ -71,41 +71,86 @@ class DashboardController extends Controller
             ->where('approval_level_2', false)
             ->where('approval_level_1', true)
             ->orderBy('code', 'DESC')->paginate(12);           
-        }    
+        }
+        elseif($authUser == 'Root'){
+            $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+            ->where('approval_level_2', false)
+            ->orderBy('code', 'DESC')->paginate(12);           
+        }     
 
 
         // Doctor Business Monitoring 
-         // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])->orderBy('id', 'DESC')->get();
-         $authUser = auth()->user()->roles->pluck('name')->first();
-         $conditions = [];
-         if($authUser == 'Marketing Executive'){            
-             $conditions[] = ['employee_id', auth()->user()->id];
+        $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        
+        $conditions = [];
+        if($authUser == 'Marketing Executive'){            
+            $conditions[] = ['employee_id', auth()->user()->id];
+            $conditions[] = ['status', 'Open'];
+          
+        } elseif($authUser == 'Area Manager'){
+            // $conditions[] = ['employee_id', auth()->user()->id];
+            $query->whereHas('GrantApproval', function($query){
+                  $query->whereHas('Manager', function($query){
+                    $query->whereHas('AreaManager', function($query){
+                         $query->where('id', '=', auth()->user()->id);
+                    });
+                 });
+             })->where('approval_level_1', false)
+             ->where('status', 'Open');
+             
+             
            
-         } elseif($authUser == 'Area Manager'){
-             // $conditions[] = ['employee_id', auth()->user()->id];
-            
-         } elseif($authUser == 'Zonal Manager'){
-             // $conditions[] = ['employee_id', auth()->user()->id];
-         }       
-         $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+        } elseif($authUser == 'Zonal Manager'){
+            // $conditions[] = ['employee_id', auth()->user()->id];
+             $query->whereHas('GrantApproval', function($query){
+                  $query->whereHas('Manager', function($query){
+                    $query->whereHas('ZonalManager', function($query){
+                         $query->where('id', '=', auth()->user()->id);
+                    });
+                 });
+             })->where('approval_level_2', false)
+             ->where('approval_level_1', true);
+        }      
+        elseif($authUser == 'Root'){
+            // $conditions[] = ['employee_id', auth()->user()->id];
+             $query->where('approval_level_2', false);
+        }      
+
+        $doctor_business_monitorings = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+        // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+
 
         //  roi accountability
-
         // $roi_accountability_reports = RoiAccountabilityReport::orderBy('id', 'desc')->get();
         // return view('roi_accountability_reports.index', compact('roi_accountability_reports'));
-
+        $query = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]]);
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
         if($authUser == 'Marketing Executive'){            
             $conditions[] = ['employee_id', auth()->user()->id];
           
         } elseif($authUser == 'Area Manager'){
-           
+            $query->whereHas('GrantApproval', function($query){
+                $query->whereHas('Manager', function($query){
+                  $query->whereHas('AreaManager', function($query){
+                       $query->where('id', '=', auth()->user()->id);
+                  });
+               });
+           });
            
         } elseif($authUser == 'Zonal Manager'){
-                  
-        }       
-        $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+            $query->whereHas('GrantApproval', function($query){
+                $query->whereHas('Manager', function($query){
+                  $query->whereHas('ZonalManager', function($query){
+                       $query->where('id', '=', auth()->user()->id);
+                  });
+               });
+           });
+        }   
+        $roi_accountability_reports = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+    
+        // $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
         
         // Customer Tracking 
 

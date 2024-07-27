@@ -240,29 +240,8 @@
                                 <td>{{ @$free_scheme->Chemist->chemist }}</td>  
                                 <td class="whitespace-nowrap">&#8377; {{ @$free_scheme->amount }}</td> 
                                 <td class="whitespace-nowrap" >
-                                    {{-- {!! $free_scheme->status == "Open" ? auth()->user()->role == 'Marketing Executive' ? '<span class="badge bg-info"> Open </span>' : ($free_scheme->status == "Open" ? '<span class="badge bg-warning"> Pending </span>' :($free_scheme->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Pending</span>' : ($free_scheme->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>' :  ($free_scheme->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($free_scheme->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : ''))) ))  !!} --}}
-                                    {{-- {!! 
-                                        $free_scheme->status == "Open" ? 
-                                            (auth()->user()->role == 'Marketing Executive' ? 
-                                                '<span class="badge bg-info"> Open </span>' : 
-                                                '<span class="badge bg-warning"> Pending </span>') 
-                                            : (
-                                                $free_scheme->status == "Level 1 Approved" ? 
-                                                    '<span class="badge bg-warning"> Pending</span>' : (
-                                                        $free_scheme->status == "Level 2 Approved" ? 
-                                                            '<span class="badge bg-success"> Level 2</span>' : (
-                                                                $free_scheme->status == "Level 1 Rejected" ? 
-                                                                    '<span class="badge bg-danger"> Level 1 </span>' : (
-                                                                        $free_scheme->status == "Level 2 Rejected" ? 
-                                                                            '<span class="badge bg-danger"> Level 2</span>' : 
-                                                                            ''
-                                                                    )
-                                                            )
-                                                    )
-                                            )
-                                    !!} --}}
-                                    {!! $free_scheme->status == "Open" ? '<span class="badge bg-warning"> Pending </span>' : ($free_scheme->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($free_scheme->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>' :  ($free_scheme->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($free_scheme->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : '')) ))  !!}
-
+                                    {{-- {!! $free_scheme->status == "Open" ? '<span class="badge bg-warning"> Pending </span>' : ($free_scheme->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($free_scheme->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>' :  ($free_scheme->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($free_scheme->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : '')) ))  !!} --}}
+                                    <span class="badge bg-warning"> Pending </span>
                                 </td>
                             </tr>
                             @endforeach

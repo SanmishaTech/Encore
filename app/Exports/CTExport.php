@@ -25,11 +25,12 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 class CTExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date,$to_date,$zonalManager)
+    public function __construct($from_date,$to_date,$zonalManager,$doctor)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
         $this->zonalManager = $zonalManager;
+        $this->doctor = $doctor;
     }
 
     public function view(): View
@@ -58,9 +59,14 @@ class CTExport implements FromView
             });
           }
 
+          if(isset($this->doctor)){
+            $query->whereHas('Doctor', function($query){
+                 $query->where('id', '=', $this->doctor);
+            });
+          }
+
           $printData = $query->whereRelation('CustomerTracking', $condition)->get();
         return view('customer_trackings.print', [
-            // dd($condition),
             // 'print' => RoiAccountabilityReportDetail::with(['RoiAccountabilityReport'])->whereRelation('RoiAccountabilityReport', $condition)->get()
             'print' => $printData
         ]);

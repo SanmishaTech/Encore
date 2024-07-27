@@ -21,19 +21,35 @@ class DoctorBusinessMonitoringsController extends Controller
 {
     public function index()
     {
-        // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])->orderBy('id', 'DESC')->get();
+         $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
         $authUser = auth()->user()->roles->pluck('name')->first();
+        
         $conditions = [];
         if($authUser == 'Marketing Executive'){            
             $conditions[] = ['employee_id', auth()->user()->id];
           
         } elseif($authUser == 'Area Manager'){
             // $conditions[] = ['employee_id', auth()->user()->id];
+            $query->whereHas('GrantApproval', function($query){
+                  $query->whereHas('Manager', function($query){
+                    $query->whereHas('AreaManager', function($query){
+                         $query->where('id', '=', auth()->user()->id);
+                    });
+                 });
+             });
            
         } elseif($authUser == 'Zonal Manager'){
             // $conditions[] = ['employee_id', auth()->user()->id];
-        }       
-        $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+             $query->whereHas('GrantApproval', function($query){
+                  $query->whereHas('Manager', function($query){
+                    $query->whereHas('ZonalManager', function($query){
+                         $query->where('id', '=', auth()->user()->id);
+                    });
+                 });
+             });
+        }      
+        $doctor_business_monitorings = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+        // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
         return view('doctor_business_monitorings.index', ['doctor_business_monitorings' => $doctor_business_monitorings]);
     }
 

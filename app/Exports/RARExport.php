@@ -20,11 +20,12 @@ use Illuminate\Http\Request;
 class RARExport implements FromView
 {
     use Exportable;
-    public function __construct($from_date,$to_date,$zonalManager)
+    public function __construct($from_date,$to_date,$zonalManager,$doctor)
     {
         $this->from_date = $from_date;
         $this->to_date = $to_date;
         $this->zonalManager = $zonalManager;
+        $this->doctor = $doctor;
     }
 
     public function view(): View
@@ -54,6 +55,16 @@ class RARExport implements FromView
              });
           });
        }
+
+       if(isset($this->doctor)){
+        $query->whereHas('RoiAccountabilityReport', function($query){
+            $query->whereHas('GrantApproval', function($query){
+            $query->whereHas('Doctor', function($query){
+                $query->where('id', '=', $this->doctor);
+            });
+            });
+        });
+     }
 
        $printData = $query->whereRelation('RoiAccountabilityReport', $condition)->get();
         

@@ -23,7 +23,8 @@
             </div>
             <ul class="perfect-scrollbar relative font-semibold space-y-0.5 h-[calc(100vh-80px)] overflow-y-auto overflow-x-hidden  p-4 py-0"
                 x-data="{ activeDropdown: null }">
-                <li class="menu nav-item">
+                <li>   {{-- class="menu nav-item" --}}
+                    <a href="{{ url('/dashboards') }}" class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'dashboard' }"
                         @click="activeDropdown === 'dashboard' ? activeDropdown = null : activeDropdown = 'dashboard'">
                         <div class="flex items-center">
@@ -37,7 +38,7 @@
                                     fill="currentColor" />
                             </svg>
                             <span
-                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark"><a href="{{ url('/dashboards') }}">Dashboard</a></span>
+                                class="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">Dashboard</span>
                         </div>
                         <div class="rtl:rotate-180" :class="{ '!rotate-90': activeDropdown === 'dashboard' }">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -48,6 +49,7 @@
                         </div>
                         
                     </button>
+                    </a>
                 </li>
                 @role(['Admin', 'Root'])
                 <li class="menu nav-item">

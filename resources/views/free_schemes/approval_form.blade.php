@@ -196,13 +196,13 @@
                                                     <p style="font-size: 16px; font-weight: bold; color: #333; padding: 10px;">
                                                         Proof Of Order:
                                                     </p>
-                                                    <input type="file" name="proof_of_order" id="proof_of_order" style="margin-top: 5px; margin-left:10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 100%;">
+                                                    <input type="file" name="proof_of_order" id="proof_of_order" style="margin-top: 5px; margin-left:10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 100%;" disabled>
                                                 </div>
                                                 <div style="flex: 1; margin-left: 10px;">
                                                     <p style="font-size: 16px; font-weight: bold; color: #333; padding: 10px;">
                                                         Proof Of Delivery:
                                                     </p>
-                                                    <input type="file" name="proof_of_delivery" id="proof_of_delivery" style="margin-top: 5px; margin-left:10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 94%;">
+                                                    <input type="file" name="proof_of_delivery" id="proof_of_delivery" style="margin-top: 5px; margin-left:10px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; width: 94%;" disabled>
                                                 </div>
                                             </div>
                                             <div style="display: flex; justify-content: space-around;">

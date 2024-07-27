@@ -59,7 +59,7 @@
                                         @endrole
 
                                         @role(['Zonal Manager'])
-                                            @if($doctor_business_monitoring->status == "Open")
+                                            @if($doctor_business_monitoring->status == "Open" || $doctor_business_monitoring->status == "Level 1 Approved")
                                                 <li style="display: inline-block;vertical-align:top;">
                                                     <a href="/doctor_business_monitorings/approval_form/{{$doctor_business_monitoring->id }}" class="btn btn-success btn-sm">Approval</a>
                                                 </li>

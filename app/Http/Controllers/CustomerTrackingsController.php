@@ -130,10 +130,9 @@ class CustomerTrackingsController extends Controller
 
     public function report()
     {
-        // $activities = Activity::all();
-        // $doctors = Doctor::all();
+        $doctors = Doctor::select('id', 'doctor_name')->OrderBy('doctor_name', 'ASC')->get();
         $zonalManagers = Employee::select('e1.*')->from('employees as e1')->join('employees as e2','e1.id', '=', 'e2.reporting_office_1')->distinct()->get();
-        return view('customer_trackings.report',compact('zonalManagers'));
+        return view('customer_trackings.report',compact('zonalManagers','doctors'));
     }
 
     public function reportCT(Request $request)
@@ -160,10 +159,9 @@ class CustomerTrackingsController extends Controller
         
         $from_date = $request->from_date;
         $to_date = $request->to_date;
-        // $activity = $request->activity;
-        // $doctor = $request->doctor;
+        $doctor = $request->doctor;
         $zonalManager = $request->zonalManager;
-        return Excel::download(new CTExport($from_date, $to_date,$zonalManager), 'CustomerTrackings_report.xlsx');
+        return Excel::download(new CTExport($from_date, $to_date,$zonalManager,$doctor), 'CustomerTrackings_report.xlsx');
     }
     
 }
