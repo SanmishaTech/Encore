@@ -35,6 +35,8 @@ class FreeScheme extends Model
         'approved_on',
         'proof_of_order',
         'proof_of_delivery',
+        'fqty',
+        'remark',
     ];
 
     public function setProposalDateAttribute($value)
