@@ -41,6 +41,7 @@
                                 <th>Approved Amount</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                <th>Remark</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,7 +67,9 @@
                                                 </li>
 
                                                 <li style="display: inline-block;vertical-align:top;">
-                                                    <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                                    {{-- <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a> --}}
+                                                    <a href="/grant_approvals/reject_form/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+
                                                 </li>
                                             @endif
                                             @endrole
@@ -80,7 +83,7 @@
                                                     <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
                                                 </li> -->
                                                 <li style="display: inline-block;vertical-align:top;">
-                                                    <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                                    <a href="/grant_approvals/reject_form/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                                 </li>
                                                 @endif
                                             @endrole
@@ -89,7 +92,7 @@
                                                     <a href="#" class="btn btn-success btn-sm"  @click="toggle({{$grant_approval->id }})">Approval</a>
                                                 </li>
                                                     <li style="display: inline-block;vertical-align:top;">
-                                                        <a href="/grant_approvals/rejected/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
+                                                        <a href="/grant_approvals/reject_form/{{$grant_approval->id }}" class="btn btn-danger btn-sm">Rejected</a>
                                                     </li>
                                             @endrole
                                             {{--  --}}
@@ -121,6 +124,7 @@
                                             @endrole
                                         </ul>
                                     </td>
+                                    <td>{{ @$grant_approval->remark }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

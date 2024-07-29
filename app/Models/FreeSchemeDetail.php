@@ -17,6 +17,7 @@ class FreeSchemeDetail extends Model
         'product_id',
         'nrv',
         'qty',
+        'free_qty',
         'free',
         'val',
         'status',

@@ -31,12 +31,12 @@ class FreeScheme extends Model
         'crm_done',
         'dr_own_counter',
         'amount',
+        'remark',
         'status',
         'approved_on',
         'proof_of_order',
         'proof_of_delivery',
-        'fqty',
-        'remark',
+        'free_scheme_type',
     ];
 
     public function setProposalDateAttribute($value)

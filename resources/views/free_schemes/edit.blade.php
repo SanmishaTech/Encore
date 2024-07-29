@@ -62,7 +62,16 @@
                     </div>
                     <x-text-input name="proposal_date" id="proposal_date" value="{{ old('proposal_date', $free_scheme->proposal_date) }}"  x-model="proposal_date" x-on:change.debounce="dateChange()" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
-                </div>
+                        <div>
+                            <label>Free Scheme Type:</label>
+                            <select class="form-input" name="free_scheme_type" @required(true)>
+                                <option value="" disabled selected>Select Type</option>
+                                <option value='Reimburse'  @if ($free_scheme->free_scheme_type =='Reimburse') {{ 'Selected' }} @endif>Reimburse</option>
+                                <option value='Regular'  @if ($free_scheme->free_scheme_type =='Regular') {{ 'Selected' }} @endif>Regular</option>
+                                          
+                            </select>
+                        </div>
+                    </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Stockist :</label>
@@ -140,6 +149,7 @@
                                                     <th>Products</th>
                                                     <th>NRV</th>
                                                     <th>Quantity</th>
+                                                    <th>Free Quantity</th>
                                                     <th>Free %</th>
                                                     <th>Value</th>
                                                 </tr>
@@ -182,11 +192,14 @@
                                                         </td>   
                                                         <td>
                                                             <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="freeSchemeDetail.qty" @change="calculateVal()"/>
-                                                        </td>                                                
+                                                        </td>   
+                                                        <td>
+                                                            <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free_qty]`"  :messages="$errors->get('free_qty')" x-model="freeSchemeDetail.free_qty" @change="calculateFQtyVal()"/>
+                                                        </td>                                              
                                                         <td>                                                       
                                                             <select class="form-input" style="width:100px;" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free"  @change="calculateVal()">
                                                                 <option> Free </option>
-                                                                @for ($i = 1; $i < 100; $i++)
+                                                                @for ($i = 1; $i <= 100; $i++)
                                                                     <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->free ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                                 @endfor
                                                             </select>
@@ -204,7 +217,7 @@
                                             </tbody>
                                             <tfoot  style="background-color: #FFFFF;">
                                                 <tr>
-                                                    <th colspan="5" style="text-align:right;">Total Amount: </th>
+                                                    <th colspan="6" style="text-align:right;">Total Amount: </th>
                                                     <td>               
                                                         <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" x-model="amount" readonly="true" :messages="$errors->get('amount')" value="{{ old('amount', $free_scheme->amount) }}" name="amount"/>
                                                     </td>
@@ -241,7 +254,10 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        
+                                        <div>
+                                            <label style="margin:0 0 10px 10px; font-size: 16px; font-weight: bold; color: #333;" for="remarks">Remark:</label>
+                                            <input type="text" style="width:98%; margin:0 0 10px 10px; border: 1px solid #ccc;" class="form-input" name="remark" value="{{$free_scheme->remark}}" placeholder="Enter Remark">
+                                        </div>
                                     </div>
                                 </template>
                             </div>                            
@@ -313,6 +329,7 @@ document.addEventListener("alpine:init", () => {
                 product_id: '{{ $details->product_id }}',
                 nrv: '{{ $details->nrv }}',
                 qty: '{{ $details->qty }}',
+                free_qty: '{{ $details->free_qty }}',
                 free: '{{ $details->free }}',
                 val: '{{ $details->val }}',
             });                    
@@ -425,6 +442,7 @@ document.addEventListener("alpine:init", () => {
         removeItem(freeSchemeDetail) {
             this.freeSchemeDetails = this.freeSchemeDetails.filter((d) => d.id != freeSchemeDetail.id);
             this.calculateVal();
+            this.calculateFQtyVal();
             this.calculateTotal();
         },
 
@@ -432,6 +450,15 @@ document.addEventListener("alpine:init", () => {
             let val = 0; 
             if(!isNaN(this.freeSchemeDetail.qty) && this.freeSchemeDetail.qty != ''){
                 val = this.freeSchemeDetail.qty * this.freeSchemeDetail.nrv;          
+                this.freeSchemeDetail.val = val.toFixed(2);
+            } 
+            this.calculateTotal();
+        },
+
+        calculateFQtyVal(){
+            let val = 0; 
+            if(!isNaN(this.freeSchemeDetail.free_qty) && this.freeSchemeDetail.free_qty != ''){
+                val = this.freeSchemeDetail.free_qty * this.freeSchemeDetail.nrv;          
                 this.freeSchemeDetail.val = val.toFixed(2);
             } 
             this.calculateTotal();

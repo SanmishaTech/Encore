@@ -281,4 +281,54 @@ class GrantApprovalsController extends Controller
         } 
         return $grant_approvals;
     }
+
+    public function reject_form(GrantApproval $grant_approval)
+    {        
+        $doctors = Doctor::pluck('doctor_name', 'id');
+        $activities = Activity::pluck('name', 'id');
+        $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
+        $grant_approval->load(['GrantApprovalDetail'=>['Employee']]);
+
+        $authUser = auth()->user()->roles->pluck('name')->first();   
+        if($authUser == 'Marketing Executive'){
+            $employees = Employee::where('id', auth()->user()->id)
+                                    ->pluck('name', 'id');   
+                                    
+            $doctors = Doctor::where('reporting_office_2', auth()->user()->id)->pluck('doctor_name', 'id');
+            // dd($doctors);
+        }
+        return view('grant_approvals.reject_form', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
+    }
+
+    public function rejection(Request $request, GrantApproval $grant_approval) 
+    {
+       
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $grant_approval->status = 'Level 2 Rejected';
+            $grant_approval->approval_level_2 = false;
+            $grant_approval->remark = $request->input('remark');
+        } elseif(auth()->user()->roles->pluck('name')->first() == 'Area Manager') {
+            $grant_approval->status = 'Level 1 Rejected';
+            $grant_approval->approval_level_1 = false;
+            $grant_approval->remark = $request->input('remark');
+        } else{
+            if($grant_approval->approval_level_1 == false){
+                $grant_approval->status = 'Level 2 Rejected';
+                $grant_approval->approval_level_2 = false;
+                $grant_approval->remark = $request->input('remark');
+            } else {
+                $grant_approval->status = 'Level 1 Rejected';
+                $grant_approval->approval_level_1 = false;
+                $grant_approval->remark = $request->input('remark');
+            }
+        }     
+        $grant_approval->update();
+        $input = [];
+        $input['status'] =  $grant_approval->status;
+        $input['amount'] = $grant_approval->amount;
+        $input['grant_approval_id'] = $grant_approval->id;
+        GrantApprovalDetail::create($input);
+        return redirect()->route('grant_approvals.index');
+    }
 }

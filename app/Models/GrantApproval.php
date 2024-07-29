@@ -26,6 +26,7 @@ class GrantApproval extends Model
         'email',
         'status',
         'approved_on',
+        'remark',
     ];
     
     public function setDateOfIssueAttribute($value)

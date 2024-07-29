@@ -74,6 +74,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
        
         Route::get('grant_approvals/approval_form/{grant_approval}', 'GrantApprovalsController@approval_form')->name('grant_approvals.approval_form');
         Route::put('grant_approvals/{grant_approval}/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval'); 
+
+        Route::get('grant_approvals/reject_form/{grant_approval}', 'GrantApprovalsController@reject_form')->name('grant_approvals.reject_form');
+        Route::put('grant_approvals/{grant_approval}/rejection', 'GrantApprovalsController@rejection')->name('grant_approvals.rejection'); 
         
         Route::get('doctor_business_monitorings/approval_form/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval_form')->name('doctor_business_monitorings.approval_form');
         Route::put('doctor_business_monitorings/approval/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval')->name('doctor_business_monitorings.approval');

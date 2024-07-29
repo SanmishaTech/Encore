@@ -20,6 +20,7 @@
                                 <th>Stockist</th>
                                 <th>Chemist</th>
                                 <th>Amount</th>
+                                <th>Type</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -34,6 +35,9 @@
                                 <td>{{ @$free_scheme->Stockist->stockist }}</td>
                                 <td>{{ @$free_scheme->Chemist->chemist }}</td>  
                                 <td class="whitespace-nowrap">&#8377; {{ @$free_scheme->amount }}</td> 
+                                <td class="whitespace-nowrap" >
+                                    {!! $free_scheme->free_scheme_type == "Reimburse" ? '<span class="badge bg-dark"> Reimburse </span>' : ($free_scheme->free_scheme_type == "Regular" ? '<span class="badge bg-warning">Regular</span>' : '')  !!}
+                                </td>
                                 <td class="whitespace-nowrap" >
                                     {!! $free_scheme->status == "Open" ? '<span class="badge bg-info"> Open </span>' : ($free_scheme->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($free_scheme->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>': ($free_scheme->status == "Level 3 Approved" ? '<span class="badge bg-success"> Level 3</span>' :  ($free_scheme->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($free_scheme->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : ($free_scheme->status == "Level 3 Rejected" ? '<span class="badge bg-danger"> Level 3</span>' : '')) ))))  !!}
                                 </td>

@@ -19,17 +19,20 @@ use Carbon\Carbon;
                 <th>Speciality: </th>
                 <th>Doctor Type: </th>
                 <th>Location: </th>
+                <th> Free Scheme Type: </th>
                 <th>CRM Done: </th>
                 <th>Dr Own Counter: </th>
                 <th>Product: </th>
                 <th>NRV: </th>
                 <th>Quantity: </th>
+                <th>Free Quantity: </th>
                 <th>Free: </th>
                 <th>Date: </th>
                 <th>Month: </th>
                 <th>Open Scheme: </th>
                 <th>Open Scheme %: </th>
                 <th>Amount: </th>
+                <th>Remark: </th>
             </tr>
         </thead>
         <tbody>
@@ -46,18 +49,21 @@ use Carbon\Carbon;
                 <td>{{ @$detail->FreeScheme->Chemist->contact_no_1 }}</td>
                 <td>{{ @$detail->FreeScheme->doctor->speciality }}</td>
                 <td>{{ @$detail->FreeScheme->doctor->type }}</td>
-                <td>{{ @$detail->FreeScheme->location }}</td>        
+                <td>{{ @$detail->FreeScheme->location }}</td>  
+                <td>{{ @$detail->FreeScheme->free_scheme_type }}</td>              
                 <td>{{ @$detail->FreeScheme->crm_done }}</td>
                 <td>{{ @$detail->FreeScheme->dr_own_counter }}</td>                                                
                 <td>{{ @$detail->Product->name }}</td>      
                 <td>{{ @$detail->nrv }}</td>      
-                <td>{{ @$detail->qty }}</td>                
+                <td>{{ @$detail->qty }}</td>   
+                <td>{{ @$detail->free_qty }}</td>                
                 <td>{{ @$detail->free }}</td>                          
                 <td>{{ @$detail->FreeScheme->proposal_date }}</td>
                 <td>{{ @$detail->FreeScheme->proposal_month }}</td>
                 <td>{{ @$detail->FreeScheme->open_scheme }}</td>
                 <td>{{ @$detail->FreeScheme->scheme }}%</td>
                 <td>{{ @$detail->FreeScheme->amount }}</td>
+                <td>{{ @$detail->FreeScheme->remark }}</td>
             </tr>
             @endforeach
             @endif

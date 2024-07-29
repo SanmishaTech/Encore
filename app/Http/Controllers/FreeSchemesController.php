@@ -90,16 +90,16 @@ class FreeSchemesController extends Controller
 
         $input['status'] = 'Open';  
         $free_scheme = FreeScheme::create($input); 
-        $data = $request->collect('free_scheme_details');        
+        $data = $request->collect('free_scheme_details');       
         foreach($data as $record){
             FreeSchemeDetail::create([
                 'free_scheme_id' => $free_scheme->id,
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
                 'qty' => $record['qty'],
-                'free_qty' => $record['fqty'],
                 'free' => $record['free'],
                 'val' => $record['val'],
+                'free_qty' => $record['free_qty'],
             ]);            
         }   
         $request->session()->flash('success', 'Free Schemes saved successfully!');
@@ -205,6 +205,7 @@ class FreeSchemesController extends Controller
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
                 'qty' => $record['qty'],
+                'free_qty' => $record['free_qty'],
                 'free' => $record['free'],
                 'val' => $record['val'],
             ],[

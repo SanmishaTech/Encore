@@ -23,6 +23,7 @@ use Carbon\Carbon;
                 <th>Date: </th>
                 <th>Month: </th>
                 <th>Amount: </th>
+                <th>Remark: </th>
             </tr>
         </thead>
         <tbody>
@@ -44,6 +45,7 @@ use Carbon\Carbon;
                 <td>{{ @$detail->date_of_issue }}</td>
                 <td>{{ @$detail->proposal_month }}</td>
                 <td>{{ @$detail->proposal_amount }}</td>
+                <td>{{ @$detail->remark }}</td>
             </tr>
             @endforeach
             @endif
