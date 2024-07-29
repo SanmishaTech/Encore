@@ -97,6 +97,7 @@ class FreeSchemesController extends Controller
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
                 'qty' => $record['qty'],
+                'free_qty' => $record['fqty'],
                 'free' => $record['free'],
                 'val' => $record['val'],
             ]);            
