@@ -49,6 +49,8 @@ class RoiAccountabilityReportsController extends Controller
 
     public function create()
     {
+        $years = range(2023, 2028);
+        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $products = Product::pluck('name', 'id');
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
@@ -58,7 +60,7 @@ class RoiAccountabilityReportsController extends Controller
           
         }   
         $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
-        return view('roi_accountability_reports.create')->with(['gaf_code' => $gaf_code, 'products' => $products]);
+        return view('roi_accountability_reports.create')->with(['gaf_code' => $gaf_code, 'products' => $products, 'years'=>$years, 'months'=>$months]);
     }
 
     public function store(RoiAccountabilityReport $roi_accountability_report, RoiAccountabilityReportRequest $request) 
@@ -91,6 +93,8 @@ class RoiAccountabilityReportsController extends Controller
 
     public function edit(RoiAccountabilityReport $roi_accountability_report)
     {
+        $years = range(2023, 2028);
+        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $doctors = Doctor::pluck('doctor_name', 'id');       
         $employees = Employee::pluck('name', 'id');
         $products = Product::pluck('name', 'id');
@@ -102,7 +106,7 @@ class RoiAccountabilityReportsController extends Controller
             $conditions[] = ['employee_id', auth()->user()->id];          
         }   
         $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
-        return view('roi_accountability_reports.edit', ['roi_accountability_report' => $roi_accountability_report, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products]); 
+        return view('roi_accountability_reports.edit', ['roi_accountability_report' => $roi_accountability_report, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products,'years'=>$years, 'months'=>$months]); 
     }
 
     public function update(RoiAccountabilityReport $roi_accountability_report, RoiAccountabilityReportRequest $request) 

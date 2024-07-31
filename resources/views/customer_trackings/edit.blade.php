@@ -56,8 +56,8 @@
                                                 <th>location</th>
                                                 <th>Products</th>
                                                 <th>NRV</th>
-                                                <th>Quantity</th>
-                                                <th>Value</th>
+                                                <th>Average Quantity</th>
+                                                <th>Average Value</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -107,16 +107,22 @@
                                                                     {{ $id ? ($id == $customer_tracking->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
                                                             @endforeach
                                                         </select>
+                                                        <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_1]`"  :messages="$errors->get('m_1')" x-model="productDetail.m_1"  @change="calculateValues()" placeholder="M+1"/>   
+
                                                     </td>
                                                     <td>
                                                         <x-text-input   class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
-                                                    </td>   
+                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_2]`"  :messages="$errors->get('m_2')" x-model="productDetail.m_2"  @change="calculateValues()" placeholder="M+2"/>   
+
+                                                        </td>   
                                                     <td>
-                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="productDetail.qty" @change="calculateVal()"/>
-                                                    </td>                                              
+                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][qty]`" class="bg-gray-100 dark:bg-gray-700"  :messages="$errors->get('qty')" x-model="productDetail.qty" readonly="true" @change="calculateVal()"/>
+                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_3]`"  :messages="$errors->get('m_3')" x-model="productDetail.m_3"  @change="calculateValues()" placeholder="M+3"/>   
+                                                        </td>                                              
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][val]`"  :messages="$errors->get('val')" x-model="productDetail.val" @change="calculateTotal()"/>
-                                                    </td>                                                    
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][val]`" class="bg-gray-100 dark:bg-gray-700"  :messages="$errors->get('val')" x-model="productDetail.val" readonly="true" @change="calculateTotal()"/>
+                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_4]`"  :messages="$errors->get('m_4')" x-model="productDetail.m_4"  @change="calculateValues()" placeholder="M+4"/>   
+                                                        </td>                                                    
                                                 </tr>
                                             </template>
                                             <tr>
@@ -193,6 +199,10 @@ document.addEventListener("alpine:init", () => {
                 nrv: '{{ $details->nrv }}',
                 qty: '{{ $details->qty }}',
                 val: '{{ $details->val }}',
+                m_1: '{{ $details->m_1 }}',
+                m_2: '{{ $details->m_2 }}',
+                m_3: '{{ $details->m_3 }}',
+                m_4: '{{ $details->m_4 }}',
             });                    
             @endforeach
             @endif 
@@ -279,6 +289,8 @@ document.addEventListener("alpine:init", () => {
             this.productDetails = this.productDetails.filter((d) => d.id != productDetail.id);
             this.calculateVal();
             this.calculateTotal();
+            this.calculateValues();
+
         },
 
         calculateVal(){
@@ -299,6 +311,38 @@ document.addEventListener("alpine:init", () => {
                 this.amount = amount.toFixed(2);
             }     
         },
+
+         // my
+         calculateValues() {
+          this.productDetails.forEach(productDetail => {     
+              let avg = 0; 
+          let total_m_val = 0;
+        //   let total_val = 0;           
+              
+                  
+              if(!isNaN(productDetail.m_1) && productDetail.m_1 != ''){
+                total_m_val += parseFloat(productDetail.m_1);
+              } 
+              
+              if(!isNaN(productDetail.m_2) && productDetail.m_2 != ''){
+                total_m_val += parseFloat(productDetail.m_2);
+              } 
+
+              if(!isNaN(productDetail.m_3) && productDetail.m_3 != ''){
+                total_m_val += parseFloat(productDetail.m_3);
+              } 
+
+              if(!isNaN(productDetail.m_4) && productDetail.m_4 != ''){
+                total_m_val += parseFloat(productDetail.m_4);
+              } 
+                   avg = total_m_val / 4;
+              productDetail.qty = avg.toFixed(2);
+
+          }); 
+          this.calculateVal();
+          this.calculateTotal();
+      }
+
     }));
 });
 </script>

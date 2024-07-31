@@ -112,7 +112,14 @@
                                                     <td>
                                                         <select class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
                                                             <option>Select Month</option>
-                                                            <option value="Jan /2023">Jan /2023</option>
+                                                            @foreach ($years as $year)
+                                                            @foreach ($months as $month)
+                                                                <option value="{{ $month }} /{{ $year }}">
+                                                                    {{ $month }} /{{ $year }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endforeach
+                                                            {{-- <option value="Jan /2023">Jan /2023</option>
                                                             <option value="Feb /2023">Feb /2023</option>
                                                             <option value="Mar /2023">Mar /2023</option>
                                                             <option value="Apr /2023">Apr /2023</option>
@@ -123,7 +130,7 @@
                                                             <option value="Sep /2023">Sep /2023</option>
                                                             <option value="Oct /2023">Oct /2023</option>
                                                             <option value="Nov /2023">Nov /2023</option>
-                                                            <option value="Dec /2023">Dec /2023</option>
+                                                            <option value="Dec /2023">Dec /2023</option> --}}
                                                         </select> 
                                                         <x-input-error :messages="$errors->get('month')" class="mt-2" /> 
                                                     </td>

@@ -21,6 +21,10 @@ class CustomerTrackingDetail extends Model
         'nrv',
         'qty',
         'val',
+        'm_1',
+        'm_2',
+        'm_3',
+        'm_4',
     ];
 
     public function CustomerTracking() 

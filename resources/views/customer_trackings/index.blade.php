@@ -16,6 +16,7 @@
                                 <th>Marketing Executive</th>
                                 <th>Area Manager</th>
                                 <th>Zonal Manager</th>
+                                <th>Doctor</th>
                                 <th>Amount</th>
                                 <th style="float:right;">Action</th>
                             </tr>
@@ -26,6 +27,7 @@
                                 <td>{{ @$customer_tracking->Manager->name }}</td>           
                                 <td>{{ @$customer_tracking->Manager->AreaManager->name }}</td>
                                 <td>{{ @$customer_tracking->Manager->ZonalManager->name }}</td>
+                                <td>{{ @$customer_tracking->CustomerTrackingDetail->first()->Doctor->doctor_name }}</td>
                                 <td>&#8377; {{ @$customer_tracking->amount }}</td> 
                                 <td class="float-right">
                                     <ul class="flex items-center gap-2" >

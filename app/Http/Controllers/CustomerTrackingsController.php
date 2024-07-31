@@ -19,22 +19,22 @@ class CustomerTrackingsController extends Controller
 {
     public function index()
     {
-        $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])->orderBy('id', 'DESC')->paginate(12);
+        $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])->orderBy('id', 'DESC')->paginate(12);
 
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
             $manager = auth()->user()->id;
-            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
+            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
             ->where('employee_id', $manager)
             ->orderBy('id', 'DESC')->paginate(12);
           
         } elseif($authUser == 'Area Manager'){
-            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
+            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
             ->orderBy('id', 'DESC')->paginate(12);
            
         } elseif($authUser == 'Zonal Manager'){
-            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
+            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             ->orderBy('id', 'DESC')->paginate(12);          
         }       
@@ -71,6 +71,10 @@ class CustomerTrackingsController extends Controller
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
                 'qty' => $record['qty'],
+                'm_1' => $record['m_1'], 
+                'm_2' => $record['m_2'],
+                'm_3' => $record['m_3'],
+                'm_4' => $record['m_4'],
                 'val' => $record['val'],
             ]);            
         }   
@@ -112,6 +116,10 @@ class CustomerTrackingsController extends Controller
                 'product_id' => $record['product_id'],
                 'nrv' => $record['nrv'],
                 'qty' => $record['qty'],
+                'm_1' => $record['m_1'], 
+                'm_2' => $record['m_2'],
+                'm_3' => $record['m_3'],
+                'm_4' => $record['m_4'],
                 'val' => $record['val'],
             ],[
                 'id'
