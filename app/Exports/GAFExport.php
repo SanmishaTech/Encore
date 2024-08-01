@@ -49,15 +49,38 @@ class GAFExport implements FromView
             $condition[] = ['doctor_id', '=' , $this->doctor];
         }
 
-        // if(isset($this->zonalManager)){
-        //     $condition[] = ['id', '=' , $this->zonalManager];
-        // }
         
          $condition[] = ['approval_level_2', '=', true];
         
-         $query = GrantApproval::with(['Manager' => ['ZonalManager', 'AreaManager'], 'Doctor', 'Activity']);
 
-         // Apply conditions on relationships
+        //   start
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        if($authUser == 'Marketing Executive'){
+            $manager = auth()->user()->id;
+            $query = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+            ->where('employee_id', $manager);
+          
+        } elseif($authUser == 'Area Manager'){
+            $query = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+                ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id);
+
+           
+        } elseif($authUser == 'Zonal Manager'){
+            $query = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+            ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id);
+        }
+         elseif($authUser == 'Root'){
+            $query = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity']);                
+        }    
+
+        //  end
+
+
+
+
+
+        //  $query = GrantApproval::with(['Manager' => ['ZonalManager', 'AreaManager'], 'Doctor', 'Activity']);
+
          if (isset($this->zonalManager)) {
              $query->whereHas('Manager', function ($query) {
                  $query->whereHas('ZonalManager', function ($query) {
@@ -66,7 +89,6 @@ class GAFExport implements FromView
              });
          }
      
-         // Apply additional conditions
          $printData = $query->where($condition)->get();
         
         return view('grant_approvals.print', [

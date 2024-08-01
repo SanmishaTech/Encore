@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 use Excel;
-use App\Imports\ImportStockists;
-use Illuminate\Http\Request;
-use App\Http\Requests\StockistRequest;
-use App\Models\Stockist;
 use App\Models\Employee;
+use App\Models\Stockist;
+use Illuminate\Http\Request;
+use App\Imports\ImportStockists;
+use App\Http\Requests\StockistRequest;
+use App\Http\Requests\UpdateStockistRequest;
 
 
 class StockistsController extends Controller
@@ -53,10 +54,11 @@ class StockistsController extends Controller
     {
         // dd($stockist);
         $employees = Employee::select('id','name','designation')->get();
+        
         return view('stockists.edit', ['stockist' => $stockist, 'employees'=>$employees]);
     }
 
-    public function update(Stockist $stockist, StockistRequest $request) 
+    public function update(Stockist $stockist, UpdateStockistRequest $request) 
     {
         // dd($request);
         $stockist->update($request->all());

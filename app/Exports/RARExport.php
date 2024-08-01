@@ -44,6 +44,42 @@ class RARExport implements FromView
   
         $query = RoiAccountabilityReportDetail::with(['Product', 'RoiAccountabilityReport'=>['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'],'Doctor']]]);
 
+
+        // start 
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        if($authUser == 'Marketing Executive'){  
+            $query->whereHas('RoiAccountabilityReport', function($query){
+            $query->whereHas('GrantApproval', function($query){
+                $query->where('employee_id', '=', auth()->user()->id);
+           });
+        });
+
+        } elseif($authUser == 'Area Manager'){
+            $query->whereHas('RoiAccountabilityReport', function($query){
+            $query->whereHas('GrantApproval', function($query){
+                $query->whereHas('Manager', function($query){
+                  $query->whereHas('AreaManager', function($query){
+                       $query->where('id', '=', auth()->user()->id);
+                  });
+               });
+           });
+        });
+           
+        } elseif($authUser == 'Zonal Manager'){
+            $query->whereHas('RoiAccountabilityReport', function($query){
+            $query->whereHas('GrantApproval', function($query){
+                $query->whereHas('Manager', function($query){
+                  $query->whereHas('ZonalManager', function($query){
+                       $query->where('id', '=', auth()->user()->id);
+                  });
+               });
+           });
+         });
+        }       
+    
+        // end
+
+
        if(isset($this->zonalManager)){
           $query->whereHas('RoiAccountabilityReport', function($query){
              $query->whereHas('GrantApproval', function($query){

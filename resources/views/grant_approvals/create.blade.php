@@ -40,7 +40,7 @@
                     <div>
                         <label>Doctor: <span class=text-danger>*</span></label>
                             <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id" id="doctor_id">
-                                <option>Select Doctor</option>
+                                <option value="" disabled selected>Select Doctor</option>
                                 @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                                     @foreach ($doctors as $id=>$doctor)                                
                                         <option value="{{$id}}">{{$doctor}}</option>                                
@@ -61,7 +61,7 @@
                     <div>
                         <label>Activity :  <span class=text-danger>*</span></label>
                         <select class="form-input" name="activity_id"  :require="true" id="activity_id">
-                            <option>Select Activity</option>
+                            <option value="" disabled selected >Select Activity</option>
                             @foreach ($activities as $id => $activity)
                                 <option value="{{$id}}">{{$activity}}</option>
                             @endforeach

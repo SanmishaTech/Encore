@@ -66,4 +66,13 @@ class ProductsController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     } 
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $products = Product::where('name', 'like', "%$data%")->paginate(12);
+        // $employees = Employee::with(['users'])->orderBy('id', 'desc')->paginate(12);
+
+        return view('products.index', ['products'=>$products]);
+    }
+
 }

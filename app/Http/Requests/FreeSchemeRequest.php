@@ -29,6 +29,7 @@ class FreeSchemeRequest extends FormRequest
         return [            
             'doctor_id' => 'required',   
             'free_scheme_type' => 'required',
+            'proposal_date' => 'required',
         ];
     }
 }

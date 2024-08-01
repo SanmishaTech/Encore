@@ -68,4 +68,12 @@ class TerritoriesController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     } 
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $territories = Territory::where('name', 'like', "%$data%")->paginate(12);
+
+        return view('territories.index', ['territories'=>$territories]);
+    }
+
 }

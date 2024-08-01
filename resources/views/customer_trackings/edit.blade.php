@@ -85,43 +85,44 @@
                                                     </td>
                                                     <td>
                                                         <input type="hidden" class="form-input min-w-[230px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
-                                                        <select class="form-input" name="doctor_id" x-model="productDetail.doctor_id" x-bind:name="`product_details[${productDetail.id}][doctor_id]`"  x-on:change="doctorChange()">
-                                                            <option>Select Doctor</option>
+                                                        <select class="form-input" name="doctor_id" x-model="productDetail.doctor_id" x-bind:name="`product_details[${productDetail.id}][doctor_id]`"  x-on:change="doctorChange()" required>
+                                                            <option value="" disabled selected >Select Doctor</option>
                                                                 @foreach ($doctors as $id => $doctor)
                                                                     <option value="{{$id}}"
                                                                     {{ $id ? ($id == $customer_tracking->doctor_id ? 'selected' : '') : '' }}> {{$doctor}} </option>
                                                             @endforeach
                                                         </select>
+                                                        <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_1]`"  :messages="$errors->get('m_1')" x-model="productDetail.m_1"  @change="calculateValues()" placeholder="M1" required/>   
+
                                                     </td>
                                                     <td>
                                                         <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][speciality]`"  :messages="$errors->get('speciality')" x-model="productDetail.speciality"/>
-                                                    </td> 
+                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_2]`"  :messages="$errors->get('m_2')" x-model="productDetail.m_2"  @change="calculateValues()" placeholder="M2"/>   
+
+                                                        </td> 
                                                     <td>
                                                         <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][location]`"  :messages="$errors->get('location')" x-model="productDetail.location"/>
-                                                    </td>  
+                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_3]`"  :messages="$errors->get('m_3')" x-model="productDetail.m_3"  @change="calculateValues()" placeholder="M3"/>   
+                                                        </td>  
                                                     <td>
-                                                        <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
-                                                            <option>Select Product</option>
+                                                        <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()" required>
+                                                            <option value="" disabled selected>Select Product</option>
                                                                 @foreach ($products as $id => $product)
                                                                     <option value="{{$id}}"
                                                                     {{ $id ? ($id == $customer_tracking->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
                                                             @endforeach
                                                         </select>
-                                                        <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_1]`"  :messages="$errors->get('m_1')" x-model="productDetail.m_1"  @change="calculateValues()" placeholder="M+1"/>   
+                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_4]`"  :messages="$errors->get('m_4')" x-model="productDetail.m_4"  @change="calculateValues()" placeholder="M4"/>   
 
                                                     </td>
                                                     <td>
-                                                        <x-text-input   class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
-                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_2]`"  :messages="$errors->get('m_2')" x-model="productDetail.m_2"  @change="calculateValues()" placeholder="M+2"/>   
-
+                                                        <x-text-input   class="bg-gray-100 dark:bg-gray-700" style="margin-bottom: 45px;" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
                                                         </td>   
                                                     <td>
-                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][qty]`" class="bg-gray-100 dark:bg-gray-700"  :messages="$errors->get('qty')" x-model="productDetail.qty" readonly="true" @change="calculateVal()"/>
-                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_3]`"  :messages="$errors->get('m_3')" x-model="productDetail.m_3"  @change="calculateValues()" placeholder="M+3"/>   
+                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][qty]`" style="margin-bottom: 45px;" class="bg-gray-100 dark:bg-gray-700"  :messages="$errors->get('qty')" x-model="productDetail.qty" readonly="true" @change="calculateVal()"/>
                                                         </td>                                              
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][val]`" class="bg-gray-100 dark:bg-gray-700"  :messages="$errors->get('val')" x-model="productDetail.val" readonly="true" @change="calculateTotal()"/>
-                                                            <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_4]`"  :messages="$errors->get('m_4')" x-model="productDetail.m_4"  @change="calculateValues()" placeholder="M+4"/>   
+                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][val]`" style="margin-bottom: 45px;" class="bg-gray-100 dark:bg-gray-700"  :messages="$errors->get('val')" x-model="productDetail.val" readonly="true" @change="calculateTotal()"/>
                                                         </td>                                                    
                                                 </tr>
                                             </template>

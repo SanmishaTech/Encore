@@ -130,7 +130,7 @@
                     </ul>
                 </li>
                 @endrole
-                @role(['Admin', 'Root'])
+                @role(['Admin', 'Root', 'Zonal Manager','Area Manager','Marketing Executive'])
                 <li class="menu nav-item">
                     <button type="button" class="nav-link group" :class="{ 'active': activeDropdown === 'report' }"
                         @click="activeDropdown === 'report' ? activeDropdown = null : activeDropdown = 'report'">

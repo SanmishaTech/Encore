@@ -41,11 +41,43 @@ class CDBMExport implements FromView
             $condition[] = ['date', '<=' , $toDate];
         }
 
-        if(isset($this->doctor)){
-            $condition[] = ['doctor_id', '=' , $this->doctor];
-        }
+        // start
+        $authUser = auth()->user()->roles->pluck('name')->first();
 
+        // $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
         $query = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]]);
+
+        if($authUser == 'Marketing Executive'){ 
+            $query->whereHas('DoctorBusinessMonitoring', function($query){         
+            $query->whereHas('GrantApproval', function($query){
+                $query->where('employee_id', '=', auth()->user()->id);
+           });
+        });
+        } elseif($authUser == 'Area Manager'){
+            $query->whereHas('DoctorBusinessMonitoring', function($query){         
+            $query->whereHas('GrantApproval', function($query){
+                  $query->whereHas('Manager', function($query){
+                    $query->whereHas('AreaManager', function($query){
+                         $query->where('id', '=', auth()->user()->id);
+                    });
+                 });
+             });
+            });
+        } elseif($authUser == 'Zonal Manager'){
+            $query->whereHas('DoctorBusinessMonitoring', function($query){         
+             $query->whereHas('GrantApproval', function($query){
+                  $query->whereHas('Manager', function($query){
+                    $query->whereHas('ZonalManager', function($query){
+                         $query->where('id', '=', auth()->user()->id);
+                    });
+                 });
+             });
+            });
+        }      
+
+        // end
+
+        // $query = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]]);
         
         if(isset($this->zonalManager)){
              $query->whereHas('DoctorBusinessMonitoring', function($query){
@@ -58,6 +90,20 @@ class CDBMExport implements FromView
                 });
              });
         }
+
+        if(isset($this->doctor)){
+            $query->whereHas('DoctorBusinessMonitoring', function($query){
+               $query->whereHas('GrantApproval', function($query){
+                   $query->whereHas('Doctor', function($query){
+                       $query->where('doctor_id', '=', $this->doctor);
+                      
+                   });
+               });
+            });
+       }
+
+
+        
 
         $printData = $query->whereRelation('DoctorBusinessMonitoring', $condition)->get();
 

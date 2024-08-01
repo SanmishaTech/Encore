@@ -37,7 +37,6 @@ class FSExport implements FromView
         if(isset($this->from_date)){
             $fromDate = Carbon::createFromFormat('Y-m-d', $this->from_date);
             $condition[] = ['proposal_date', '>=' , $fromDate];
-            // dd($fromDate);
         }        
         
         if(isset($this->to_date)){
@@ -61,7 +60,32 @@ class FSExport implements FromView
             ]
         ]);
     
-        // Apply conditions on FreeScheme relationship
+
+    //    start
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        if($authUser == 'Marketing Executive'){
+            $query->whereHas('FreeScheme', function($query){
+                $query->where('employee_id', '=', auth()->user()->id);
+            });
+        
+        } elseif($authUser == 'Area Manager'){
+            $query->whereHas('FreeScheme', function($query){
+                $query->whereHas('Manager', function($query){
+                $query->where('reporting_office_2', '=', auth()->user()->id);
+            });
+        });
+        
+        } elseif($authUser == 'Zonal Manager'){
+            $query->whereHas('FreeScheme', function($query){
+                $query->whereHas('Manager', function($query){
+                $query->where('reporting_office_1', '=', auth()->user()->id);
+            });
+        });
+          
+        }  
+
+    // end
+    
         if (isset($this->zonalManager)) {
             $query->whereHas('FreeScheme', function ($query) {
                 $query->whereHas('Manager', function ($query) {
@@ -72,7 +96,6 @@ class FSExport implements FromView
             });
         }
     
-        // Apply additional conditions
         $printData = $query->whereRelation('FreeScheme', $condition)->get();
        
         return view('free_schemes.print', [

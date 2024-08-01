@@ -49,6 +49,34 @@ class CTExport implements FromView
         
         $query = CustomerTrackingDetail::with(['CustomerTracking' => ['Manager' => ['AreaManager', 'ZonalManager']], 'Doctor']);
 
+        //  start
+        // $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])->orderBy('id', 'DESC')->paginate(12);
+
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        if($authUser == 'Marketing Executive'){
+            $query->whereHas('CustomerTracking', function($query){
+                $query->whereHas('Manager', function($query){
+                       $query->where('employee_id', '=', auth()->user()->id);
+                });
+           });
+          
+        } elseif($authUser == 'Area Manager'){
+            $query->whereHas('CustomerTracking', function($query){
+                $query->whereHas('Manager', function($query){
+                       $query->where('reporting_office_2', '=', auth()->user()->id);
+                });
+           });
+           
+        } elseif($authUser == 'Zonal Manager'){
+            $query->whereHas('CustomerTracking', function($query){
+                $query->whereHas('Manager', function($query){
+                       $query->where('reporting_office_1', '=', auth()->user()->id);
+                });
+           });      
+        }       
+
+        // end
+
           if(isset($this->zonalManager)){
             $query->whereHas('CustomerTracking', function($query){
                  $query->whereHas('Manager', function($query){

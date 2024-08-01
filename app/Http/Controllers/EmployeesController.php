@@ -16,6 +16,8 @@ class EmployeesController extends Controller
     public function index()
     {
         $employees = Employee::with(['users'])->orderBy('id', 'desc')->paginate(12);
+        // $data = $request->input('search');
+        // $search = Employee::where('name', 'like', "%{$data}%")->get();
         return view('employees.index', ['employees' => $employees]);
     }
 
@@ -122,5 +124,13 @@ class EmployeesController extends Controller
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $employees = Employee::where('name', 'like', "%$data%")->paginate(12);
+        // $employees = Employee::with(['users'])->orderBy('id', 'desc')->paginate(12);
+
+        return view('employees.index', ['employees'=>$employees]);
     }
 }

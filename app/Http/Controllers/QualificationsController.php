@@ -67,4 +67,13 @@ class QualificationsController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     } 
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $qualifications = Qualification::where('name', 'like', "%$data%")->paginate(12);
+        // $employees = Employee::with(['users'])->orderBy('id', 'desc')->paginate(12);
+
+        return view('qualifications.index', ['qualifications'=>$qualifications]);
+    }
+
 }

@@ -88,14 +88,14 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" x-model="productDetail.doctor_id" x-bind:name="`product_details[${productDetail.id}][doctor_id]`"  x-on:change="doctorChange()">
-                                                            <option>Select Doctor</option>
+                                                        <select required class="form-input" x-model="productDetail.doctor_id" x-bind:name="`product_details[${productDetail.id}][doctor_id]`"  x-on:change="doctorChange()">
+                                                            <option value="" disabled selected>Select Doctor</option>
                                                                 @foreach ($doctors as $id => $doctor)
                                                                     <option value="{{$id}}"> {{$doctor}} </option>
                                                             @endforeach
                                                         </select>
                                                         <x-input-error :messages="$errors->get('doctor_id')" class="mt-2" /> 
-                                                        <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_1]`"  :messages="$errors->get('m_1')" x-model="productDetail.m_1"  @change="calculateValues()" placeholder="M+1"/>   
+                                                        <x-text-input class="mt-2 " x-bind:name="`product_details[${productDetail.id}][m_1]`"  :messages="$errors->get('m_1')" x-model="productDetail.m_1"  @change="calculateValues()" placeholder="M+1" required/>   
 
                                                     </td>
                                                     <td>
@@ -109,8 +109,8 @@
 
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
-                                                            <option>Select Product</option>
+                                                        <select required class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <option value="" disabled selected>Select Product</option>
                                                                 @foreach ($products as $id => $product)
                                                                     <option value="{{$id}}"> {{$product}} </option>
                                                             @endforeach

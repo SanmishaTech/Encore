@@ -28,6 +28,7 @@
                             <p class="mt-2 text-sm text-red-600" role="alert">{{ $message }}</p>
                         @enderror
                     </div>
+                    @role(['Admin', 'Root'])
                     <div class="flex-1">
                         <label for="zonalManager" class="block text-sm font-medium text-gray-700">Zonal Manager</label>
                         <select name="zonalManager" id="zonalManager" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50">
@@ -40,6 +41,7 @@
                             <p class="mt-2 text-sm text-red-600" role="alert">{{ $message }}</p>
                         @enderror
                     </div>
+                    @endrole
                 </div>
                 <div class="flex justify-end mt-4">
                     <x-success-button>

@@ -22,7 +22,13 @@ class CustomerTrackingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'proposal_date' => ['required'],
+            'primary' => ['required'],
+            'secondary' => ['required'],
+            // 'doctor_id' => ['required'],
+            // 'product_id' => ['required'],
+            // 'm_1' => ['required'],
+            // "`product_details[${productDetail.id}][doctor_id]`" => ['required'],
         ];
     }
 }

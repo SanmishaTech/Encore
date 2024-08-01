@@ -8,6 +8,12 @@
         <div class="panel">
             <div class="flex items-center justify-between mb-5">
                 <h5 class="font-semibold text-lg dark:text-white-light">Product</h5>
+                <div style="display: flex; align-items:center">
+                    <form action="{{ route('products.search') }}" method="get">
+                        <input type="text" name="search" placeholder="search products">
+                        <button class="btn btn-primary" type="submit">submit</button>
+                       </form>
+                </div>
             </div>
             <div class="mt-6">
                 <div class="table-responsive">

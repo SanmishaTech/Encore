@@ -42,6 +42,7 @@
                 </div>
             </div>
              <br>
+             @role(['Admin', 'Root'])
             <div class="flex space-x-4">
                 <div class="flex-1">
                     <label for="zonalManager" class="block text-sm font-medium text-gray-700">Zonal Manager</label>
@@ -56,6 +57,7 @@
                     @enderror
                 </div>
             </div>
+            @endrole
                 <div class="flex justify-end mt-4">
                     <x-success-button>
                         {{ __('Submit') }}

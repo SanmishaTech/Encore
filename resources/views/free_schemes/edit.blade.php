@@ -35,7 +35,7 @@
                         <label>Doctor: <span class=text-danger>*</span></label>
                             <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">                                
                                 @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
-                                    <option>Select Doctor</option>
+                                    <option value="" disabled>Select Doctor</option>
                                     @foreach ($doctors as $id=>$doctor)                                
                                         <option value="{{$id}}">{{$doctor}}</option>                                
                                     @endforeach      
@@ -54,7 +54,7 @@
                     <div>
                         <label>Location:</label>
                         <select class="form-input" name="location">
-                            <option >Select Location</option>
+                            <option value="" >Select Location</option>
                             <option value='HQ'  @if ($free_scheme->location =='HQ') {{ 'Selected' }} @endif>HQ</option>
                             <option value='Ex-Station'  @if ($free_scheme->location == 'Ex-Station') {{ 'Selected' }} @endif>Ex-Station</option>
                             <option value='Out-Station'  @if ($free_scheme->location == 'Out-Station') {{ 'Selected' }} @endif>Out-Station</option>                           
@@ -63,20 +63,20 @@
                     <x-text-input name="proposal_date" id="proposal_date" value="{{ old('proposal_date', $free_scheme->proposal_date) }}"  x-model="proposal_date" x-on:change.debounce="dateChange()" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')"/>
                     <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
                         <div>
-                            <label>Free Scheme Type:</label>
-                            <select class="form-input" name="free_scheme_type" @required(true)>
-                                <option value="" disabled selected>Select Type</option>
+                            <label>Free Scheme Type: <span class=text-danger>*</span></label>
+                            <select class="form-input" name="free_scheme_type">
+                                <option value="" disabled>Select Type</option>
                                 <option value='Reimburse'  @if ($free_scheme->free_scheme_type =='Reimburse') {{ 'Selected' }} @endif>Reimburse</option>
-                                <option value='Regular'  @if ($free_scheme->free_scheme_type =='Regular') {{ 'Selected' }} @endif>Regular</option>
-                                          
+                                <option value='Regular'  @if ($free_scheme->free_scheme_type =='Regular') {{ 'Selected' }} @endif>Regular</option>    
                             </select>
+                        <x-input-error :messages="$errors->get('free_scheme_type')" class="mt-2" /> 
                         </div>
                     </div>
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Stockist :</label>
                         <select class="form-input" name="stockist_id">
-                            <option>Select Stockist</option>
+                            <option value="">Select Stockist</option>
                             @foreach ($stockists as $id => $stockist)
                                 <option value="{{$id}}" {{ $free_scheme->stockist_id ? ($free_scheme->stockist_id == $id ? 'Selected' : '') : '' }}>{{$stockist}}</option>
                             @endforeach
@@ -87,7 +87,7 @@
                     <div>
                         <label>Chemist :</label>
                         <select class="form-input" name="chemist_id" @change="chemistChange()" x-model="chemist_id">
-                            <option>Select Chemist</option>
+                            <option value="">Select Chemist</option>
                             @foreach ($chemists as $id => $chemist)
                                 <option value="{{$id}}"  {{ $free_scheme->chemist_id ? ($free_scheme->chemist_id == $id ? 'Selected' : '') : '' }}>{{$chemist}}</option>
                             @endforeach
@@ -100,7 +100,7 @@
                     <div>
                         <label>Open Scheme:</label>
                         <select class="form-input" name="open_scheme">
-                            <option >Select Open scheme</option>
+                            <option value="" >Select Open scheme</option>
                             <option value='Yes' @if ($free_scheme->open_scheme =='Yes') {{ 'Selected' }} @endif>Yes</option>
                             <option value='No' @if ($free_scheme->open_scheme =='No') {{ 'Selected' }} @endif>No</option>                           
                         </select>
@@ -108,7 +108,7 @@
                     <div>
                         <label>Scheme:</label>
                         <select class="form-input" name="scheme">
-                            <option>Select Scheme% </option>
+                            <option value="">Select Scheme% </option>
                             @for($i = 1; $i < 100; $i++)
                                 <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->scheme ? 'selected' : '') : '' }}> {{ $i }}%</option>
                             @endfor
@@ -117,7 +117,7 @@
                     <div>
                         <label>CRM Done:</label>
                         <select class="form-input" name="crm_done">
-                            <option >Select CRM Done</option>
+                            <option value="" >Select CRM Done</option>
                             <option value='Yes' @if ($free_scheme->crm_done =='Yes') {{ 'Selected' }} @endif>Yes</option>
                             <option value='No' @if ($free_scheme->crm_done =='No') {{ 'Selected' }} @endif>No</option>                           
                         </select>
@@ -125,7 +125,7 @@
                     <div>
                         <label>Dr Own Counter:</label>
                         <select class="form-input" name="dr_own_counter">
-                            <option >Select Counter</option>
+                            <option value="">Select Counter</option>
                             <option value='Yes' @if ($free_scheme->dr_own_counter =='Yes') {{ 'Selected' }} @endif>Yes</option>
                             <option value='No' @if ($free_scheme->dr_own_counter =='No') {{ 'Selected' }} @endif>No</option>                           
                         </select>
@@ -179,8 +179,8 @@
                                                         </td>
                                                         <td>
                                                             <input type="hidden" class="form-input min-w-[230px]" x-model="freeSchemeDetail.id" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][id]`"/>
-                                                            <select class="form-input" name="product_id" x-model="freeSchemeDetail.product_id" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][product_id]`"  x-on:change="productChange()">
-                                                                <option>Select Product</option>
+                                                            <select required class="form-input" name="product_id" x-model="freeSchemeDetail.product_id" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                                <option value="" disabled>Select Product</option>
                                                                     @foreach ($products as $id => $product)
                                                                         <option value="{{$id}}"
                                                                         {{ $id ? ($id == $free_scheme->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
@@ -191,14 +191,14 @@
                                                             <x-text-input   class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="freeSchemeDetail.nrv"/>
                                                         </td>   
                                                         <td>
-                                                            <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="freeSchemeDetail.qty" @change="calculateVal()"/>
+                                                            <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="freeSchemeDetail.qty" @change="calculateVal()" required/>
                                                         </td>   
                                                         <td>
-                                                            <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free_qty]`"  :messages="$errors->get('free_qty')" x-model="freeSchemeDetail.free_qty" @change="calculateFQtyVal()"/>
+                                                            <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free_qty]`"  :messages="$errors->get('free_qty')" x-model="freeSchemeDetail.free_qty" @change="calculateFQtyVal()" required/>
                                                         </td>                                              
                                                         <td>                                                       
                                                             <select class="form-input" style="width:100px;" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free"  @change="calculateVal()">
-                                                                <option> Free </option>
+                                                                <option value="" > Free </option>
                                                                 @for ($i = 1; $i <= 100; $i++)
                                                                     <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->free ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                                 @endfor

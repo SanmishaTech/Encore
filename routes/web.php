@@ -39,7 +39,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     // Route::get('/dashboard', function () {
     //     return view('dashboard');
     // })->middleware(['auth', 'verified'])->name('dashboard');
-  
+
     Route::resource('dashboards', DashboardController::class)->middleware(['auth', 'verified']);
 
     Route::group(['middleware' => ['guest']], function() {
@@ -123,6 +123,15 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::post('reportFS','FreeSchemesController@reportFS')->name('reportFS');
         Route::get('/customer_trackings/report', 'CustomerTrackingsController@report')->name('customer_trakings.report');
         Route::post('reportCT','CustomerTrackingsController@reportCT')->name('reportCT');
+
+        // search
+        Route::get('search/employees', 'EmployeesController@search')->name('employees.search');
+        Route::get('search/products', 'ProductsController@search')->name('products.search');
+        Route::get('search/territories', 'TerritoriesController@search')->name('territories.search');
+        Route::get('search/qualifications', 'QualificationsController@search')->name('qualifications.search');
+
+
+
         /**
          * Masters Route
          */
@@ -144,6 +153,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('roi_accountability_reports', RoiAccountabilityReportsController::class);
         Route::resource('free_schemes', FreeSchemesController::class);
         Route::resource('customer_trackings', CustomerTrackingsController::class);
+
+        // search
     });
 
     Route::group(['middleware' => ['auth']], function() {  

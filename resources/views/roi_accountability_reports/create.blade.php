@@ -27,6 +27,7 @@
                     <div>
                         <label>GAF Code :<span style="color: red">*</span></label>
                         <select class="form-input" name="grant_approval_id" x-model="code" id="code" @change="codeChange()">
+                             <option value="" disabled selected>select an option</option>
                             @foreach ($gaf_code as $id => $code)
                                 <option value="{{$id}}">{{ $code }}</option>
                             @endforeach
@@ -97,8 +98,8 @@
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
-                                                            <option>Select Product</option>
+                                                        <select required class="form-input" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <option value="" disabled selected>Select Product</option>
                                                                 @foreach ($products as $id => $product)
                                                                     <option value="{{$id}}"> {{$product}} </option>
                                                             @endforeach
@@ -109,8 +110,8 @@
                                                         <x-text-input class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
-                                                            <option>Select Month</option>
+                                                        <select required class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
+                                                            <option value="" disabled selected>Select Month</option>
                                                             @foreach ($years as $year)
                                                             @foreach ($months as $month)
                                                                 <option value="{{ $month }} /{{ $year }}">
@@ -135,15 +136,15 @@
                                                     </td> 
                                                     <td>
                                                         <!-- <x-text-input  x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" /> -->
-                                                        <select class="form-input" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme">
-                                                        <option> Scheme% </option>
+                                                        <select required class="form-input" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme">
+                                                        <option value="" disabled selected> Scheme% </option>
                                                         @for ($i = 1; $i < 100; $i++)
                                                             <option value="{{ $i }}"> {{ $i }}%</option>
                                                         @endfor
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol" @change="calculateAvg()"/>
+                                                        <x-text-input required  x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol" @change="calculateAvg()"/>
                                                     </td>
                                                     <td>
                                                         <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>

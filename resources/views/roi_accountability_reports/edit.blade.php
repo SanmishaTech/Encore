@@ -28,6 +28,7 @@
                     <div>
                         <label>GAF Code :<span style="color: red">*</span></label>
                         <select class="form-input" name="grant_approval_id" x-model="code" id="code" @change="codeChange()">
+                            <option value="" disabled>select an option</option>
                             @foreach ($gaf_code as $id => $code)
                                 <option value="{{$id}}" {{ $roi_accountability_report->grant_approval_id ? ($roi_accountability_report->grant_approval_id == $id ? 'Selected' : '' ) : ''}}>{{ $code }}</option>
                             @endforeach
@@ -98,8 +99,8 @@
                                                     </td>
                                                     <td>
                                                         <input type="hidden" class="form-input min-w-[230px]" x-model="productDetail.id" x-bind:name="`product_details[${productDetail.id}][id]`"/>
-                                                        <select class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
-                                                            <option>Select Product</option>
+                                                        <select required class="form-input" name="product_id" x-model="productDetail.product_id" x-bind:name="`product_details[${productDetail.id}][product_id]`"  x-on:change="productChange()">
+                                                            <option value="" disabled>Select Product</option>
                                                                 @foreach ($products as $id => $product)
                                                                     <option value="{{$id}}"
                                                                     {{ $id ? ($id == $roi_accountability_report->product_id ? 'selected' : '') : '' }}> {{$product}} </option>
@@ -110,8 +111,8 @@
                                                         <x-text-input   class="bg-gray-100 dark:bg-gray-700" readonly="true" x-bind:name="`product_details[${productDetail.id}][nrv]`"  :messages="$errors->get('nrv')" x-model="productDetail.nrv"/>
                                                     </td>
                                                     <td>
-                                                        <select class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
-                                                            <option>Select Month</option>
+                                                        <select required class="form-input" style="width:120px;" x-bind:name="`product_details[${productDetail.id}][month]`" x-model="productDetail.month">
+                                                            <option value="" disabled >Select Month</option>
                                                             @foreach ($years as $year)
                                                             @foreach ($months as $month)
                                                                 <option value="{{ $month }} /{{ $year }}">
@@ -136,15 +137,15 @@
                                                     </td>
                                                     <td>
                                                         <!-- <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/> -->
-                                                        <select class="form-input" style="width:100px;" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" >
-                                                            <option> Scheme </option>
+                                                        <select required class="form-input" style="width:100px;" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" >
+                                                            <option value="" disabled > Scheme </option>
                                                             @for ($i = 1; $i < 100; $i++)
                                                                 <option value="{{ $i }}" {{ $i ? ($i == $roi_accountability_report->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                             @endfor
                                                         </select>
                                                     </td>
                                                     <td>
-                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol" @change="calculateAvg()"/>
+                                                        <x-text-input x-bind:name="`product_details[${productDetail.id}][act_vol]`"  :messages="$errors->get('act_vol')" x-model="productDetail.act_vol" @change="calculateAvg()" required/>
                                                     </td>
                                                     <td>
                                                         <x-text-input  x-bind:name="`product_details[${productDetail.id}][act_val]`"  :messages="$errors->get('act_val')" x-model="productDetail.act_val" @change="calculateTotal()"/>

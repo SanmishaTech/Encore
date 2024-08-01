@@ -11,6 +11,7 @@ use Carbon\Carbon;
                 <th>ME HQ: </th>
                 <th>ABM HQ: </th>
                 <th>ZBM HQ: </th>
+                <th>Doctor: </th>
                 <th>Date: </th>
                 <th>Month: </th>
                 <th>Primary: </th>
@@ -31,6 +32,7 @@ use Carbon\Carbon;
                 <td>{{ @$detail->CustomerTracking->Manager->name }}</td>
                 <td>{{ @$detail->CustomerTracking->Manager->AreaManager->name }}</td>
                 <td>{{ @$detail->CustomerTracking->Manager->ZonalManager->name }}</td>
+                <td>{{ @$detail->Doctor->doctor_name }}</td>
                 <td>{{ @$detail->CustomerTracking->proposal_date }}</td>
                 <td>{{ @$detail->CustomerTracking->proposal_month }}</td>
                 <td>{{ @$detail->CustomerTracking->primary }}</td>
