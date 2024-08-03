@@ -5,12 +5,12 @@
     <div x-data="form"> 
         <div class="panel">
             <div class="flex items-center justify-between mb-5">
-                <h5 class="font-semibold text-lg dark:text-white-light">Qualification</h5>
-                <div style="display: flex; align-items:center">
-                    <form action="{{ route('qualifications.search') }}" method="get">
-                        <input type="text" name="search" placeholder="search qualifications">
-                        <button class="btn btn-primary" type="submit">submit</button>
-                       </form>
+                <h5 class="font-semibold text-lg dark:text-white-light">Qualifications</h5>
+                <div class="flex items-center">
+                    <form action="{{ route('qualifications.search') }}" method="get" class="flex items-center">
+                        <input type="text" name="search" placeholder="search qualifications" class="mr-2 px-2 py-1 border border-gray-300 rounded-md">
+                        <button class="btn btn-primary px-4 py-2" type="submit">Submit</button>
+                    </form>
                 </div>
             </div>
             <div class="mt-6">

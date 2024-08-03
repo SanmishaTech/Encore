@@ -105,4 +105,24 @@ class DoctorsController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     } 
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        // $chemists = Chemist::with(['Employee', 'Territory'])->where('chemist', 'like', "%$data%")->paginate(12);
+        // return view('chemists.index', ['chemists'=>$chemists]);
+
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        $authUserId = auth()->user()->id;
+        if($authUser == 'Marketing Executive'){  
+            $doctors = Doctor::with(['Employee'])
+                                ->where('reporting_office_3', $authUserId)
+                                ->where('doctor_name', 'like', "%$data%")
+                                ->paginate(12);
+        } else{
+            $doctors = Doctor::where('doctor_name', 'like', "%$data%")->paginate(12);     
+        } 
+        return view('doctors.index', ['doctors'=>$doctors]);
+
+    }
+
 }

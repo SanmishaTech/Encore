@@ -171,5 +171,85 @@ class CustomerTrackingsController extends Controller
         $zonalManager = $request->zonalManager;
         return Excel::download(new CTExport($from_date, $to_date,$zonalManager,$doctor), 'CustomerTrackings_report.xlsx');
     }
+
+
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $authUser = auth()->user()->roles->pluck('name')->first();
+
+        if($authUser == 'Marketing Executive'){
+            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })->where('employee_id', auth()->user()->id)
+            ->paginate(12);
+          
+        }elseif($authUser == 'Area Manager'){
+            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+            ->paginate(12);
+
+        } elseif($authUser == 'Zonal Manager'){
+            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
+            ->paginate(12);
+
+        }else{
+            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->paginate(12);
+        }
+   
+        return view('customer_trackings.index', ['customer_trackings'=>$customer_trackings]);
+
+    }
+    
     
 }
+
+// }

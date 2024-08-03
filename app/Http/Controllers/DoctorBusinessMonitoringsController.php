@@ -300,4 +300,100 @@ class DoctorBusinessMonitoringsController extends Controller
         // $pdf->render();              
         // return $pdf->stream("CDBM -" . date("dmY") .".pdf");         
     }
+
+    public function search(Request $request){
+        // $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        
+        $data = $request->input('search');
+
+        if($authUser == 'Marketing Executive'){        
+          
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where(function ($query) use ($data) {
+            $query->whereHas('GrantApproval', function ($query) use ($data) {
+           $query->whereHas('Manager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+             })
+            ->orWhere('code', 'like', "%$data%");
+         });
+           })
+           ->whereRelation('GrantApproval', 'employee_id', auth()->user()->id)
+          ->paginate(12);
+
+        } elseif($authUser == 'Area Manager'){               
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where(function ($query) use ($data) {
+            $query->whereHas('GrantApproval', function ($query) use ($data) {
+           $query->whereHas('Manager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+         });
+           })
+           ->whereHas('GrantApproval.Manager', function($query) use ($data){
+                 $query->where('reporting_office_2', auth()->user()->id);
+           })
+          ->paginate(12);
+
+        
+        } elseif($authUser == 'Zonal Manager'){
+        
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where(function ($query) use ($data) {
+            $query->whereHas('GrantApproval', function ($query) use ($data) {
+           $query->whereHas('Manager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+         });
+           })
+            ->whereHas('GrantApproval.Manager', function($query) use ($data){
+            $query->where('reporting_office_1', auth()->user()->id);
+            })
+          ->paginate(12);
+
+        }
+        else{       
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where(function ($query) use ($data) {
+            $query->whereHas('GrantApproval', function ($query) use ($data) {
+           $query->whereHas('Manager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+           })
+           ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+               $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+         });
+           })
+          ->paginate(12);
+
+        }
+       
+      return view('doctor_business_monitorings.index', ['doctor_business_monitorings'=>$doctor_business_monitorings]);
+
+    }
+
 }

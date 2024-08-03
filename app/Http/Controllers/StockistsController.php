@@ -88,4 +88,11 @@ class StockistsController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $stockists = Stockist::with(['ZonalManager', 'AreaManager', 'Manager'])->where('stockist', 'like', "%$data%")->paginate(12);
+        return view('stockists.index', ['stockists'=>$stockists]);
+    }
+
 }

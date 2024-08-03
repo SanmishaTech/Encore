@@ -297,13 +297,17 @@ class FreeSchemesController extends Controller
         if(auth()->user()->roles->pluck('name')->first() == 'Root'){
             $condition[] = ['id', '=', $free_scheme->id];
             $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-            // $recipients =  $print[0]->FreeScheme->Stockist->cfa_email;
-            // $recipients = "ganeshghadi084@gmail.com";
-            // if (!empty($recipients)){
-            
-                Mail::to('ganeshghadi084@gmail.com')->send(new FreeSchemeApprovalNotification($print));
+            $recipients = [];
+            $dynamicEmail =  $print[0]->FreeScheme->Stockist->cfa_email;
+            $staticEmail = "ghadiganesh2002@gmail.com";
+            if(!empty($dynamicEmail)){
+                $recipients[] = $dynamicEmail;
+            }
+            $recipients[] = $staticEmail;
+            if (!empty($recipients)){
+               Mail::to($recipients)->send(new FreeSchemeApprovalNotification($print));
            
-            // }
+            }
         }
        
         return redirect()->route('free_schemes.index');
@@ -329,5 +333,82 @@ class FreeSchemesController extends Controller
         return view('free_schemes.approval_form', ['free_scheme' => $free_scheme, 'employees'=>$employees, 'doctors'=>$doctors, 'stockists'=>$stockists, 'chemists'=>$chemists, 'products'=>$products]);
     }
 
+    public function search(Request $request){
+        $data = $request->input('search');
+        $authUser = auth()->user()->roles->pluck('name')->first();
 
+        if($authUser == 'Marketing Executive'){
+            $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })->where('employee_id', auth()->user()->id)
+            ->paginate(12);
+          
+        }elseif($authUser == 'Area Manager'){
+            $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+            ->paginate(12);
+
+        } elseif($authUser == 'Zonal Manager'){
+            $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
+            ->paginate(12);
+
+        }else{
+            $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->paginate(12);
+        }
+   
+
+        return view('free_schemes.index', ['free_schemes'=>$free_schemes]);
+
+    }
+    
 }
+
+// }

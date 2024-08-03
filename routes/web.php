@@ -129,6 +129,16 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('search/products', 'ProductsController@search')->name('products.search');
         Route::get('search/territories', 'TerritoriesController@search')->name('territories.search');
         Route::get('search/qualifications', 'QualificationsController@search')->name('qualifications.search');
+        Route::get('search/categories', 'CategoriesController@search')->name('categories.search');
+        Route::get('search/activities', 'ActivitiesController@search')->name('activities.search');
+        Route::get('search/stockists', 'StockistsController@search')->name('stockists.search');
+        Route::get('search/doctors', 'DoctorsController@search')->name('doctors.search');
+        Route::get('search/chemists', 'ChemistsController@search')->name('chemists.search');
+        Route::get('search/grant_approvals', 'GrantApprovalsController@search')->name('grant_approvals.search');
+        Route::get('search/doctor_business_monitorings', 'DoctorBusinessMonitoringsController@search')->name('doctor_business_monitorings.search');
+        Route::get('search/roi_accountability_reports', 'RoiAccountabilityReportsController@search')->name('roi_accountability_reports.search');
+        Route::get('search/free_schemes', 'FreeSchemesController@search')->name('free_schemes.search');
+        Route::get('search/customer_trackings', 'CustomerTrackingsController@search')->name('customer_trackings.search');
 
 
 
@@ -154,7 +164,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::resource('free_schemes', FreeSchemesController::class);
         Route::resource('customer_trackings', CustomerTrackingsController::class);
 
-        // search
+    
     });
 
     Route::group(['middleware' => ['auth']], function() {  

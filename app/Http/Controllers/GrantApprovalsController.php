@@ -331,4 +331,83 @@ class GrantApprovalsController extends Controller
         GrantApprovalDetail::create($input);
         return redirect()->route('grant_approvals.index');
     }
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $authUser = auth()->user()->roles->pluck('name')->first();
+
+        if($authUser == 'Marketing Executive'){
+            $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+            })->where('employee_id', auth()->user()->id)
+            ->paginate(12);
+          
+        }elseif($authUser == 'Area Manager'){
+
+            $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+            })
+            ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+            ->paginate(12);
+
+        } elseif($authUser == 'Zonal Manager'){
+
+            $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+            })
+            ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
+            ->paginate(12);
+
+        }else{
+            $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+            })
+            ->paginate(12);
+        }
+   
+
+        return view('grant_approvals.index', ['grant_approvals'=>$grant_approvals]);
+
+    }
+    
 }

@@ -6,6 +6,12 @@
         <div class="panel">
             <div class="flex items-center justify-between mb-5">
                 <h5 class="font-semibold text-lg dark:text-white-light">Categories</h5>
+                <div class="flex items-center">
+                    <form action="{{ route('categories.search') }}" method="get" class="flex items-center">
+                        <input type="text" name="search" placeholder="search category" class="mr-2 px-2 py-1 border border-gray-300 rounded-md">
+                        <button class="btn btn-primary px-4 py-2" type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
             <div class="mt-6">
                 <div class="table-responsive">

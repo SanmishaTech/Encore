@@ -67,4 +67,11 @@ class ActivitiesController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     } 
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $activities = Activity::where('name', 'like', "%$data%")->paginate(12);
+        return view('activities.index', ['activities'=>$activities]);
+    }
+
 }

@@ -96,4 +96,10 @@ class ChemistsController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function search(Request $request){
+        $data = $request->input('search');
+        $chemists = Chemist::with(['Employee', 'Territory'])->where('chemist', 'like', "%$data%")->paginate(12);
+        return view('chemists.index', ['chemists'=>$chemists]);
+    }
 }
