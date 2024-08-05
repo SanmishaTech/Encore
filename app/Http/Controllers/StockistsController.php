@@ -7,6 +7,7 @@ use App\Models\Stockist;
 use Illuminate\Http\Request;
 use App\Imports\ImportStockists;
 use App\Http\Requests\StockistRequest;
+use App\Imports\ImportStockistsCfaEmail;
 use App\Http\Requests\UpdateStockistRequest;
 
 
@@ -78,16 +79,28 @@ class StockistsController extends Controller
         return view('stockists.import');
     }
 
+    // public function importStockistsExcel(Request $request)
+    // {      
+    //     try {
+    //         Excel::import(new ImportStockists, $request->file);
+    //         $request->session()->flash('success', 'Excel imported successfully!');
+    //         return redirect()->route('stockists.index');
+    //     } catch (\Throwable $e) {
+    //         return redirect()->back()->with('error', $e->getMessage());
+    //     }
+    // }
+
     public function importStockistsExcel(Request $request)
     {      
         try {
-            Excel::import(new ImportStockists, $request->file);
+            Excel::import(new ImportStockistsCfaEmail, $request->file);
             $request->session()->flash('success', 'Excel imported successfully!');
             return redirect()->route('stockists.index');
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
 
     public function search(Request $request){
         $data = $request->input('search');

@@ -37,6 +37,10 @@ class ImportStockists implements ToModel,WithHeadingRow,WithValidation, WithBatc
         $abm = DB::table('employees')->where('employee_code', $row['abm_employee_code'])->first();
         $me = DB::table('employees')->where('employee_code', $row['mehq_employee_code'])->first();
         // print_r($me);exit;
+
+        // $stockist = Stockist::where('stockist', $row['stockist']);
+        // $stockist->cfa_mail = $row['cfa_mail']
+
         if(!$rbm || !$abm || !$me) {
             echo "<pre>";
             echo "RBM <br />"; print_r($rbm); echo "<hr/>";
