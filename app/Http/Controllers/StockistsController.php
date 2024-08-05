@@ -28,7 +28,7 @@ class StockistsController extends Controller
                                 ->orderBy('id', 'desc')
                                 ->paginate(12);
         // }
-        
+
         return view('stockists.index', ['stockists' => $stockists]);
     }
 
@@ -38,35 +38,35 @@ class StockistsController extends Controller
         return view('stockists.create')->with(['employees'=>$employees]);
     }
 
-    public function store(Stockist $stockist, StockistRequest $request) 
+    public function store(Stockist $stockist, StockistRequest $request)
     {
-        $input = $request->all();      
-        $stockist = Stockist::create($input); 
+        $input = $request->all();
+        $stockist = Stockist::create($input);
         $request->session()->flash('success', 'Stockist saved successfully!');
-        return redirect()->route('stockists.index'); 
+        return redirect()->route('stockists.index');
     }
-  
+
     public function show(Stockist $stockist)
     {
-        return $stockist;  
+        return $stockist;
     }
 
     public function edit(Stockist $stockist)
     {
         // dd($stockist);
         $employees = Employee::select('id','name','designation')->get();
-        
+
         return view('stockists.edit', ['stockist' => $stockist, 'employees'=>$employees]);
     }
 
-    public function update(Stockist $stockist, UpdateStockistRequest $request) 
+    public function update(Stockist $stockist, UpdateStockistRequest $request)
     {
         // dd($request);
         $stockist->update($request->all());
         $request->session()->flash('success', 'Stockist updated successfully!');
         return redirect()->route('stockists.index');
     }
-  
+
     public function destroy(Request $request, Stockist $stockist)
     {
         $stockist->delete();
@@ -80,7 +80,7 @@ class StockistsController extends Controller
     }
 
     // public function importStockistsExcel(Request $request)
-    // {      
+    // {
     //     try {
     //         Excel::import(new ImportStockists, $request->file);
     //         $request->session()->flash('success', 'Excel imported successfully!');
@@ -91,9 +91,9 @@ class StockistsController extends Controller
     // }
 
     public function importStockistsExcel(Request $request)
-    {      
+    {
         try {
-            Excel::import(new ImportStockistsCfaEmail, $request->file);
+            Excel::import(new ImportStockists, $request->file);
             $request->session()->flash('success', 'Excel imported successfully!');
             return redirect()->route('stockists.index');
         } catch (\Throwable $e) {

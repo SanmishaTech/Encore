@@ -1,4 +1,4 @@
-<x-layout.default>    
+<x-layout.default>
     <x-add-button :link="route('stockists.create')" />
     <x-excel-button :link="route('stockists.import')" />
     <br><br>
@@ -6,7 +6,7 @@
         <div class="panel">
             {{-- <div class="flex items-center justify-between mb-5">
                 <h5 class="font-semibold text-lg dark:text-white-light" >Stockist</h5> --}}
-            
+
                 <!-- <div class="relative group">
                     <input type="text" placeholder="Search" class="form-input" @change="searchData()" name="search" x-model="stockist_id"/>
                     <div class="absolute ltr:right-[11px] rtl:left-[11px] top-1/2 -translate-y-1/2 peer-focus:text-primary">
@@ -35,7 +35,7 @@
                         <thead>
                             <tr>
                                 <th>Stockist Name</th>
-                                <th>Stockist Contact No</th>
+                                <th>CFA</th>
                                 <th>Zonal Manager</th>
                                 <th>Area Manager</th>
                                 <th>Marketing Executive</th>
@@ -43,27 +43,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                       
+
                         @foreach ($stockists as $stockist)
-                        <tr>                    
+                        <tr>
                             <td> {{ $stockist->stockist }}</td>
-                            <td> {{ $stockist->contact_no }}</td>                    
+                            <td> {{ $stockist->cfa_email }}</td>
                             <td>{{ @$stockist->ZonalManager->name }}</td>
                             <td>{{ @$stockist->AreaManager->name }}</td>
                             <td>{{ @$stockist->Manager->name }}</td>
                             <td class="float-right">
                                 <ul class="flex items-center gap-2" >
                                     <li style="display: inline-block;vertical-align:top;">
-                                        <x-edit-button :link=" route('stockists.edit', $stockist->id)" />                               
+                                        <x-edit-button :link=" route('stockists.edit', $stockist->id)" />
                                     </li>
                                     <li style="display: inline-block;vertical-align:top;">
-                                        <x-delete-button :link=" route('stockists.destroy',$stockist->id)" />  
-                                    </li>   
+                                        <x-delete-button :link=" route('stockists.destroy',$stockist->id)" />
+                                    </li>
                                 </ul>
                             </td>
                         </tr>
                         @endforeach
-                        
+
                         </tbody>
                     </table>
                     {{ $stockists->links() }}
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <script> 
+    <script>
         document.addEventListener("alpine:init", () => {
             Alpine.data("form", () => ({
                 // highlightjs
@@ -90,8 +90,8 @@
                     }
                 },
 
-                
+
             }));
-        });       
+        });
     </script>
 </x-layout.default>

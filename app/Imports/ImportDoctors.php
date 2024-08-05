@@ -42,20 +42,20 @@ class ImportDoctors implements ToModel, WithHeadingRow, WithValidation, WithBatc
     public function model(array $row)
     {
         // print_r($row); exit;
-        $employee = DB::table('employees')->where('employee_code', $row['mehq_employee_code'])->first();        
+        $employee = DB::table('employees')->where('employee_code', $row['mehq_employee_code'])->first();
         $territory = DB::table('territories')->where('name', $row['territory_id'])->first();
         $category = DB::table('categories')->where('name', $row['category_id'])->first();
         $qualification = DB::table('qualifications')->where('name', $row['qualification_id'])->first();
 
         if(!$employee || !$territory || !$category || !$qualification) {
             echo "<pre>";
-            echo "Employee <br />"; print_r($employee); echo "<hr/>";
-            echo "Territory <br />"; print_r($territory); echo "<hr/>";
-            echo "Category <br />"; print_r($category); echo "<hr/>";
-            echo "Qualification <br />"; print_r($qualification); echo "<hr/>";
+            echo "Employee <br />"; print_r($row['mehq_employee_code']); echo "<hr/>";
+            echo "Territory <br />"; print_r($row['territory_id']); echo "<hr/>";
+            echo "Category <br />"; print_r($row['category_id']); echo "<hr/>";
+            echo "Qualification <br />"; print_r($row['qualification_id']); echo "<hr/>";
             // echo "Data <br />"; print_r($row);
             echo "</pre>";
-            // exit;
+            exit;
         }else{
             return new Doctor([
                 'doctor_name' => $row['doctor_name'],
@@ -78,17 +78,17 @@ class ImportDoctors implements ToModel, WithHeadingRow, WithValidation, WithBatc
                 'reporting_office_1' => $employee->reporting_office_1 ?? null,
                 'reporting_office_2' => $employee->reporting_office_2 ?? null,
                 'reporting_office_3' => $employee->id,
-            ]);        
+            ]);
         }
     }
 
     public function batchSize(): int
     {
         return 500;
-    }    
+    }
 
     public function chunkSize(): int
     {
         return 500;
-    }    
+    }
 }
