@@ -9,10 +9,10 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class FreeSchemeApprovalNotification extends Mailable
+class GrantApprovalNotificationForAM extends Mailable
 {
     use Queueable, SerializesModels;
-     public $print;
+  public $print;
     /**
      * Create a new message instance.
      */
@@ -26,25 +26,9 @@ class FreeSchemeApprovalNotification extends Mailable
      */
     public function envelope(): Envelope
     {
-        $stockist = $this->print[0]->FreeScheme->Stockist->stockist ?? null;
-        $chemist = $this->print[0]->FreeScheme->Chemist->chemist ?? null;
-        
-        if(!$stockist){
-            return new Envelope(
-                subject: 'Free Scheme Approval - '. $chemist,
-            );
-        }elseif(!$chemist){
-            return new Envelope(
-                subject: 'Free Scheme Approval - '. $stockist,
-            );
-        }
-        else{
-            return new Envelope(
-                subject: 'Free Scheme Approval - '. $stockist . ', ' . $chemist,
-            );
-        }
-
-       
+        return new Envelope(
+            subject: 'Grant Approval Notification - ' . $this->print[0]->Manager->name,
+        );
     }
 
     /**
@@ -53,7 +37,7 @@ class FreeSchemeApprovalNotification extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'free_schemes.approval_mail',
+            view: 'grant_approvals.email_for_am',
         );
     }
 

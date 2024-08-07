@@ -3,18 +3,21 @@
 namespace App\Http\Controllers;
 use PDF;
 use Excel;
-use App\Exports\GAFExport;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Activity;
+use App\Models\Employee;
+use App\Exports\GAFExport;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\GrantApproval;
 use App\Models\GrantApprovalDetail;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\GrantApprovalRequest;
+use Illuminate\Support\Facades\Mail;
 use App\Models\GrantApproval\codeGenerate;
+use App\Http\Requests\GrantApprovalRequest;
+use App\Mail\GrantApprovalNotificationForAM;
+use App\Mail\GrantApprovalNotificationForZM;
 
 class GrantApprovalsController extends Controller
 {
@@ -75,6 +78,21 @@ class GrantApprovalsController extends Controller
         $input = $request->all();      
         $input['status'] = 'Open';
         $grant_approval = GrantApproval::create($input); 
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Marketing Executive'){
+            $print = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where('id', $grant_approval->id)->get();
+            // $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
+               $email = $print[0]->Manager->AreaManager->communication_email;
+               if(!$email){
+                return redirect()->route('grant_approvals.index');
+               }
+               Mail::to($print[0]->Manager->AreaManager->communication_email)
+               ->cc("ssingh@encoregroup.net")
+               ->bcc("ghadiganesh2002@gmail.com")
+               ->send(new GrantApprovalNotificationForAM($print));
+            
+        }
+        
         $request->session()->flash('success', 'Grant Approval saved successfully!');
         return redirect()->route('grant_approvals.index'); 
     }
@@ -266,6 +284,20 @@ class GrantApprovalsController extends Controller
         $input['amount'] = $grant_approval->approval_amount;
         $input['grant_approval_id'] = $grant_approval->id;
         GrantApprovalDetail::create($input);
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Area Manager'){
+            $print = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where('id', $grant_approval->id)->get();
+               $email = $print[0]->Manager->ZonalManager->communication_email;
+               if(!$email){
+                return redirect()->route('grant_approvals.index');
+               }
+               Mail::to($print[0]->Manager->ZonalManager->communication_email)
+               ->cc("ssingh@encoregroup.net")
+               ->bcc("ghadiganesh2002@gmail.com")
+               ->send(new GrantApprovalNotificationForZM($print));
+            
+        }
+
         return redirect()->route('grant_approvals.index');
     }
 
@@ -334,22 +366,25 @@ class GrantApprovalsController extends Controller
 
     public function search(Request $request){
         $data = $request->input('search');
+        $status = $request->input('status');
         $authUser = auth()->user()->roles->pluck('name')->first();
 
         if($authUser == 'Marketing Executive'){
             $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
-            ->where(function ($query) use ($data) {
-             $query->whereHas('Manager', function ($query) use ($data) {
+            ->where(function ($query) use ($data,$status) {
+             $query->whereHas('Manager', function ($query) use ($data, $status) {
                  $query->where('name', 'like', "%$data%");
              })
-             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data,$status) {
                  $query->where('name', 'like', "%$data%");
              })
-             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data, $status) {
                  $query->where('name', 'like', "%$data%");
              })
              ->orWhere('code', 'like', "%$data%");
-            })->where('employee_id', auth()->user()->id)
+            })
+            ->where('status', 'like', "%$status%")
+            ->where('employee_id', auth()->user()->id)
             ->paginate(12);
           
         }elseif($authUser == 'Area Manager'){
@@ -367,6 +402,7 @@ class GrantApprovalsController extends Controller
              })
              ->orWhere('code', 'like', "%$data%");
             })
+            ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
             ->paginate(12);
 
@@ -385,6 +421,7 @@ class GrantApprovalsController extends Controller
              })
              ->orWhere('code', 'like', "%$data%");
             })
+            ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             ->paginate(12);
 
@@ -402,12 +439,15 @@ class GrantApprovalsController extends Controller
              })
              ->orWhere('code', 'like', "%$data%");
             })
+            ->where('status', 'like', "%$status%")
             ->paginate(12);
         }
    
 
-        return view('grant_approvals.index', ['grant_approvals'=>$grant_approvals]);
+        return view('grant_approvals.index', ['grant_approvals'=>$grant_approvals, 'data'=> $data, 'status'=> $status]);
 
     }
+
+   
     
 }

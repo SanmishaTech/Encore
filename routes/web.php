@@ -140,6 +140,12 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('search/free_schemes', 'FreeSchemesController@search')->name('free_schemes.search');
         Route::get('search/customer_trackings', 'CustomerTrackingsController@search')->name('customer_trackings.search');
 
+        Route::get('search/grant_approvals/status', 'GrantApprovalsController@searchStatus')->name('grant_approvals.searchStatus');
+        Route::get('search/doctor_business_monitorings/status', 'DoctorBusinessMonitoringsController@searchStatus')->name('doctor_business_monitorings.searchStatus');
+        Route::get('search/roi_accountability_reports/status', 'RoiAccountabilityReportsController@searchStatus')->name('roi_accountability_reports.searchStatus');
+        Route::get('search/free_schemes/status', 'FreeSchemesController@searchStatus')->name('free_schemes.searchStatus');
+        Route::get('search/customer_trackings/status', 'CustomerTrackingsController@searchStatus')->name('customer_trackings.searchStatus');
+
 
 
         /**

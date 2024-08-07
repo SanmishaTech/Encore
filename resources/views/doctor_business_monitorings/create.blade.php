@@ -141,7 +141,7 @@
                                                     <td>                                                       
                                                         <select required class="form-input mt-2 " x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()">
                                                         <option value="" disabled selected> Scheme% </option>
-                                                        @for ($i = 1; $i < 100; $i++)
+                                                        @for ($i = 0; $i <= 100; $i++)
                                                             <option value="{{ $i }}"> {{ $i }}%</option>
                                                         @endfor
                                                         </select>

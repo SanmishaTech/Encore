@@ -128,7 +128,7 @@ class EmployeesController extends Controller
 
     public function search(Request $request){
         $data = $request->input('search');
-        $employees = Employee::where('name', 'like', "%$data%")->paginate(12);
+        $employees = Employee::where('name', 'like', "%$data%")->orWhere('employee_code', 'like', "%$data%")->paginate(12);
         // $employees = Employee::with(['users'])->orderBy('id', 'desc')->paginate(12);
 
         return view('employees.index', ['employees'=>$employees]);

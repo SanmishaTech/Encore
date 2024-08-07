@@ -43,6 +43,15 @@
                         </div>
                         <x-text-input class="bg-gray-100 dark:bg-gray-700" name="proposal_date" id="proposal_date" value="{{ old('proposal_date', $free_scheme->proposal_date) }}" x-model="proposal_date" x-on:change.debounce="dateChange()" :label="__('Proposal Date')"  :messages="$errors->get('proposal_date')" readonly="true"/>
                         <x-text-input class="bg-gray-100 dark:bg-gray-700" :label="__('Proposal Month')" x-model="proposal_month" name="proposal_month" :messages="$errors->get('proposal_month')" readonly="true"/> 
+                            <div>
+                                <label>Free Scheme Type: <span class=text-danger>*</span></label>
+                                <select class="form-input" name="free_scheme_type" disabled>
+                                    <option value="" disabled>Select Type</option>
+                                    <option value='Reimburse'  @if ($free_scheme->free_scheme_type =='Reimburse') {{ 'Selected' }} @endif>Reimburse</option>
+                                    <option value='Regular'  @if ($free_scheme->free_scheme_type =='Regular') {{ 'Selected' }} @endif>Regular</option>    
+                                </select>
+                            <x-input-error :messages="$errors->get('free_scheme_type')" class="mt-2" /> 
+                            </div>
                     </div>
                     <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>              
@@ -120,6 +129,7 @@
                                                         <th>Products</th>
                                                         <th>NRV</th>
                                                         <th>Quantity</th>
+                                                        <th>Free Quantity</th>
                                                         <th>Free %</th>
                                                         <th>Value</th>
                                                     </tr>
@@ -162,11 +172,14 @@
                                                             </td>   
                                                             <td>
                                                                 <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="freeSchemeDetail.qty" @change="calculateVal()" disabled/>
-                                                            </td>                                                
+                                                            </td>  
+                                                            <td>
+                                                                <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free_qty]`"  :messages="$errors->get('free_qty')" x-model="freeSchemeDetail.free_qty" disabled/>
+                                                            </td>                                                 
                                                             <td>                                                       
                                                                 <select class="form-input" style="width:100px;" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free"  @change="calculateVal()" disabled>
                                                                     <option> Free </option>
-                                                                    @for ($i = 1; $i < 100; $i++)
+                                                                    @for ($i = 0; $i <= 100; $i++)
                                                                         <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->free ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                                     @endfor
                                                                 </select>
@@ -292,6 +305,7 @@
                     product_id: '{{ $details->product_id }}',
                     nrv: '{{ $details->nrv }}',
                     qty: '{{ $details->qty }}',
+                    free_qty: '{{ $details->free_qty }}',
                     free: '{{ $details->free }}',
                     val: '{{ $details->val }}',
                 });                    

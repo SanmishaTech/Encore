@@ -138,7 +138,7 @@
                                                         <!-- <x-text-input  x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme" /> -->
                                                         <select required class="form-input" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme">
                                                         <option value="" disabled selected> Scheme% </option>
-                                                        @for ($i = 1; $i < 100; $i++)
+                                                        @for ($i = 0; $i <= 100; $i++)
                                                             <option value="{{ $i }}"> {{ $i }}%</option>
                                                         @endfor
                                                         </select>

@@ -139,7 +139,7 @@
                                                         <!-- <x-text-input x-bind:name="`product_details[${productDetail.id}][scheme]`"  :messages="$errors->get('scheme')" x-model="productDetail.scheme"/> -->
                                                         <select required class="form-input" style="width:100px;" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" >
                                                             <option value="" disabled > Scheme </option>
-                                                            @for ($i = 1; $i < 100; $i++)
+                                                            @for ($i = 0; $i <= 100; $i++)
                                                                 <option value="{{ $i }}" {{ $i ? ($i == $roi_accountability_report->scheme ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                             @endfor
                                                         </select>

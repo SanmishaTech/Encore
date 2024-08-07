@@ -306,6 +306,7 @@ class DoctorBusinessMonitoringsController extends Controller
         $authUser = auth()->user()->roles->pluck('name')->first();
         
         $data = $request->input('search');
+        $status = $request->input('status');
 
         if($authUser == 'Marketing Executive'){        
           
@@ -324,8 +325,9 @@ class DoctorBusinessMonitoringsController extends Controller
             ->orWhere('code', 'like', "%$data%");
          });
            })
+           ->where('status', 'like', "%$status%")
            ->whereRelation('GrantApproval', 'employee_id', auth()->user()->id)
-          ->paginate(12);
+           ->paginate(12);
 
         } elseif($authUser == 'Area Manager'){               
             $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
@@ -343,6 +345,7 @@ class DoctorBusinessMonitoringsController extends Controller
              ->orWhere('code', 'like', "%$data%");
          });
            })
+           ->where('status', 'like', "%$status%")
            ->whereHas('GrantApproval.Manager', function($query) use ($data){
                  $query->where('reporting_office_2', auth()->user()->id);
            })
@@ -366,6 +369,7 @@ class DoctorBusinessMonitoringsController extends Controller
              ->orWhere('code', 'like', "%$data%");
          });
            })
+           ->where('status', 'like', "%$status%")
             ->whereHas('GrantApproval.Manager', function($query) use ($data){
             $query->where('reporting_office_1', auth()->user()->id);
             })
@@ -388,7 +392,52 @@ class DoctorBusinessMonitoringsController extends Controller
              ->orWhere('code', 'like', "%$data%");
          });
            })
+           ->where('status', 'like', "%$status%")
           ->paginate(12);
+
+        }
+       
+      return view('doctor_business_monitorings.index', ['doctor_business_monitorings'=>$doctor_business_monitorings]);
+
+    }
+
+
+    public function searchStatus(Request $request){
+        // $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
+        $authUser = auth()->user()->roles->pluck('name')->first();
+        
+        $data = $request->input('status');
+
+        if($authUser == 'Marketing Executive'){        
+          
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where('status', 'like', "%$data%")
+            ->whereRelation('GrantApproval', 'employee_id', auth()->user()->id)
+            ->paginate(12);
+
+        } elseif($authUser == 'Area Manager'){               
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where('status', 'like', "%$data%")
+            ->whereHas('GrantApproval.Manager', function($query) use ($data){
+                 $query->where('reporting_office_2', auth()->user()->id);
+           })
+          ->paginate(12);
+
+        
+        } elseif($authUser == 'Zonal Manager'){
+        
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where('status', 'like', "%$data%")
+            ->whereHas('GrantApproval.Manager', function($query) use ($data){
+            $query->where('reporting_office_1', auth()->user()->id);
+            })
+          ->paginate(12);
+
+        }
+        else{       
+            $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
+            ->where('status', 'like', "%$data%")
+            ->paginate(12);
 
         }
        

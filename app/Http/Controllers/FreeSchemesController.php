@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\FreeSchemeRequest;
 use App\Mail\FreeSchemeApprovalNotification;
+use App\Mail\FreeSchemeApprovalNotificationForAM;
+use App\Mail\FreeSchemeApprovalNotificationForZM;
 
 class FreeSchemesController extends Controller
 {
@@ -102,6 +104,20 @@ class FreeSchemesController extends Controller
                 'free_qty' => $record['free_qty'],
             ]);
         }
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Marketing Executive'){
+            $condition[] = ['id', '=', $free_scheme->id];
+            $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
+               $email =$print[0]->FreeScheme->Manager->AreaManager->communication_email;
+               if(!$email){
+                return redirect()->route('free_schemes.index');
+               }
+               Mail::to($print[0]->FreeScheme->Manager->AreaManager->communication_email)
+               ->cc("ssingh@encoregroup.net")
+               ->bcc("ghadiganesh2002@gmail.com")
+               ->send(new FreeSchemeApprovalNotificationForAM($print));
+        }
+
         $request->session()->flash('success', 'Free Schemes saved successfully!');
         return redirect()->route('free_schemes.index');
     }
@@ -298,16 +314,32 @@ class FreeSchemesController extends Controller
             $condition[] = ['id', '=', $free_scheme->id];
             $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
 
-            if (!empty($recipients)){
                Mail::to($print[0]->FreeScheme->Stockist->cfa_email)
                ->cc("ssingh@encoregroup.net")
                ->bcc("ghadiganesh2002@gmail.com")
                ->send(new FreeSchemeApprovalNotification($print));
-            }
+            
+        }
+
+    
+        if(auth()->user()->roles->pluck('name')->first() == 'Area Manager'){
+            $condition[] = ['id', '=', $free_scheme->id];
+            $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
+               $email = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
+               if(!$email){
+                return redirect()->route('free_schemes.index');
+               }
+               Mail::to($email)
+               ->cc("ssingh@encoregroup.net")
+               ->bcc("ghadiganesh2002@gmail.com")
+               ->send(new FreeSchemeApprovalNotificationForZM($print));
+            
         }
 
         return redirect()->route('free_schemes.index');
     }
+
+
 
      public function approval_form(FreeScheme $free_scheme)
     {
@@ -331,6 +363,8 @@ class FreeSchemesController extends Controller
 
     public function search(Request $request){
         $data = $request->input('search');
+        $status = $request->input('status');
+
         $authUser = auth()->user()->roles->pluck('name')->first();
 
         if($authUser == 'Marketing Executive'){
@@ -346,7 +380,9 @@ class FreeSchemesController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
              });
-            })->where('employee_id', auth()->user()->id)
+            })
+            ->where('status', 'like', "%$status%")
+            ->where('employee_id', auth()->user()->id)
             ->paginate(12);
 
         }elseif($authUser == 'Area Manager'){
@@ -363,6 +399,7 @@ class FreeSchemesController extends Controller
                  $query->where('name', 'like', "%$data%");
              });
             })
+            ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
             ->paginate(12);
 
@@ -380,6 +417,7 @@ class FreeSchemesController extends Controller
                  $query->where('name', 'like', "%$data%");
              });
             })
+            ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             ->paginate(12);
 
@@ -397,6 +435,7 @@ class FreeSchemesController extends Controller
                  $query->where('name', 'like', "%$data%");
              });
             })
+            ->where('status', 'like', "%$status%")
             ->paginate(12);
         }
 

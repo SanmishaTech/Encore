@@ -203,7 +203,7 @@
                                                     <td>                                                      
                                                         <select class="form-input" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free" @change="calculateVal()">
                                                         <option value="" selected> Free% </option>
-                                                        @for ($i = 1; $i <= 100; $i++)
+                                                        @for ($i = 0; $i <= 100; $i++)
                                                             <option value="{{ $i }}"> {{ $i }}%</option>
                                                         @endfor
                                                         </select>

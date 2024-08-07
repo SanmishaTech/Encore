@@ -9,15 +9,41 @@
                 <h5 class="font-semibold text-lg dark:text-white-light">Grant Approvals</h5>
             </div> --}}
 
-            <div class="flex items-center justify-between mb-5">
+            {{-- <div class="flex items-center justify-between mb-5">
                 <h5 class="font-semibold text-lg dark:text-white-light">Grant Approvals</h5>
-                <div class="flex items-center">
+                <div class="flex items-center gap-4">
                     <form action="{{ route('grant_approvals.search') }}" method="get" class="flex items-center">
                         <input type="text" name="search" placeholder="search" class="mr-2 px-2 py-1 border border-gray-300 rounded-md">
                         <button class="btn btn-primary px-4 py-2" type="submit">Submit</button>
                     </form>
                 </div>
+                <div class="flex items-center">
+                    <form action="{{ route('grant_approvals.searchStatus') }}" method="get" class="flex items-center">
+                        <input type="text" name="status" placeholder="search status" class="mr-2 px-2 py-1 border border-gray-300 rounded-md">
+                        <button class="btn btn-primary px-4 py-2" type="submit">Submit</button>
+                    </form>
+                </div>
+            </div> --}}
+            <div class="flex items-center justify-between mb-5">
+                <h5 class="font-semibold text-lg dark:text-white-light">Grant Approvals</h5>
+                <div class="flex items-center gap-4"> <!-- Added gap-4 for spacing -->
+                    <form action="{{ route('grant_approvals.search') }}" method="get" class="flex items-center">
+                        <select name="status" class="mr-2 px-2 py-1 border border-gray-300 rounded-md">
+                            <option value="">Status</option>
+                            <option value="Open" {{ request()->get('status') == 'Open' ? 'selected' : '' }}>Open</option>
+                            <option value="Level 1 Approved" {{ request()->get('status') == 'Level 1 Approved' ? 'selected' : '' }} >Level 1 Approved</option>
+                            <option value="Level 2 Approved" {{ request()->get('status') == 'Level 2 Approved' ? 'selected' : '' }}>Level 2 Approved</option>
+                            <option value="Level 1 Rejected" {{ request()->get('status') == 'Level 1 Rejected' ? 'selected' : '' }}>Level 1 Rejected</option>
+                            <option value="Level 2 Rejected" {{ request()->get('status') == 'Level 2 Rejected' ? 'selected' : '' }}>Level 2 Rejected</option>
+                        </select>
+                        <input type="text" name="search" placeholder="search" value="{{ request()->get('search') }}" class="mr-2 px-2 py-1 border border-gray-300 rounded-md">
+                        <button class="btn btn-primary px-4 py-2" type="submit">Search</button>
+                    </form>
+                   
+                </div>
             </div>
+            
+
             <!-- <form action="{{ route('grant_approvals.index') }}" method="GET" role="search">
                 <div class="float-right mr-2">
                     <span>
@@ -38,6 +64,8 @@
             </form> -->
             <div class="mt-6">
                 <div class="table-responsive">
+                    {{ $grant_approvals->links() }}
+                    <br>
                     <table class="table-hover">
                         <thead>
                             <tr>
@@ -66,7 +94,7 @@
                                     <td class="whitespace-nowrap"> &#8377;  {{ @$grant_approval->proposal_amount }}</td>
                                     <td class="whitespace-nowrap"> &#8377;  {{ $grant_approval->approval_amount }}</td>
                                     <td class="whitespace-nowrap" >
-                                        {!! $grant_approval->status == "Open" ? '<span class="badge bg-info"> Open </span>' : ($grant_approval->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 </span>' : ($grant_approval->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2</span>' :  ($grant_approval->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 </span>' : ($grant_approval->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2</span>' : '')) ))  !!}
+                                        {!! $grant_approval->status == "Open" ? '<span class="badge bg-info"> Open </span>' : ($grant_approval->status == "Level 1 Approved" ? '<span class="badge bg-warning"> Level 1 Approved </span>' : ($grant_approval->status == "Level 2 Approved" ? '<span class="badge bg-success"> Level 2 Approved</span>' :  ($grant_approval->status == "Level 1 Rejected" ? '<span class="badge bg-danger"> Level 1 Rejected </span>' : ($grant_approval->status == "Level 2 Rejected" ? '<span class="badge bg-danger"> Level 2 Rejected</span>' : '')) ))  !!}
                                     </td>
                                     <td class="whitespace-nowrap">
                                         <ul class="flex items-center gap-2" >

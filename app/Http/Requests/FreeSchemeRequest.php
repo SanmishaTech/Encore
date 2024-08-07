@@ -30,6 +30,8 @@ class FreeSchemeRequest extends FormRequest
             'doctor_id' => 'required',   
             'free_scheme_type' => 'required',
             'proposal_date' => 'required',
+            'stockist_id' => 'required',
+            'chemist_id' => 'required',
         ];
     }
 }
