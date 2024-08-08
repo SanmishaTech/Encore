@@ -13,6 +13,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\GrantApproval;
 use App\Models\ProductDetail;
+use App\Mail\CDBMNotificationForAM;
+use App\Mail\CDBMNotificationForZM;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CDBMNotificationForRoot;
 use App\Models\DoctorBusinessMonitoring;
 use App\Models\DoctorBusinessMonitoringDetail;
 use App\Http\Requests\DoctorBusinessMonitoringRequest;
@@ -93,6 +97,21 @@ class DoctorBusinessMonitoringsController extends Controller
                 'scheme' => $record['scheme'],
             ]);            
         }   
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Marketing Executive'){
+            $condition[] = ['id', '=', $doctor_business_monitoring->id];
+            $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])
+            ->whereRelation('DoctorBusinessMonitoring', $condition)->get();
+
+            $email =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->AreaManager->communication_email;
+            if(!$email){
+            return redirect()->route('doctor_business_monitorings.index');
+            }
+            Mail::to($email)
+            ->send(new CDBMNotificationForAM($print));
+        }
+        // $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])->whereRelation('DoctorBusinessMonitoring', $condition)->get();
+
         $request->session()->flash('success', 'Doctor Business Monitoring saved successfully!');
         return redirect()->route('doctor_business_monitorings.index'); 
     }
@@ -219,6 +238,34 @@ class DoctorBusinessMonitoringsController extends Controller
         $input['status'] =  $doctor_business_monitoring->status;
         $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
         DoctorBusinessMonitoringDetail::create($input);
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Area Manager'){
+            $condition[] = ['id', '=', $doctor_business_monitoring->id];
+            $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])
+            ->whereRelation('DoctorBusinessMonitoring', $condition)->get();
+
+            $email =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->ZonalManager->communication_email;
+            if(!$email){
+            return redirect()->route('doctor_business_monitorings.index');
+            }
+            Mail::to($email)
+            ->send(new CDBMNotificationForZM($print));
+        }
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $condition[] = ['id', '=', $doctor_business_monitoring->id];
+            $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])
+            ->whereRelation('DoctorBusinessMonitoring', $condition)->get();
+
+            $email =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->ZonalManager->communication_email;
+            if(!$email){
+            return redirect()->route('doctor_business_monitorings.index');
+            }
+            Mail::to($email)
+            ->cc("ssingh@encoregroup.net")
+            ->send(new CDBMNotificationForRoot($print));
+        }
+
         return redirect()->route('doctor_business_monitorings.index');
     }
 

@@ -18,6 +18,7 @@ use App\Models\GrantApproval\codeGenerate;
 use App\Http\Requests\GrantApprovalRequest;
 use App\Mail\GrantApprovalNotificationForAM;
 use App\Mail\GrantApprovalNotificationForZM;
+use App\Mail\GrantApprovalNotificationForRoot;
 
 class GrantApprovalsController extends Controller
 {
@@ -87,8 +88,6 @@ class GrantApprovalsController extends Controller
                 return redirect()->route('grant_approvals.index');
                }
                Mail::to($print[0]->Manager->AreaManager->communication_email)
-               ->cc("ssingh@encoregroup.net")
-               ->bcc("ghadiganesh2002@gmail.com")
                ->send(new GrantApprovalNotificationForAM($print));
             
         }
@@ -292,11 +291,22 @@ class GrantApprovalsController extends Controller
                 return redirect()->route('grant_approvals.index');
                }
                Mail::to($print[0]->Manager->ZonalManager->communication_email)
-               ->cc("ssingh@encoregroup.net")
-               ->bcc("ghadiganesh2002@gmail.com")
                ->send(new GrantApprovalNotificationForZM($print));
             
         }
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $print = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where('id', $grant_approval->id)->get();
+               $email = $print[0]->Manager->ZonalManager->communication_email;
+               if(!$email){
+                return redirect()->route('grant_approvals.index');
+               }
+               Mail::to($email)
+               ->cc("ssingh@encoregroup.net")
+               ->send(new GrantApprovalNotificationForRoot($print));
+            
+        }
+
 
         return redirect()->route('grant_approvals.index');
     }

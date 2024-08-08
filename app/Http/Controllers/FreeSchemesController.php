@@ -22,6 +22,7 @@ use App\Http\Requests\FreeSchemeRequest;
 use App\Mail\FreeSchemeApprovalNotification;
 use App\Mail\FreeSchemeApprovalNotificationForAM;
 use App\Mail\FreeSchemeApprovalNotificationForZM;
+use App\Mail\FreeSchemeApprovalNotificationForRoot;
 
 class FreeSchemesController extends Controller
 {
@@ -113,8 +114,6 @@ class FreeSchemesController extends Controller
                 return redirect()->route('free_schemes.index');
                }
                Mail::to($print[0]->FreeScheme->Manager->AreaManager->communication_email)
-               ->cc("ssingh@encoregroup.net")
-               ->bcc("ghadiganesh2002@gmail.com")
                ->send(new FreeSchemeApprovalNotificationForAM($print));
         }
 
@@ -316,7 +315,7 @@ class FreeSchemesController extends Controller
 
                Mail::to($print[0]->FreeScheme->Stockist->cfa_email)
                ->cc("ssingh@encoregroup.net")
-               ->bcc("ghadiganesh2002@gmail.com")
+               ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
                ->send(new FreeSchemeApprovalNotification($print));
             
         }
@@ -330,9 +329,20 @@ class FreeSchemesController extends Controller
                 return redirect()->route('free_schemes.index');
                }
                Mail::to($email)
-               ->cc("ssingh@encoregroup.net")
-               ->bcc("ghadiganesh2002@gmail.com")
                ->send(new FreeSchemeApprovalNotificationForZM($print));
+            
+        }
+
+        if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
+            $condition[] = ['id', '=', $free_scheme->id];
+            $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
+               $email = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
+               if(!$email){
+                return redirect()->route('free_schemes.index');
+               }
+               Mail::to($email)
+               ->cc("ssingh@encoregroup.net")
+               ->send(new FreeSchemeApprovalNotificationForRoot($print));
             
         }
 

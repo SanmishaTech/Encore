@@ -125,6 +125,10 @@
             <th>Dr Own Counter:</th>
             <td>{{ @$print[0]->FreeScheme->dr_own_counter }}</td>
         </tr>
+        <tr>
+            <th>Remark:</th>
+            <td>{{ @$print[0]->FreeScheme->remark }}</td>
+        </tr>
     </tbody>
 </table>
 
