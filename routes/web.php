@@ -31,7 +31,7 @@ use App\Http\Controllers\DoctorBusinessMonitoringsController;
 */
 
 Route::group(['namespace' => 'App\Http\Controllers'], function()
-{      
+{
     // Route::get('/', function () {
     //     return view('welcome');
     // });
@@ -43,13 +43,13 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
     Route::resource('dashboards', DashboardController::class)->middleware(['auth', 'verified']);
 
     Route::group(['middleware' => ['guest']], function() {
-        Route::get('/', [AuthenticatedSessionController::class, 'create'])
-                ->name('login');
+        Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
+        Route::get('/test', [DashboardController::class, 'test'])->name('test');
     });
     Route::resource('roles', RolesController::class);
     Route::resource('permissions', PermissionsController::class);
 
-    Route::group(['middleware' => ['auth', 'permission']], function() {       
+    Route::group(['middleware' => ['auth', 'permission']], function() {
         /**
          * User Routes
          */
@@ -63,27 +63,27 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
             Route::delete('/{user}/destroy', 'UsersController@destroy')->name('users.destroy');
         });
 
-        Route::get('profile', 'ProfileController@index')->name('profile.change');        
+        // Route::get('profile', 'ProfileController@index')->name('profile.change');
         Route::get('grant_approvals/rejected/{grant_approval}', 'GrantApprovalsController@rejected')->name('grant_approvals.rejected');
         Route::get('grant_approvals/cancel/{grant_approval}', 'GrantApprovalsController@cancel')->name('grant_approvals.cancel');
-       
+
         Route::get('doctor_business_monitorings/rejected/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@rejected')->name('doctor_business_monitorings.rejected');
         Route::get('doctor_business_monitorings/cancel/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@cancel')->name('doctor_business_monitorings.cancel');
 
         Route::get('doctors/getDoctors/{id}', 'DoctorsController@getDoctors')->name('doctors.getDoctors');
-       
+
         Route::get('grant_approvals/approval_form/{grant_approval}', 'GrantApprovalsController@approval_form')->name('grant_approvals.approval_form');
-        Route::put('grant_approvals/{grant_approval}/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval'); 
+        Route::put('grant_approvals/{grant_approval}/approval', 'GrantApprovalsController@approval')->name('grant_approvals.approval');
 
         Route::get('grant_approvals/reject_form/{grant_approval}', 'GrantApprovalsController@reject_form')->name('grant_approvals.reject_form');
-        Route::put('grant_approvals/{grant_approval}/rejection', 'GrantApprovalsController@rejection')->name('grant_approvals.rejection'); 
-        
+        Route::put('grant_approvals/{grant_approval}/rejection', 'GrantApprovalsController@rejection')->name('grant_approvals.rejection');
+
         Route::get('doctor_business_monitorings/approval_form/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval_form')->name('doctor_business_monitorings.approval_form');
         Route::put('doctor_business_monitorings/approval/{doctor_business_monitoring}', 'DoctorBusinessMonitoringsController@approval')->name('doctor_business_monitorings.approval');
 
         Route::get('free_schemes/rejected/{free_scheme}', 'FreeSchemesController@rejected')->name('free_schemes.rejected');
         Route::get('free_schemes/approval_form/{free_scheme}', 'FreeSchemesController@approval_form')->name('free_schemes.approval_form');
-        Route::put('free_schemes/{free_scheme}/approval', 'FreeSchemesController@approval')->name('free_schemes.approval'); 
+        Route::put('free_schemes/{free_scheme}/approval', 'FreeSchemesController@approval')->name('free_schemes.approval');
 
 
         /**
@@ -163,23 +163,22 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/employees/getEmployees/{employee}', 'EmployeesController@getEmployees')->name('employees.getEmployees');
         Route::resource('doctors', DoctorsController::class);
         Route::resource('grant_approvals', GrantApprovalsController::class);
-        
-        // Route::get('/grant_approvals/report/{grant_approval}', [App\Http\Controllers\GrantApprovalsController::class, 'report'])->name('grant_approvals.report');        
+
+        // Route::get('/grant_approvals/report/{grant_approval}', [App\Http\Controllers\GrantApprovalsController::class, 'report'])->name('grant_approvals.report');
         Route::resource('doctor_business_monitorings', DoctorBusinessMonitoringsController::class);
         Route::resource('roi_accountability_reports', RoiAccountabilityReportsController::class);
         Route::resource('free_schemes', FreeSchemesController::class);
         Route::resource('customer_trackings', CustomerTrackingsController::class);
 
-    
+
     });
 
-    Route::group(['middleware' => ['auth']], function() {  
+    Route::group(['middleware' => ['auth']], function() {
+        Route::get('profile', 'ProfileController@index')->name('profile.change');
+        Route::post('profile', 'ProfileController@changePassword')->name('profile.change');
+        Route::get('profile/edit/{user}', 'ProfileController@edit')->name('profile.edit');
+        Route::post('profile/{user}/update', 'ProfileController@update')->name('profile.update');
 
-        Route::get('profile', 'ProfileController@index')->name('profile.change');       
-        Route::post('profile', 'ProfileController@changePassword')->name('profile.change');       
-        Route::get('profile/edit/{user}', 'ProfileController@edit')->name('profile.edit');       
-        Route::post('profile/{user}/update', 'ProfileController@update')->name('profile.update');       
-      
     });
 });
 

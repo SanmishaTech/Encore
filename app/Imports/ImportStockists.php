@@ -55,17 +55,18 @@ class ImportStockists implements ToModel,WithHeadingRow,WithValidation, WithBatc
                 'employee_id_1' => $rbm->id ?? null,
                 'employee_id_2' => $abm->id ?? null,
                 'employee_id_3' => $me->id ?? null,
+                'cfa_email' => $row['cfa_email']
             ]);
         }
     }
-    
+
     public function batchSize(): int
     {
         return 500;
-    }    
+    }
 
     public function chunkSize(): int
     {
         return 500;
-    }  
+    }
 }

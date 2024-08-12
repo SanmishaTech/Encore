@@ -8,6 +8,9 @@ use App\Models\GrantApproval;
 use App\Models\CustomerTracking;
 use App\Models\RoiAccountabilityReport;
 use App\Models\DoctorBusinessMonitoring;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestNotification;
+
 
 class DashboardController extends Controller
 {
@@ -24,27 +27,27 @@ class DashboardController extends Controller
             ->where('employee_id', $manager)
             ->where('status', 'Open')
             ->orderBy('id', 'DESC')->paginate(12);
-          
+
         } elseif($authUser == 'Area Manager'){
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
             ->where('approval_level_1', false)
             ->where('status', 'Open')
             ->orderBy('id', 'DESC')->paginate(12);
-           
+
         } elseif($authUser == 'Zonal Manager'){
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             ->where('approval_level_2', false)
             ->where('approval_level_1', true)
-            ->orderBy('id', 'DESC')->paginate(12);          
-        }    
+            ->orderBy('id', 'DESC')->paginate(12);
+        }
         elseif($authUser == 'Root'){
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->where('approval_level_2', true)
             ->where('approval_level_3', false)
-            ->orderBy('id', 'DESC')->paginate(12);          
-        }       
+            ->orderBy('id', 'DESC')->paginate(12);
+        }
 
         // grant approvals
 
@@ -56,7 +59,7 @@ class DashboardController extends Controller
             ->where('employee_id', $manager)
             ->where('status', 'Open')
             ->orderBy('code', 'DESC')->paginate(12);
-          
+
         } elseif($authUser == 'Area Manager'){
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
                 ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
@@ -64,30 +67,30 @@ class DashboardController extends Controller
                 ->where('status', 'Open')
                 ->orderBy('code', 'DESC')->paginate(12);
 
-           
+
         } elseif($authUser == 'Zonal Manager'){
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
             ->where('approval_level_2', false)
             ->where('approval_level_1', true)
-            ->orderBy('code', 'DESC')->paginate(12);           
+            ->orderBy('code', 'DESC')->paginate(12);
         }
         elseif($authUser == 'Root'){
             $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
             ->where('approval_level_2', false)
-            ->orderBy('code', 'DESC')->paginate(12);           
-        }     
+            ->orderBy('code', 'DESC')->paginate(12);
+        }
 
 
-        // Doctor Business Monitoring 
+        // Doctor Business Monitoring
         $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
         $authUser = auth()->user()->roles->pluck('name')->first();
-        
+
         $conditions = [];
-        if($authUser == 'Marketing Executive'){            
+        if($authUser == 'Marketing Executive'){
             $conditions[] = ['employee_id', auth()->user()->id];
             $conditions[] = ['status', 'Open'];
-          
+
         } elseif($authUser == 'Area Manager'){
             // $conditions[] = ['employee_id', auth()->user()->id];
             $query->whereHas('GrantApproval', function($query){
@@ -98,9 +101,9 @@ class DashboardController extends Controller
                  });
              })->where('approval_level_1', false)
              ->where('status', 'Open');
-             
-             
-           
+
+
+
         } elseif($authUser == 'Zonal Manager'){
             // $conditions[] = ['employee_id', auth()->user()->id];
              $query->whereHas('GrantApproval', function($query){
@@ -111,11 +114,11 @@ class DashboardController extends Controller
                  });
              })->where('approval_level_2', false)
              ->where('approval_level_1', true);
-        }      
+        }
         elseif($authUser == 'Root'){
             // $conditions[] = ['employee_id', auth()->user()->id];
              $query->where('approval_level_2', false);
-        }      
+        }
 
         $doctor_business_monitorings = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
         // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
@@ -127,9 +130,9 @@ class DashboardController extends Controller
         $query = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]]);
         $authUser = auth()->user()->roles->pluck('name')->first();
         $conditions = [];
-        if($authUser == 'Marketing Executive'){            
+        if($authUser == 'Marketing Executive'){
             $conditions[] = ['employee_id', auth()->user()->id];
-          
+
         } elseif($authUser == 'Area Manager'){
             $query->whereHas('GrantApproval', function($query){
                 $query->whereHas('Manager', function($query){
@@ -138,7 +141,7 @@ class DashboardController extends Controller
                   });
                });
            });
-           
+
         } elseif($authUser == 'Zonal Manager'){
             $query->whereHas('GrantApproval', function($query){
                 $query->whereHas('Manager', function($query){
@@ -147,12 +150,12 @@ class DashboardController extends Controller
                   });
                });
            });
-        }   
+        }
         $roi_accountability_reports = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
-    
+
         // $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
-        
-        // Customer Tracking 
+
+        // Customer Tracking
 
         $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])->orderBy('id', 'DESC')->paginate(12);
 
@@ -162,50 +165,27 @@ class DashboardController extends Controller
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
             ->where('employee_id', $manager)
             ->orderBy('id', 'DESC')->paginate(12);
-          
+
         } elseif($authUser == 'Area Manager'){
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
             ->orderBy('id', 'DESC')->paginate(12);
-           
+
         } elseif($authUser == 'Zonal Manager'){
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager']])
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->orderBy('id', 'DESC')->paginate(12);          
-        }       
-        
+            ->orderBy('id', 'DESC')->paginate(12);
+        }
+
         return view('dashboard', ['free_schemes' => $free_schemes, 'grant_approvals'=> $grant_approvals, 'doctor_business_monitorings' => $doctor_business_monitorings, 'roi_accountability_reports' => $roi_accountability_reports, 'customer_trackings' => $customer_trackings]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
+    public function test()
+    {
+        Mail::to("sanjeev@sanmisha.com")
+            ->send(new TestNotification());
 
-    /**
-     * Display the specified resource.
-     */
-    // public function show(string $id)
-    // {
-    //     //
-    // }
+        exit;
+    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(string $id)
-    // {
-    //     //
-    // }
 }
