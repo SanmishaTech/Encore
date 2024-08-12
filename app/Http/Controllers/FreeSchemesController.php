@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use Excel;
+// use Log;
+use File;
+use Response;
 use Exception;
 use Carbon\Carbon;
 use App\Models\Doctor;
@@ -453,6 +456,26 @@ class FreeSchemesController extends Controller
         return view('free_schemes.index', ['free_schemes'=>$free_schemes]);
 
     }
+
+
+    public function showPOOfiles(string $files){
+        $path = storage_path('app/public/FreeScheme/proof_of_order/'.$files);
+
+        if(!file_exists($path)){
+           abort(404);
+        }
+
+        $file = File::get($path);
+        $type = \File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+
+        return $response;
+       // return response()->json(['url'=> url('api/storage/'.$files)]);
+
+   }
 
 }
 

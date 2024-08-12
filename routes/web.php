@@ -147,6 +147,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('search/customer_trackings/status', 'CustomerTrackingsController@searchStatus')->name('customer_trackings.searchStatus');
 
 
+        // show Files
+        Route::get('proof_of_order/{files}', 'FreeSchemesController@showPOOfiles')->name('freeSchemes.POOFiles');
+
 
         /**
          * Masters Route
