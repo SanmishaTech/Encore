@@ -474,8 +474,25 @@ class FreeSchemesController extends Controller
 
         return $response;
        // return response()->json(['url'=> url('api/storage/'.$files)]);
-
    }
+
+   public function showPODfiles(string $files){
+    $path = storage_path('app/public/FreeScheme/proof_of_delivery/'.$files);
+
+    if(!file_exists($path)){
+       abort(404);
+    }
+
+    $file = File::get($path);
+    $type = \File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+    $response->header('Content-Disposition', 'inline; filename="' . $files . '"');
+
+    return $response;
+   // return response()->json(['url'=> url('api/storage/'.$files)]);
+}
 
 }
 

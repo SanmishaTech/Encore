@@ -114,11 +114,12 @@
                     <div>
                         <label>Scheme:</label>
                         <select class="form-input" name="scheme">
-                            <option value="">Select Scheme% </option>
-                            @for($i = 1; $i < 100; $i++)
+                            <option selected disabled>Select Scheme% </option>
+                            @for($i = 0; $i <= 100; $i++)
                                 <option value="{{ $i }}"> {{ $i }}%</option>
                             @endfor
                         </select>
+                        <x-input-error :messages="$errors->get('scheme')" class="mt-2" /> 
                     </div>    
                     <div>
                         <label>CRM Done:</label>
@@ -154,7 +155,7 @@
                                                 <th>Products</th>
                                                 <th>NRV</th>
                                                 <th>Quantity</th>
-                                                <th>Free Quantity</th>
+                                                <th>Fdateree Quantity</th>
                                                 <th>Free %</th>
                                                 <th>Value</th>
                                             </tr>

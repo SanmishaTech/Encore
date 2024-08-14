@@ -23,19 +23,23 @@ class DoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'doctor_name' => 'required', 
-            'hospital_name' => 'required',  
-            'email' => 'required|unique:doctors,email,'.($this->doctor ? $this->doctor->id : ''),
-            'contact_no_1' => 'required',
-            'state' => 'required',
+            'doctor_name' => 'required|max:255',
+            'hospital_name' => 'max:255',  
+            // 'email' => 'max:255|unique:doctors,email,'.($this->doctor ? $this->doctor->id : ''),
+            // 'email' => 'max:255|unique:doctors,email,'.($this->doctor ? $this->doctor->id : ''),
+            'contact_no_1' => 'max:20',
+            'state' => 'max:20',
             'city' => 'required',
             'territory_id' => 'required',
             'category_id' => 'required',
             'type' => 'required',
             'qualification_id' => 'required',
-            'speciality' => 'required',
-            'mpl_no' => 'required',
-            'designation' => 'required',
+            'speciality' => 'required|max:255',
+            'mpl_no' => 'max:255',
+            'designation' => 'required|max:50',
+            'hospital_address' => 'max:255',
+            'doctor_address' => 'required|max:255',
+
         ];
     }
     public function messages(): array

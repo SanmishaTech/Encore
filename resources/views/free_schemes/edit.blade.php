@@ -108,8 +108,8 @@
                     <div>
                         <label>Scheme:</label>
                         <select class="form-input" name="scheme">
-                            <option value="">Select Scheme% </option>
-                            @for($i = 1; $i < 100; $i++)
+                            <option value="" disabled>Select Scheme% </option>
+                            @for($i = 0; $i <= 100; $i++)
                                 <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->scheme ? 'selected' : '') : '' }}> {{ $i }}%</option>
                             @endfor
                         </select>
@@ -241,14 +241,15 @@
                                         <div style="display: flex; justify-content: space-around;">
                                             <div>
                                                 @if ($free_scheme->proof_of_order)
-                                                    <a href="{{ asset('storage/FreeScheme/proof_of_order/' . $free_scheme->proof_of_order) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+                                                    <a href="{{ asset('proof_of_order/' . $free_scheme->proof_of_order) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
                                                         View Proof of Order
                                                     </a>
                                                 @endif
                                             </div>
+                                            
                                             <div>
                                                 @if ($free_scheme->proof_of_delivery)
-                                                    <a href="{{ asset('storage/FreeScheme/proof_of_delivery/' . $free_scheme->proof_of_delivery) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+                                                    <a href="{{ asset('proof_of_delivery/' . $free_scheme->proof_of_delivery) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
                                                         View Proof of Delivery
                                                     </a>
                                                 @endif

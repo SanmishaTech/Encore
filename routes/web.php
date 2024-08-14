@@ -148,7 +148,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
 
 
         // show Files
-        Route::get('proof_of_order/{files}', 'FreeSchemesController@showPOOfiles')->name('freeSchemes.POOFiles');
+        Route::get('public/proof_of_order/{files}', 'FreeSchemesController@showPOOfiles')->name('freeSchemes.POOFiles');
+        Route::get('public/proof_of_delivery/{files}', 'FreeSchemesController@showPODfiles')->name('freeSchemes.PODFiles');
 
 
         /**

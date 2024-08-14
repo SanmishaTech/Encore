@@ -1,13 +1,16 @@
 <?php
 namespace App\Imports;
 use App\Models\Doctor;
+use App\Models\Category;
 use App\Models\Employee;
+use App\Models\Territory;
+use App\Models\Qualification;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
@@ -46,6 +49,25 @@ class ImportDoctors implements ToModel, WithHeadingRow, WithValidation, WithBatc
         $territory = DB::table('territories')->where('name', $row['territory_id'])->first();
         $category = DB::table('categories')->where('name', $row['category_id'])->first();
         $qualification = DB::table('qualifications')->where('name', $row['qualification_id'])->first();
+
+        if(!$territory){
+            $territory = new Territory();
+            $territory->name = $row['territory_id'];
+            $territory->save();
+        }
+
+        if(!$category){
+            $category = new Category();
+            $category->name = $row['category_id'];
+            $category->save();
+        }
+
+
+        if(!$qualification){
+            $qualification = new Qualification();
+            $qualification->name = $row['qualification_id'];
+            $qualification->save();
+        }
 
         if(!$employee || !$territory || !$category || !$qualification) {
             echo "<pre>";

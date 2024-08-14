@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\FreeScheme;
 use Illuminate\Http\Request;
 use App\Models\GrantApproval;
+use App\Mail\TestNotification;
 use App\Models\CustomerTracking;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use App\Models\RoiAccountabilityReport;
 use App\Models\DoctorBusinessMonitoring;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TestNotification;
 
 
 class DashboardController extends Controller
@@ -182,9 +183,9 @@ class DashboardController extends Controller
 
     public function test()
     {
-        Mail::to("sanjeev@sanmisha.com")
+        Mail::to("ghadiganesh2002@gmail.com")
             ->send(new TestNotification());
-
+            Log::info('test');
         exit;
     }
 

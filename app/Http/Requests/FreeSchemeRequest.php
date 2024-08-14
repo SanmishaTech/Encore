@@ -32,6 +32,7 @@ class FreeSchemeRequest extends FormRequest
             'proposal_date' => 'required',
             'stockist_id' => 'required',
             'chemist_id' => 'required',
+            'scheme' => 'required',
         ];
     }
 }
