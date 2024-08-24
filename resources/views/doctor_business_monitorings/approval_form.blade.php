@@ -141,8 +141,8 @@
                                                         </td>
                                                         <td>
                                                             <select class="form-input mt-2 bg-gray-100 dark:bg-gray-700" x-bind:name="`product_details[${productDetail.id}][scheme]`" x-model="productDetail.scheme" @change="calculateTotal()" disabled>
-                                                                <option> Scheme% </option>
-                                                                @for ($i = 1; $i < 100; $i++)
+                                                                <option  value="" disabled> Scheme% </option>
+                                                                @for ($i = 0; $i <= 100; $i++)
                                                                     <option value="{{ $i }}" {{ $i ? ($i == $doctor_business_monitoring->scheme ? 'selected' : '') : '' }} disabled> {{ $i }}% </option>
                                                                 @endfor
                                                             </select>

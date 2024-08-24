@@ -197,7 +197,7 @@
                                                             <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free_qty]`"  :messages="$errors->get('free_qty')" x-model="freeSchemeDetail.free_qty" required/>
                                                         </td>                                              
                                                         <td>                                                       
-                                                            <select class="form-input" style="width:100px;" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free"  @change="calculateVal()">
+                                                            <select required class="form-input" style="width:100px;" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free"  @change="calculateVal()">
                                                                 <option value="" > Free </option>
                                                                 @for ($i = 0; $i <= 100; $i++)
                                                                     <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->free ? 'selected' : '') : '' }}> {{ $i }}% </option>

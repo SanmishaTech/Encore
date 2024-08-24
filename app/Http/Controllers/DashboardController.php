@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\GrantApproval;
 use App\Mail\TestNotification;
 use App\Models\CustomerTracking;
+use App\Models\FreeSchemeDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Models\RoiAccountabilityReport;
 use App\Models\DoctorBusinessMonitoring;
+use App\Mail\FreeSchemeApprovalNotification;
 
 
 class DashboardController extends Controller
@@ -183,10 +185,40 @@ class DashboardController extends Controller
 
     public function test()
     {
-        Mail::to("ghadiganesh2002@gmail.com")
-            ->send(new TestNotification());
-            Log::info('test');
-        exit;
+            $condition[] = ['id', '=', 605];
+            $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
+            $recipients = [];
+            $stockistEmail = $print[0]->FreeScheme->Stockist->cfa_email;
+            $zonalManagerEmail = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
+            if (filter_var($stockistEmail, FILTER_VALIDATE_EMAIL)) {
+                $recipients[] = $stockistEmail;
+            }
+            if (filter_var($zonalManagerEmail, FILTER_VALIDATE_EMAIL)) {
+                $recipients[] = $zonalManagerEmail;
+            }
+            
+               Mail::to($recipients)
+               ->cc("ssingh@encoregroup.net")
+               // ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
+               ->send(new FreeSchemeApprovalNotification($print));
+            
+
+    
+            // Mail::to('ganeshghadi084@gmail.com')
+            // //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
+            //    ->send(new FreeSchemeApprovalNotification($print));
+
+
+
+
+
+
+
+
+        // Mail::to("ghadiganesh2002@gmail.com")
+        //     ->send(new TestNotification());
+        //     Log::info('test');
+        // exit;
     }
 
 }

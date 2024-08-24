@@ -9,7 +9,7 @@
                 <div class="flex items-center">
                     <form action="{{ route('chemists.search') }}" method="get" class="flex items-center">
                         <input type="text" name="search" placeholder="search chemists" class="mr-2 px-2 py-1 border border-gray-300 rounded-md">
-                        <button class="btn btn-primary px-4 py-2" type="submit">Submit</button>
+                        <button class="btn btn-primary px-4 py-2" value="{{ request()->get('search') }}" type="submit">Submit</button>
                     </form>
                 </div>
             </div>

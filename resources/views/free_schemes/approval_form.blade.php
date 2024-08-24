@@ -88,7 +88,7 @@
                         <div>
                             <label>Scheme:</label>
                             <select class="form-input" name="scheme" disabled>
-                                <option>Select Scheme% </option>
+                                <option value="" disabled>Select Scheme% </option>
                                 @for($i = 0; $i <= 100; $i++)
                                     <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->scheme ? 'selected' : '') : '' }}> {{ $i }}%</option>
                                 @endfor
@@ -178,7 +178,7 @@
                                                             </td>                                                 
                                                             <td>                                                       
                                                                 <select class="form-input" style="width:100px;" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free"  @change="calculateVal()" disabled>
-                                                                    <option> Free </option>
+                                                                    <option  value="" disabled> Free </option>
                                                                     @for ($i = 0; $i <= 100; $i++)
                                                                         <option value="{{ $i }}" {{ $i ? ($i == $free_scheme->free ? 'selected' : '') : '' }}> {{ $i }}% </option>
                                                                     @endfor
@@ -197,7 +197,7 @@
                                                 </tbody>
                                                 <tfoot  style="background-color: #FFFFF;">
                                                     <tr>
-                                                        <th colspan="5" style="text-align:right;">Total Amount: </th>
+                                                        <th colspan="6" style="text-align:right;">Total Amount: </th>
                                                         <td>               
                                                             <x-text-input class="form-input bg-gray-100 dark:bg-gray-700" x-model="amount" readonly="true" :messages="$errors->get('amount')" value="{{ old('amount', $free_scheme->amount) }}" name="amount" disabled/>
                                                         </td>
@@ -221,14 +221,14 @@
                                             <div style="display: flex; justify-content: space-around;">
                                                 <div>
                                                     @if ($free_scheme->proof_of_order)
-                                                        <a href="{{ asset('proof_of_order/' . $free_scheme->proof_of_order) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+                                                        <a href="{{ asset('public/proof_of_order/' . $free_scheme->proof_of_order) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
                                                             View Proof of Order
                                                         </a>
                                                     @endif
                                                 </div>
                                                 <div>
                                                     @if ($free_scheme->proof_of_delivery)
-                                                        <a href="{{ asset('proof_of_delivery/' . $free_scheme->proof_of_delivery) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
+                                                        <a href="{{ asset('public/proof_of_delivery/' . $free_scheme->proof_of_delivery) }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold;">
                                                             View Proof of Delivery
                                                         </a>
                                                     @endif
