@@ -28,10 +28,10 @@ class StockistRequest extends FormRequest
             'employee_id_1' => 'required',
             'employee_id_2' => 'required',
             'employee_id_3' => 'required',
-            'cfa_email' => 'nullable|email|string',
+            'cfa_email' => 'required|email:rfc,dns|string',
         ];
     }
-    
+        
     public function messages(): array
     {
         return [
