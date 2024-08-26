@@ -218,7 +218,7 @@ class DashboardController extends Controller
         // Mail::to("ghadiganesh2002@gmail.com")
         //     ->send(new TestNotification());
         //     Log::info('test');
-        // exit;
+    
     }
 
 }

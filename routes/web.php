@@ -151,6 +151,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('public/proof_of_order/{files}', 'FreeSchemesController@showPOOfiles')->name('freeSchemes.POOFiles');
         Route::get('public/proof_of_delivery/{files}', 'FreeSchemesController@showPODfiles')->name('freeSchemes.PODFiles');
 
+        //resend email
+        Route::get('free_schemes/resend_email/{free_scheme}', 'FreeSchemesController@resendEmail')->name('free_schemes.resendEmail');
+
 
         /**
          * Masters Route

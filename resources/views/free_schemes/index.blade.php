@@ -2,6 +2,12 @@
     @role(['Admin','Marketing Executive'])
         <x-add-button :link="route('free_schemes.create')" />
     @endrole
+
+    @if(session('emailSuccess'))
+    <div style="width: 100%; background-color: green; color: white; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; font-weight:700">
+        {{ session('emailSuccess') }}
+    </div>
+    @endif
     <br><br>
     <div x-data="form">
         <div class="panel">
@@ -118,7 +124,16 @@
                                         </li>
                                         <li style="display: inline-block;vertical-align:top;">
                                             <x-delete-button :link=" route('free_schemes.destroy', ['free_scheme'=> $free_scheme->id] )" />  
-                                        </li>                           
+                                        </li>   
+                                        @role(['Root'])
+                                        @if($free_scheme->approval_level_3 == 1)
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <a href="/free_schemes/resend_email/{{$free_scheme->id }}"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" style="display: inline-block;vertical-align:top;" class="bi bi-envelope" viewBox="0 0 16 16">
+                                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                                              </svg></a>   
+                                        </li> 
+                                        @endif
+                                        @endrole                 
                                     </ul>
                                 </td>
                             </tr>
