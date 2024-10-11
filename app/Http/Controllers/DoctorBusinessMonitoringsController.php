@@ -23,7 +23,7 @@ use App\Http\Requests\DoctorBusinessMonitoringRequest;
 
 class DoctorBusinessMonitoringsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
          $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
         $authUser = auth()->user()->roles->pluck('name')->first();
@@ -52,7 +52,21 @@ class DoctorBusinessMonitoringsController extends Controller
                  });
              });
         }      
+         
+        $currentPage = $request->session()->get('current_page', 1);
+        if ($request->has('page')) {
+            $currentPage = $request->input('page');
+            $request->session()->put('current_page', $currentPage);
+        }
+        
         $doctor_business_monitorings = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+        if ($currentPage > $doctor_business_monitorings->lastPage()) {
+            $currentPage = $doctor_business_monitorings->lastPage();
+        }     
+        
+        $doctor_business_monitorings->setPath($request->url());
+
+    
         // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
         return view('doctor_business_monitorings.index', ['doctor_business_monitorings' => $doctor_business_monitorings]);
     }

@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\GrantApproval;
 use App\Models\GrantApprovalDetail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\GrantApproval\codeGenerate;
@@ -234,6 +235,8 @@ class GrantApprovalsController extends Controller
         $activity = $request->activity;
         $doctor = $request->doctor;
         $zonalManager = $request->zonalManager;
+
+        // Log::info("working");
         return Excel::download(new GAFExport($from_date, $to_date, $activity,$doctor, $zonalManager), 'GAF_report.xlsx');
     }
 

@@ -26,6 +26,8 @@
             <div class="mt-6">
                 <div class="table-responsive"> 
                     {{ $doctor_business_monitorings->links() }}
+                    {{-- {{ $doctor_business_monitorings->appends(request()->query())->links() }} --}}
+
                     <br>      
                     <table class="table-hover">
                         <thead>
@@ -121,6 +123,13 @@
                                             <x-delete-button :link=" route('doctor_business_monitorings.destroy', ['doctor_business_monitoring'=> $doctor_business_monitoring->id] )" />  
                                         </li> 
                                         @endrole
+                                        @role(['Root'])
+                                        {{-- @if($doctor_business_monitoring->status == "Open") --}}
+                                        <li style="display: inline-block;vertical-align:top;">
+                                            <x-edit-button :link=" route('doctor_business_monitorings.edit', ['doctor_business_monitoring'=> $doctor_business_monitoring->id])" />                               
+                                        </li>
+                                        {{-- @endif --}}
+                                    @endrole
                                     </ul>
                                 </td>
                             </tr>
@@ -128,6 +137,7 @@
                         </tbody>
                     </table>
                     {{ $doctor_business_monitorings->links() }}
+                    {{-- {{ $doctor_business_monitorings->appends(request()->query())->links() }} --}}
                 </div>
             </div>
         </div>

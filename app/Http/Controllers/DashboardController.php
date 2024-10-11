@@ -185,23 +185,6 @@ class DashboardController extends Controller
 
     public function test()
     {
-            // $condition[] = ['id', '=', 605];
-            // $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-            // $recipients = [];
-            // $stockistEmail = $print[0]->FreeScheme->Stockist->cfa_email;
-            // $zonalManagerEmail = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
-            // if (filter_var($stockistEmail, FILTER_VALIDATE_EMAIL)) {
-            //     $recipients[] = $stockistEmail;
-            // }
-            // if (filter_var($zonalManagerEmail, FILTER_VALIDATE_EMAIL)) {
-            //     $recipients[] = $zonalManagerEmail;
-            // }
-            
-            //    Mail::to($recipients)
-            //    ->cc("ssingh@encoregroup.net")
-            //    // ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
-            //    ->send(new FreeSchemeApprovalNotification($print));
-            
 
     
             // Mail::to('ganeshghadi084@gmail.com')

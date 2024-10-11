@@ -160,6 +160,13 @@
                                                 <x-delete-button :link=" route('grant_approvals.destroy', ['grant_approval'=> $grant_approval->id] )" />
                                             </li>
                                             @endrole
+                                            @role(['Root'])
+                                            {{-- @if($grant_approval->status == "Open") --}}
+                                            <li style="display: inline-block;vertical-align:top;">
+                                                <x-edit-button :link=" route('grant_approvals.edit', ['grant_approval'=> $grant_approval->id])" />
+                                            </li>
+                                            {{-- @endif --}}
+                                        @endrole
                                         </ul>
                                     </td>
                                     <td>{{ @$grant_approval->remark }}</td>
