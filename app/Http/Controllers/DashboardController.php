@@ -185,23 +185,9 @@ class DashboardController extends Controller
 
     public function test()
     {
-
-    
-            // Mail::to('ganeshghadi084@gmail.com')
-            // //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
-            //    ->send(new FreeSchemeApprovalNotification($print));
-
-
-
-
-
-
-
-
-        // Mail::to("ghadiganesh2002@gmail.com")
-        //     ->send(new TestNotification());
-        //     Log::info('test');
-    
+        Mail::to("sanjeev@sanmisha.com")
+            ->send(new TestNotification());
+        exit;
     }
 
 }
