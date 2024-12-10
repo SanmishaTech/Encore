@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CustomerTrackingRequest extends FormRequest
 {
@@ -30,5 +32,21 @@ class CustomerTrackingRequest extends FormRequest
             // 'm_1' => ['required'],
             // "`product_details[${productDetail.id}][doctor_id]`" => ['required'],
         ];
+    }
+
+      /**
+     * Handle a failed validation attempt.
+     *
+     * @param  Validator  $validator
+     * @return void
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        // Store free_scheme_details in the session
+        session()->flash('product_details', $this->input('product_details', []));
+        //  dd(session('free_scheme_details'));
+        throw new HttpResponseException(
+            redirect()->back()->withErrors($validator)->withInput()
+        );
     }
 }

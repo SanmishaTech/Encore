@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Log;
 use PDF;
 use Excel;
 use Carbon\Carbon;
@@ -25,6 +26,9 @@ class DoctorBusinessMonitoringsController extends Controller
 {
     public function index(Request $request)
     {
+        $currentPage = $request->input('page', 1);
+        $data = $request->session()->get('search','');
+        $status = $request->session()->get('status','');
          $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
         $authUser = auth()->user()->roles->pluck('name')->first();
         
@@ -52,23 +56,42 @@ class DoctorBusinessMonitoringsController extends Controller
                  });
              });
         }      
-         
-        $currentPage = $request->session()->get('current_page', 1);
-        if ($request->has('page')) {
-            $currentPage = $request->input('page');
-            $request->session()->put('current_page', $currentPage);
+
+        // start
+        if ($data) {
+            $query->where(function ($query) use ($data) {
+                $query->whereHas('GrantApproval.Manager', function ($query) use ($data) {
+                    $query->where('name', 'like', "%$data%");
+                })
+                ->orWhereHas('GrantApproval.Manager.AreaManager', function ($query) use ($data) {
+                    $query->where('name', 'like', "%$data%");
+                })
+                ->orWhereHas('GrantApproval.Manager.ZonalManager', function ($query) use ($data) {
+                    $query->where('name', 'like', "%$data%");
+                })
+                ->orWhereHas('GrantApproval', function ($query) use ($data) {
+                    $query->where('code', 'like', "%$data%");
+                });
+            });
         }
-        
+    
+        if ($status) {
+            $query->where('status', 'like', "%$status%");
+        }
+    
+      
+        // end
+         
+      
+
         $doctor_business_monitorings = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
-        if ($currentPage > $doctor_business_monitorings->lastPage()) {
-            $currentPage = $doctor_business_monitorings->lastPage();
-        }     
         
-        $doctor_business_monitorings->setPath($request->url());
+        $request->session()->put('current_page', $currentPage);
+
 
     
         // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
-        return view('doctor_business_monitorings.index', ['doctor_business_monitorings' => $doctor_business_monitorings]);
+        return view('doctor_business_monitorings.index', ['doctor_business_monitorings' => $doctor_business_monitorings,'data'=>$data,'status'=>$status]);
     }
 
     public function create()
@@ -135,8 +158,11 @@ class DoctorBusinessMonitoringsController extends Controller
         //
     }
 
-    public function edit(DoctorBusinessMonitoring $doctor_business_monitoring)
+    public function edit(DoctorBusinessMonitoring $doctor_business_monitoring, Request $request)
     {
+        $page = $request->session()->get('current_page', 1);
+
+        $page = $request->input('page', 5);
         $doctors = Doctor::pluck('doctor_name', 'id');       
         $employees = Employee::pluck('name', 'id');
         $products = Product::pluck('name', 'id');
@@ -149,12 +175,12 @@ class DoctorBusinessMonitoringsController extends Controller
           
         }   
         $gaf_code = GrantApproval::pluck('code', 'id');
-        return view('doctor_business_monitorings.edit', ['doctor_business_monitoring' => $doctor_business_monitoring, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products]);        
+        return view('doctor_business_monitorings.edit', ['doctor_business_monitoring' => $doctor_business_monitoring, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products, 'page'=>$page]);        
     }
 
     public function update(DoctorBusinessMonitoring $doctor_business_monitoring, DoctorBusinessMonitoringRequest $request) 
     {
-        // dd($request);
+        $page = $request->session()->get('current_page', 1);
         $doctor_business_monitoring->update($request->all());
         $data = $request->collect('product_details');
         
@@ -180,8 +206,10 @@ class DoctorBusinessMonitoringsController extends Controller
                 'id'
             ]);
         }
+       
+        $page = $request->input('page', 1);        
         $request->session()->flash('success', 'Doctor Business Monitoring updated successfully!');
-        return redirect()->route('doctor_business_monitorings.index');
+        return redirect()->route('doctor_business_monitorings.index',['page'=>$page]);
     }
     
     // public function approval(Request $request) 
@@ -211,8 +239,10 @@ class DoctorBusinessMonitoringsController extends Controller
     //     DoctorBusinessMonitoringDetail::create($input);
     //     return redirect()->route('doctor_business_monitorings.index');
     // }
-    public function approval_form(DoctorBusinessMonitoring $doctor_business_monitoring)
+    public function approval_form(DoctorBusinessMonitoring $doctor_business_monitoring, Request $request)
     {        
+        $page = $request->session()->get('current_page', 1);
+
         $doctors = Doctor::pluck('doctor_name', 'id');       
         $employees = Employee::pluck('name', 'id');
         $products = Product::pluck('name', 'id');
@@ -225,11 +255,13 @@ class DoctorBusinessMonitoringsController extends Controller
           
         }   
         $gaf_code = GrantApproval::pluck('code', 'id');
-        return view('doctor_business_monitorings.approval_form', ['doctor_business_monitoring' => $doctor_business_monitoring, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products]); 
+        return view('doctor_business_monitorings.approval_form', ['doctor_business_monitoring' => $doctor_business_monitoring, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products,'page'=>$page]); 
     }
 
-    public function approval(DoctorBusinessMonitoring $doctor_business_monitoring) 
+    public function approval(DoctorBusinessMonitoring $doctor_business_monitoring, Request $request) 
     {
+        $page = $request->session()->get('current_page', 1);
+
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $doctor_business_monitoring->status = 'Level 2 Approved';
             $doctor_business_monitoring->approval_level_2 = true;
@@ -280,11 +312,15 @@ class DoctorBusinessMonitoringsController extends Controller
             ->send(new CDBMNotificationForRoot($print));
         }
 
-        return redirect()->route('doctor_business_monitorings.index');
+        return redirect()->route('doctor_business_monitorings.index',['page'=>$page]);
+
     }
 
-    public function rejected(DoctorBusinessMonitoring $doctor_business_monitoring) 
+    public function rejected(DoctorBusinessMonitoring $doctor_business_monitoring, Request $request) 
     {
+        $page = $request->session()->get('current_page', 1);
+
+        
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $doctor_business_monitoring->status = 'Level 2 Rejected';
             $doctor_business_monitoring->approval_level_2 = false;
@@ -305,7 +341,7 @@ class DoctorBusinessMonitoringsController extends Controller
         $input['status'] =  $doctor_business_monitoring->status;
         $input['doctor_business_monitoring_id'] = $doctor_business_monitoring->id;
         DoctorBusinessMonitoringDetail::create($input);
-        return redirect()->route('doctor_business_monitorings.index');
+        return redirect()->route('doctor_business_monitorings.index',['page'=>$page]);
     }
 
     public function approvalSecond(DoctorBusinessMonitoring $doctor_business_monitoring) 
@@ -333,9 +369,10 @@ class DoctorBusinessMonitoringsController extends Controller
 
     public function destroy(Request $request, DoctorBusinessMonitoring $doctor_business_monitoring)
     {
+        $page = $request->session()->get('current_page', 1);
         $doctor_business_monitoring->delete();
         $request->session()->flash('success', 'Doctor Business Monitoring deleted successfully!');
-        return redirect()->route('doctor_business_monitorings.index');
+        return redirect()->route('doctor_business_monitorings.index',['page'=>$page]);
     }
 
     public function report()
@@ -363,11 +400,30 @@ class DoctorBusinessMonitoringsController extends Controller
     }
 
     public function search(Request $request){
+
+       
         // $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
         $authUser = auth()->user()->roles->pluck('name')->first();
         
         $data = $request->input('search');
         $status = $request->input('status');
+        
+        $page = $request->input('page', 1);
+        $request->session()->put('current_page', $page);
+        
+        // if(!$data){
+        //   $data = $request->session()->get('search', '');
+        // }
+
+        // if(!$status){
+        //     $status = $request->session()->get('status', '');
+        //   }
+
+        $request->session()->put('search', $data);
+        $request->session()->put('status', $status);
+        
+          
+
 
         if($authUser == 'Marketing Executive'){        
           
@@ -457,17 +513,23 @@ class DoctorBusinessMonitoringsController extends Controller
           ->paginate(12);
 
         }
+
+        $doctor_business_monitorings = $doctor_business_monitorings->appends([
+            'search' => $data,
+            'status' => $status,
+            'page' =>$page,
+        ]);
        
-      return view('doctor_business_monitorings.index', ['doctor_business_monitorings'=>$doctor_business_monitorings]);
+      return view('doctor_business_monitorings.index', ['doctor_business_monitorings'=>$doctor_business_monitorings,'search'=>$data,'status'=>$status,'page'=>$page]);
 
     }
 
 
     public function searchStatus(Request $request){
+
         // $query = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']]);
         $authUser = auth()->user()->roles->pluck('name')->first();
         
-        $data = $request->input('status');
 
         if($authUser == 'Marketing Executive'){        
           

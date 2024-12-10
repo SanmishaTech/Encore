@@ -12,6 +12,8 @@
             <form class="space-y-5" action="{{ route('free_schemes.approval', ['free_scheme' => $free_scheme->id]) }}" method="POST">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="page" value="{{ $page }}">
+
                 <div class="panel">
                     <div class="flex items-center justify-between mb-5">
                         <h5 class="font-semibold text-lg dark:text-white-light">Free Scheme Approval</h5>
@@ -245,7 +247,7 @@
                             {{ __('Submit') }}
                         </x-success-button>
                         &nbsp;&nbsp;
-                        <x-cancel-button :link="route('free_schemes.index')">
+                        <x-cancel-button :link="route('free_schemes.index', ['page' => session('current_page', 1)])">
                             {{ __('Cancel') }}
                         </x-cancel-button>
                     </div>               

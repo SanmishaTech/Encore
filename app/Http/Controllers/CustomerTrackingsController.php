@@ -17,29 +17,103 @@ use App\Http\Requests\CustomerTrackingRequest;
 
 class CustomerTrackingsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])->orderBy('id', 'DESC')->paginate(12);
-
+        $currentPage = $request->input('page', 1);
+        $data = $request->session()->get('search','');
+        $status = $request->session()->get('status','');
+        // $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])->orderBy('id', 'DESC')->paginate(12);
+        //  satrt
+        $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+        // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+        ->where(function ($query) use ($data) {
+         $query->whereHas('Manager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         })
+         ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         })
+         ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         });
+        })
+        ->orderBy('id', 'DESC')
+        ->paginate(12);
+        // end
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
-            $manager = auth()->user()->id;
+            // $manager = auth()->user()->id;
+            // $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // ->where('employee_id', $manager)
+            // ->orderBy('id', 'DESC')->paginate(12);
+
+            // start
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
-            ->where('employee_id', $manager)
-            ->orderBy('id', 'DESC')->paginate(12);
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })->where('employee_id', auth()->user()->id)
+            ->orderBy('id', 'DESC')
+            ->paginate(12);
+            // end
           
         } elseif($authUser == 'Area Manager'){
+            // $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+            // ->orderBy('id', 'DESC')->paginate(12);
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('id', 'DESC')->paginate(12);
+            ->orderBy('id', 'DESC')
+            ->paginate(12);
            
         } elseif($authUser == 'Zonal Manager'){
-            $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
-            ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->orderBy('id', 'DESC')->paginate(12);          
+            // $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+            // ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
+            // ->orderBy('id', 'DESC')->paginate(12);   
+            
+        //    start
+                $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
+                ->where(function ($query) use ($data) {
+                $query->whereHas('Manager', function ($query) use ($data) {
+                    $query->where('name', 'like', "%$data%");
+                })
+                ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                    $query->where('name', 'like', "%$data%");
+                })
+                ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                    $query->where('name', 'like', "%$data%");
+                });
+                })
+                ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
+                ->orderBy('id', 'DESC')
+                ->paginate(12);
+        // end
+                  
         }       
+        $request->session()->put('current_page', $currentPage);
+
         // dd($customer_trackings->Stockist); 
-        return view('customer_trackings.index', ['customer_trackings' => $customer_trackings]);
+        return view('customer_trackings.index', ['customer_trackings' => $customer_trackings,'data'=>$data,'status'=>$status]);
     }
 
     public function create()
@@ -87,8 +161,10 @@ class CustomerTrackingsController extends Controller
         //
     }
 
-    public function edit(CustomerTracking $customer_tracking)
-    {   
+    public function edit(CustomerTracking $customer_tracking,Request $request)
+    { 
+        $page = $request->session()->get('current_page', 1);
+
         $doctors = Doctor::pluck('doctor_name', 'id');        
         $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
         $products = Product::pluck('name', 'id');
@@ -100,11 +176,13 @@ class CustomerTrackingsController extends Controller
                                     
             $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
         }
-        return view('customer_trackings.edit', ['customer_tracking' => $customer_tracking, 'employees'=>$employees, 'doctors'=>$doctors, 'products'=>$products]);
+        return view('customer_trackings.edit', ['customer_tracking' => $customer_tracking, 'employees'=>$employees, 'doctors'=>$doctors, 'products'=>$products,'page'=>$page]);
     }
 
     public function update(CustomerTracking $customer_tracking, CustomerTrackingRequest $request) 
     {
+        $page = $request->session()->get('current_page', 1);
+
         $customer_tracking->update($request->all());
         $data = $request->collect('product_details');                
         foreach($data as $record){
@@ -126,14 +204,16 @@ class CustomerTrackingsController extends Controller
             ]);
         }
         $request->session()->flash('success', 'Customer Tracking updated successfully!');
-        return redirect()->route('customer_trackings.index');
+        return redirect()->route('customer_trackings.index',['page'=>$page]);
     }
   
     public function destroy(Request $request, CustomerTracking $customer_tracking)
     {
+        $page = $request->session()->get('current_page', 1);
+
         $customer_tracking->delete();
         $request->session()->flash('success', 'Customer Tracking deleted successfully!');
-        return redirect()->route('customer_trackings.index');
+        return redirect()->route('customer_trackings.index',['page'=>$page]);
     }
 
     public function report()
@@ -175,9 +255,25 @@ class CustomerTrackingsController extends Controller
 
 
     public function search(Request $request){
-        $data = $request->input('search');
         $authUser = auth()->user()->roles->pluck('name')->first();
 
+        $data = $request->input('search');
+        $status = $request->input('status');
+
+        $page = $request->input('page', 1);
+        $request->session()->put('current_page', $page);
+
+        // if(!$data){
+        //   $data = $request->session()->get('search', '');
+        // }
+
+        // if(!$status){
+        //     $status = $request->session()->get('status', '');
+        //   }
+
+        $request->session()->put('search', $data);
+        $request->session()->put('status', $status);
+        
         if($authUser == 'Marketing Executive'){
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
             // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
@@ -213,7 +309,6 @@ class CustomerTrackingsController extends Controller
 
         } elseif($authUser == 'Zonal Manager'){
             $customer_trackings = CustomerTracking::with(['Manager'=>['ZonalManager', 'AreaManager'], 'CustomerTrackingDetail'])
-            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
             ->where(function ($query) use ($data) {
              $query->whereHas('Manager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
@@ -244,8 +339,14 @@ class CustomerTrackingsController extends Controller
             })
             ->paginate(12);
         }
+
+        $customer_trackings = $customer_trackings->appends([
+            'search' => $data,
+            'status' => $status,
+             'page'=> $page,
+        ]);  
    
-        return view('customer_trackings.index', ['customer_trackings'=>$customer_trackings]);
+        return view('customer_trackings.index', ['customer_trackings'=>$customer_trackings,'page'=>$page]);
 
     }
     

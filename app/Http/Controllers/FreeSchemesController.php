@@ -29,27 +29,110 @@ use App\Mail\FreeSchemeApprovalNotificationForRoot;
 
 class FreeSchemesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])->orderBy('id', 'DESC')->paginate(12);
+        $currentPage = $request->input('page', 1);
+        $data = $request->session()->get('search','');
+        $status = $request->session()->get('status','');
+        // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])->orderBy('id', 'DESC')->paginate(12);
+        // start
+        $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+        // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+        ->where(function ($query) use ($data) {
+         $query->whereHas('Manager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         })
+         ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         })
+         ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         });
+        })
+        ->where('status', 'like', "%$status%")
+        ->orderBy('id', 'DESC')
+        ->paginate(12);
+        // end
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
-            $manager = auth()->user()->id;
+            // $manager = auth()->user()->id;
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // ->where('employee_id', $manager)
+            // ->orderBy('id', 'DESC')->paginate(12);
+
+            // start
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
-            ->where('employee_id', $manager)
-            ->orderBy('id', 'DESC')->paginate(12);
+            // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->where('status', 'like', "%$status%")
+            ->where('employee_id', auth()->user()->id)
+            ->orderBy('id', 'DESC')
+            ->paginate(12);
+            // end
 
         } elseif($authUser == 'Area Manager'){
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+            // ->orderBy('id', 'DESC')->paginate(12);
+
+            // start
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('id', 'DESC')->paginate(12);
+            ->orderBy('id', 'DESC')
+            ->paginate(12);
+            // end
 
         } elseif($authUser == 'Zonal Manager'){
+            // $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
+            // ->orderBy('id', 'DESC')->paginate(12);
+
+            // start
             $free_schemes = FreeScheme::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Stockist', 'Chemist'])
+            // $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             });
+            })
+            ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->orderBy('id', 'DESC')->paginate(12);
+            ->orderBy('id', 'DESC')
+            ->paginate(12);
+            // end
         }
-        // dd($free_schemes->Stockist);
+        $request->session()->put('current_page', $currentPage);
+
+
         return view('free_schemes.index', ['free_schemes' => $free_schemes]);
     }
 
@@ -166,8 +249,10 @@ class FreeSchemesController extends Controller
         //
     }
 
-    public function edit(FreeScheme $free_scheme)
+    public function edit(FreeScheme $free_scheme,Request $request)
     {
+        $page = $request->session()->get('current_page', 1);
+
         $doctors = Doctor::pluck('doctor_name', 'id');
         $stockists = Stockist::pluck('stockist', 'id');
         $chemists = Chemist::pluck('chemist', 'id');
@@ -183,11 +268,13 @@ class FreeSchemesController extends Controller
             $stockists = Stockist::where('employee_id_3', auth()->user()->id)->pluck('stockist', 'id');
             $chemists = Chemist::where('employee_id', auth()->user()->id)->pluck('chemist', 'id');
         }
-        return view('free_schemes.edit', ['free_scheme' => $free_scheme, 'employees'=>$employees, 'doctors'=>$doctors, 'stockists'=>$stockists, 'chemists'=>$chemists, 'products'=>$products]);
+        return view('free_schemes.edit', ['free_scheme' => $free_scheme, 'employees'=>$employees, 'doctors'=>$doctors, 'stockists'=>$stockists, 'chemists'=>$chemists, 'products'=>$products,'page'=>$page]);
     }
 
     public function update(FreeScheme $free_scheme, FreeSchemeRequest $request)
     {
+        $page = $request->session()->get('current_page', 1);
+
         $input = $request->all();
         if($request->hasFile('proof_of_order')){
             if ($free_scheme->proof_of_order) {
@@ -231,11 +318,13 @@ class FreeSchemesController extends Controller
             ]);
         }
         $request->session()->flash('success', 'Free Scheme updated successfully!');
-        return redirect()->route('free_schemes.index');
+        return redirect()->route('free_schemes.index',['page'=>$page]);
     }
 
     public function destroy(Request $request, FreeScheme $free_scheme)
     {
+        $page = $request->session()->get('current_page', 1);
+
         if (!empty($free_scheme->proof_of_order) && Storage::exists('public/FreeScheme/proof_of_order/'.$free_scheme->proof_of_order)) {
             Storage::delete('public/FreeScheme/proof_of_order/'.$free_scheme->proof_of_order);
            }
@@ -246,11 +335,12 @@ class FreeSchemesController extends Controller
 
         $free_scheme->delete();
         $request->session()->flash('success', 'Free Scheme deleted successfully!');
-        return redirect()->route('free_schemes.index');
+        return redirect()->route('free_schemes.index',['page'=>$page]);
     }
 
-    public function rejected(FreeScheme $free_scheme)
+    public function rejected(FreeScheme $free_scheme, Request $request)
     {
+        $page = $request->session()->get('current_page', 1);
 
         if(auth()->user()->roles->pluck('name')->first() == 'Root'){
             $free_scheme->status = 'Level 3 Rejected';
@@ -277,12 +367,14 @@ class FreeSchemesController extends Controller
         // $input['status'] =  $free_scheme->status;
         // $input['free_scheme_id'] = $free_scheme->id;
         // FreeSchemeDetail::create($input);
-        return redirect()->route('free_schemes.index');
+        return redirect()->route('free_schemes.index',['page'=>$page]);
     }
 
 
     public function approval(FreeScheme $free_scheme, Request $request)
     {
+        $page = $request->session()->get('current_page', 1);
+
        // $free_scheme = GrantApproval::find($request->id);
         $input = [];
         if(auth()->user()->roles->pluck('name')->first() == 'Root'){
@@ -357,13 +449,15 @@ class FreeSchemesController extends Controller
             
         }
 
-        return redirect()->route('free_schemes.index');
+        return redirect()->route('free_schemes.index',['page'=>$page]);
     }
 
 
 
-     public function approval_form(FreeScheme $free_scheme)
+     public function approval_form(FreeScheme $free_scheme,Request $request)
     {
+        $page = $request->session()->get('current_page', 1);
+
         $doctors = Doctor::pluck('doctor_name', 'id');
         $stockists = Stockist::pluck('stockist', 'id');
         $chemists = Chemist::pluck('chemist', 'id');
@@ -379,12 +473,18 @@ class FreeSchemesController extends Controller
             $stockists = Stockist::where('employee_id_3', auth()->user()->id)->pluck('stockist', 'id');
             $chemists = Chemist::where('employee_id', auth()->user()->id)->pluck('chemist', 'id');
         }
-        return view('free_schemes.approval_form', ['free_scheme' => $free_scheme, 'employees'=>$employees, 'doctors'=>$doctors, 'stockists'=>$stockists, 'chemists'=>$chemists, 'products'=>$products]);
+        return view('free_schemes.approval_form', ['free_scheme' => $free_scheme, 'employees'=>$employees, 'doctors'=>$doctors, 'stockists'=>$stockists, 'chemists'=>$chemists, 'products'=>$products,'page'=>$page]);
     }
 
     public function search(Request $request){
         $data = $request->input('search');
         $status = $request->input('status');
+
+        $page = $request->input('page', 1);
+        $request->session()->put('current_page', $page);
+        
+        $request->session()->put('search', $data);
+        $request->session()->put('status', $status);
 
         $authUser = auth()->user()->roles->pluck('name')->first();
 
@@ -460,8 +560,13 @@ class FreeSchemesController extends Controller
             ->paginate(12);
         }
 
+        $free_schemes = $free_schemes->appends([
+            'search' => $data,
+            'status' => $status,
+        ]);
 
-        return view('free_schemes.index', ['free_schemes'=>$free_schemes]);
+
+        return view('free_schemes.index', ['free_schemes'=>$free_schemes,'search'=>$data,'status'=>$status]);
 
     }
 

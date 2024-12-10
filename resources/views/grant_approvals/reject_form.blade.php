@@ -12,6 +12,8 @@
         <form class="space-y-5" action="{{ route('grant_approvals.rejection', ['grant_approval' => $grant_approval->id]) }}" method="POST">
             @csrf
             @method('PUT')
+            <input type="hidden" name="page" value="{{ $page }}">
+
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Grant Approval</h5>
@@ -64,7 +66,7 @@
                         {{ __('Submit') }}
                     </x-success-button>
                     &nbsp;&nbsp;
-                    <x-cancel-button :link="route('grant_approvals.index')">
+                    <x-cancel-button :link="route('grant_approvals.index',['page' => session('current_page', 1)])">
                         {{ __('Cancel') }}
                     </x-cancel-button>
                 </div>                

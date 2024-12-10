@@ -218,13 +218,33 @@
 <script>
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({      
-        init() {            
+        init() {      
+            // start
+            this.total = '{{ old('total_expected_value', 0) }}';
+            this.avg_total = '{{ old('total_business_value', 0) }}';
+            this.roi = '{{ old('roi', 0) }}';
+            if (this.productDetails && typeof this.productDetails === 'object') {
+                this.productDetails = Object.values(this.productDetails);
+            }
+            this.productDetails.forEach((detail, index) => {
+                detail.id = index + 1; // Set ID to index + 1
+            });
+            console.log(this.productDetails);
+
+            if (Array.isArray(this.productDetails)) {
+                this.productDetails.forEach(detail => {
+                    console.log(` ID: ${detail.id}`);
+                });
+            } else {
+                console.error('productDetails is not an array:', this.productDetails);
+            }
+         // end      
             this.avg_business_value = 0;  
             this.total_exp_vol = 0;
             this.total_exp_val = 0;
-            this.total = 0;
-            this.avg_total = 0;
-            this.roi = 0;
+            // this.total = 0;  //total exp value
+            // this.avg_total = 0; //avg busines value
+            // this.roi = 0;
             this.approval_amount = 0;
             var options = {
                 searchable: true
@@ -287,7 +307,9 @@ document.addEventListener("alpine:init", () => {
 
         },
 
-        productDetails: [],
+        // productDetails: [],
+        productDetails: @json(session('product_details',[])),
+
         addItem() {
             let maxId = 0;
             if (this.productDetails && this.productDetails.length) {

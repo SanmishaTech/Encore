@@ -25,38 +25,118 @@ class GrantApprovalsController extends Controller
 {
     public function index(Request $request)
     {
-        // $search = $request->input('search');
-        // dd($search);exit;
-        // if ($search) {
-        //     $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor','Activity'])
-        //                         ->orderBy('code', 'DESC')
-        //                         ->where('code', 'LIKE' , '%'.$search.'%' )
-        //                         ->orWhere('proposal_amount', 'LIKE' , '%'.$search.'%' )
-        //                         ->paginate(12);
-        // } 
+        $currentPage = $request->input('page', 1);
+        $request->session()->put('current_page', $currentPage);
+
+        $data = $request->session()->get('search','');
+        $status = $request->session()->get('status','');
         $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->orderBy('code', 'DESC')->paginate(12);
+        
+        // start
+        $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+        ->where(function ($query) use ($data) {
+         $query->whereHas('Manager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         })
+         ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         })
+         ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+             $query->where('name', 'like', "%$data%");
+         })
+         ->orWhere('code', 'like', "%$data%");
+        })
+        ->where('status', 'like', "%$status%")
+        ->orderBy('code', 'DESC')
+        ->paginate(12);
+        // end
         $authUser = auth()->user()->roles->pluck('name')->first();
         if($authUser == 'Marketing Executive'){
-            $manager = auth()->user()->id;
-            $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
-            ->where('employee_id', $manager)
-            ->orderBy('code', 'DESC')->paginate(12);
+            // $manager = auth()->user()->id;
+            // $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+            // ->where('employee_id', $manager)
+            // ->orderBy('code', 'DESC')->paginate(12);
+
+            //  start
+            $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data,$status) {
+             $query->whereHas('Manager', function ($query) use ($data, $status) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data,$status) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data, $status) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+            })
+            ->where('status', 'like', "%$status%")
+            ->where('employee_id', auth()->user()->id)
+            ->orderBy('code', 'DESC')
+            ->paginate(12);
+            
+            //  end
           
         } elseif($authUser == 'Area Manager'){
-            $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
-                ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-                ->orderBy('code', 'DESC')->paginate(12);
-            // dd(auth()->user()->id); exit;
+            // $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+            //     ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+            //     ->orderBy('code', 'DESC')->paginate(12);
 
+            // start
+            $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+            })
+            ->where('status', 'like', "%$status%")
+            ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
+            ->orderBy('code', 'DESC')
+            ->paginate(12);
+            // end
            
         } elseif($authUser == 'Zonal Manager'){
-            $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+            // $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])
+            // ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
+            // // ->where('approval_level_1', true) //already comented
+            // // ->where('status','Level 2 Approved')  //already comented
+            // ->orderBy('code', 'DESC')->paginate(12);      
+
+            
+            //  start
+            $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
+            ->where(function ($query) use ($data) {
+             $query->whereHas('Manager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                 $query->where('name', 'like', "%$data%");
+             })
+             ->orWhere('code', 'like', "%$data%");
+            })
+            ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            // ->where('approval_level_1', true)
-            // ->where('status','Level 2 Approved')
-            ->orderBy('code', 'DESC')->paginate(12);           
-        }        
-        return view('grant_approvals.index', ['grant_approvals' => $grant_approvals]);
+            ->orderBy('code', 'DESC')
+            ->paginate(12);
+            // end
+        }       
+        
+    
+            // $request->session()->put('current_page', $currentPage);
+    
+        
+        return view('grant_approvals.index', ['grant_approvals' => $grant_approvals,'data'=>$data,'status'=>$status]);
     }
 
     public function create()
@@ -103,9 +183,9 @@ class GrantApprovalsController extends Controller
         return $grant_approval;
     }
 
-    public function edit(GrantApproval $grant_approval)
+    public function edit(GrantApproval $grant_approval, Request $request)
     {
-        
+        $page = $request->session()->get('current_page', 1);
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
         $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
@@ -119,18 +199,20 @@ class GrantApprovalsController extends Controller
             $doctors = Doctor::where('reporting_office_3', auth()->user()->id)->pluck('doctor_name', 'id');
             // dd($doctors);
         }
-        return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
+        return view('grant_approvals.edit', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities, 'page'=>$page]);
     }
 
     public function update(GrantApproval $grant_approval, GrantApprovalRequest $request) 
     {
+        $page = $request->session()->get('current_page', 1);
+
         if(empty($grant_approval->code)){
             $code = new GrantApproval();  
             $grant_approval->code = $code->codeGenerate();
         }
         $grant_approval->update($request->all());
         $request->session()->flash('success', 'Grant Approval updated successfully!');
-        return redirect()->route('grant_approvals.index');
+        return redirect()->route('grant_approvals.index',['page'=>$page]);
     }
 
     
@@ -240,8 +322,10 @@ class GrantApprovalsController extends Controller
         return Excel::download(new GAFExport($from_date, $to_date, $activity,$doctor, $zonalManager), 'GAF_report.xlsx');
     }
 
-    public function approval_form(GrantApproval $grant_approval)
+    public function approval_form(GrantApproval $grant_approval, Request $request)
     {        
+        $page = $request->session()->get('current_page', 1);
+
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
         $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
@@ -255,11 +339,13 @@ class GrantApprovalsController extends Controller
             $doctors = Doctor::where('reporting_office_2', auth()->user()->id)->pluck('doctor_name', 'id');
             // dd($doctors);
         }
-        return view('grant_approvals.approval_form', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
+        return view('grant_approvals.approval_form', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities,'page'=>$page]);
     }
 
     public function approval(GrantApproval $grant_approval, Request $request) 
     {
+        $page = $request->session()->get('current_page', 1);
+
         $grant_approval = GrantApproval::find($request->id);
         $input = [];
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
@@ -311,7 +397,7 @@ class GrantApprovalsController extends Controller
         }
 
 
-        return redirect()->route('grant_approvals.index');
+        return redirect()->route('grant_approvals.index',['page'=>$page]);
     }
 
     public function getGrantApprovalData($id)
@@ -327,8 +413,10 @@ class GrantApprovalsController extends Controller
         return $grant_approvals;
     }
 
-    public function reject_form(GrantApproval $grant_approval)
+    public function reject_form(GrantApproval $grant_approval, Request $request)
     {        
+        $page = $request->session()->get('current_page', 1);
+
         $doctors = Doctor::pluck('doctor_name', 'id');
         $activities = Activity::pluck('name', 'id');
         $employees = Employee::where('designation', 'Marketing Executive')->pluck('name', 'id');
@@ -342,12 +430,13 @@ class GrantApprovalsController extends Controller
             $doctors = Doctor::where('reporting_office_2', auth()->user()->id)->pluck('doctor_name', 'id');
             // dd($doctors);
         }
-        return view('grant_approvals.reject_form', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities]);
+        return view('grant_approvals.reject_form', ['grant_approval' => $grant_approval, 'employees'=>$employees, 'doctors'=>$doctors, 'activities'=>$activities,'page'=>$page]);
     }
 
     public function rejection(Request $request, GrantApproval $grant_approval) 
     {
-       
+        $page = $request->session()->get('current_page', 1);
+
 
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $grant_approval->status = 'Level 2 Rejected';
@@ -374,14 +463,28 @@ class GrantApprovalsController extends Controller
         $input['amount'] = $grant_approval->amount;
         $input['grant_approval_id'] = $grant_approval->id;
         GrantApprovalDetail::create($input);
-        return redirect()->route('grant_approvals.index');
+        return redirect()->route('grant_approvals.index',['page'=>$page]);
     }
 
     public function search(Request $request){
         $data = $request->input('search');
         $status = $request->input('status');
+        // $page = $request->session()->get('current_page', 1);
+        $page = $request->input('page', 1);
+        $request->session()->put('current_page', $page);
         $authUser = auth()->user()->roles->pluck('name')->first();
 
+        // if(!$data){
+        //     $data = $request->session()->get('search', '');
+        //   }
+  
+        //   if(!$status){
+        //       $status = $request->session()->get('status', '');
+        //     }
+  
+          $request->session()->put('search', $data);
+          $request->session()->put('status', $status);
+          
         if($authUser == 'Marketing Executive'){
             $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
             ->where(function ($query) use ($data,$status) {
@@ -456,8 +559,13 @@ class GrantApprovalsController extends Controller
             ->paginate(12);
         }
    
+        $grant_approvals = $grant_approvals->appends([
+            'search' => $data,
+            'status' => $status,
+            'page'=>$page,
+        ]);
 
-        return view('grant_approvals.index', ['grant_approvals'=>$grant_approvals, 'data'=> $data, 'status'=> $status]);
+        return view('grant_approvals.index', ['grant_approvals'=>$grant_approvals, 'data'=> $data, 'status'=> $status,'page'=>$page]);
 
     }
 

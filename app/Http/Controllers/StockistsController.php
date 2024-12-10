@@ -96,7 +96,7 @@ class StockistsController extends Controller
             Excel::import(new ImportStockists, $request->file);
             $request->session()->flash('success', 'Excel imported successfully!');
             return redirect()->route('stockists.index');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

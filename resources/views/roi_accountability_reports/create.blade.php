@@ -195,8 +195,28 @@
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({     
         init() {
-            this.roi = 0;
-            this.total = 0;
+            this.roi = '{{ old('roi', 0) }}';
+            this.total = '{{ old('total_actual_value', 0) }}';
+            // start
+            if (this.productDetails && typeof this.productDetails === 'object') {
+                this.productDetails = Object.values(this.productDetails);
+            }
+            this.productDetails.forEach((detail, index) => {
+                detail.id = index + 1; // Set ID to index + 1
+            });
+            // console.log(this.productDetails);
+
+            if (Array.isArray(this.productDetails)) {
+                this.productDetails.forEach(detail => {
+                    // console.log(` ID: ${detail.id}`);
+                });
+            } else {
+                console.error('productDetails is not an array:', this.productDetails);
+            }
+           // end
+
+            // this.roi = 0;
+            // this.total = 0;
             var options = {
                 searchable: true
             };
@@ -250,7 +270,9 @@ document.addEventListener("alpine:init", () => {
             
         },
 
-        productDetails: [],
+        // productDetails: [],
+        productDetails: @json(session('product_details',[])),
+
         addItem() {
             let maxId = 0;
             if (this.productDetails && this.productDetails.length) {

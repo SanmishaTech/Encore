@@ -1,22 +1,26 @@
 <?php
 namespace App\Http\Controllers;
 use Excel;
-use App\Exports\RARExport;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
-use App\Models\Employee;
 use App\Models\Doctor;
 use App\Models\Product;
-use App\Models\RoiAccountabilityReportDetail;
-use App\Models\GrantApproval;
-use App\Models\RoiAccountabilityReport;
+use App\Models\Employee;
+use App\Exports\RARExport;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\GrantApproval;
+use Illuminate\Support\Facades\Validator;
+use App\Models\RoiAccountabilityReport;
+use App\Models\RoiAccountabilityReportDetail;
 use App\Http\Requests\RoiAccountabilityReportRequest;
 
 class RoiAccountabilityReportsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+
+        $currentPage = $request->input('page', 1);
+        $data = $request->session()->get('search','');
         // $roi_accountability_reports = RoiAccountabilityReport::orderBy('id', 'desc')->get();
         // return view('roi_accountability_reports.index', compact('roi_accountability_reports'));
         $query = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]]);
@@ -43,8 +47,30 @@ class RoiAccountabilityReportsController extends Controller
                });
            });
         }       
+
+        if($data){
+            $query->where(function ($query) use ($data) {
+                $query->whereHas('GrantApproval', function ($query) use ($data) {
+               $query->whereHas('Manager', function ($query) use ($data) {
+                   $query->where('name', 'like', "%$data%");
+               })
+               ->orWhereHas('Manager.AreaManager', function ($query) use ($data) {
+                   $query->where('name', 'like', "%$data%");
+               })
+               ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
+                   $query->where('name', 'like', "%$data%");
+                 })
+                 ->orWhere('code', 'like', "%$data%");
+             });
+               });
+        }
+
+
+        
         $roi_accountability_reports = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
-        return view('roi_accountability_reports.index', ['roi_accountability_reports' => $roi_accountability_reports]);
+        $request->session()->put('current_page', $currentPage);
+
+        return view('roi_accountability_reports.index', ['roi_accountability_reports' => $roi_accountability_reports,'data'=>$data]);
     }
 
     public function create()
@@ -65,11 +91,10 @@ class RoiAccountabilityReportsController extends Controller
 
     public function store(RoiAccountabilityReport $roi_accountability_report, RoiAccountabilityReportRequest $request) 
     {
-        // dd($request);
         $input = $request->all();
         $roi_accountability_report = RoiAccountabilityReport::create($input); 
         $data = $request->collect('product_details');
-        
+
         foreach($data as $record){
             
             RoiAccountabilityReportDetail::create([
@@ -91,8 +116,11 @@ class RoiAccountabilityReportsController extends Controller
         //
     }
 
-    public function edit(RoiAccountabilityReport $roi_accountability_report)
+    public function edit(RoiAccountabilityReport $roi_accountability_report,Request $request)
     {
+           
+        $page = $request->session()->get('current_page', 1);
+
         $years = range(2023, 2028);
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $doctors = Doctor::pluck('doctor_name', 'id');       
@@ -106,11 +134,14 @@ class RoiAccountabilityReportsController extends Controller
             $conditions[] = ['employee_id', auth()->user()->id];          
         }   
         $gaf_code = GrantApproval::where($conditions)->pluck('code', 'id');
-        return view('roi_accountability_reports.edit', ['roi_accountability_report' => $roi_accountability_report, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products,'years'=>$years, 'months'=>$months]); 
+        return view('roi_accountability_reports.edit', ['roi_accountability_report' => $roi_accountability_report, 'employees'=>$employees, 'doctors'=>$doctors, 'gaf_code'=>$gaf_code, 'products'=>$products,'years'=>$years, 'months'=>$months,'page'=>$page]); 
     }
 
     public function update(RoiAccountabilityReport $roi_accountability_report, RoiAccountabilityReportRequest $request) 
     {
+
+        $page = $request->session()->get('current_page', 1);
+
         $roi_accountability_report->update($request->all());
         $data = $request->collect('product_details');
         
@@ -129,14 +160,16 @@ class RoiAccountabilityReportsController extends Controller
             ]);
         }
         $request->session()->flash('success', 'Roi Accountability Report updated successfully!');
-        return redirect()->route('roi_accountability_reports.index');
+        return redirect()->route('roi_accountability_reports.index',['page'=>$page]);
     }
   
     public function destroy(Request $request, RoiAccountabilityReport $roi_accountability_report)
     {
+        $page = $request->session()->get('current_page', 1);
+
         $roi_accountability_report->delete();
         $request->session()->flash('success', 'Roi Accountability Report deleted successfully!');
-        return redirect()->route('roi_accountability_reports.index');
+        return redirect()->route('roi_accountability_reports.index',['page'=>$page]);
     }
 
     public function report()
@@ -163,7 +196,11 @@ class RoiAccountabilityReportsController extends Controller
         $authUser = auth()->user()->roles->pluck('name')->first();
         
         $data = $request->input('search');
-
+        $request->session()->put('search', $data);
+        
+        $page = $request->input('page', 1);
+        $request->session()->put('current_page', $page);
+        
         if($authUser == 'Marketing Executive'){        
             $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])
             // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
@@ -249,7 +286,12 @@ class RoiAccountabilityReportsController extends Controller
 
         }
 
-      return view('roi_accountability_reports.index', ['roi_accountability_reports'=>$roi_accountability_reports]);
+        $roi_accountability_reports = $roi_accountability_reports->appends([
+            'search' => $data,
+            'page'=>$page,
+        ]);
+
+      return view('roi_accountability_reports.index', ['roi_accountability_reports'=>$roi_accountability_reports,'data'=>$data,'page'=>$page]);
 
     }
 

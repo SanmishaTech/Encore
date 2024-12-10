@@ -20,6 +20,7 @@
         <form class="space-y-5" action="{{ route('doctor_business_monitorings.update', ['doctor_business_monitoring' => $doctor_business_monitoring->id]) }}" method="POST">
             @csrf
             @method('PUT')
+            <input type="hidden" name="page" value="{{ $page }}">
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit CDBM</h5>
@@ -188,9 +189,10 @@
                     {{ __('Submit') }}
                 </x-success-button>
                 &nbsp;&nbsp;
-                <x-cancel-button :link="route('doctor_business_monitorings.index')">
+                <x-cancel-button :link="route('doctor_business_monitorings.index', ['page' => session('current_page', 1)])">
                     {{ __('Cancel') }}
                 </x-cancel-button>
+              
             </div>
         </form> 
     </div>

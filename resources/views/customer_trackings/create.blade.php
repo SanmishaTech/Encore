@@ -140,7 +140,7 @@
                                             <tr>
                                                 <th colspan="7" style="text-align:right;">Total Amount: </th>
                                                 <td>               
-                                                    <x-text-input class="form-input bg-gray-100 dark:bg-gray-700"  readonly="true" :messages="$errors->get('amount')"  name="amount" x-model="amount"/>
+                                                    <x-text-input class="form-input bg-gray-100 dark:bg-gray-700"  readonly="true" :messages="$errors->get('amount')" value="{{ old('amount') }}"  name="amount" x-model="amount"/>
                                                 </td>
                                             </tr>
                                         </tfoot>                
@@ -168,7 +168,27 @@
 document.addEventListener("alpine:init", () => {
     Alpine.data('data', () => ({   
         init() {
-            this.amount = 0;
+            // start
+            this.amount = '{{ old('amount', 0) }}';
+            if (this.productDetails && typeof this.productDetails === 'object') {
+                this.productDetails = Object.values(this.productDetails);
+            }
+            this.productDetails.forEach((detail, index) => {
+                detail.id = index + 1; // Set ID to index + 1
+            });
+
+            // console.log(this.productDetails);
+
+            if (Array.isArray(this.productDetails)) {
+                this.productDetails.forEach(detail => {
+                    // console.log(` ID: ${detail.id}`);
+                });
+            } else {
+                console.error('productDetails is not an array:', this.productDetails);
+            }
+
+            // end
+            // this.amount = 0;
 
             flatpickr(document.getElementById('proposal_date'), {
                 dateFormat: 'd/m/Y',
@@ -180,6 +200,7 @@ document.addEventListener("alpine:init", () => {
             @else
                 NiceSelect.bind(document.getElementById("employee_id"), options);
             @endif
+           
         },
 
         employee_id: '',
@@ -238,7 +259,9 @@ document.addEventListener("alpine:init", () => {
             
         },
 
-        productDetails: [],
+        // productDetails: [],
+        productDetails: @json(session('product_details',[])),
+
         addItem() {
             let maxId = 0;
             if (this.productDetails && this.productDetails.length) {
@@ -315,7 +338,8 @@ document.addEventListener("alpine:init", () => {
                 total_m_val += parseFloat(productDetail.m_4);
               } 
                    avg = total_m_val / 4;
-              productDetail.qty = avg.toFixed(2);
+                productDetail.qty = avg.toFixed(2);
+
 
           }); 
           this.calculateVal();

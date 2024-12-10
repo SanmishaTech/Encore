@@ -12,6 +12,8 @@
         <form class="space-y-5" action="{{ route('customer_trackings.update', ['customer_tracking' => $customer_tracking->id]) }}" method="POST">
             @csrf
             @method('PUT')
+            <input type="hidden" name="page" value="{{ $page }}">
+
             <div class="panel">
                 <div class="flex items-center justify-between mb-5">
                     <h5 class="font-semibold text-lg dark:text-white-light">Edit Customer Tracking</h5>
@@ -151,7 +153,7 @@
                         {{ __('Submit') }}
                     </x-success-button>
                     &nbsp;&nbsp;
-                    <x-cancel-button :link="route('customer_trackings.index')">
+                    <x-cancel-button :link="route('customer_trackings.index', ['page' => session('current_page', 1)])">
                         {{ __('Cancel') }}
                     </x-cancel-button>
                 </div>               

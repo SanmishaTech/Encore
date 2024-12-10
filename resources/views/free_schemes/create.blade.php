@@ -38,7 +38,7 @@
                 <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                     <div>
                         <label>Doctor: <span class=text-danger>*</span></label>
-                            <select class="form-select" name="doctor_id" @change="doctorChange()" x-model="doctor_id">
+                            <select class="form-select" name="doctor_id" @change="doctorChange()" id="doctor_id" x-model="doctor_id">
                                 <option value="" disabled selected>Select Doctor</option>
                                 @if( auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
                                     @foreach ($doctors as $id=>$doctor)                                
@@ -148,7 +148,7 @@
                         <div class="mt-8">
                             <template x-if="freeSchemeDetails">
                                 <div class="table-responsive">
-                                    <table class="table-hover" width="100%">
+                                        <table class="table-hover" width="100%">
                                         <thead>
                                             <tr  width="100%">
                                                 <th>&nbsp; #</th>
@@ -167,6 +167,7 @@
                                                     </td>
                                                 </tr>
                                             </template>
+                                           
                                             <template x-for="(freeSchemeDetail, i) in freeSchemeDetails" :key="i">
                                                 <tr>
                                                     <td>
@@ -199,7 +200,7 @@
                                                         <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][qty]`"  :messages="$errors->get('qty')" x-model="freeSchemeDetail.qty" @change="calculateVal()" required/>
                                                     </td> 
                                                     <td>
-                                                        <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free_qty]`"  :messages="$errors->get('free_qty')" x-model="freeSchemeDetail.free_qty" required/>
+                                                        <x-text-input x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free_qty]`"   :messages="$errors->get('free_qty')" x-model="freeSchemeDetail.free_qty"  required/>
                                                     </td> 
                                                     <td>                                                      
                                                         <select required class="form-input" x-bind:name="`free_scheme_details[${freeSchemeDetail.id}][free]`" x-model="freeSchemeDetail.free" @change="calculateVal()">
@@ -214,6 +215,7 @@
                                                     </td>
                                                 </tr>
                                             </template>
+                                     
                                             <tr>
                                                 <td>
                                                     <button type="button" class="btn btn-info" @click.prevent="addItem()">+ </button>
@@ -266,6 +268,7 @@
                                         </div>
                                     </div> --}}
                                 </div>
+                                {{-- </div> --}}
                             </template>                                                
                         </div>                            
                     </div>                    
@@ -285,166 +288,190 @@
 </div> 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
-document.addEventListener("alpine:init", () => {
-    Alpine.data('data', () => ({   
-        init() {
-            this.amount = 0;
-            var options = {
-                searchable: true
-            };
-            NiceSelect.bind(document.getElementById("stockist_id"), options);
-            NiceSelect.bind(document.getElementById("chemist_id"), options);
-            flatpickr(document.getElementById('proposal_date'), {
-                dateFormat: 'd/m/Y',
+    document.addEventListener("alpine:init", () => {
+        Alpine.data('data', () => ({   
+            init() {
+                // console.log(this.freeSchemeDetails, Array.isArray(this.freeSchemeDetails));
+                // start
+                this.amount = '{{ old('amount', 0) }}';
+
+             if (this.freeSchemeDetails && typeof this.freeSchemeDetails === 'object') {
+                this.freeSchemeDetails = Object.values(this.freeSchemeDetails);
+            }
+            this.freeSchemeDetails.forEach((detail, index) => {
+                detail.id = index + 1; // Set ID to index + 1
             });
-            
-            @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
-                this.employee_id = {{ auth()->user()->id}};
-                this.mehqChange();
-            @else
-                NiceSelect.bind(document.getElementById("employee_id"), options);
-            @endif
-        },   
+            // console.log(this.freeSchemeDetails);
 
-        doctor_id: '',
-        doctorData: '',
-        location: '',
-        speciality: '',
-        mpl_no: '',
-        async doctorChange() {
-            this.doctorData = await (await fetch('/doctors/'+ this.doctor_id, {                
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json;',
-            },
-            })).json();
-            this.mpl_no = this.doctorData.mpl_no;
-            this.location = this.doctorData.type;
-            this.speciality = this.doctorData.speciality;
-        },
-
-        chemistData:'',
-        chemist_id:'',
-        chemist_contact_no:'',
-        async chemistChange() {
-            this.chemistData = await (await fetch('/chemists/'+ this.chemist_id, {                
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json;',
-            },
-            })).json();
-            this.chemist_contact_no = this.chemistData.contact_no_1;
-        },
-
-        stockistData:'',
-        stockist_id:'',
-        stockist_contact_no:'',
-        async stockistChange() {
-            this.stockistData = await (await fetch('/stockists/'+ this.stockist_id, {                
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json;',
-            },
-            })).json();
-            this.stockist_contact_no = this.stockistData.contact_no;
-        },
-
-
-        employee_id: '',
-        doctors:'',
-        zone: '',
-        area: '',
-        async mehqChange() {
-            this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id, {
+            if (Array.isArray(this.freeSchemeDetails)) {
+                this.freeSchemeDetails.forEach(detail => {
+                    // console.log(` ID: ${detail.id}, Product ID: ${detail.product_id}, Free: ${detail.free}`);
+                });
+            } else {
+                console.error('freeSchemeDetails is not an array:', this.freeSchemeDetails);
+            }
+// end
+                // this.amount = 0;
+                var options = {
+                    searchable: true
+                };
+                NiceSelect.bind(document.getElementById("stockist_id"), options);
+                NiceSelect.bind(document.getElementById("doctor_id"), options);
+                NiceSelect.bind(document.getElementById("chemist_id"), options);
+                flatpickr(document.getElementById('proposal_date'), {
+                    dateFormat: 'd/m/Y',
+                });
                 
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json;',
-            },
-            })).json();
-            this.area = this.data.area_manager.name;
-            this.zone = this.data.zonal_manager.name;
-            
-            this.doctors = await (await fetch('/doctors/getDoctors/'+ this.employee_id, {
+                @if(auth()->user()->roles->pluck('name')->first() == "Marketing Executive")
+                    this.employee_id = {{ auth()->user()->id}};
+                    this.mehqChange();
+                @else
+                    NiceSelect.bind(document.getElementById("employee_id"), options);
+                @endif
+            },   
+    
+            doctor_id: '',
+            doctorData: '',
+            location: '',
+            speciality: '',
+            mpl_no: '',
+            async doctorChange() {
+                this.doctorData = await (await fetch('/doctors/'+ this.doctor_id, {                
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json;',
                 },
-            })).json();
-        },
-
-        proposal_date : '',
-        proposal_month: '',
-        dateChange(){    
-            this.proposal_month = moment(this.proposal_date, 'DD/MM/YYYY').format("MMM / YYYY");
-        },
-
-        product_id: '',
-        nrv: '',
-        async productChange() {                    
-            this.freeSchemeDetail.nrv = await (await fetch('/products/'+ this.freeSchemeDetail.product_id, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json;',
+                })).json();
+                this.mpl_no = this.doctorData.mpl_no;
+                this.location = this.doctorData.type;
+                this.speciality = this.doctorData.speciality;
             },
-            })).json();
+    
+            chemistData:'',
+            chemist_id:'',
+            chemist_contact_no:'',
+            async chemistChange() {
+                this.chemistData = await (await fetch('/chemists/'+ this.chemist_id, {                
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+                })).json();
+                this.chemist_contact_no = this.chemistData.contact_no_1;
+            },
+    
+            stockistData:'',
+            stockist_id:'',
+            stockist_contact_no:'',
+            async stockistChange() {
+                this.stockistData = await (await fetch('/stockists/'+ this.stockist_id, {                
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+                })).json();
+                this.stockist_contact_no = this.stockistData.contact_no;
+            },
+    
+    
+            employee_id: '',
+            doctors:'',
+            zone: '',
+            area: '',
+            async mehqChange() {
+                this.data = await (await fetch('/employees/getEmployees/'+ this.employee_id, {
+                    
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+                })).json();
+                this.area = this.data.area_manager.name;
+                this.zone = this.data.zonal_manager.name;
+                
+                this.doctors = await (await fetch('/doctors/getDoctors/'+ this.employee_id, {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json;',
+                    },
+                })).json();
+            },
+    
+            proposal_date : '',
+            proposal_month: '',
+            dateChange(){    
+                this.proposal_month = moment(this.proposal_date, 'DD/MM/YYYY').format("MMM / YYYY");
+            },
+    
+            product_id: '',
+            nrv: '',
+            async productChange() {                    
+                this.freeSchemeDetail.nrv = await (await fetch('/products/'+ this.freeSchemeDetail.product_id, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json;',
+                },
+                })).json();
+                
+            },
+    
+            // freeSchemeDetails: [],
+            freeSchemeDetails: @json(session('free_scheme_details',[])),
+          
+
+            addItem() {
+                let maxId = 0;
+                if (this.freeSchemeDetails && this.freeSchemeDetails.length) {
+                    maxId = this.freeSchemeDetails.reduce((max, character) => (character.id > max ? character
+                        .id : max), this.freeSchemeDetails[0].id);
+                }
+                this.freeSchemeDetails.push({
+                    id: maxId + 1,
+                    product_id: '',
+                    nrv: '',
+                    qty: '',
+                    free_qty: '',
+                    free: '',
+                    val: '',
+                });
+                this.calculateTotal();
+            }, 
             
-        },
-
-        freeSchemeDetails: [],
-        addItem() {
-            let maxId = 0;
-            if (this.freeSchemeDetails && this.freeSchemeDetails.length) {
-                maxId = this.freeSchemeDetails.reduce((max, character) => (character.id > max ? character
-                    .id : max), this.freeSchemeDetails[0].id);
-            }
-            this.freeSchemeDetails.push({
-                id: maxId + 1,
-                product_id: '',
-                nrv: '',
-                qty: '',
-                free_qty: '',
-                free: '',
-                val: '',
-            });
-            this.calculateTotal();
-        }, 
-        
-        removeItem(freeSchemeDetail) {
-            this.freeSchemeDetails = this.freeSchemeDetails.filter((d) => d.id != freeSchemeDetail.id);
-            this.calculateVal();
-            this.calculateFQtyVal();
-            this.calculateTotal();
-        },
-
-        calculateVal(){
-            let val = 0; 
-            if(!isNaN(this.freeSchemeDetail.qty) && this.freeSchemeDetail.qty != ''){
-                val = this.freeSchemeDetail.qty * this.freeSchemeDetail.nrv;          
-                this.freeSchemeDetail.val = val.toFixed(2);
-            } 
-            this.calculateTotal();
-        },
-
-        calculateFQtyVal(){
-            let val = 0; 
-            if(!isNaN(this.freeSchemeDetail.free_qty) && this.freeSchemeDetail.free_qty != ''){
-                val = this.freeSchemeDetail.free_qty * this.freeSchemeDetail.nrv;          
-                this.freeSchemeDetail.val = val.toFixed(2);
-            } 
-            this.calculateTotal();
-        },
-
-        calculateTotal() {               
-            let amount = 0; 
-            this.freeSchemeDetails.forEach(freeSchemeDetail => {                
-                amount = parseFloat(amount) + parseFloat(freeSchemeDetail.val);
-            });                               
-            if(!isNaN(amount)){
-                this.amount = amount.toFixed(2);
-            }     
-        },
-    }));
-});
-</script>
+            removeItem(freeSchemeDetail) {
+                this.freeSchemeDetails = this.freeSchemeDetails.filter((d) => d.id != freeSchemeDetail.id);
+                this.calculateVal();
+                this.calculateFQtyVal();
+                this.calculateTotal();
+            },
+    
+            calculateVal(){
+                let val = 0; 
+                if(!isNaN(this.freeSchemeDetail.qty) && this.freeSchemeDetail.qty != ''){
+                    val = this.freeSchemeDetail.qty * this.freeSchemeDetail.nrv;          
+                    this.freeSchemeDetail.val = val.toFixed(2);
+                } 
+                this.calculateTotal();
+            },
+    
+            calculateFQtyVal(){
+                let val = 0; 
+                if(!isNaN(this.freeSchemeDetail.free_qty) && this.freeSchemeDetail.free_qty != ''){
+                    val = this.freeSchemeDetail.free_qty * this.freeSchemeDetail.nrv;          
+                    this.freeSchemeDetail.val = val.toFixed(2);
+                } 
+                this.calculateTotal();
+            },
+    
+            calculateTotal() {               
+                let amount = 0; 
+                this.freeSchemeDetails.forEach(freeSchemeDetail => {                
+                    amount = parseFloat(amount) + parseFloat(freeSchemeDetail.val);
+                });                               
+                if(!isNaN(amount)){
+                    this.amount = amount.toFixed(2);
+                }     
+            },
+        }));
+    });
+    </script>
 </x-layout.default>
