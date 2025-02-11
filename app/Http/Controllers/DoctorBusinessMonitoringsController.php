@@ -16,7 +16,9 @@ use App\Models\GrantApproval;
 use App\Models\ProductDetail;
 use App\Mail\CDBMNotificationForAM;
 use App\Mail\CDBMNotificationForZM;
-use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Mail;
+use SendGrid;
+use SendGrid\Mail\Mail;
 use App\Mail\CDBMNotificationForRoot;
 use App\Models\DoctorBusinessMonitoring;
 use App\Models\DoctorBusinessMonitoringDetail;
@@ -140,12 +142,38 @@ class DoctorBusinessMonitoringsController extends Controller
             $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])
             ->whereRelation('DoctorBusinessMonitoring', $condition)->get();
 
-            $email =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->AreaManager->communication_email;
-            if(!$email){
+            $cEmail =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->AreaManager->communication_email;
+            if(!$cEmail){
             return redirect()->route('doctor_business_monitorings.index');
             }
-            Mail::to($email)
-            ->send(new CDBMNotificationForAM($print));
+            // Mail::to($email)
+            // ->send(new CDBMNotificationForAM($print));
+            
+              // start
+              $content = view('doctor_business_monitorings.email_for_am', ['print' => $print])->render();
+              $email = new Mail();
+              $email->setFrom("webmaster@ehpl.net.in", "Encore");
+              $email->setSubject('Core Doctor Business Monitoring Notification - ' . $print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->name,);
+              $email->addTo($cEmail);
+              $email->addContent("text/html",$content);
+  
+              $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+  
+              try {
+                  $response = $sendgrid->send($email);
+              //     Log::info('SendGrid Response:', [
+              //         'statusCode' => $response->statusCode(),
+              //         'headers' => $response->headers(),
+              //         'body' => $response->body(),
+              //     ]);
+              //   Log::info('email is send to '. $cEmail);
+              } catch (\Exception $e) {
+                  // return 'Caught exception: ' . $e->getMessage();
+                  $request->session()->flash('error', 'Error while sending email.');
+                  return redirect()->route('doctor_business_monitorings.index');
+                }
+          // end
+          
         }
         // $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])->whereRelation('DoctorBusinessMonitoring', $condition)->get();
 
@@ -290,12 +318,37 @@ class DoctorBusinessMonitoringsController extends Controller
             $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])
             ->whereRelation('DoctorBusinessMonitoring', $condition)->get();
 
-            $email =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->ZonalManager->communication_email;
-            if(!$email){
+            $cEmail =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->ZonalManager->communication_email;
+            if(!$cEmail){
             return redirect()->route('doctor_business_monitorings.index');
             }
-            Mail::to($email)
-            ->send(new CDBMNotificationForZM($print));
+            // Mail::to($email)
+            // ->send(new CDBMNotificationForZM($print));
+
+             // start
+             $content = view('doctor_business_monitorings.email_for_zm', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+             $email->setSubject('Core Doctor Business Monitoring Notification - '. $print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->AreaManager->name);
+             $email->addTo($cEmail);
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+             //     Log::info('SendGrid Response:', [
+             //         'statusCode' => $response->statusCode(),
+             //         'headers' => $response->headers(),
+             //         'body' => $response->body(),
+             //     ]);
+             //   Log::info('email is send to '. $cEmail);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
+                 return redirect()->route('doctor_business_monitorings.index');
+                }
+         // end
         }
 
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
@@ -303,13 +356,38 @@ class DoctorBusinessMonitoringsController extends Controller
             $print = ProductDetail::with(['Product', 'DoctorBusinessMonitoring'=>['GrantApproval'=>['Manager' => ['ZonalManager','AreaManager'], 'Doctor']]])
             ->whereRelation('DoctorBusinessMonitoring', $condition)->get();
 
-            $email =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->ZonalManager->communication_email;
-            if(!$email){
+            $cEmail =$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->ZonalManager->communication_email;
+            if(!$cEmail){
             return redirect()->route('doctor_business_monitorings.index');
             }
-            Mail::to($email)
-            ->cc("ssingh@encoregroup.net")
-            ->send(new CDBMNotificationForRoot($print));
+            // Mail::to($email)
+            // ->cc("ssingh@encoregroup.net")
+            // ->send(new CDBMNotificationForRoot($print));
+             // start
+             $content = view('doctor_business_monitorings.email_for_root', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+             $email->setSubject('Core Doctor Business Monitoring Notification - ' .$print[0]->DoctorBusinessMonitoring->GrantApproval->Manager->ZonalManager->name);
+             $email->addTo($cEmail);
+             $email->addCc('ssingh@encoregroup.net');
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+             //     Log::info('SendGrid Response:', [
+             //         'statusCode' => $response->statusCode(),
+             //         'headers' => $response->headers(),
+             //         'body' => $response->body(),
+             //     ]);
+             //   Log::info('email is send to '. $cEmail);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
+                 return redirect()->route('doctor_business_monitorings.index');
+                }
+         // end
         }
 
         return redirect()->route('doctor_business_monitorings.index',['page'=>$page]);

@@ -14,12 +14,15 @@ use App\Models\GrantApproval;
 use App\Models\GrantApprovalDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Mail;
+use SendGrid;
+use SendGrid\Mail\Mail;
 use App\Models\GrantApproval\codeGenerate;
 use App\Http\Requests\GrantApprovalRequest;
 use App\Mail\GrantApprovalNotificationForAM;
 use App\Mail\GrantApprovalNotificationForZM;
 use App\Mail\GrantApprovalNotificationForRoot;
+
 
 class GrantApprovalsController extends Controller
 {
@@ -164,12 +167,38 @@ class GrantApprovalsController extends Controller
         if(auth()->user()->roles->pluck('name')->first() == 'Marketing Executive'){
             $print = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where('id', $grant_approval->id)->get();
             // $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-               $email = $print[0]->Manager->AreaManager->communication_email;
-               if(!$email){
+               $cEmail = $print[0]->Manager->AreaManager->communication_email;
+               if(!$cEmail){
                 return redirect()->route('grant_approvals.index');
                }
-               Mail::to($print[0]->Manager->AreaManager->communication_email)
-               ->send(new GrantApprovalNotificationForAM($print));
+            //    Mail::to($print[0]->Manager->AreaManager->communication_email)
+            //    ->send(new GrantApprovalNotificationForAM($print));
+
+
+             // start
+             $content = view('grant_approvals.email_for_am', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+             $email->setSubject('Grant Approval Notification - ' . $print[0]->Manager->name);
+             $email->addTo($cEmail);
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+             //     Log::info('SendGrid Response:', [
+             //         'statusCode' => $response->statusCode(),
+             //         'headers' => $response->headers(),
+             //         'body' => $response->body(),
+             //     ]);
+             //   Log::info('email is send to '. $cEmail);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
+                 return redirect()->route('grant_approvals.index'); 
+             }
+         // end
             
         }
         
@@ -375,24 +404,74 @@ class GrantApprovalsController extends Controller
 
         if(auth()->user()->roles->pluck('name')->first() == 'Area Manager'){
             $print = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where('id', $grant_approval->id)->get();
-               $email = $print[0]->Manager->ZonalManager->communication_email;
-               if(!$email){
+               $cEmail = $print[0]->Manager->ZonalManager->communication_email;
+               if(!$cEmail){
                 return redirect()->route('grant_approvals.index');
                }
-               Mail::to($print[0]->Manager->ZonalManager->communication_email)
-               ->send(new GrantApprovalNotificationForZM($print));
+            //    Mail::to($print[0]->Manager->ZonalManager->communication_email)
+            //    ->send(new GrantApprovalNotificationForZM($print));
+             // start
+             $content = view('grant_approvals.email_for_zm', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+             $email->setSubject('Grant Approval Notification - ' .$print[0]->Manager->AreaManager->name);
+             $email->addTo($cEmail);
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+             //     Log::info('SendGrid Response:', [
+             //         'statusCode' => $response->statusCode(),
+             //         'headers' => $response->headers(),
+             //         'body' => $response->body(),
+             //     ]);
+             //   Log::info('email is send to '. $cEmail);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
+                 return redirect()->route('grant_approvals.index'); 
+             }
+         // end
             
         }
 
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $print = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->where('id', $grant_approval->id)->get();
-               $email = $print[0]->Manager->ZonalManager->communication_email;
-               if(!$email){
+               $cEmail = $print[0]->Manager->ZonalManager->communication_email;
+               if(!$cEmail){
                 return redirect()->route('grant_approvals.index');
                }
-               Mail::to($email)
-               ->cc("ssingh@encoregroup.net")
-               ->send(new GrantApprovalNotificationForRoot($print));
+            //    Mail::to($email)
+            //    ->cc("ssingh@encoregroup.net")
+            //    ->send(new GrantApprovalNotificationForRoot($print));
+
+              // start
+              $content = view('grant_approvals.email_for_root', ['print' => $print])->render();
+              $email = new Mail();
+              $email->setFrom("webmaster@ehpl.net.in", "Encore");
+              $email->setSubject('Grant Approval Notification - ' .$print[0]->Manager->ZonalManager->name);
+              $email->addTo($cEmail);
+              $email->addCc('ssingh@encoregroup.net'); //sunil
+              $email->addContent("text/html",$content);
+  
+              $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+  
+              try {
+                  $response = $sendgrid->send($email);
+              //     Log::info('SendGrid Response:', [
+              //         'statusCode' => $response->statusCode(),
+              //         'headers' => $response->headers(),
+              //         'body' => $response->body(),
+              //     ]);
+              //   Log::info('email is send to '. $cEmail);
+              } catch (\Exception $e) {
+                  // return 'Caught exception: ' . $e->getMessage();
+                  $request->session()->flash('error', 'Error while sending email.');
+                  return redirect()->route('grant_approvals.index'); 
+              }
+          // end
             
         }
 

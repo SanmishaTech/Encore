@@ -204,7 +204,7 @@ class DashboardController extends Controller
         //new start
         // $content = view($viewName, $data)->render();
         $email = new Mail();
-        $email->setFrom("webmaster@ehpl.net.in", "ehpl");
+        $email->setFrom("webmaster@ehpl.net.in", "Encore");
         $email->setSubject('Testing SendGrid again');
         $email->addTo('ganeshghadi084@gmail.com');
         $email->addContent("text/plain", 'testing sendgrid api integration.');

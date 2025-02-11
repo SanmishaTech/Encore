@@ -215,12 +215,12 @@ class FreeSchemesController extends Controller
 
             try {
                 $response = $sendgrid->send($email);
-                Log::info('SendGrid Response:', [
-                    'statusCode' => $response->statusCode(),
-                    'headers' => $response->headers(),
-                    'body' => $response->body(),
-                ]);
-              Log::info('email is send to '. $cEmail);
+            //     Log::info('SendGrid Response:', [
+            //         'statusCode' => $response->statusCode(),
+            //         'headers' => $response->headers(),
+            //         'body' => $response->body(),
+            //     ]);
+            //   Log::info('email is send to '. $cEmail);
             } catch (\Exception $e) {
                 // return 'Caught exception: ' . $e->getMessage();
                 $request->session()->flash('error', 'Error while sending email.');
@@ -433,22 +433,59 @@ class FreeSchemesController extends Controller
         if(auth()->user()->roles->pluck('name')->first() == 'Root'){
             $condition[] = ['id', '=', $free_scheme->id];
             $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-            $recipients = [];
+            $recipients = null;
             $stockistEmail = $print[0]->FreeScheme->Stockist->cfa_email;
             $zonalManagerEmail = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
             if (filter_var($stockistEmail, FILTER_VALIDATE_EMAIL)) {
-                $recipients[] = $stockistEmail;
+                $recipients = $stockistEmail;
             }
-            if (filter_var($zonalManagerEmail, FILTER_VALIDATE_EMAIL)) {
-                $recipients[] = $zonalManagerEmail;
-            }
-               Mail::to($recipients)
-               ->cc("ssingh@encoregroup.net")
-            //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
-               ->send(new FreeSchemeApprovalNotification($print));
+            // if (filter_var($zonalManagerEmail, FILTER_VALIDATE_EMAIL)) {
+            //     $recipients[] = $zonalManagerEmail;
+            // }
+            //    Mail::to($recipients)
+            //    ->cc("ssingh@encoregroup.net")
+            // //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
+            //    ->send(new FreeSchemeApprovalNotification($print));
 
-              
+             // start
+             $content = view('free_schemes.approval_mail', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+
+             $stockist = $print[0]->FreeScheme->Stockist->stockist ?? null;
+             $chemist = $print[0]->FreeScheme->Chemist->chemist ?? null;
             
+            if(!$stockist){
+                $email->setSubject('Free Scheme Approval - '. $chemist);
+            }elseif(!$chemist){
+                $email->setSubject('Free Scheme Approval - '. $stockist);
+            }
+            else{
+                $email->setSubject('Free Scheme Approval - '. $stockist . ', ' . $chemist);
+            }
+             $email->addTo($recipients);
+             $email->addCc('ssingh@encoregroup.net'); //sunil
+             if(@$print[0]->FreeScheme->Manager->ZonalManager->communication_email){
+                $email->addBcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email);
+             }
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+                //  Log::info('SendGrid Response:', [
+                //      'statusCode' => $response->statusCode(),
+                //      'headers' => $response->headers(),
+                //      'body' => $response->body(),
+                //  ]);
+            //    Log::info('email is send to '. $recipients);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
+                 return redirect()->route('free_schemes.index');
+                }
+         // end
         }
 
     
@@ -481,6 +518,7 @@ class FreeSchemesController extends Controller
             //    Log::info('email is send to '. $cEmail);
              } catch (\Exception $e) {
                  // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
                  return redirect()->route('free_schemes.index');
                 }
          // end
@@ -518,6 +556,7 @@ class FreeSchemesController extends Controller
             //    Log::info('email is send to '. $cEmail);
              } catch (\Exception $e) {
                  // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
                  return redirect()->route('free_schemes.index',['page'=>$page]);
              }
          // end
@@ -688,19 +727,62 @@ class FreeSchemesController extends Controller
         if(auth()->user()->roles->pluck('name')->first() == 'Root'){
             $condition[] = ['id', '=', $free_scheme->id];
             $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-            $recipients = [];
+            $recipients = null;
             $stockistEmail = $print[0]->FreeScheme->Stockist->cfa_email;
             $zonalManagerEmail = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
             if (filter_var($stockistEmail, FILTER_VALIDATE_EMAIL)) {
-                $recipients[] = $stockistEmail;
+                $recipients = $stockistEmail;
             }
-            if (filter_var($zonalManagerEmail, FILTER_VALIDATE_EMAIL)) {
-                $recipients[] = $zonalManagerEmail;
+            // if (filter_var($zonalManagerEmail, FILTER_VALIDATE_EMAIL)) {
+            //     $recipients[] = $zonalManagerEmail;
+            // }
+            //    Mail::to($recipients)
+            //    ->cc("ssingh@encoregroup.net")
+            // //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
+            //    ->send(new FreeSchemeApprovalNotification($print));
+
+
+
+            
+             // start
+             $content = view('free_schemes.approval_mail', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+
+             $stockist = $print[0]->FreeScheme->Stockist->stockist ?? null;
+             $chemist = $print[0]->FreeScheme->Chemist->chemist ?? null;
+            
+            if(!$stockist){
+                $email->setSubject('Free Scheme Approval - '. $chemist);
+            }elseif(!$chemist){
+                $email->setSubject('Free Scheme Approval - '. $stockist);
             }
-               Mail::to($recipients)
-               ->cc("ssingh@encoregroup.net")
-            //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
-               ->send(new FreeSchemeApprovalNotification($print));
+            else{
+                $email->setSubject('Free Scheme Approval - '. $stockist . ', ' . $chemist);
+            }
+             $email->addTo($recipients);
+             $email->addCc('ssingh@encoregroup.net'); //sunil
+             if(@$print[0]->FreeScheme->Manager->ZonalManager->communication_email){
+                $email->addBcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email);
+             }
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+                //  Log::info('SendGrid Response:', [
+                //      'statusCode' => $response->statusCode(),
+                //      'headers' => $response->headers(),
+                //      'body' => $response->body(),
+                //  ]);
+            //    Log::info('email is send to '. $recipients);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 $request->session()->flash('error', 'Error while sending email.');
+                 return redirect()->route('free_schemes.index');
+                }
+         // end
               return redirect()->back()->with('emailSuccess', 'email sent sucessfully');
         }
 
