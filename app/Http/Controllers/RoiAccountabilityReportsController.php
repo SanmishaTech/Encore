@@ -67,7 +67,7 @@ class RoiAccountabilityReportsController extends Controller
 
 
         
-        $roi_accountability_reports = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+        $roi_accountability_reports = $query->whereRelation('GrantApproval', $conditions)->orderBy('updated_at', 'DESC')->paginate(12);
         $request->session()->put('current_page', $currentPage);
 
         return view('roi_accountability_reports.index', ['roi_accountability_reports' => $roi_accountability_reports,'data'=>$data]);

@@ -37,7 +37,7 @@ class CustomerTrackingsController extends Controller
              $query->where('name', 'like', "%$data%");
          });
         })
-        ->orderBy('id', 'DESC')
+        ->orderBy('updated_at', 'DESC')
         ->paginate(12);
         // end
         $authUser = auth()->user()->roles->pluck('name')->first();
@@ -61,7 +61,7 @@ class CustomerTrackingsController extends Controller
                  $query->where('name', 'like', "%$data%");
              });
             })->where('employee_id', auth()->user()->id)
-            ->orderBy('id', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
             // end
           
@@ -83,7 +83,7 @@ class CustomerTrackingsController extends Controller
              });
             })
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('id', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
            
         } elseif($authUser == 'Zonal Manager'){
@@ -105,7 +105,7 @@ class CustomerTrackingsController extends Controller
                 });
                 })
                 ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-                ->orderBy('id', 'DESC')
+                ->orderBy('updated_at', 'DESC')
                 ->paginate(12);
         // end
                   

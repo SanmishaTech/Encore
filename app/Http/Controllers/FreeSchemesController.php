@@ -52,7 +52,7 @@ class FreeSchemesController extends Controller
          });
         })
         ->where('status', 'like', "%$status%")
-        ->orderBy('id', 'DESC')
+        ->orderBy('updated_at', 'DESC')
         ->paginate(12);
         // end
         $authUser = auth()->user()->roles->pluck('name')->first();
@@ -78,7 +78,7 @@ class FreeSchemesController extends Controller
             })
             ->where('status', 'like', "%$status%")
             ->where('employee_id', auth()->user()->id)
-            ->orderBy('id', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
             // end
 
@@ -103,7 +103,7 @@ class FreeSchemesController extends Controller
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('id', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
             // end
 
@@ -128,7 +128,7 @@ class FreeSchemesController extends Controller
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->orderBy('id', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
             // end
         }

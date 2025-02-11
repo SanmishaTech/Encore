@@ -86,7 +86,7 @@ class DoctorBusinessMonitoringsController extends Controller
          
       
 
-        $doctor_business_monitorings = $query->whereRelation('GrantApproval', $conditions)->orderBy('id', 'DESC')->paginate(12);
+        $doctor_business_monitorings = $query->whereRelation('GrantApproval', $conditions)->orderBy('updated_at', 'DESC')->paginate(12);
         
         $request->session()->put('current_page', $currentPage);
 

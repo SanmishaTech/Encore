@@ -33,7 +33,7 @@ class GrantApprovalsController extends Controller
 
         $data = $request->session()->get('search','');
         $status = $request->session()->get('status','');
-        $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->orderBy('code', 'DESC')->paginate(12);
+        $grant_approvals = GrantApproval::with(['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor', 'Activity'])->orderBy('updated_at', 'DESC')->paginate(12);
         
         // start
         $grant_approvals = GrantApproval::with(['Manager.ZonalManager', 'Manager.AreaManager', 'Doctor', 'Activity'])
@@ -50,7 +50,7 @@ class GrantApprovalsController extends Controller
          ->orWhere('code', 'like', "%$data%");
         })
         ->where('status', 'like', "%$status%")
-        ->orderBy('code', 'DESC')
+        ->orderBy('updated_at', 'DESC')
         ->paginate(12);
         // end
         $authUser = auth()->user()->roles->pluck('name')->first();
@@ -76,7 +76,7 @@ class GrantApprovalsController extends Controller
             })
             ->where('status', 'like', "%$status%")
             ->where('employee_id', auth()->user()->id)
-            ->orderBy('code', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
             
             //  end
@@ -102,7 +102,7 @@ class GrantApprovalsController extends Controller
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
-            ->orderBy('code', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
             // end
            
@@ -130,7 +130,7 @@ class GrantApprovalsController extends Controller
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
-            ->orderBy('code', 'DESC')
+            ->orderBy('updated_at', 'DESC')
             ->paginate(12);
             // end
         }       
