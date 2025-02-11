@@ -9,11 +9,12 @@ use App\Mail\TestNotification;
 use App\Models\CustomerTracking;
 use App\Models\FreeSchemeDetail;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Mail;
 use App\Models\RoiAccountabilityReport;
 use App\Models\DoctorBusinessMonitoring;
 use App\Mail\FreeSchemeApprovalNotification;
-
+use SendGrid;
+use SendGrid\Mail\Mail;
 
 class DashboardController extends Controller
 {
@@ -185,9 +186,41 @@ class DashboardController extends Controller
 
     public function test()
     {
-        Mail::to("sanjeev@sanmisha.com")
-            ->send(new TestNotification());
-        exit;
+         // Mail::to('ganeshghadi084@gmail.com')
+            // //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
+            //    ->send(new FreeSchemeApprovalNotification($print));
+
+
+
+
+
+
+
+
+        // Mail::to("ghadiganesh2002@gmail.com")
+        //     ->send(new TestNotification());
+        //     Log::info('test');
+
+        //new start
+        // $content = view($viewName, $data)->render();
+        $email = new Mail();
+        $email->setFrom("webmaster@ehpl.net.in", "ehpl");
+        $email->setSubject('Testing SendGrid again');
+        $email->addTo('ganeshghadi084@gmail.com');
+        $email->addContent("text/plain", 'testing sendgrid api integration.');
+
+        $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+
+        try {
+            $response = $sendgrid->send($email);
+            print $response->statusCode() . "\n";
+            print_r($response->headers());
+            print $response->body() . "\n";
+        } catch (\Exception $e) {
+            return 'Caught exception: ' . $e->getMessage();
+        }
+        // new end
+    
     }
 
 }

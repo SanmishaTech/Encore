@@ -19,7 +19,9 @@ use Illuminate\Http\Request;
 use App\Models\FreeSchemeDetail;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+// use Illuminate\Support\Facades\Mail;
+use SendGrid;
+use SendGrid\Mail\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\FreeSchemeRequest;
 use App\Mail\FreeSchemeApprovalNotification;
@@ -195,12 +197,36 @@ class FreeSchemesController extends Controller
         if(auth()->user()->roles->pluck('name')->first() == 'Marketing Executive'){
             $condition[] = ['id', '=', $free_scheme->id];
             $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-               $email =$print[0]->FreeScheme->Manager->AreaManager->communication_email;
-               if(!$email){
+               $cEmail =$print[0]->FreeScheme->Manager->AreaManager->communication_email ?? null;
+               if(!$cEmail){
                 return redirect()->route('free_schemes.index');
                }
-               Mail::to($print[0]->FreeScheme->Manager->AreaManager->communication_email)
-               ->send(new FreeSchemeApprovalNotificationForAM($print));
+            //    Mail::to($print[0]->FreeScheme->Manager->AreaManager->communication_email)
+            //    ->send(new FreeSchemeApprovalNotificationForAM($print));
+        // start
+            $content = view('free_schemes.email_for_am', ['print' => $print])->render();
+            $email = new Mail();
+            $email->setFrom("webmaster@ehpl.net.in", "Encore");
+            $email->setSubject('Free Scheme Notification - ' . $print[0]->FreeScheme->Manager->name);
+            $email->addTo($cEmail);
+            $email->addContent("text/html",$content);
+
+            $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+
+            try {
+                $response = $sendgrid->send($email);
+                Log::info('SendGrid Response:', [
+                    'statusCode' => $response->statusCode(),
+                    'headers' => $response->headers(),
+                    'body' => $response->body(),
+                ]);
+              Log::info('email is send to '. $cEmail);
+            } catch (\Exception $e) {
+                // return 'Caught exception: ' . $e->getMessage();
+                $request->session()->flash('error', 'Error while sending email.');
+                return redirect()->route('free_schemes.index');
+            }
+        // end
         }
 
         $request->session()->flash('success', 'Free Schemes saved successfully!');
@@ -420,6 +446,8 @@ class FreeSchemesController extends Controller
                ->cc("ssingh@encoregroup.net")
             //    ->bcc($print[0]->FreeScheme->Manager->ZonalManager->communication_email)
                ->send(new FreeSchemeApprovalNotification($print));
+
+              
             
         }
 
@@ -427,25 +455,72 @@ class FreeSchemesController extends Controller
         if(auth()->user()->roles->pluck('name')->first() == 'Area Manager'){
             $condition[] = ['id', '=', $free_scheme->id];
             $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-               $email = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
-               if(!$email){
+               $cEmail = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
+               if(!$cEmail){
                 return redirect()->route('free_schemes.index');
                }
-               Mail::to($email)
-               ->send(new FreeSchemeApprovalNotificationForZM($print));
+            //    Mail::to($email)
+            //    ->send(new FreeSchemeApprovalNotificationForZM($print));
+             // start
+             $content = view('free_schemes.email_for_zm', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+             $email->setSubject('Free Scheme Notification - '. $print[0]->FreeScheme->Manager->AreaManager->name);
+             $email->addTo($cEmail);
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+                //  Log::info('SendGrid Response:', [
+                //      'statusCode' => $response->statusCode(),
+                //      'headers' => $response->headers(),
+                //      'body' => $response->body(),
+                //  ]);
+            //    Log::info('email is send to '. $cEmail);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 return redirect()->route('free_schemes.index');
+                }
+         // end
             
         }
 
         if(auth()->user()->roles->pluck('name')->first() == 'Zonal Manager'){
             $condition[] = ['id', '=', $free_scheme->id];
             $print = FreeSchemeDetail::with(['Product', 'FreeScheme'=>[ 'Manager' => ['AreaManager', 'ZonalManager'],'Stockist','Chemist','Doctor']])->whereRelation('FreeScheme', $condition)->get();
-               $email = $print[0]->FreeScheme->Manager->ZonalManager->communication_email;
-               if(!$email){
+               $cEmail = $print[0]->FreeScheme->Manager->ZonalManager->communication_email ?? null;
+               if(!$cEmail){
                 return redirect()->route('free_schemes.index');
                }
-               Mail::to($email)
-               ->cc("ssingh@encoregroup.net")
-               ->send(new FreeSchemeApprovalNotificationForRoot($print));
+            //    Mail::to($cEmail)
+            //    ->cc("ssingh@encoregroup.net")
+            //    ->send(new FreeSchemeApprovalNotificationForRoot($print));
+             // start
+             $content = view('free_schemes.email_for_root', ['print' => $print])->render();
+             $email = new Mail();
+             $email->setFrom("webmaster@ehpl.net.in", "Encore");
+             $email->setSubject('Free Scheme Notification - ' .$print[0]->FreeScheme->Manager->ZonalManager->name);
+             $email->addTo($cEmail);
+             $email->addCc('ssingh@encoregroup.net');
+             $email->addContent("text/html",$content);
+ 
+             $sendgrid = new SendGrid(env('SENDGRID_API_KEY'));
+ 
+             try {
+                 $response = $sendgrid->send($email);
+                //  Log::info('SendGrid Response:', [
+                //      'statusCode' => $response->statusCode(),
+                //      'headers' => $response->headers(),
+                //      'body' => $response->body(),
+                //  ]);
+            //    Log::info('email is send to '. $cEmail);
+             } catch (\Exception $e) {
+                 // return 'Caught exception: ' . $e->getMessage();
+                 return redirect()->route('free_schemes.index',['page'=>$page]);
+             }
+         // end
             
         }
 
