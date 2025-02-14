@@ -47,6 +47,9 @@ class GrantApprovalsController extends Controller
          ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
              $query->where('name', 'like', "%$data%");
          })
+         ->orWhereHas('Doctor', function ($query) use ($data) {
+            $query->where('doctor_name', 'like', "%$data%");
+        })
          ->orWhere('code', 'like', "%$data%");
         })
         ->where('status', 'like', "%$status%")
@@ -72,6 +75,9 @@ class GrantApprovalsController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data, $status) {
                  $query->where('name', 'like', "%$data%");
              })
+             ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
             })
             ->where('status', 'like', "%$status%")
@@ -98,6 +104,9 @@ class GrantApprovalsController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
              })
+             ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
             })
             ->where('status', 'like', "%$status%")
@@ -126,6 +135,9 @@ class GrantApprovalsController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
              })
+             ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
             })
             ->where('status', 'like', "%$status%")
@@ -576,6 +588,9 @@ class GrantApprovalsController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data, $status) {
                  $query->where('name', 'like', "%$data%");
              })
+             ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
             })
             ->where('status', 'like', "%$status%")
@@ -595,6 +610,9 @@ class GrantApprovalsController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
              })
+             ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
             })
             ->where('status', 'like', "%$status%")
@@ -614,6 +632,9 @@ class GrantApprovalsController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
              })
+             ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
             })
             ->where('status', 'like', "%$status%")
@@ -632,6 +653,9 @@ class GrantApprovalsController extends Controller
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
              })
+             ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
             })
             ->where('status', 'like', "%$status%")

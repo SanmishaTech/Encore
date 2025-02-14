@@ -517,6 +517,9 @@ class DoctorBusinessMonitoringsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+           })
             ->orWhere('code', 'like', "%$data%");
          });
            })
@@ -537,6 +540,9 @@ class DoctorBusinessMonitoringsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
+           ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+           })
              ->orWhere('code', 'like', "%$data%");
          });
            })
@@ -561,6 +567,9 @@ class DoctorBusinessMonitoringsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
+          ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+           })
              ->orWhere('code', 'like', "%$data%");
          });
            })
@@ -584,12 +593,14 @@ class DoctorBusinessMonitoringsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
-             ->orWhere('code', 'like', "%$data%");
+           ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+           })
+            ->orWhere('code', 'like', "%$data%");
          });
            })
            ->where('status', 'like', "%$status%")
           ->paginate(12);
-
         }
 
         $doctor_business_monitorings = $doctor_business_monitorings->appends([

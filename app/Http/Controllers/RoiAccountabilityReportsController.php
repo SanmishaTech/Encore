@@ -191,8 +191,6 @@ class RoiAccountabilityReportsController extends Controller
 
     public function search(Request $request){
          
-
-
         $authUser = auth()->user()->roles->pluck('name')->first();
         
         $data = $request->input('search');
@@ -202,7 +200,7 @@ class RoiAccountabilityReportsController extends Controller
         $request->session()->put('current_page', $page);
         
         if($authUser == 'Marketing Executive'){        
-            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])
+            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor'])
             // $doctor_business_monitorings = DoctorBusinessMonitoring::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager'], 'Doctor']])
             ->where(function ($query) use ($data) {
             $query->whereHas('GrantApproval', function ($query) use ($data) {
@@ -215,6 +213,9 @@ class RoiAccountabilityReportsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
+           ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
          });
            })
@@ -222,7 +223,7 @@ class RoiAccountabilityReportsController extends Controller
           ->paginate(12);
 
         } elseif($authUser == 'Area Manager'){               
-            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])
+            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor'])
             ->where(function ($query) use ($data) {
             $query->whereHas('GrantApproval', function ($query) use ($data) {
            $query->whereHas('Manager', function ($query) use ($data) {
@@ -234,6 +235,9 @@ class RoiAccountabilityReportsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
          });
            })
@@ -245,7 +249,7 @@ class RoiAccountabilityReportsController extends Controller
         
         } elseif($authUser == 'Zonal Manager'){
         
-            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])
+            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor'])
             ->where(function ($query) use ($data) {
             $query->whereHas('GrantApproval', function ($query) use ($data) {
            $query->whereHas('Manager', function ($query) use ($data) {
@@ -257,6 +261,9 @@ class RoiAccountabilityReportsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
+           ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
              ->orWhere('code', 'like', "%$data%");
          });
            })
@@ -267,7 +274,7 @@ class RoiAccountabilityReportsController extends Controller
 
         }
         else{       
-            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']]])
+            $roi_accountability_reports = RoiAccountabilityReport::with(['GrantApproval'=>['Manager'=>['ZonalManager', 'AreaManager']],'Doctor'])
             ->where(function ($query) use ($data) {
             $query->whereHas('GrantApproval', function ($query) use ($data) {
            $query->whereHas('Manager', function ($query) use ($data) {
@@ -279,7 +286,10 @@ class RoiAccountabilityReportsController extends Controller
            ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                $query->where('name', 'like', "%$data%");
              })
-             ->orWhere('code', 'like', "%$data%");
+           ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            })
+           ->orWhere('code', 'like', "%$data%");
          });
            })
           ->paginate(12);
