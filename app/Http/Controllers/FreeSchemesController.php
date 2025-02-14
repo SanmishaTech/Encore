@@ -49,7 +49,13 @@ class FreeSchemesController extends Controller
          })
          ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
              $query->where('name', 'like', "%$data%");
-         });
+         })
+         ->orWhereHas('Stockist', function ($query) use ($data) {
+            $query->where('stockist', 'like', "%$data%");
+        })
+        ->orWhereHas('Doctor', function ($query) use ($data) {
+            $query->where('doctor_name', 'like', "%$data%");
+        });
         })
         ->where('status', 'like', "%$status%")
         ->orderBy('updated_at', 'DESC')
@@ -74,7 +80,13 @@ class FreeSchemesController extends Controller
              })
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
-             });
+             })
+             ->orWhereHas('Stockist', function ($query) use ($data) {
+                $query->where('stockist', 'like', "%$data%");
+            })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            });
             })
             ->where('status', 'like', "%$status%")
             ->where('employee_id', auth()->user()->id)
@@ -99,7 +111,13 @@ class FreeSchemesController extends Controller
              })
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
-             });
+             })
+             ->orWhereHas('Stockist', function ($query) use ($data) {
+                $query->where('stockist', 'like', "%$data%");
+            })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            });
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
@@ -124,7 +142,13 @@ class FreeSchemesController extends Controller
              })
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
-             });
+             })
+             ->orWhereHas('Stockist', function ($query) use ($data) {
+                $query->where('stockist', 'like', "%$data%");
+            })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            });
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
@@ -614,7 +638,13 @@ class FreeSchemesController extends Controller
              })
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
-             });
+             })
+             ->orWhereHas('Stockist', function ($query) use ($data) {
+                $query->where('stockist', 'like', "%$data%");
+            })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            });
             })
             ->where('status', 'like', "%$status%")
             ->where('employee_id', auth()->user()->id)
@@ -632,7 +662,13 @@ class FreeSchemesController extends Controller
              })
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
-             });
+             })
+             ->orWhereHas('Stockist', function ($query) use ($data) {
+                $query->where('stockist', 'like', "%$data%");
+            })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            });
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_2', auth()->user()->id)
@@ -650,7 +686,13 @@ class FreeSchemesController extends Controller
              })
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
-             });
+             })
+             ->orWhereHas('Stockist', function ($query) use ($data) {
+                $query->where('stockist', 'like', "%$data%");
+            })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            });
             })
             ->where('status', 'like', "%$status%")
             ->whereRelation('Manager', 'reporting_office_1', auth()->user()->id)
@@ -668,7 +710,13 @@ class FreeSchemesController extends Controller
              })
              ->orWhereHas('Manager.ZonalManager', function ($query) use ($data) {
                  $query->where('name', 'like', "%$data%");
-             });
+             })
+             ->orWhereHas('Stockist', function ($query) use ($data) {
+                $query->where('stockist', 'like', "%$data%");
+            })
+            ->orWhereHas('Doctor', function ($query) use ($data) {
+                $query->where('doctor_name', 'like', "%$data%");
+            });
             })
             ->where('status', 'like', "%$status%")
             ->paginate(12);
