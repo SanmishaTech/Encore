@@ -69,6 +69,7 @@
                     <table class="table-hover">
                         <thead>
                             <tr>
+                                <th>Created At</th>
                                 <th>Code</th>
                                 <th>Marketing Executive</th>
                                 <th>Area Manager</th>
@@ -85,6 +86,7 @@
                         <tbody>
                             @foreach ($grant_approvals as $grant_approval)
                                 <tr>
+                                    <td>{{ $grant_approval->created_at ? $grant_approval->created_at->format('d/m/Y h:i A') : '' }}</td>
                                     <td>{{ @$grant_approval->code }}</td>
                                     <td>{{ @$grant_approval->Manager->name }}</td>
                                     <td>{{ @$grant_approval->Manager->AreaManager->name }}</td>

@@ -19,6 +19,7 @@
                     <table class="table-hover">
                         <thead>
                             <tr>
+                                <th>Created At</th>
                                 <th>Code</th>
                                 <th>Marketing Executive</th>
                                 <th>Area Manager</th>
@@ -33,6 +34,7 @@
                         <tbody>
                             @foreach ($roi_accountability_reports as $roi_accountability_report)
                             <tr>       
+                                <td>{{ $roi_accountability_report->created_at ? $roi_accountability_report->created_at->format('d/m/Y h:i A') : '' }}</td>
                                 <td>{{ @$roi_accountability_report->GrantApproval->code }}</td>         
                                 <td>{{ @$roi_accountability_report->GrantApproval->Manager->name }}</td>           
                                 <td>{{ @$roi_accountability_report->GrantApproval->Manager->AreaManager->name }}</td>

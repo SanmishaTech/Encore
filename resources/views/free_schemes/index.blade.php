@@ -40,6 +40,7 @@
                     <table class="table-hover">
                         <thead>
                             <tr>
+                                <th>Created At</th>
                                 <th>Marketing Executive</th>
                                 <th>Area Manager</th>
                                 <th>Zonal Manager</th>
@@ -55,6 +56,7 @@
                         <tbody>
                             @foreach ($free_schemes as $free_scheme)
                             <tr> 
+                                <td>{{ $free_scheme->created_at ? $free_scheme->created_at->format('d/m/Y h:i A') : '' }}</td>
                                 <td>{{ @$free_scheme->Manager->name }}</td>           
                                 <td>{{ @$free_scheme->Manager->AreaManager->name }}</td>
                                 <td>{{ @$free_scheme->Manager->ZonalManager->name }}</td>

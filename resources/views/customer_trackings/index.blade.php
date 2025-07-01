@@ -21,6 +21,7 @@
                     <table class="table-hover">
                         <thead>
                             <tr>
+                                <th>Created At</th>
                                 <th>Marketing Executive</th>
                                 <th>Area Manager</th>
                                 <th>Zonal Manager</th>
@@ -32,6 +33,7 @@
                         <tbody>
                             @foreach ($customer_trackings as $customer_tracking)
                             <tr> 
+                                <td>{{ $customer_tracking->created_at ? $customer_tracking->created_at->format('d/m/Y h:i A') : '' }}</td>
                                 <td>{{ @$customer_tracking->Manager->name }}</td>           
                                 <td>{{ @$customer_tracking->Manager->AreaManager->name }}</td>
                                 <td>{{ @$customer_tracking->Manager->ZonalManager->name }}</td>

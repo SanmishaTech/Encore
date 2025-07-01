@@ -32,6 +32,7 @@
                     <table class="table-hover">
                         <thead>
                             <tr>
+                                <th>Created At</th>
                                 <th>Code</th>
                                 <th>Marketing Executive</th>
                                 <th>Area Manager</th>
@@ -49,6 +50,7 @@
                         <tbody>
                             @foreach ($doctor_business_monitorings as $doctor_business_monitoring)
                             <tr>   
+                                <td>{{ $doctor_business_monitoring->created_at ? $doctor_business_monitoring->created_at->format('d/m/Y h:i A') : '' }}</td>
                                 <td>{{ @$doctor_business_monitoring->GrantApproval->code }}</td>           
                                 <td>{{ @$doctor_business_monitoring->GrantApproval->Manager->name }}</td>           
                                 <td>{{ @$doctor_business_monitoring->GrantApproval->Manager->AreaManager->name }}</td>
